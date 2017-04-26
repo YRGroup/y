@@ -3,7 +3,7 @@
 
     <x-header :right-options="{showMore: true}" @on-click-more="showMenus = true">育人教育</x-header>
 
-    <router-view></router-view>
+      <router-view class="inview"></router-view>
 
     <tabbar>
       <tabbar-item selected link="/main">
@@ -14,7 +14,7 @@
         <i slot="icon" class="fa fa-users"></i>
         <span slot="label">班级</span>
       </tabbar-item>
-      <tabbar-item badge="2" link="/component/demo">
+      <tabbar-item badge="2" link="/msg">
         <i slot="icon" class="fa fa-comments"></i>
         <span slot="label">沟通</span>
       </tabbar-item>
@@ -46,6 +46,8 @@ body {
   height:100%;
   margin:0 auto;
   background-color: #fbf9fe;
+  overflow-x: hidden;
+  font-size:12px;
 }
 .weui-tabbar{
   max-width: 600px;
