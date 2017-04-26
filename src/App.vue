@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <x-header :right-options="{showMore: true}" @on-click-more="showMenus = true">with more menu</x-header>
+    <x-header :right-options="{showMore: true}" @on-click-more="showMenus = true">育人教育</x-header>
 
     <router-view></router-view>
 
@@ -29,6 +29,7 @@
 
 <script>
 import { Tabbar, TabbarItem, XHeader  } from 'vux'
+
 export default {
   name: 'app',
   components: {
@@ -44,7 +45,6 @@ body {
   max-width: 600px;
   height:100%;
   margin:0 auto;
-  // position: relative;
   background-color: #fbf9fe;
 }
 .weui-tabbar{
