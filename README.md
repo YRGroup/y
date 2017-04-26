@@ -6,7 +6,7 @@
 
 ``` 
 # 安装依赖项
-npm install
+npm install --registry=https://registry.npm.taobao.org
 
 # 开发模式 localhost:8001
 npm run dev
