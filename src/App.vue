@@ -1,11 +1,14 @@
 <template>
   <div id="app">
 
-    <x-header :right-options="{showMore: true}" @on-click-more="showMenus = true">育人教育</x-header>
+    <x-header id="nav-top" :left-options="{backText: ''}">
+      育人教育
+      <i class="fa fa-bars" slot="right" @on-click-more="showMenus = true"></i>
+    </x-header>
 
-      <router-view class="inview"></router-view>
+      <router-view id="inview"></router-view>
 
-    <tabbar>
+    <tabbar id="nav-bottom">
       <tabbar-item selected link="/main">
         <i slot="icon" class="fa fa-home"></i>
         <span slot="label">主页</span>
@@ -43,13 +46,30 @@ export default {
 
 body {
   max-width: 600px;
-  height:100%;
   margin:0 auto;
   background-color: #fbf9fe;
-  overflow-x: hidden;
   font-size:12px;
 }
-.weui-tabbar{
+#inview{
+  margin-top:3.8em;
+  margin-bottom:4.5em;
+}
+#nav-top{
+  width:100%;
   max-width: 600px;
+  position:fixed;
+  top:0;
+  z-index:10000;
+}
+#nav-bottom{
+  max-width: 600px;
+  position:fixed;
+  bottom:0;
+}
+
+li{
+  list-style:none;
+  padding:0;
+  margin:0;
 }
 </style>

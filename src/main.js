@@ -16,6 +16,9 @@ Vue.prototype.$API = myAPI
 import axios from 'axios'
 Vue.prototype.$http = axios
 
+import  { ToastPlugin } from 'vux'
+Vue.use(ToastPlugin)
+
 new Vue({
     router,
     store,
