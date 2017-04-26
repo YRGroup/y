@@ -10,6 +10,12 @@ FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 
+import myAPI from './server/API'
+Vue.prototype.$API = myAPI
+
+import axios from 'axios'
+Vue.prototype.$http = axios
+
 new Vue({
     router,
     store,

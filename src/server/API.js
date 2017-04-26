@@ -6,11 +6,19 @@ API.config = function() {
 
 API.config()
 
+import Mock from 'mockjs'
+
 API.signup = (info) => {
     return new Promise((resolve, reject) => {
-        resolve()
-        reject()
         console.log(info)
+        let data = Mock.mock({
+            'list|1-10': [{
+                'id|+1': 1
+            }]
+        })
+        resolve(data.list)
+        reject(data)
+        // console.log(JSON.stringify(data, null, 4))
     })
 }
 
