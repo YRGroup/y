@@ -61,8 +61,7 @@ export default {
 
 <style lang="less" scoped>
 li{
-  width:100%;
-  padding:1em;
+  padding:1em 0 1em 1em;
   font-size:1.2em;
   background:#fff;
   position:relative;

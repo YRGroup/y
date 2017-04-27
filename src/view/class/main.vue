@@ -144,10 +144,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.hello{
-  // text-align: center;
-}
-
 .class-header{
   height:10em;
   width:100%;
