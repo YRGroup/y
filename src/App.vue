@@ -3,7 +3,7 @@
 
     <x-header id="nav-top" :left-options="{backText: ''}">
       育人教育
-      <i class="fa fa-bars" slot="right" @on-click-more="showMenus = true"></i>
+      <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
     </x-header>
 
       <router-view id="inview"></router-view>
@@ -38,6 +38,9 @@ export default {
   components: {
     Tabbar, TabbarItem, XHeader 
   },
+  methods:{
+
+  }
 }
 </script>
 

@@ -324,7 +324,7 @@ export default {
       display:block;
       width:100%;
       height:1px;
-      background-color:grey;
+      background-color:transition;
       position:relative;
       bottom:-1.3em;
     }

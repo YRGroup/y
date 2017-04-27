@@ -18,6 +18,9 @@ import student from '@/view/class/student'
 import teacher from '@/view/class/teacher'
 
 import login from '@/view/login/main'
+import step1 from '@/view/login/step1'
+import step2 from '@/view/login/step2'
+import step3 from '@/view/login/step3'
 import teacherlogin from '@/view/login/teacher'
 import studentlogin from '@/view/login/student'
 import parentlogin from '@/view/login/parent'
@@ -40,6 +43,7 @@ import teachercenter from '@/view/user/teacher'
 Vue.use(Router)
 
 export default new Router({
+    mode: 'history',
     routes: [{
             path: '/',
             name: 'Hello',
@@ -107,8 +111,28 @@ export default new Router({
         },
         {
             path: '/login',
-            name: 'login',
-            component: login
+
+            component: login,
+            children: [
+                {
+                path: '',
+                            name: 'login',
+                component: step1
+                },
+                {
+                path: 'step1',
+                component: step1
+                },
+                {
+                path: 'step2',
+                component: step2
+                },
+                {
+                path: 'step3',
+                component: step3
+                }
+            
+            ]
         },
         {
             path: '/teacherlogin',

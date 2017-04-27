@@ -8,34 +8,24 @@
       q-btn.primary(rounded)= name
     mixin btn1(name)
       q-btn.success(rounded)= name
+    mixin btn2(name)
+      q-btn.warning(rounded)= name
+    mixin btn3(name)
+      q-btn.danger(rounded)= name
+    mixin btn4(name)
+      q-btn.royal(rounded)= name
 
     .nav
       router-link(to="/main")
-        +btn('主页')
+        +btn('学校主页')
       router-link(to="/classmain")
-        +btn('班级主页')
+        +btn1('班级主页')
       router-link(to="/msg")
-        +btn1('消息主页')
+        +btn2('消息主页')
       router-link(to="/user")
-        +btn('我的')
-      router-link(to="/main")
-        +btn1('主页')
-      router-link(to="/main")
-        +btn('主页222222')
-      router-link(to="/main")
-        +btn1('主页')
-      router-link(to="/main")
-        +btn('主页')
-      router-link(to="/main")
-        +btn('主页')
-      router-link(to="/main")
-        +btn('主页')
-      router-link(to="/main")
-        +btn1('主页')
-      router-link(to="/main")
-        +btn('主页')
-      router-link(to="/main")
-        +btn('主页')
+        +btn3('我的主页')
+      router-link(to="/login")
+        +btn4('注册')
   
 </template>
 
