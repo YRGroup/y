@@ -45,7 +45,8 @@ export default {
     }
   },
   created(){
-
+    this.$store.state.isNav = true
+    this.$store.state.title = '个人中心'
   },
   mounted(){
 

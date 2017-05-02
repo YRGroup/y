@@ -2,13 +2,13 @@
   <div id="app">
 
     <x-header id="nav-top" :left-options="{backText: ''}">
-      育人教育
+      {{$store.state.title}}
       <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
     </x-header>
 
       <router-view id="inview"></router-view>
 
-    <tabbar id="nav-bottom">
+    <tabbar id="nav-bottom" v-show="$store.state.isNav">
       <tabbar-item selected link="/main">
         <i slot="icon" class="fa fa-home"></i>
         <span slot="label">主页</span>
@@ -40,6 +40,9 @@ export default {
   },
   methods:{
 
+  },
+  created(){
+
   }
 }
 </script>
@@ -55,7 +58,7 @@ body {
 }
 #inview{
   margin-top:3.8em;
-  margin-bottom:4.5em;
+  padding-bottom:4.5em;
 }
 #nav-top{
   width:100%;

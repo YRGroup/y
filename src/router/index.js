@@ -13,9 +13,14 @@ import score from '@/view/addon/score'
 import timeline from '@/view/addon/timeline'
 
 import classmain from '@/view/class/main'
+import classmsg from '@/view/class/msg'
 import homework from '@/view/class/homework'
 import student from '@/view/class/student'
-import teacher from '@/view/class/teacher'
+
+import teacher from '@/view/teacher/main'
+import teacherprofile from '@/view/teacher/profile'
+import teacherfeed from '@/view/teacher/feed'
+import teacherwork from '@/view/teacher/work'
 
 import login from '@/view/login/main'
 import step1 from '@/view/login/step1'
@@ -95,6 +100,11 @@ export default new Router({
             component: classmain
         },
         {
+            path: '/classmsg',
+            name: 'classmsg',
+            component: classmsg
+        },
+        {
             path: '/homework',
             name: 'homework',
             component: homework
@@ -105,18 +115,36 @@ export default new Router({
             component: student
         },
         {
-            path: '/teacher',
-            name: 'teacher',
-            component: teacher
+            path: '/teacher/:id',
+            component: teacher,
+            children: [
+                {
+                path: '',
+                name: 'teacher',
+                component: teacherprofile
+                },
+                {
+                path: 'profile',
+                component: teacherprofile
+                },
+                {
+                path: 'feed',
+                component: teacherfeed
+                },
+                {
+                path: 'work',
+                component: teacherwork
+                }
+            
+            ]
         },
         {
             path: '/login',
-
             component: login,
             children: [
                 {
                 path: '',
-                            name: 'login',
+                name: 'login',
                 component: step1
                 },
                 {
@@ -209,5 +237,8 @@ export default new Router({
             name: 'teachercenter',
             component: teachercenter
         }
-    ]
+    ],
+    scrollBehavior (to, from, savedPosition) {
+        return { x: 0, y: 0 }
+    }
 })

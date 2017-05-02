@@ -4,7 +4,9 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        islogin: false
+        islogin: false,
+        isNav:true,
+        title:'育人教育'
     },
     mutations: {
         login(state,name) {

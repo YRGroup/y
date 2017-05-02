@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    test info
+    school work
   </div>
 </template>
 

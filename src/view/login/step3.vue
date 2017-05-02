@@ -48,9 +48,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.step1{
-
-}
 input{
   border-radius:5px;
   border:none;

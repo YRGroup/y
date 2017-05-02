@@ -1,46 +1,11 @@
 <template>
   <div class="hello">
-    
-    <swiper loop auto :list="swiperdate"></swiper>
-
-    <flexbox>
-      <flexbox-item>
-        <router-link to="/">
-          <div><i class="fa fa-home" style="background:#ff8aad"></i></div>
-          <span>校园新闻</span>
-        </router-link>
-      </flexbox-item>
-      <flexbox-item>
-        <router-link to="/">
-          <div><i class="fa fa-users" style="background:#52cfad"></i></div>
-          <span>班级动态</span>
-        </router-link>
-      </flexbox-item>
-      <flexbox-item>
-        <router-link to="/">
-          <div><i class="fa fa-user-circle" style="background:#f6b63b"></i></div>
-          <span>我的孩子</span>
-        </router-link>
-      </flexbox-item>
-      <flexbox-item>
-        <router-link to="/">
-          <div><i class="fa fa-credit-card" style="background:#6ecefa"></i></div>
-          <span>一卡通</span>
-        </router-link>
-      </flexbox-item>
-    </flexbox>
-
-    </br>
-      <tab>
-        <tab-item selected @on-item-click="fun('显示集团动态')">集团动态</tab-item>
-        <tab-item @on-item-click="fun('显示学校动态')">校园动态</tab-item>
-      </tab>
-
     <card v-for="item in list" :key="item.date">
       <div slot="header" class="header">
         <img :src="item.img" @click="fun('打开 '+item.name+' 的个人页面')">
-        <span class="name">{{ item.name }}</span>
-        <span class="date">{{ item.date }}</span>
+        <span>{{ item.name }}</span>
+        <span>{{ item.date }}</span>
+        <span>{{ item.class }}</span>
       </div> 
       <div slot="content" class="content">
         <p>{{ item.content }}</p>
@@ -55,46 +20,30 @@
             <span @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.name }}：</span>
             <span>{{ comment.content }}</span>
           </li>
-          <div @click="$router.push('/news')">
+          <div @click="$router.push('/classmsg')">
             查看更多
           </div>
         </div>
       </div> 
     </card>
-
   </div>
 </template>
 
 <script>
-import { Swiper,Flexbox,FlexboxItem,Card,Tab, TabItem  } from 'vux'
-
+import { Card } from 'vux'
 
 export default {
-  name: 'hello',
   components: {
-    Swiper,Flexbox,FlexboxItem,Card,Tab, TabItem 
+    Card
   },
   data () {
     return {
-      swiperdate:[
-        { url: 'http://www.gy720.com/pano/view/6556',
-          img: 'http://nzr2ybsda.qnssl.com/images/33905/lsCl7npKanAdoOhch_3AlXIbe7q7.jpg?imageMogr2/strip/thumbnail/1200x9000%3E/quality/90!/interlace/1/format/jpg',
-          title: '郑州航空港育人国际学校'
-        },
-        { url: 'http://www.gy720.com/pano/view/6621',
-          img: 'http://nzr2ybsda.qnssl.com/images/33905/FkF7j5lmU1rJ7E9BIwtHWY9JFx-k.jpg?imageMogr2/strip/thumbnail/1200x9000%3E/quality/90!/interlace/1/format/jpg',
-          title: '郑州航空港区育人高级中学'
-        },
-        { url: 'http://www.gy720.com/pano/view/6614',
-          img: 'http://nzr2ybsda.qnssl.com/images/33905/loUgGrKs-U4curSnydYP-xXfrZk1.jpg?imageMogr2/strip/thumbnail/1200x9000%3E/quality/90!/interlace/1/format/jpg',
-          title: '郑州外国语女子中学'
-        }
-      ],
       list:[
         {
           'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-          'name':'张丽丽的家长',
+          'name':'李老师',
           'date':'2017-4-25',
+          'class':'文章',
           'content':'『育人朗读者』是由育人教育集团宣传部推出，每周为大家推选出一本书，并择选出书中的优秀章节，由朗读者为大家领读。。。',
           'read':'40',
           'liked':'3',
@@ -111,8 +60,9 @@ export default {
         },
         {
           'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-          'name':'张丽丽的家长',
+          'name':'李老师',
           'date':'2017-4-25',
+          'class':'文章',
           'content':'『育人朗读者』是由育人教育集团宣传部推出，每周为大家推选出一本书，并择选出书中的优秀章节，由朗读者为大家领读。。。',
           'read':'40',
           'liked':'3',
@@ -140,8 +90,7 @@ export default {
     }
   },
   created(){
-    this.$store.state.isNav = true
-    this.$store.state.title = '校园动态'
+  
   },
   mounted(){
 
@@ -150,30 +99,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.vux-flexbox{
-  text-align: center;
-  padding-top:1em;
-  padding-bottom:1em;
-  background-color: white;
-  .vux-flexbox-item{
-    cursor:pointer;
-    div{
-      width:100%;
-      i{
-        width:2em;
-        height:2em;
-        line-height:2em;
-        border-radius: 2em;
-        color:white;
-        font-size: 2.3em;
-      }
-    }
-    span{
-      width:100%;
-    }
-  }
-}
-
 .weui-panel{
   position:relative;
   margin-top:0;
@@ -194,6 +119,13 @@ export default {
       position:absolute;
       top:3.5em;
       color:grey;
+    }
+    span:nth-child(4){
+      position:absolute;
+      top:2rem;
+      right:1.5rem;
+      border:1px solid #CCC;
+      padding:0 1em;
     }
   }
   .content{
@@ -222,7 +154,7 @@ export default {
       display:block;
       width:100%;
       height:1px;
-      background:transition;
+      background-color:transition;
       position:relative;
       bottom:-1.3em;
     }

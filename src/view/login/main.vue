@@ -34,7 +34,8 @@ export default {
     }
   },
   created(){
-
+    this.$store.state.title = '注册/登陆'
+    this.$store.state.isNav = false
   },
   mounted(){
 

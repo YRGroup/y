@@ -26,6 +26,10 @@
         +btn3('我的主页')
       router-link(to="/login")
         +btn4('注册')
+      router-link(to="/news")
+        +btn('校园动态')
+      router-link(to="/classmsg")
+        +btn1('班级动态')
   
 </template>
 
@@ -46,6 +50,9 @@ export default {
       this.$API.signup('0123')
       // this.$store.commit("logout")
     }
+  },
+  created(){
+    this.$store.state.isNav = true
   }
 }
 </script>
@@ -53,9 +60,6 @@ export default {
 <style lang="less" scoped>
 .home{
   text-align: center;
-  .nav{
-    // width:100%;
-  }
   button{
     margin:1em;
   }

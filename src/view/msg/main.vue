@@ -51,7 +51,8 @@ export default {
     }
   },
   created(){
-
+    this.$store.state.isNav = true
+    this.$store.state.title = '消息中心'
   },
   mounted(){
 

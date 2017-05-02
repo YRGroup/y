@@ -10,8 +10,8 @@
     </br>
 
     <scroller lock-y scrollbar-x>
-      <div class="box">
-        <div class="box-item" v-for="item in teachers" @click="fun('打开 '+item.name+' 的主页')">
+      <div class="box" :style="{ width: boxwid}">
+        <div class="box-item" v-for="item in teachers" @click="$router.push('/teacher/'+item.name)">
           <img :src="item.img">
           <span>{{ item.name }}</span>
           <span>{{ item.job }}</span>
@@ -58,7 +58,7 @@
             <span @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.name }}：</span>
             <span>{{ comment.content }}</span>
           </li>
-          <div @click="fun('打开动态详情')">
+          <div @click="$router.push('/classmsg')">
             查看更多
           </div>
         </div>
@@ -72,22 +72,42 @@
 import { Scroller ,Flexbox,FlexboxItem,Card,Tab, TabItem   } from 'vux'
 
 export default {
-  name: 'hello',
   components: {
     Scroller ,Flexbox,FlexboxItem,Card,Tab, TabItem
   },
   data () {
     return {
+      boxwid:'500px',
       teachers:[
         {
-          'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-          'name':'王老师',
+          'img':'http://i.gtimg.cn/qqlive/images/namelib/v688/8/6/8/72868.jpg',
+          'name':'周老师',
           'job':'班主任'
         },
         {
-          'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-          'name':'李老师',
+          'img':'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1161924124,2585264186&fm=117&gp=0.jpg',
+          'name':'迪老师',
           'job':'数学'
+        },
+        {
+          'img':'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=598802529,3360058666&fm=117&gp=0.jpg',
+          'name':'张老师',
+          'job':'语文'
+        },
+        {
+          'img':'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1897825579,158590078&fm=117&gp=0.jpg',
+          'name':'鹿老师',
+          'job':'英语'
+        },
+        {
+          'img':'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3733621530,612408558&fm=117&gp=0.jpg',
+          'name':'张老师',
+          'job':'体育'
+        },
+        {
+          'img':'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2423306135,382863587&fm=117&gp=0.jpg',
+          'name':'李老师',
+          'job':'科学'
         },
       ],
       notice:[
@@ -135,7 +155,9 @@ export default {
     }
   },
   created(){
-
+    this.boxwid = this.teachers.length * 200 +'px'
+    this.$store.state.isNav = true
+    this.$store.state.title = '班级动态'
   },
   mounted(){
 
@@ -179,26 +201,25 @@ export default {
 .box {
   height: 100px;
   position: relative;
-  width: 1490px;
-  background:#fff;
+  background:transparent;
   padding-top:1rem;
   padding-bottom:1rem;
 }
 .box-item {
   width: 180px;
   height: 100px;
-  background-color:#ecf0f1;
+  background-color:#fff;
   border-radius:15px;
   display:inline-block;
   margin-left: 15px;
-  float: left;
   img{
     width:4rem;
     margin-top:1rem;
     margin-left:1rem;
+    border-radius:50%;
   }
   span:nth-child(2){
-    color:red;
+    color:#34495e;
     font-size:1.5rem;
     position:absolute;
     top:2rem;
@@ -207,7 +228,7 @@ export default {
   span:nth-child(3){
     position:absolute;
     top:5rem;
-    margin-left:.5rem;
+    margin-left:1.5rem;
   }
 }
 .box-item:first-child {
