@@ -23,20 +23,29 @@
         <span  @click="reply(comment.name)"> 回复 </span>
       </div> 
       <div slot="content" class="content">
-        <p>{{comment.content }}</p>
+        <div>{{comment.content }}</div>
       </div>
     </card> 
+
+    <emotion is-gif>微笑</emotion>
 
     <popup v-model="showpopup" height="270px" is-transparent>
       <div style="width: 95%;background-color:#fff;height:250px;margin:0 auto;border-radius:5px;padding-top:10px;">
         <group>
-          <x-input v-model="value" :placeholder="'回复 '+commentid+' 的内容'"></x-input>
+          <x-input v-model="replymsg" :placeholder="'回复 '+commentid+' 的内容'"></x-input>
         </group>
         <div style="padding:20px 15px;">
         <x-button type="primary">发表回复</x-button>
         <x-button @click.native="showpopup = false">取消回复</x-button>
+        <x-button @click.native="showemotion = true">表情</x-button>
         </div>
       </div>
+    </popup>
+
+    <popup v-model="showemotion">
+      <span v-for="i in emotions" @click="addemotion(i)">
+        <emotion>{{i}}</emotion>
+      </span>
     </popup>
     
 
@@ -44,17 +53,20 @@
 </template>
 
 <script>
-import { Card,Popup,Group,XInput,XButton  } from 'vux'
+import { Card,Popup,Group,XInput,XButton,WechatEmotion as Emotion  } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Card,Popup,Group,XInput,XButton
+    Card,Popup,Group,XInput,XButton,Emotion
   },
   data () {
     return {
       showpopup:false,
       commentid:'0',
+      showemotion:false,
+      replymsg:'',
+      emotions: ['微笑', '撇嘴', '色', '发呆', '得意', '流泪', '害羞', '闭嘴', '睡', '大哭', '尴尬', '发怒', '调皮', '呲牙', '惊讶', '难过', '酷', '冷汗', '抓狂', '吐', '偷笑', '可爱', '白眼', '傲慢', '饥饿', '困', '惊恐', '流汗', '憨笑', '大兵', '奋斗', '咒骂', '疑问', '嘘', '晕', '折磨', '衰', '骷髅', '敲打', '再见', '擦汗', '抠鼻', '鼓掌', '糗大了', '坏笑', '左哼哼', '右哼哼', '哈欠', '鄙视', '委屈', '快哭了', '阴险', '亲亲', '吓', '可怜', '菜刀', '西瓜', '啤酒', '篮球', '乒乓', '咖啡', '饭', '猪头', '玫瑰', '凋谢', '示爱', '爱心', '心碎', '蛋糕', '闪电', '炸弹', '刀', '足球', '瓢虫', '便便', '月亮', '太阳', '礼物', '拥抱', '强', '弱', '握手', '胜利', '抱拳', '勾引', '拳头', '差劲', '爱你', 'NO', 'OK', '爱情', '飞吻', '跳跳', '发抖', '怄火', '转圈', '磕头', '回头', '跳绳', '挥手', '激动', '街舞', '献吻', '左太极', '右太极'],
       data:{
           'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
           'name':'张丽丽的家长',
@@ -67,7 +79,7 @@ export default {
               'name':'李大明的家长',
               'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
               'date':'2017-4-25',
-              'content':'祝育人教育集团越来越好！'
+              'content':"祝育人教育集团越来越好!<emotion is-gif>微笑</emotion>"
             },
             {
               'name':'小李',
@@ -91,6 +103,10 @@ export default {
     reply(id){
       this.commentid = id
       this.showpopup = true
+    },
+    addemotion(i){
+      this.replymsg += '<emotion is-gif>'+i+'</emotion>'
+      this.showemotion = false
     }
   },
   created(){
