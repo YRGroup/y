@@ -21,26 +21,39 @@
         <img :src="comment.img" @click="fun('打开 '+comment.name+' 的个人页面')">
         <span  @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.name }}</span>
         <span>{{ comment.date }}</span>
-        <span  @click="fun('打开回复窗口')"> 回复 </span>
+        <span  @click="reply(comment.name)"> 回复 </span>
       </div> 
       <div slot="content" class="content">
         <p>{{comment.content }}</p>
       </div>
-
     </card>
+
+    <popup v-model="showpopup" height="270px" is-transparent>
+      <div style="width: 95%;background-color:#fff;height:250px;margin:0 auto;border-radius:5px;padding-top:10px;">
+        <group>
+          <x-input v-model="value" :placeholder="'回复 '+commentid+' 的内容'"></x-input>
+        </group>
+        <div style="padding:20px 15px;">
+        <x-button type="primary">发表回复</x-button>
+        <x-button @click.native="showpopup = false">取消回复</x-button>
+        </div>
+      </div>
+    </popup>
 
   </div>
 </template>
 
 <script>
-import { Card } from 'vux'
+import { Card,Popup,Group,XInput,XButton } from 'vux'
 
 export default {
   components: {
-    Card
+    Card,Popup,Group,XInput,XButton
   },
   data () {
     return {
+      showpopup:false,
+      commentid:'0',
       data:{
           'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
           'name':'张丽丽的家长',
@@ -79,6 +92,10 @@ export default {
         width:"20em",
         text: msg
       })
+    },
+    reply(id){
+      this.commentid = id
+      this.showpopup = true
     }
   },
   created(){

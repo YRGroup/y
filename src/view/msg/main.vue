@@ -46,8 +46,12 @@ export default {
     }
   },
   methods:{
-    fun(val){
-
+    fun(msg){
+      this.$vux.toast.show({
+        type:"text",
+        width:"20em",
+        text: msg
+      })
     }
   },
   created(){
