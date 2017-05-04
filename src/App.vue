@@ -13,17 +13,17 @@
         <i slot="icon" class="fa fa-home"></i>
         <span slot="label">主页</span>
       </tabbar-item>
-      <tabbar-item show-dot link="/classmain">
+      <tabbar-item show-dot link="/class">
         <i slot="icon" class="fa fa-users"></i>
         <span slot="label">班级</span>
       </tabbar-item>
       <tabbar-item badge="2" link="/msg">
         <i slot="icon" class="fa fa-comments"></i>
-        <span slot="label">沟通</span>
+        <span slot="label" class="fff">沟通</span>
       </tabbar-item>
       <tabbar-item link="/user">
         <i slot="icon" class="fa fa-user"></i>
-        <span slot="label">我的</span>
+        <span slot="label" class="fff">我的</span>
       </tabbar-item>
     </tabbar>
 
@@ -50,11 +50,18 @@ export default {
 <style lang="less">
 @import '~vux/src/styles/reset.less';
 
+@c1:#E6EFF0;
+@c2:#C2DDEA;
+@c3:#91C2CD;
+@c4:#618CA0;
+@c5:#547583;
+@c6:#509983;
+
 body {
   max-width: 600px;
   margin:0 auto;
-  background-color: #fbf9fe;
   font-size:12px;
+  background:@c1;
 }
 #inview{
   margin-top:3.8em;
@@ -66,6 +73,7 @@ body {
   position:fixed;
   top:0;
   z-index:10000;
+  // background:@c6;
 }
 #nav-bottom{
   max-width: 600px;

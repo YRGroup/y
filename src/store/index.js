@@ -6,7 +6,8 @@ const store = new Vuex.Store({
     state: {
         islogin: false,
         isNav:true,
-        title:'育人教育'
+        title:'育人教育',
+        reginfo:{}
     },
     mutations: {
         login(state,name) {

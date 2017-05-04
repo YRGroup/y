@@ -124,14 +124,7 @@ export default {
     span:nth-child(3){
       position:absolute;
       top:3.5em;
-      color:grey;
-    }
-    span:nth-child(4){
-      position:absolute;
-      top:2rem;
-      right:1.5rem;
-      border:1px solid #CCC;
-      padding:0 1em;
+      color:@c4;
     }
   }
   .content{
@@ -157,20 +150,20 @@ export default {
     }
     span:nth-child(2){ 
       position:absolute;
-      color:#03a9f4;
+      color:@c5;
       top:1.5em;
     }
     span:nth-child(3){
       position:absolute;
       top:3.5em;
-      color:grey;
+      color:@c4;
     }
     span:nth-child(4){
       position:absolute;
       top:2rem;
       right:1.5rem;
       border:none;
-      color:#03a9f4;
+      color:@c5;
       padding:0 1em;
     }
   }

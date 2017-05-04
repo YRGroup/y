@@ -81,19 +81,19 @@ li{
   span:nth-child(3){
     position:absolute;
     top:3em;
-    color:grey;
+    color:@c3;
   }
   span:nth-child(4){
     position:absolute;
     top:1.5em;
     right:3em;
-    color:grey;
+    color:@c4;
   }
   span:nth-child(5){
     position:absolute;
     top:3em;
     right:3em;
-    background:orange;
+    background:@c6;
     line-height:1.5em;
     text-align:center;
     width:1.5em;
@@ -107,7 +107,7 @@ li:after{
   display:block;
   width:100%;
   height:1px;
-  background:#ccc;
+  background:@c2;
   margin-top:.5em;
 }
 li:last-child{

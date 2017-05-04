@@ -13,19 +13,23 @@ import score from '@/view/addon/score'
 import timeline from '@/view/addon/timeline'
 
 import classmain from '@/view/class/main'
+import classall from '@/view/class/all'
 import classmsg from '@/view/class/msg'
 import homework from '@/view/class/homework'
 import student from '@/view/class/student'
+import kcb from '@/view/class/kcb'
 
 import teacher from '@/view/teacher/main'
 import teacherprofile from '@/view/teacher/profile'
 import teacherfeed from '@/view/teacher/feed'
 import teacherwork from '@/view/teacher/work'
 
-import login from '@/view/login/main'
+import reg from '@/view/login/reg'
 import step1 from '@/view/login/step1'
 import step2 from '@/view/login/step2'
 import step3 from '@/view/login/step3'
+
+import login from '@/view/login/login'
 import teacherlogin from '@/view/login/teacher'
 import studentlogin from '@/view/login/student'
 import parentlogin from '@/view/login/parent'
@@ -95,24 +99,34 @@ export default new Router({
             component: timeline
         },
         {
-            path: '/classmain',
-            name: 'classmain',
-            component: classmain
-        },
-        {
-            path: '/classmsg',
-            name: 'classmsg',
-            component: classmsg
-        },
-        {
-            path: '/homework',
-            name: 'homework',
-            component: homework
-        },
-        {
-            path: '/student',
-            name: 'student',
-            component: student
+            path: '/class',
+            component: classmain,
+            children: [
+                {
+                    path: '',
+                    component: classall
+                },
+                {
+                    path: 'all',
+                    component: classall
+                },
+                {
+                    path: 'work',
+                    component: homework
+                },
+                {
+                    path: 'msg',
+                    component: classmsg
+                },
+                {
+                    path: 'student',
+                    component: student
+                },
+                {
+                    path: 'kcb',
+                    component: kcb
+                },         
+            ]
         },
         {
             path: '/teacher/:id',
@@ -139,12 +153,11 @@ export default new Router({
             ]
         },
         {
-            path: '/login',
-            component: login,
+            path: '/reg',
+            component: reg,
             children: [
                 {
                 path: '',
-                name: 'login',
                 component: step1
                 },
                 {
@@ -158,9 +171,13 @@ export default new Router({
                 {
                 path: 'step3',
                 component: step3
-                }
-            
+                }            
             ]
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: login
         },
         {
             path: '/teacherlogin',

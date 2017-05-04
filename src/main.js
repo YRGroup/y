@@ -6,6 +6,9 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+import { AjaxPlugin } from 'vux'
+Vue.use(AjaxPlugin)
+
 FastClick.attach(document.body)
 
 Vue.config.productionTip = false

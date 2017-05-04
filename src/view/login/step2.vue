@@ -2,15 +2,15 @@
   <div class="step1">
 
     <flexbox-item :span="12">
-      <input class="wid" placeholder="请输入学生的学号" v-model="value"></input>
+      <input class="wid" placeholder="请输入学生的学号" v-model="value1"></input>
     </flexbox-item>
     </br>
     <flexbox-item :span="12">
-      <input class="wid" placeholder="请输入学生的密码" v-model="value"></input>
+      <input class="wid" placeholder="请输入学生的密码" v-model="value2"></input>
     </flexbox-item>
     </br>
     <flexbox-item :span="12">
-      <input class="wid" placeholder="请输入学生的姓名" v-model="value"></input>
+      <input class="wid" placeholder="请输入学生的姓名" v-model="value3"></input>
     </flexbox-item>
 
     </br>
@@ -29,17 +29,26 @@ export default {
   },
   data () {
     return {
-      value:'',
+      value1:'',
+      value2:'',
+      value3:'',
     }
   },
   methods:{
     next(){
-      this.$router.push('/login/step3')
-      this.$parent.stepnum = 3
+      if(this.value1=='' | this.value2=='' | this.value3=='' ){
+        alert('数据不完整')
+      }else{
+        this.$store.state.reginfo.child = []
+        this.$store.state.reginfo.child.push(this.value1)
+        this.$router.push('/login/step3')
+        this.$parent.stepnum = 3
+      }
+      
     }
   },
   created(){
-
+    console.log(this.$store.state.reginfo)
   },
   mounted(){
 

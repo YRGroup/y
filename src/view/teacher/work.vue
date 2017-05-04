@@ -81,7 +81,8 @@ export default {
   text-align:center;
   .time{
     margin:0 auto;
-    background:#e3e3e3;
+    background:@c3;
+    color:#fff;
     padding:0.5em;
     display:inline;
     border-radius:20px;
@@ -109,7 +110,7 @@ export default {
       top:4em;
       left:9em;
       width:17em;
-      color:#bababa;
+      color:@c4;
     }
   }
 }

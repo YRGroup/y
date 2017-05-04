@@ -3,9 +3,9 @@
 
     </br></br>
     <q-step :step='stepnum'>    
-    <span slot="step1">验证手机</span>
-    <span slot="step2">绑定学生</span>
-    <span slot="step3">设置密码</span>
+      <span slot="step1">验证手机</span>
+      <span slot="step2">绑定学生</span>
+      <span slot="step3">设置密码</span>
     </q-step>
 
     <router-view class="step"></router-view>    
@@ -34,7 +34,7 @@ export default {
     }
   },
   created(){
-    this.$store.state.title = '注册/登陆'
+    this.$store.state.title = '注册'
     this.$store.state.isNav = false
   },
   mounted(){

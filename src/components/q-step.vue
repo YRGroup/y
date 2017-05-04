@@ -41,7 +41,7 @@ export default {
 }
 .line{
   height:1px;
-  background: #3498db;
+  background: #509983;
 }
 .item{
   position:absolute;
@@ -53,9 +53,9 @@ export default {
   height:2em;
   line-height:2em;
   border-radius:50%;
-  border:1px solid #3498db;
+  border:1px solid #509983;
   background:#fff;
-  color:#3498db;
+  color:#509983;
 }
 .item:nth-child(1){
   left:0;
@@ -69,13 +69,13 @@ export default {
 .item span:nth-child(2){
   position:absolute;
   top:1.5em;
-  color:#3498db;
+  color:#509983;
   width:6em;
   text-align:center;
   margin-left:-1.8em;
 }
 .active{
-  background:#3498db;
+  background:#509983;
   color:#fff;
 }
 </style>

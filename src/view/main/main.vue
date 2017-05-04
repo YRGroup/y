@@ -193,7 +193,7 @@ export default {
     span:nth-child(3){
       position:absolute;
       top:3.5em;
-      color:grey;
+      color:@c4;
     }
   }
   .content{
@@ -207,7 +207,7 @@ export default {
     padding-left:2em;
     padding-right:2em;
     .footer-btn{
-      color:grey;
+      color:@c5;
       i:nth-child(1){
         float:left;
         padding-left:1em;
@@ -230,12 +230,12 @@ export default {
       margin-top:2em;
       margin-bottom:1em;
       padding:1em .5em .5em .5em;
-      background:#f7f7f7;
+      background:@c1;
       border-radius:10px;
       li{
         width:100%;
         span:nth-child(1){
-          color:#03a9f4;
+          color:@c5;
         }
         span:nth-child(2){
           width:100%;
@@ -243,7 +243,7 @@ export default {
       }
       div{
         text-align:center;
-        border-top:1px solid #e0e0e0;
+        border-top:1px solid @c5;
         margin-top:0.5em;
         padding-top:0.5em;
       }

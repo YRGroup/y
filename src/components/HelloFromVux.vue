@@ -28,8 +28,12 @@
         +btn4('注册')
       router-link(to="/news")
         +btn('校园动态')
-      router-link(to="/classmsg")
+      router-link(to="/class/all")
         +btn1('班级动态')
+      router-link(to="/class/kcb")
+        +btn2('班级课程表')
+      router-link(to="/teacher/张老师")
+        +btn3('教师主页')
   
 </template>
 
