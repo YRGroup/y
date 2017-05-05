@@ -28,3 +28,6 @@ npm run build
 | ../src/server | API           |       |
 | ../src/router | vue router    |       |
 | ../src/assets  | 资源         |       |
+| ../src/components | 单文件组件 |       |
+| ../src/style  | 主题样式       |       |
+| ../src/view   | 页面           |       |
