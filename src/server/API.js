@@ -28,11 +28,35 @@ API.signup = (info) => {
         })        
     })
 }
+API.addstudent = (info) => {
+    return new Promise((resolve, reject) => {
+        let Student = Bmob.Object.extend("Student")
+        var student = new Student()
+        student.set("name", info.name)
+        student.set("pw", info.pw)
+        student.set("xuehao", info.xuehao)
+        student.save(null, {
+            success: function(user) {
+                resolve(user)
+            },
+            error: function(user, error) {
+                reject(error)
+                alert("Error: " + error.code + " " + error.message);
+            }
+        })        
+    })
+}
 
 API.login = (userName, userPassword) => {
     return new Promise((resolve, reject) => {
-        resolve(results)
-        reject(error)
+        Bmob.User.logIn(userName, userPassword, {
+            success: function(user) {
+                resolve(user)
+            },
+            error: function(user, error) {
+                reject(error)
+            }
+        })        
     })
 }
 

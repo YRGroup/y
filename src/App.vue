@@ -6,7 +6,9 @@
       <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
     </x-header>
 
+    <transition name="slide-fade">
       <router-view id="inview"></router-view>
+    </transition>
 
     <tabbar id="nav-bottom" v-show="$store.state.isNav">
       <tabbar-item selected link="/main">
@@ -66,6 +68,8 @@ body {
 #inview{
   margin-top:3.8em;
   padding-bottom:4.5em;
+  position: relative;
+  top:0;
 }
 #nav-top{
   width:100%;
@@ -73,17 +77,23 @@ body {
   position:fixed;
   top:0;
   z-index:10000;
-  // background:@c6;
 }
 #nav-bottom{
   max-width: 600px;
   position:fixed;
   bottom:0;
 }
-
 li{
   list-style:none;
   padding:0;
   margin:0;
+}
+
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-enter {
+  transform: translateX(100vw);
+  opacity: 0;
 }
 </style>

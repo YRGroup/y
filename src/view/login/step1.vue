@@ -1,73 +1,69 @@
 <template>
   <div class="step1">
-
-    <flexbox-item :span="12">
-      <input class="wid" placeholder="请输入手机号码" v-model="tel"></input>
-    </flexbox-item>
-    </br>
-    <flexbox>
-      <flexbox-item :span="7">
-        <input class="sma" placeholder="请输入图形验证码" v-model="radnumber"></input>
-      </flexbox-item>
-      <flexbox-item>
-        <img src="http://192.168.3.142:3000/captcha.png">
-      </flexbox-item>
-    </flexbox>
-    </br>
-    <flexbox>
-      <flexbox-item :span="7">
-        <input class="sma" placeholder="短信验证码" v-model="checkvalue"></input>
-      </flexbox-item>
-      <flexbox-item>
-        <x-button type="primary" @click.native="sms" mini>获取验证码</x-button>
-      </flexbox-item>
-    </flexbox>
-
+    <group >
+      <x-input placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" v-model="tel"></x-input>
+    </group>
+    <group>
+      <x-input placeholder="请输入右侧数字" v-model="imgcheck">
+        <img slot="right" :src="'http://192.168.3.142:3000/captcha.png?n='+checkc" @click="newimg">
+      </x-input>
+    </group>
+    <group>
+      <x-input placeholder="请输入短信验证码" v-model="smscheck" @keyup.native.enter="next">
+        <x-button slot="right" type="primary" @click.native="sms" mini>发送验证码</x-button>
+      </x-input>
+    </group>
     </br>
     <x-button type="primary" @click.native="next">下一步</x-button>
-
   </div>
 </template>
 
 <script>
 import API from '@/server/API'
-import { XButton,Flexbox,FlexboxItem  } from 'vux'
+import { XButton,Flexbox,FlexboxItem,XInput,Group  } from 'vux'
 
 export default {
   components: {
-    XButton,Flexbox,FlexboxItem
+    XButton,Flexbox,FlexboxItem,XInput,Group
   },
   data () {
     return {
       tel:'',
-      radnumber:'',
-      checkvalue:'',
-      checknum:''
+      imgcheck:'',
+      smscheck:'',
+      checknum:'',
+      checkc:''
     }
   },
   methods:{
     next(){
-      if(this.checkvalue == this.checknum){
+      if(this.smscheck == this.checknum &&this.smscheck!=''){
         this.$store.state.reginfo.tel=this.tel
         this.$store.state.reginfo.name=this.tel
-        this.$router.push('/login/step2')
+        this.$router.push('/reg/step2')
         this.$parent.stepnum = 2
       }else{
+        console.log('enter: '+this.smscheck)
+        console.log('source: '+this.checknum)
         this.fun('短信验证码错误')
       }
     },
     sms(){
-      this.$http.post('http://192.168.3.142:3000/u',{
-        'tel': this.tel,
-        'radnumber': this.radnumber
-      }).then((response) => {
+      if(this.checkc == this.imgcheck&&this.tel!=''){
+        this.$http.get('http://192.168.3.142:3000/sms?tel='+this.tel).then((response) => {
+          this.fun('获取短信验证码成功')
           this.checknum = response.data.num
-          console.log(response.data.num)
-          console.log('success')
-      }).catch((error) => {
+          console.log('checknum: '+this.checknum)   
+        }).catch((error) => {
           console.log(error)
           console.log('error')
-      });
+        })
+      }else{
+        this.fun('图片验证码输入错误')
+      }
+    },
+    newimg(){
+      this.checkc = Math.floor(Math.random()*9000)+1000
     },
     fun(msg){
       this.$vux.toast.show({
@@ -79,7 +75,7 @@ export default {
   },
   created(){
     this.$parent.stepnum = 1
-    console.log(document.session)
+    this.checkc = Math.floor(Math.random()*9000)+1000
   },
   mounted(){
 
@@ -88,21 +84,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-input{
-  border-radius:5px;
-  border:none;
-  padding:1em;
-}
-img{
-  height:3.5em;
-}
-.wid{
-  width:90%;
-}
-.sma{
-  width:80%;
-}
-.weui-btn_mini{
-  height:3em;
-}
+
 </style>

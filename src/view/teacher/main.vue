@@ -18,7 +18,10 @@
       <tab-item @on-item-click="$router.push('/teacher/'+$route.params.id+'/work')">作业</tab-item>
     </tab>
     </br>
-    <router-view></router-view>
+
+    <transition name="slide-fade">
+      <router-view></router-view>
+    </transition>
 
   </div>
 </template>

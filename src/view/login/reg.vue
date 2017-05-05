@@ -7,8 +7,9 @@
       <span slot="step2">绑定学生</span>
       <span slot="step3">设置密码</span>
     </q-step>
-
-    <router-view class="step"></router-view>    
+    <transition name="slide-fade">
+      <router-view class="step"></router-view>    
+    </transition>
 
   </div>
 </template>
@@ -52,4 +53,5 @@ export default {
 .step{
   margin:4em;
 }
+
 </style>

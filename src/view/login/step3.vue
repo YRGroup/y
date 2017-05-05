@@ -1,24 +1,19 @@
 <template>
   <div class="step1">
-
     <flexbox-item :span="12">
       <input class="wid" placeholder="请输入密码" v-model="value1"></input>
     </flexbox-item>
     </br>
     <flexbox-item :span="12">
-      <input class="wid" placeholder="请再次输入密码" v-model="value2"></input>
+      <input class="wid" placeholder="请再次输入密码" v-model="value2" @keyup.native.enter="submit"></input>
     </flexbox-item>
-
     </br>
     <x-button type="primary" @click.native="submit">下一步</x-button>
-    
-
   </div>
 </template>
 
 <script>
 import API from '@/server/API'
-
 import { XButton,Flexbox,FlexboxItem  } from 'vux'
 
 export default {
@@ -35,7 +30,7 @@ export default {
     submit(){
       let vm = this
       if(this.value1 == this.value2){
-        this.$store.state.reginfo.pw=this.value
+        this.$store.state.reginfo.pw=this.value1
         API.signup(this.$store.state.reginfo).then(res=>{
           console.log(res)
           vm.$vux.toast.show({
@@ -58,12 +53,14 @@ export default {
           text: '两次输入的密码不一致'
         })
       }
-      
-      
     }
   },
   created(){
-    console.log(this.$store.state.reginfo)
+    if(this.$store.state.reginfo.child){
+      console.log(this.$store.state.reginfo)
+    }else{
+      this.$router.push('/reg/step2')
+    }
   },
   mounted(){
 
@@ -77,16 +74,7 @@ input{
   border:none;
   padding:1em;
 }
-img{
-  height:3.5em;
-}
 .wid{
   width:90%;
-}
-.sma{
-  width:80%;
-}
-.weui-btn_mini{
-  height:3em;
 }
 </style>

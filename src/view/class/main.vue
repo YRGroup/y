@@ -2,14 +2,16 @@
   <div class="hello">
 
     <div class="class-header">
-      <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg" @click="fun('打开班级的主页')">
+      <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg" @click="$router.push('/class')">
       <span>三年级二班</span>
       <span>班主任：张大丽</span>
       <span>班级人数：40人</span>
     </div>
     </br>
 
-    <router-view></router-view>
+    <transition name="slide-fade">
+      <router-view></router-view>
+    </transition>
 
   </div>
 </template>
