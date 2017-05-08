@@ -5,7 +5,7 @@
     </group>
     <group>
       <x-input placeholder="请输入右侧数字" v-model="imgcheck">
-        <img slot="right" :src="'http://192.168.3.142:3000/ck/captcha.png?n='+checkc" @click="newimg">
+        <img slot="right" :src="'http://api.zzcowboy.com/ck/captcha.png?n='+checkc" @click="newimg">
       </x-input>
     </group>
     <group>
@@ -38,7 +38,7 @@ export default {
   },
   methods:{
     next(){
-      this.$http.get('http://192.168.3.142:3000/sms/next?num='+this.smscheck).then((response)=>{
+      this.$http.get('http://api.zzcowboy.com/sms/next?num='+this.smscheck).then((response)=>{
         if(response.data){
           this.$store.state.reginfo.tel=this.tel
           this.$store.state.reginfo.name=this.tel
@@ -54,7 +54,7 @@ export default {
     },
     sms(){
       if(this.checkc == this.imgcheck && this.tel != ''){
-        this.$http.get('http://192.168.3.142:3000/sms?tel='+this.tel).then((response) => {
+        this.$http.get('http://api.zzcowboy.com/sms?tel='+this.tel).then((response) => {
           this.fun('获取短信验证码成功')
           this.countdown = 60
           this.timer()
