@@ -37,7 +37,7 @@ export default {
   },
   methods:{
     next(){
-      if(this.smscheck == this.checknum &&this.smscheck!=''){
+      if(this.smscheck == this.checknum && this.smscheck!=''){
         this.$store.state.reginfo.tel=this.tel
         this.$store.state.reginfo.name=this.tel
         this.$router.push('/reg/step2')
@@ -49,7 +49,7 @@ export default {
       }
     },
     sms(){
-      if(this.checkc == this.imgcheck&&this.tel!=''){
+      if(this.checkc == this.imgcheck && this.tel != ''){
         this.$http.get('http://192.168.3.142:3000/sms?tel='+this.tel).then((response) => {
           this.fun('获取短信验证码成功')
           this.checknum = response.data.num
