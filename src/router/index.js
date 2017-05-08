@@ -52,7 +52,7 @@ import teachercenter from '@/view/user/teacher'
 Vue.use(Router)
 
 export default new Router({
-    mode: 'history',
+    // mode: 'history',
     routes: [{
             path: '/',
             name: 'Hello',
