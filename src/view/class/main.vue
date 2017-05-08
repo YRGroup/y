@@ -1,10 +1,10 @@
 <template>
   <div class="hello">
 
-    <div class="class-header">
-      <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg" @click="$router.push('/class')">
+    <div class="class-header" v-show="this.$store.state.isHeader">
+      <img :src="classlogo" @click="$router.push('/class')">
       <span>三年级二班</span>
-      <span>班主任：张大丽</span>
+      <span>班主任：李老师</span>
       <span>班级人数：40人</span>
     </div>
     </br>
@@ -20,7 +20,7 @@
 export default {
   data () {
     return {
-
+      classlogo:require('@/assets/face/c.jpeg')
     }
   },
   methods:{
@@ -37,34 +37,35 @@ export default {
 
 <style lang="less" scoped>
 .class-header{
-  height:10em;
+  height:8.5em;
   width:100%;
-  background:#fff url('https://modao.cc/uploads3/images/900/9006918/raw_1493015913.png');
+  background:linear-gradient(right top,#00c0a1, #00c06f);
   background-size:100% 100%;
   color:#fff;
   position:relative;
   img{
-    width:5rem;
-    border-radius:15px;
+    width:4rem;
+    border-radius:10px;
     position:absolute;
     top:1rem;
-    left:2rem;
+    left:1rem;
+    border: 4px solid rgba(255,255,255,0.3);
   }
   span:nth-child(2){
     position:absolute;
     top:2rem;
-    left:8rem;
+    left:7rem;
     font-size:1.5em;
   }
   span:nth-child(3){
     position:absolute;
     top:4rem;
-    left:8rem;
+    left:7rem;
   }
   span:nth-child(4){
     position:absolute;
     top:4rem;
-    left:15rem;
+    left:14rem;
   }
 }
 

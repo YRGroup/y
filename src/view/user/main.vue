@@ -2,22 +2,31 @@
   <div class="hello">
     
     <div class="user-header">
-      <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg" >
-      <span>李晓明的家长</span>
-      <span @click="fun('打开学校主页')">郑州航空港育人国际学校</span>
-      <span @click="fun('打开班级主页')">三年级二班</span>
-      <span>学号：46565686</span>
+      <img :src="userface" >
+      <p>李晓明的家长</p>
+      <p @click="fun('打开学校主页')">郑州航空港育人国际学校</p>
+      <p class="bottomnav">
+        <span @click="fun('打开班级主页')">三年级二班</span>
+        <span>学号：46565686</span>
+      </p>
     </div>
-    </br>
 
     <group>
-      <cell title="我的孩子" value="李晓明" is-link @click.native="fun('打开学生主页')"></cell>
-      <cell title="我的账号" value="15838150666" is-link></cell>
-      <cell title="完善资料"  is-link @click.native="fun('修改资料')"></cell>
-      <cell title="修改密码"  is-link @click.native="fun('修改密码')"></cell>
+      <cell title="我的孩子" value="李晓明" is-link @click.native="fun('打开学生主页')">
+        <i slot="icon" class="iconfont">&#xe719;</i>
+      </cell>
+      <cell title="我的账号" value="15838150666" is-link>
+        <i slot="icon" class="iconfont">&#xe693;</i>
+      </cell>
+      <cell title="完善资料"  is-link @click.native="fun('修改资料')">
+        <i slot="icon" class="iconfont">&#xe60b;</i>
+      </cell>
+      <cell title="修改密码"  is-link @click.native="fun('修改密码')">
+        <i slot="icon" class="iconfont">&#xe692;</i>
+      </cell>
     </group>
     <br>
-    <x-button @click.native="fun('登出')">退出登陆</x-button>
+    <x-button class="btn" @click.native="fun('登出')">退出登陆</x-button>
 
   </div>
 </template>
@@ -32,7 +41,7 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      userface: require('@/assets/face/bw.jpg')
     }
   },
   methods:{
@@ -56,40 +65,57 @@ export default {
 
 <style lang="less" scoped>
 .user-header{
-  height:10em;
+  text-align: center;
+  height:16em;
   width:100%;
-  background:#fff url('https://modao.cc/uploads3/images/900/9006918/raw_1493015913.png');
+  background:linear-gradient(right top,#00c0a1, #00c06f);
   background-size:100% 100%;
   color:#fff;
-  position:relative;
+  position: relative;
+  padding-top:1rem;
   img{
     width:5rem;
     border-radius:50%;
-    position:absolute;
-    top:1rem;
-    left:2rem;
+    border: 4px solid rgba(255,255,255,0.3);
   }
-  span:nth-child(2){
-    position:absolute;
-    top:1.2rem;
-    left:8rem;
-    font-size:1.5em;
+  p:nth-child(2){
+    font-size: 1.2rem;
   }
-  span:nth-child(3){
-    position:absolute;
-    top:3rem;
-    left:8rem;
-    font-size:1.1em;
+  .bottomnav{
+    position: absolute;
+    bottom:0;
+    width:100%;
+    border-top:1px solid #fff;
+    vertical-align: bottom;
+    height:2rem;
+    span:nth-child(1){
+      float:left;
+      width:50%;
+      line-height: 2rem;
+    }
+    span:nth-child(2){
+      float:right;
+      width:50%;
+      line-height: 2rem;
+    }
   }
-  span:nth-child(4){
-    position:absolute;
-    top:4.5rem;
-    left:8rem;
+  .bottomnav:after{
+    content: '';
+    display:block;
+    position: relative;
+    width:1px;
+    height:2rem;
+    background:#fff;
+    top:0;
+    left:50%;
   }
-  span:nth-child(5){
-    position:absolute;
-    top:4.5rem;
-    left:15rem;
-  }
+}
+.btn{
+  background:#fff;
+  color:@c6;
+}
+.iconfont{
+  color:@c6;
+  margin-right:.5em;
 }
 </style>

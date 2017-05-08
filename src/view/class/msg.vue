@@ -54,6 +54,7 @@ export default {
     return {
       showpopup:false,
       commentid:'0',
+      value:'',
       data:{
           'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
           'name':'张丽丽的家长',
@@ -100,6 +101,7 @@ export default {
   },
   created(){
     this.$store.state.isNav = false
+    this.$store.state.isHeader = false
     this.$store.state.title = '动态详情'
   },
   mounted(){

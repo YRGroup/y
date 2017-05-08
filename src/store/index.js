@@ -7,6 +7,8 @@ const store = new Vuex.Store({
         islogin: false,
         isNav:true,
         title:'育人教育',
+        isHeader:true,
+        direction: 'forward',
         reginfo:{}
     },
     mutations: {
@@ -31,6 +33,9 @@ const store = new Vuex.Store({
             document.cookie = "y_name" + "=" + null + ";expires="+expires
 
             console.log('logout success')
+        },
+        UPDATE_DIRECTION (state, direction) {
+            state.direction = direction
         }
     }
 })

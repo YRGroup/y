@@ -23,28 +23,34 @@
       <hr>
       <scroller lock-y scrollbar-x>
       <div class="box" :style="{ width: boxwid}">
-        <div class="box-item" v-for="item in cup" @click="$router.push('/teacher/'+item.name)">
-          <img :src="item.img">
-          <span>{{ item.name }}</span>
-          <span>{{ item.job }}</span>
+        <div class="box-item" v-for="(item,index) in cup">
+          <img :src="item.img" @click="showimg(index)">
         </div>
       </div>
     </scroller>
     </group>
+
+    <x-dialog v-model="showdialog" hide-on-blur>
+      <div>
+        <img :src="showimgurl" style="max-width:100%">
+      </div>
+    </x-dialog>
     
 
   </div>
 </template>
 
 <script>
-import { Cell, Scroller, Group } from 'vux'
+import { Cell, Scroller, Group,XDialog  } from 'vux'
 
 export default {
   components: {
-    Cell, Scroller, Group
+    Cell, Scroller, Group,XDialog 
   },
   data () {
     return {
+      showdialog:false,
+      showimgurl:'',
       cup:[
         {
           'img':'https://modao.cc/uploads3/images/907/9073944/raw_1493192454.png'
@@ -61,6 +67,10 @@ export default {
   methods:{
     fun(val){
 
+    },
+    showimg(n){
+      this.showimgurl = this.cup[n].img
+      this.showdialog = true
     }
   },
   created(){
@@ -92,7 +102,25 @@ export default {
   img{
     width:4em;
     margin:0 1em;
-    border-radius:50%;
+    // border-radius:50%;
   }
 }
+
+// .dialog-demo {
+//   .weui-dialog{
+//     border-radius: 10px;
+//     padding-bottom: 8px;
+//   }
+//   .dialog-title {
+//     line-height: 30px;
+//     color: #666;
+//   }
+//   .img-box {
+//     overflow: hidden;
+//   }
+//   .vux-close {
+//     margin-top: 8px;
+//     margin-bottom: 8px;
+//   }
+// }
 </style>

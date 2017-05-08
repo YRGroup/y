@@ -5,12 +5,12 @@
     </group>
     <group>
       <x-input placeholder="请输入右侧数字" v-model="imgcheck">
-        <img slot="right" :src="'http://192.168.3.142:3000/captcha.png?n='+checkc" @click="newimg">
+        <img slot="right" :src="'http://192.168.3.142:3000/ck/captcha.png?n='+checkc" @click="newimg">
       </x-input>
     </group>
     <group>
       <x-input placeholder="请输入短信验证码" v-model="smscheck" @keyup.native.enter="next">
-        <x-button slot="right" type="primary" @click.native="sms" mini>发送验证码</x-button>
+        <x-button slot="right" type="primary" @click.native="sms" mini :disabled="disabled || countdown > 0">{{ smsbtntext }}</x-button>
       </x-input>
     </group>
     </br>
@@ -31,35 +31,45 @@ export default {
       tel:'',
       imgcheck:'',
       smscheck:'',
-      checknum:'',
-      checkc:''
+      checkc:'',
+      disabled:'',
+      countdown:0
     }
   },
   methods:{
     next(){
-      if(this.smscheck == this.checknum && this.smscheck!=''){
-        this.$store.state.reginfo.tel=this.tel
-        this.$store.state.reginfo.name=this.tel
-        this.$router.push('/reg/step2')
-        this.$parent.stepnum = 2
-      }else{
-        console.log('enter: '+this.smscheck)
-        console.log('source: '+this.checknum)
-        this.fun('短信验证码错误')
-      }
+      this.$http.get('http://192.168.3.142:3000/sms/next?num='+this.smscheck).then((response)=>{
+        if(response.data){
+          this.$store.state.reginfo.tel=this.tel
+          this.$store.state.reginfo.name=this.tel
+          this.$router.push('/reg/step2')
+          this.$parent.stepnum = 2
+        }else{
+          console.log('enter: '+this.smscheck)
+          this.fun('短信验证码错误')
+        }
+      }).catch((error)=>{
+        console.log(error)
+      })
     },
     sms(){
       if(this.checkc == this.imgcheck && this.tel != ''){
         this.$http.get('http://192.168.3.142:3000/sms?tel='+this.tel).then((response) => {
           this.fun('获取短信验证码成功')
-          this.checknum = response.data.num
-          console.log('checknum: '+this.checknum)   
+          this.countdown = 60
+          this.timer()
         }).catch((error) => {
           console.log(error)
           console.log('error')
         })
       }else{
         this.fun('图片验证码输入错误')
+      }
+    },
+    timer: function () {
+      if (this.countdown > 0) {
+        this.countdown--;
+        setTimeout(this.timer, 1000);
       }
     },
     newimg(){
@@ -79,6 +89,11 @@ export default {
   },
   mounted(){
 
+  },
+  computed: {
+    smsbtntext: function () {
+      return this.countdown > 0 ? this.countdown + 's 后重新获取' : '获取验证码';
+    }
   }
 }
 </script>

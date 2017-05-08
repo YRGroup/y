@@ -11,7 +11,7 @@
       </div>
     </scroller>
 
-    </br>
+    
 
     <div class="notice"  @click="$router.push('/class/work')">
       <div>
@@ -28,8 +28,6 @@
       </div>
     </div>
 
-    </br>
-
     <card v-for="item in list" :key="item.date">
       <div slot="header" class="header">
         <img :src="item.img" @click="fun('打开 '+item.name+' 的个人页面')">
@@ -38,12 +36,13 @@
         <span>{{ item.class }}</span>
       </div> 
       <div slot="content" class="content">
-        <p>{{ item.content }}</p>
+        <p @click="$router.push('/class/msg')">{{ item.content }}</p>
       </div>
       <div slot="footer" class="footer">
         <div class="footer-btn">
-          <i class="fa fa-eye"> {{ item.read }}</i>
-          <i class="fa fa-thumbs-up" @click="fun('给 '+item.name+' 点赞成功')"> {{ item.liked }}</i>
+          <i class="iconfont" @click="$router.push('/class/msg')">&#xe60f;  </i>
+          <i class="iconfont" @click="fun(item.liked++)">&#xe646; {{ item.liked }}</i>
+          <i class="iconfont">&#xe6c3; {{ item.read }}</i>
         </div>  
         <div class="comment">
           <li v-for="comment in item.comment" :key="comment.name">
@@ -72,65 +71,99 @@ export default {
       boxwid:'500px',
       teachers:[
         {
-          'img':'http://i.gtimg.cn/qqlive/images/namelib/v688/8/6/8/72868.jpg',
+          'img':require('@/assets/face/jay.jpg'),
           'name':'周老师',
           'job':'班主任'
         },
         {
-          'img':'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1161924124,2585264186&fm=117&gp=0.jpg',
-          'name':'迪老师',
-          'job':'数学'
+          'img':require('@/assets/face/dk.png'),
+          'name':'李老师',
+          'job':'体育'
         },
+        
         {
-          'img':'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=598802529,3360058666&fm=117&gp=0.jpg',
-          'name':'张老师',
-          'job':'语文'
-        },
-        {
-          'img':'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1897825579,158590078&fm=117&gp=0.jpg',
+          'img':require('@/assets/face/lh.jpg'),
           'name':'鹿老师',
           'job':'英语'
         },
         {
-          'img':'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3733621530,612408558&fm=117&gp=0.jpg',
-          'name':'张老师',
-          'job':'体育'
-        },
-        {
-          'img':'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2423306135,382863587&fm=117&gp=0.jpg',
-          'name':'李老师',
+          'img':require('@/assets/face/tc.png'),
+          'name':'唐老师',
           'job':'科学'
         },
+        {
+          'img':require('@/assets/face/jobs.jpg'),
+          'name':'乔老师',
+          'job':'语文'
+        }
       ],
       notice:[
         {
           "class":'语文',
-          'msg':'高三复习千头万绪',
+          'msg':'唐诗三百首读后感一篇',
           'date':'4.26'
         },
         {
           "class":'数学',
-          'msg':'做了很多题，遇到同类的',
+          'msg':'二次幂和公式的推倒过程',
           'date':'4.25'
         }
       ],
       list:[
         {
-          'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-          'name':'张丽丽的家长',
+          'img':require('@/assets/face/dk.png'),
+          'name':'李老师',
           'date':'2017-4-25',
-          'class':'文章',
-          'content':'『育人朗读者』是由育人教育集团宣传部推出，每周为大家推选出一本书，并择选出书中的优秀章节，由朗读者为大家领读。。。',
+          'class':'班级公告',
+          'content':'第一期不上进学生回炉再教育培训班已经开课，请各位名单上的同学准时到场参加培训。',
           'read':'40',
           'liked':'3',
           'comment':[
             {
-              'name':'李大明的家长',
-              'content':'祝育人教育集团越来越好！'
+              'name':'孙连城的家长',
+              'content':'还望李老师能尽心，把我们家孩子教育好。'
             },
             {
-              'name':'小李',
-              'content':'这一期，我们大家带来的这是来自法《人间喜剧》。'
+              'name':'李小明',
+              'content':'大家不要气馁，加油学习，你也能逆袭。'
+            }
+          ]
+        },
+        {
+          'img':require('@/assets/face/dk.png'),
+          'name':'李老师',
+          'date':'2017-4-25',
+          'class':'班级公告',
+          'content':'第一期不上进学生回炉再教育培训班已经开课，请各位名单上的同学准时到场参加培训。',
+          'read':'40',
+          'liked':'3',
+          'comment':[
+            {
+              'name':'孙连城的家长',
+              'content':'还望李老师能尽心，把我们家孩子教育好。'
+            },
+            {
+              'name':'李小明',
+              'content':'大家不要气馁，加油学习，你也能逆袭。'
+            }
+          ]
+        },
+        {
+          'img':require('@/assets/face/dk.png'),
+          'name':'李老师',
+          'date':'2017-4-25',
+          'class':'班级公告',
+          'content':'第一期不上进学生回炉再教育培训班已经开课，请各位名单上的同学准时到场参加培训。',
+          'read':'40',
+          'liked':'3',
+          'comment':[
+            {
+              'name':'孙连城的家长',
+              'content':'还望李老师能尽心，把我们家孩子教育好。'
+            },
+            {
+              'name':'李小明',
+              'content':'大家不要气馁，加油学习，你也能逆袭。'
             }
           ]
         }
@@ -147,8 +180,9 @@ export default {
     }
   },
   created(){
-    this.boxwid = this.teachers.length * 200 +'px'
+    this.boxwid = this.teachers.length * 100 +'px'
     this.$store.state.isNav = true
+    this.$store.state.isHeader = true
     this.$store.state.title = '班级动态'
   },
   mounted(){
@@ -159,35 +193,36 @@ export default {
 
 <style lang="less" scoped>
 .box {
-  height: 100px;
+  height: 7rem;
   position: relative;
   background:transparent;
+  background-color:#fff;
 }
 .box-item {
-  width: 180px;
-  height: 100px;
-  background-color:#fff;
+  width: 5rem;
+  height: 6rem;
+  // background-color:#fff;
   border-radius:15px;
   display:inline-block;
   margin-left: 15px;
   img{
     width:4rem;
-    margin-top:1rem;
-    margin-left:1rem;
+    margin-top:.5rem;
+    margin-left:.5rem;
     border-radius:50%;
   }
   span:nth-child(2){
-    color:@c5;
-    font-size:1.5rem;
-    position:absolute;
-    top:2rem;
-    margin-left:.5rem;
+    color:#000;
+    font-size:0.7rem;
+    display:block;
+    text-align: center;
   }
   span:nth-child(3){
-    color:@c3;
+    color:@c4;
     position:absolute;
-    top:5rem;
+    top:3.5rem;
     margin-left:1.5rem;
+    display:none;
   }
 }
 .box-item:first-child {
@@ -195,16 +230,18 @@ export default {
 }
 
 .notice{
+  margin-top:0.8rem;
+  margin-bottom:0.8rem;
   background:#fff;
-  height:5em;
+  height:4em;
   padding:.5em;
   position:relative;
   div:nth-child(1){
-    color:@c5;
-    width:2em;
+    color:@c6;
+    width:2.2em;
     position:absolute;
     left:1em;
-    top:1.5em;
+    top:1em;
   }
   div:nth-child(2):before{
     content:"";
@@ -214,19 +251,25 @@ export default {
     background:@c6;
     position:absolute;
     left:4em;
-    top:1em;
+    top:.5em;
   }
   div:nth-child(2){
     margin-left:4em;
-    margin-top:1em;
+    margin-top:.5em;
     color:@c3;
     li{
       span:nth-child(1){
         white-space:nowrap;
       }
       span:nth-child(2){
-        float:right;
-        margin-right:5em;
+        position:absolute;
+        right:5em;
+        z-index:100;
+        background: #fff;
+        color:@c4;
+        padding-left:0.5em;
+        // float:right;
+        // margin-right:5em;
       }
     }
   }
@@ -238,99 +281,15 @@ export default {
     background:@c6;
     position:absolute;
     right:4em;
-    top:1em;
+    top:.5em;
   }
   div:nth-child(3){
-    color:@c5;
+    color:@c4;
     width:1em;
     position:absolute;
     right:2em;
-    top:1.5em;
+    top:1em;
   }
 }
 
-.weui-panel{
-  position:relative;
-  margin-top:0;
-  margin-bottom:1em;
-  .header{
-    width:100%;
-    padding:1em;
-    font-size:1.2em;
-    img{
-      width:4em;
-      margin-right:1em;
-    }
-    span:nth-child(2){ 
-      position:absolute;
-      top:1.5em;
-    }
-    span:nth-child(3){
-      position:absolute;
-      top:3.5em;
-      color:@c4;
-    }
-    span:nth-child(4){
-      position:absolute;
-      top:2rem;
-      right:1.5rem;
-      border:1px solid @c5;
-      padding:0 1em;
-    }
-  }
-  .content{
-    padding-left:2em;
-    padding-right:2em;
-    line-height:2em;
-    margin-bottom:1em;
-    font-size:1.2em;
-  }
-  .footer{
-    padding-left:2em;
-    padding-right:2em;
-    .footer-btn{
-      color:@c5;
-      i:nth-child(1){
-        float:left;
-        padding-left:1em;
-      }
-      i:nth-child(2){
-        float:right;
-        padding-right:2em;
-      }
-    }
-    .footer-btn:after{
-      content:"";
-      display:block;
-      width:100%;
-      height:1px;
-      background-color:transition;
-      position:relative;
-      bottom:-1.3em;
-    }
-    .comment{
-      margin-top:2em;
-      margin-bottom:1em;
-      padding:1em .5em .5em .5em;
-      background:@c1;
-      border-radius:10px;
-      li{
-        width:100%;
-        span:nth-child(1){
-          color:@c5;
-        }
-        span:nth-child(2){
-          width:100%;
-        }
-      }
-      div{
-        text-align:center;
-        border-top:1px solid @c5;
-        margin-top:0.5em;
-        padding-top:0.5em;
-      }
-    }
-  }
-
-}
 </style>

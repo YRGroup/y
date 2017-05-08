@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <ul>
-      <li @click="fun('展开对话')" v-for="item in msg">
+      <li @click="$router.push('/allmsg')" v-for="item in msg">
         <img :src="item.img">
         <span>{{ item.name }} （{{ item.class }}）</span>
         <span>{{ item.msg }}</span>
@@ -19,28 +19,28 @@ export default {
     return {
       msg:[
         {
-          'name':'李晓丽',
-          'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
+          'name':'李老师',
+          'img':require('@/assets/face/dk.png'),
           'class':'数学',
-          'msg':'今天的作业',
+          'msg':'今天的作业完成了没有？',
           'date':'4-26',
           'num':'4'
         },
         {
-          'name':'李晓丽',
-          'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
+          'name':'周老师',
+          'img':require('@/assets/face/jay.jpg'),
           'class':'数学',
-          'msg':'今天的作业',
+          'msg':'春季运动会报名方法',
           'date':'4-26',
-          'num':'4'
+          'num':'2'
         },
         {
-          'name':'李晓丽',
-          'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
+          'name':'鹿老师',
+          'img':require('@/assets/face/lh.jpg'),
           'class':'数学',
-          'msg':'今天的作业',
+          'msg':'家长请多关注一下孩子的情感状态',
           'date':'4-26',
-          'num':'4'
+          'num':'7'
         }
       ]
     }
@@ -73,6 +73,7 @@ li{
   img{
     width:4em;
     margin-right:1em;
+    border-radius:50%;
   }
   span:nth-child(2){ 
     position:absolute;

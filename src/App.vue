@@ -6,25 +6,25 @@
       <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
     </x-header>
 
-    <transition name="slide-fade">
+    <transition name='slide-fade'>
       <router-view id="inview"></router-view>
     </transition>
 
     <tabbar id="nav-bottom" v-show="$store.state.isNav">
       <tabbar-item selected link="/main">
-        <i slot="icon" class="fa fa-home"></i>
+        <i slot="icon" class="iconfont">&#xe666;</i>
         <span slot="label">主页</span>
       </tabbar-item>
       <tabbar-item show-dot link="/class">
-        <i slot="icon" class="fa fa-users"></i>
+        <i slot="icon" class="iconfont">&#xe672;</i>
         <span slot="label">班级</span>
       </tabbar-item>
       <tabbar-item badge="2" link="/msg">
-        <i slot="icon" class="fa fa-comments"></i>
+        <i slot="icon" class="iconfont">&#xe629;</i>
         <span slot="label" class="fff">沟通</span>
       </tabbar-item>
       <tabbar-item link="/user">
-        <i slot="icon" class="fa fa-user"></i>
+        <i slot="icon" class="iconfont">&#xe719;</i>
         <span slot="label" class="fff">我的</span>
       </tabbar-item>
     </tabbar>
@@ -45,25 +45,23 @@ export default {
   },
   created(){
 
+  },
+  computed:{
+
   }
 }
 </script>
 
 <style lang="less">
 @import '~vux/src/styles/reset.less';
-
-@c1:#E6EFF0;
-@c2:#C2DDEA;
-@c3:#91C2CD;
-@c4:#618CA0;
-@c5:#547583;
-@c6:#509983;
+@import './style/card.less';
 
 body {
   max-width: 600px;
   margin:0 auto;
   font-size:12px;
   background:@c1;
+  overflow-x: hidden;
 }
 #inview{
   margin-top:3.8em;
@@ -88,6 +86,9 @@ li{
   padding:0;
   margin:0;
 }
+a{
+  color:inherit;
+}
 
 .slide-fade-enter-active {
   transition: all .3s ease;
@@ -95,5 +96,22 @@ li{
 .slide-fade-enter {
   transform: translateX(100vw);
   opacity: 0;
+}
+
+@font-face {
+  font-family: 'iconfont';  /* project id 291668 */
+  src: url('//at.alicdn.com/t/font_tmsva20orum1jor.eot');
+  src: url('//at.alicdn.com/t/font_tmsva20orum1jor.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_tmsva20orum1jor.woff') format('woff'),
+  url('//at.alicdn.com/t/font_tmsva20orum1jor.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_tmsva20orum1jor.svg#iconfont') format('svg');
+}
+.iconfont{
+  font-family:"iconfont" !important;
+  // font-size:16px;
+  font-style:normal;
+  // -webkit-font-smoothing: antialiased;
+  // -webkit-text-stroke-width: 0.2px;
+  // -moz-osx-font-smoothing: grayscale;
 }
 </style>

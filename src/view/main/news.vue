@@ -123,13 +123,13 @@ export default {
     }
     span:nth-child(3){
       position:absolute;
-      top:3.5em;
+      top:3em;
       color:@c4;
     }
   }
   .content{
-    padding-left:2em;
-    padding-right:2em;
+    padding-left:1em;
+    padding-right:1em;
     line-height:2em;
     margin-bottom:1em;
     font-size:1.2em;
@@ -144,18 +144,18 @@ export default {
     padding:1em;
     font-size:1.2em;
     img{
-      width:4em;
+      width:3em;
       margin-right:1em;
       border-radius: 50%;
     }
     span:nth-child(2){ 
       position:absolute;
       color:@c5;
-      top:1.5em;
+      top:1em;
     }
     span:nth-child(3){
       position:absolute;
-      top:3.5em;
+      top:2.5em;
       color:@c4;
     }
     span:nth-child(4){

@@ -81,8 +81,7 @@ export default {
   text-align:center;
   .time{
     margin:0 auto;
-    background:@c3;
-    color:#fff;
+    background:#e3e3e3;
     padding:0.5em;
     display:inline;
     border-radius:20px;

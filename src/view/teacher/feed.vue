@@ -20,7 +20,7 @@
             <span @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.name }}：</span>
             <span>{{ comment.content }}</span>
           </li>
-          <div @click="$router.push('/classmsg')">
+          <div @click="$router.push('/class/msg')">
             查看更多
           </div>
         </div>
@@ -99,88 +99,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.weui-panel{
-  position:relative;
-  margin-top:0;
-  margin-bottom:1em;
-  .header{
-    width:100%;
-    padding:1em;
-    font-size:1.2em;
-    img{
-      width:4em;
-      margin-right:1em;
-    }
-    span:nth-child(2){ 
-      position:absolute;
-      top:1.5em;
-    }
-    span:nth-child(3){
-      position:absolute;
-      top:3.5em;
-      color:@c4;
-    }
-    span:nth-child(4){
-      position:absolute;
-      top:2rem;
-      right:1.5rem;
-      border:1px solid @c5;
-      padding:0 1em;
-    }
-  }
-  .content{
-    padding-left:2em;
-    padding-right:2em;
-    line-height:2em;
-    margin-bottom:1em;
-    font-size:1.2em;
-  }
-  .footer{
-    padding-left:2em;
-    padding-right:2em;
-    .footer-btn{
-      color:@c5;
-      i:nth-child(1){
-        float:left;
-        padding-left:1em;
-      }
-      i:nth-child(2){
-        float:right;
-        padding-right:2em;
-      }
-    }
-    .footer-btn:after{
-      content:"";
-      display:block;
-      width:100%;
-      height:1px;
-      background-color:transition;
-      position:relative;
-      bottom:-1.3em;
-    }
-    .comment{
-      margin-top:2em;
-      margin-bottom:1em;
-      padding:1em .5em .5em .5em;
-      background: @c1;
-      border-radius:10px;
-      li{
-        width:100%;
-        span:nth-child(1){
-          color: @c5;
-        }
-        span:nth-child(2){
-          width:100%;
-        }
-      }
-      div{
-        text-align:center;
-        border-top:1px solid @c5;
-        margin-top:0.5em;
-        padding-top:0.5em;
-      }
-    }
-  }
 
-}
 </style>

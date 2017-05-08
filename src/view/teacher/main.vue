@@ -57,7 +57,7 @@ export default {
 .teacher-header{
   height:13em;
   width:100%;
-  background:#fff url('https://modao.cc/uploads3/images/900/9006918/raw_1493015913.png');
+  background:linear-gradient(right top,#00c0a1, #00c06f);
   background-size:100% 100%;
   color:#fff;
   text-align: center;
