@@ -12,19 +12,19 @@
 
     <tabbar id="nav-bottom" v-show="$store.state.isNav">
       <tabbar-item selected link="/main">
-        <i slot="icon" class="iconfont">&#xe666;</i>
+        <i slot="icon" class="iconfont nav_icon">&#xe666;</i>
         <span slot="label">主页</span>
       </tabbar-item>
       <tabbar-item show-dot link="/class">
-        <i slot="icon" class="iconfont">&#xe672;</i>
+        <i slot="icon" class="iconfont nav_icon">&#xe672;</i>
         <span slot="label">班级</span>
       </tabbar-item>
       <tabbar-item badge="2" link="/msg">
-        <i slot="icon" class="iconfont">&#xe629;</i>
+        <i slot="icon" class="iconfont nav_icon">&#xe629;</i>
         <span slot="label" class="fff">沟通</span>
       </tabbar-item>
       <tabbar-item link="/user">
-        <i slot="icon" class="iconfont">&#xe719;</i>
+        <i slot="icon" class="iconfont nav_icon">&#xe719;</i>
         <span slot="label" class="fff">我的</span>
       </tabbar-item>
     </tabbar>
@@ -56,8 +56,10 @@ export default {
 @import '~vux/src/styles/reset.less';
 @import './style/card.less';
 
+@appwidth:475px;
+
 body {
-  max-width: 600px;
+  max-width: @appwidth;
   margin:0 auto;
   font-size:12px;
   background:@c1;
@@ -71,13 +73,13 @@ body {
 }
 #nav-top{
   width:100%;
-  max-width: 600px;
+  max-width: @appwidth;
   position:fixed;
   top:0;
   z-index:10000;
 }
 #nav-bottom{
-  max-width: 600px;
+  max-width: @appwidth;
   position:fixed;
   bottom:0;
 }
@@ -113,5 +115,8 @@ a{
   // -webkit-font-smoothing: antialiased;
   // -webkit-text-stroke-width: 0.2px;
   // -moz-osx-font-smoothing: grayscale;
+}
+.nav_icon{
+  line-height: 27px;
 }
 </style>
