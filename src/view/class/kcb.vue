@@ -1,35 +1,12 @@
 <template>
   <div>
 
-    <div>
-       <tab :line-width=2 active-color='#fc378c' v-model="index">
-        <tab-item v-for="(item, index) in date" :key="index">{{item}}</tab-item>
-      </tab>
-      <swiper v-model="index" :show-dots="false" height="350px">
-        <swiper-item v-for="(item, index) in date" :key="index">
-            <timeline class="line">
-              <timeline-item>
-                <h4>{{item}}</h4>
-              </timeline-item>
-              <timeline-item>
-                <p>8:00 - 9:00 语文</p>
-              </timeline-item>
-              <timeline-item>
-                <p>9:00 - 10:00 数学</p>
-              </timeline-item>
-              <timeline-item>
-                <p>11:00 - 12:00 英语</p>
-              </timeline-item>
-              <timeline-item>
-                <p>14:00 - 15:00 体育</p>
-              </timeline-item>
-              <timeline-item>
-                <p>15:00 - 16:00 科学</p>
-              </timeline-item>
-            </timeline>
-        </swiper-item>
-      </swiper>
-    </div>
+    <td>
+      <tr v-for="i in list">
+        <th :class="(index == n-1)?'active':null" @click="index = n-1" v-for="n in 6">{{i[n-1]}}</th>
+      </tr>
+    </td>
+    
     
     
 
@@ -37,17 +14,25 @@
 </template>
 
 <script>
-import { Timeline, TimelineItem,Tab, TabItem,Swiper, SwiperItem } from 'vux'
-
 export default {
   components: {
-    Timeline, TimelineItem,Tab, TabItem,Swiper, SwiperItem
   },
   data () {
     return {
       index: 0,
-      date: ['周一', '周二', '周三', '周四', '周五'],
-      msg: 'Welcome to Your Vue.js App'
+      currentItem:'',
+      date: ['周一', '周二', '周三', '周四', '周五','周六','周日'],
+      list: [
+        ['456','周一', '周二', '周三', '周四', '周五'],
+        ['8点','语文', '数学', '英语', '语文', '体育'],
+        ['9点','语文', '体育', '英语', '历史', '语文'],
+        ['10点','历史', '数学', '英语', '语文', '数学'],
+        ['11点','语文', '体育', '数学', '历史', '体育'],
+        ['2点','英语', '语文', '英语', '语文', '体育'],
+        ['3点','语文', '数学', '英语', '语文', '体育'],
+        ['4点','英语', '语文', '英语', '语文', '数学'],
+        ['5点','历史', '数学', '英语', '历史', '数学']
+      ]
     }
   },
   methods:{
@@ -56,7 +41,11 @@ export default {
     }
   },
   created(){
-
+    let today = new Date()
+    let a = this.date[today.getDay()-1]
+    this.index = today.getDay()
+    this.currentItem = this.date[today.getDay()-1]
+    console.log(a)
   },
   mounted(){
 
@@ -65,26 +54,42 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.line{
-  width:60%;
-  margin:0 auto;
-  p{
-    background:#3498db;
-    color:#fff;
-    padding:0.5em;
-    margin-left:1em;
-  }
-  p:before{
-  content:'';
-  display:block;
-  position:absolute;
-  left:1.5em;
-  top:0px;
-  width:0;
-  // transform: rotate(45deg);
-  border-top: .8em solid transparent;
-  border-bottom: 1.8em solid transparent;
-  border-right: 1.2em solid #3498db;
+@bordercolor:#ccc;
+@activecolor:lightsalmon;
+
+td{
+  border-bottom:1px solid @bordercolor;
+  background:#fff;
+  tr{
+    width:100%;
+    th{
+      border-top:1px solid @bordercolor;
+      border-left:1px solid @bordercolor;
+      width:16vw;
+      height:3rem;
+      line-height: 3rem;
     }
+    th:after{
+      content:'';
+      display:block;
+      height:1px;
+      position: relative;
+      bottom:.3rem;
+      background:transparent;
+    }
+    th:last-child{
+      border-right:1px solid @bordercolor;
+    }
+  }
+  tr:hover th:after{
+    background:@activecolor;
+  }
 }
+
+.active{
+  background:@activecolor;
+  color:#fff;
+}
+
+
 </style>
