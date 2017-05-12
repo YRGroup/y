@@ -16,7 +16,7 @@ npm run dev
 # 使用forever的开发模式
 npm run start
 
-# 打包项目dsad
+# 打包项目
 npm run build
 ```
 
