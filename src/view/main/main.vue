@@ -33,7 +33,7 @@
     </br>
       <tab>
         <tab-item selected @on-item-click="fun('显示集团动态')">集团动态</tab-item>
-        <tab-item @on-item-click="fun('显示学校动态')">校园动态</tab-item>
+        <tab-item @on-item-click="getnews">校园动态</tab-item>
       </tab>
 
     <card v-for="item in list" :key="item.date">
@@ -41,7 +41,7 @@
         <img :src="item.img" @click="fun('打开 '+item.name+' 的个人页面')">
         <span>{{ item.name }}</span>
         <span>{{ item.date }}</span>
-        <span>{{ item.class }}</span>
+        <span>{{ item.category }}</span>
       </div> 
       <div slot="content" class="content">
         <p @click="$router.push('/news')">{{ item.content }}</p>
@@ -96,7 +96,7 @@ export default {
           'img':require('@/assets/logo/nz.jpg'),
           'name':'外国语女子中学',
           'date':'2017-4-25',
-          'class':'新闻动态',
+          'category':'新闻动态',
           'content':'郑州外国语女子中学2017届毕业生在中招理化生实验考试中表现优异，再创新高，满分率达到75%，优秀率达到95%，平均分29.4分。一份付出就有一份收获，郑外女中九年级全体理化生老师做到：静心训练，精心操作，耐心指导，从严从实，培优补差，实现了“实验满分，志在必得”的目标。',
           'read':'40',
           'liked':'3',
@@ -115,7 +115,7 @@ export default {
           'img':require('@/assets/logo/gz.jpg'),
           'name':'育人高级中学',
           'date':'2017-5-4',
-          'class':'校园活动',
+          'category':'校园活动',
           'content':'2017年4月23日是第12个“世界读书日”，这是书的节日，也是读书人的节日。人类的阅读史几乎就是人类文明的发展史，书是人类精神财富的载体，人类的点滴进步和成果都在书籍里记录、传承并发扬光大。',
           'read':'40',
           'liked':'3',
@@ -134,7 +134,7 @@ export default {
           'img':require('@/assets/logo/gj.png'),
           'name':'育人国际学校',
           'date':'2016-11-23',
-          'class':'校园活动',
+          'category':'校园活动',
           'content':'2016年11月23日，在教务处的精心安排和数学组老师们的积极配合下，郑州航空港育人国际学校成功地举办了第一届口算比赛。为培养学生娴熟的口算技巧，本次比赛以年级为单位，五百多学生参加了这次活动。比赛试题形式灵活多样，题量适中，难易程度层次分明，让参与的学生在轻松的氛围中完成了比赛项目。',
           'read':'400',
           'liked':'30',
@@ -154,6 +154,12 @@ export default {
         type:"text",
         width:"20em",
         text: msg
+      })
+    },
+    getnews(){
+      this.$http.get('http://192.168.3.195:3000/school/post').then((res)=>{
+        this.list = res.data
+        console.log(this.list)
       })
     }
   },

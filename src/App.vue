@@ -56,7 +56,8 @@ export default {
 @import '~vux/src/styles/reset.less';
 @import './style/card.less';
 
-@appwidth:475px;
+// @appwidth:475px;
+@appwidth:100%;
 
 body {
   max-width: @appwidth;

@@ -1,55 +1,98 @@
 <template>
-  <div>
-    <p style="color:red">tttt</p>
-    <div class="newless"></div>
+  <div class="art" :style="{'height':this.height}">
+    <ul class="artnav">
+      <li>navigation</li>
+      <li>navigation</li>
+      <li>navigation</li>
+      <li>navigation</li>
+      <li>navigation</li>
+      <li>navigation</li>
+      <li>navigation</li>
+      <li>navigation</li>
+    </ul>
+    <p class="title">Art Design</p>
+
   </div>
 </template>
 
 <script>
 export default {
-  name: 'less',
+  name: 'art',
   data () {
     return {
-      msg:'00'
+      height:'',
+      msg: 'Welcome to Your Vue.js App'
     }
+  },
+  created(){
+    let a = $(window).height()
+    this.height= a+'px'
   }
 }
 </script>
 
-<style lang="less" scoped >
-@hong:#e74c3c;//红
-@hong2:#c0392b;//深红
-
-@cheng:#e67e22;//橙
-@cheng2:#d35400;//红橙
-
-@huang:#f1c40f;//黄
-@huang2:#f39c12;//橘黄
-
-@lv:#2ecc71;//绿
-@lv2:#27ae60;//深绿
-
-@qing:#1abc9c;//靛
-@qing2:#16a085;//深靛
-
-@lan:#3498db;//蓝
-@lan2:#2980b9;//深蓝
-
-@zi:#9b59b6;//紫
-@zi2:#8e44ad;//深紫
-
-@mo:#34495e;//墨
-@mo2:#2c3e50;//重墨
-
-@hui:#95a5a6;//灰
-@hui2:#7f8c8d;//深灰
-
-@bai:#ecf0f1;//浅灰白
-@bai2:#bdc3c7;//灰白
-
-.newless{
-  width:10em;
-  height:10em;
-  background-color: @bai2;
+<style scoped>
+html,body,#app,.art{
+  width:100%;
 }
+.art{
+  width:100%;
+  background-image: url('http://img2.artron.net/artist/A0000083/2016032911011693304.jpg');
+  background-size:100% 100%;
+}
+.artnav{
+  height:100%;
+}
+.artnav li:before{
+  content: '';
+  display:block;
+  width:100%;
+  height:90%;
+}
+.artnav li{
+  float:left;
+  height:100%;
+  padding:2em;
+  cursor: pointer;
+}
+.artnav li:nth-child(1){
+  background-color: rgba(0, 0, 0,0.9);
+}
+.artnav li:nth-child(2){
+  background-color: rgba(0, 0, 0,0.85);
+}
+.artnav li:nth-child(3){
+  background-color: rgba(0, 0, 0,0.8);
+}
+.artnav li:nth-child(4){
+  background-color: rgba(0, 0, 0,0.75);
+}
+.artnav li:nth-child(5){
+  background-color: rgba(0, 0, 0,0.7);
+}
+.artnav li:nth-child(6){
+  background-color: rgba(0, 0, 0,0.65);
+}
+.artnav li:nth-child(7){
+  background-color: rgba(0, 0, 0,0.6);
+}
+.artnav li:nth-child(8){
+  background-color: rgba(0, 0, 0,0.55);
+}
+.artnav li:hover{
+  background-color:rgba(0, 0, 0,0.5);
+}
+.title{
+  position: absolute;
+  top:50%;
+  left:10%;
+  font-size: 5em;
+  opacity: 0.7;
+  cursor: pointer;
+}
+.title:hover{
+  opacity:1;
+  text-shadow: -1px 0 5px red;
+}
+
 </style>

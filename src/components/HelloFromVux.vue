@@ -34,6 +34,8 @@
         +btn2('班级课程表')
       router-link(to="/teacher/张老师")
         +btn3('教师主页')
+      router-link(to="/reader")
+        +btn4('添加校园动态')
   
 </template>
 
