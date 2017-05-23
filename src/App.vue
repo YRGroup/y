@@ -2,7 +2,7 @@
   <div id="app">
 
     <x-header id="nav-top" :left-options="{backText: ''}">
-      {{$store.state.title}}
+      {{web_title}}
       <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
     </x-header>
 
@@ -21,7 +21,7 @@
       </tabbar-item>
       <tabbar-item badge="2" link="/msg">
         <i slot="icon" class="iconfont nav_icon">&#xe629;</i>
-        <span slot="label" class="fff">沟通</span>
+        <span slot="label" class="fff">通讯录</span>
       </tabbar-item>
       <tabbar-item link="/user">
         <i slot="icon" class="iconfont nav_icon">&#xe719;</i>
@@ -40,14 +40,26 @@ export default {
   components: {
     Tabbar, TabbarItem, XHeader 
   },
+  data(){
+    return{
+
+    }
+  },
   methods:{
 
   },
   created(){
 
   },
+  watch:{
+    web_title:(val)=>{
+      document.title = val+' - 育人教育'
+    }
+  },
   computed:{
-
+    web_title () {
+      return this.$store.state.title
+    }
   }
 }
 </script>
@@ -56,8 +68,7 @@ export default {
 @import '~vux/src/styles/reset.less';
 @import './style/card.less';
 
-// @appwidth:475px;
-@appwidth:100%;
+@appwidth:475px;
 
 body {
   max-width: @appwidth;
@@ -110,7 +121,7 @@ a{
   url('//at.alicdn.com/t/font_tmsva20orum1jor.svg#iconfont') format('svg');
 }
 .iconfont{
-  font-family:"iconfont" !important;
+  font-family:"iconfont";
   // font-size:16px;
   font-style:normal;
   // -webkit-font-smoothing: antialiased;

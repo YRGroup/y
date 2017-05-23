@@ -1,36 +1,21 @@
 <template>
   <div class="hello">
     
+    <!--轮播图-->
     <swiper loop auto :list="swiperdate"></swiper>
 
-    <flexbox>
-      <flexbox-item>
-        <router-link to="/main">
-          <div><i class="fa fa-home" style="background:#ff8aad"></i></div>
-          <span>校园新闻</span>
+    <!--功能导航-->
+    <flexbox wrap="wrap" :gutter="0">
+      <flexbox-item :span="4" v-for="i in icon_nav">
+        <router-link :to="i.link">
+          <div :style="{background:i.color}"><icon :name="i.icon" scale="4"></icon></div>
+          <span>{{i.title}}</span>
         </router-link>
-      </flexbox-item>
-      <flexbox-item>
-        <router-link to="/class">
-          <div><i class="fa fa-users" style="background:#52cfad"></i></div>
-          <span>班级动态</span>
-        </router-link>
-      </flexbox-item>
-      <flexbox-item>
-        <router-link to="/user">
-          <div><i class="fa fa-user-circle" style="background:#f6b63b"></i></div>
-          <span>我的孩子</span>
-        </router-link>
-      </flexbox-item>
-      <flexbox-item>
-        <div @click="fun('建设中...')">
-          <div><i class="fa fa-credit-card" style="background:#6ecefa"></i></div>
-          <span>一卡通</span>
-        </div>
       </flexbox-item>
     </flexbox>
 
-    </br>
+    <!--集团动态-->
+    <!--</br>
       <tab>
         <tab-item selected @on-item-click="fun('显示集团动态')">集团动态</tab-item>
         <tab-item @on-item-click="getnews">校园动态</tab-item>
@@ -62,7 +47,7 @@
           </div>
         </div>
       </div> 
-    </card>
+    </card>-->
 
   </div>
 </template>
@@ -73,7 +58,7 @@ import { Swiper,Flexbox,FlexboxItem,Card,Tab, TabItem  } from 'vux'
 export default {
   name: 'hello',
   components: {
-    Swiper,Flexbox,FlexboxItem,Card,Tab, TabItem 
+    Swiper,Flexbox,FlexboxItem,Card,Tab, TabItem
   },
   data () {
     return {
@@ -89,6 +74,56 @@ export default {
         { url: 'http://www.gy720.com/pano/view/6614',
           img: require('@/assets/img/s3.jpg'),
           title: '郑州外国语女子中学'
+        }
+      ],
+      icon_nav:[
+        {
+          link:'/main',
+          title:'通知',
+          icon:'聊天',
+          color:'#34495e'
+        },
+        {
+          link:'/class',
+          title:'班级',
+          icon:'班级',
+          color:'#1abc9c'
+        },
+        {
+          link:'/main',
+          title:'作业',
+          icon:'笔记',
+          color:'#2ecc71'
+        },
+        {
+          link:'/user',
+          title:'成绩报告',
+          icon:'资料',
+          color:'#3498db'
+        },
+        {
+          link:'/main',
+          title:'消息',
+          icon:'评论',
+          color:'#9b59b6'
+        },
+        {
+          link:'/main',
+          title:'一卡通',
+          icon:'student',
+          color:'#e74c3c'
+        },
+        {
+          link:'/main',
+          title:'校园新闻',
+          icon:'浏览',
+          color:'#f1c40f'
+        },
+        {
+          link:'/main',
+          title:'校园新闻',
+          icon:'student',
+          color:'#e67e22'
         }
       ],
       list:[
@@ -166,36 +201,34 @@ export default {
   created(){
     this.$store.state.isNav = true
     this.$store.state.title = '校园动态'
-  },
-  mounted(){
-
   }
 }
 </script>
 
 <style lang="less" scoped>
 
-
 .vux-flexbox{
   text-align: center;
-  padding-top:1em;
-  padding-bottom:1em;
+  padding:1em 0;
   background-color: white;
   .vux-flexbox-item{
-    cursor:pointer;
-    div{
-      width:100%;
-      i{
-        width:2em;
-        height:2em;
-        line-height:2em;
-        border-radius: 2em;
+    cursor:pointer; 
+      div{
+        border-radius: 50%;
+        margin: .5em auto 0 auto;
+        width:5em;
+        height:5em;
+        line-height:5em;
         color:white;
-        font-size: 2.3em;
+        svg{
+          margin-top:.2em;
+        }
+        i{
+          font-size: 2.5em;
+        }
       }
-    }
     span{
-      width:100%;
+      line-height:2em;
     }
   }
 }
