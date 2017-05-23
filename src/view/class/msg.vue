@@ -101,7 +101,6 @@ export default {
   },
   created(){
     this.$store.state.isNav = false
-    this.$store.state.isHeader = false
     this.$store.state.title = '动态详情'
   },
   mounted(){

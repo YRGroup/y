@@ -1,6 +1,15 @@
 <template>
   <div>
 
+<!--班级通知
+教师端显示
+-->
+
+
+<!--教师列表
+教师端不显示
+家长端显示
+-->
     <scroller lock-y scrollbar-x>
       <div class="box" :style="{ width: boxwid}">
         <div class="box-item" v-for="item in teachers" @click="$router.push('/teacher/'+item.name)">
@@ -11,8 +20,10 @@
       </div>
     </scroller>
 
-    
-
+<!--班级作业
+教师端不显示
+家长端显示
+-->
     <div class="notice"  @click="$router.push('/class/work')">
       <div>
         <span>班级作业</span>
@@ -28,6 +39,10 @@
       </div>
     </div>
 
+<!--动态卡片
+教师端显示
+家长端显示
+-->
     <card v-for="item in list" :key="item.date">
       <div slot="header" class="header">
         <img :src="item.img" @click="fun('打开 '+item.name+' 的个人页面')">
@@ -60,7 +75,7 @@
 </template>
 
 <script>
-import { Scroller,Flexbox,FlexboxItem,Card,Tab,TabItem   } from 'vux'
+import { Scroller,Flexbox,FlexboxItem,Card,Tab,TabItem } from 'vux'
 
 export default {
   components: {
@@ -109,65 +124,12 @@ export default {
           'date':'4.25'
         }
       ],
-      list:[
-        {
-          'img':require('@/assets/face/dk.png'),
-          'name':'李老师',
-          'date':'2017-4-25',
-          'class':'班级公告',
-          'content':'第一期不上进学生回炉再教育培训班已经开课，请各位名单上的同学准时到场参加培训。',
-          'read':'40',
-          'liked':'3',
-          'comment':[
-            {
-              'name':'孙连城的家长',
-              'content':'还望李老师能尽心，把我们家孩子教育好。'
-            },
-            {
-              'name':'李小明',
-              'content':'大家不要气馁，加油学习，你也能逆袭。'
-            }
-          ]
-        },
-        {
-          'img':require('@/assets/face/dk.png'),
-          'name':'李老师',
-          'date':'2017-4-25',
-          'class':'班级公告',
-          'content':'第一期不上进学生回炉再教育培训班已经开课，请各位名单上的同学准时到场参加培训。',
-          'read':'40',
-          'liked':'3',
-          'comment':[
-            {
-              'name':'孙连城的家长',
-              'content':'还望李老师能尽心，把我们家孩子教育好。'
-            },
-            {
-              'name':'李小明',
-              'content':'大家不要气馁，加油学习，你也能逆袭。'
-            }
-          ]
-        },
-        {
-          'img':require('@/assets/face/dk.png'),
-          'name':'李老师',
-          'date':'2017-4-25',
-          'class':'班级公告',
-          'content':'第一期不上进学生回炉再教育培训班已经开课，请各位名单上的同学准时到场参加培训。',
-          'read':'40',
-          'liked':'3',
-          'comment':[
-            {
-              'name':'孙连城的家长',
-              'content':'还望李老师能尽心，把我们家孩子教育好。'
-            },
-            {
-              'name':'李小明',
-              'content':'大家不要气馁，加油学习，你也能逆袭。'
-            }
-          ]
-        }
-      ]
+      list:[]
+    }
+  },
+  computed:{
+    box_width:()=>{
+      this.teachers.length * 100 +'px'
     }
   },
   methods:{
@@ -182,8 +144,10 @@ export default {
   created(){
     this.boxwid = this.teachers.length * 100 +'px'
     this.$store.state.isNav = true
-    this.$store.state.isHeader = true
     this.$store.state.title = '班级动态'
+    this.$API.getClassNews('班级ID').then(res=>{
+      this.list = res
+    })
   },
   mounted(){
 

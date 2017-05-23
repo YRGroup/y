@@ -6,7 +6,7 @@
 
     <!--功能导航-->
     <flexbox wrap="wrap" :gutter="0">
-      <flexbox-item :span="4" v-for="i in icon_nav">
+      <flexbox-item :span="4" v-for="i in icon_nav" :key="i">
         <router-link :to="i.link">
           <div :style="{background:i.color}"><icon :name="i.icon" scale="4"></icon></div>
           <span>{{i.title}}</span>

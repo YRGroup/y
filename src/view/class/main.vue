@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
 
-    <div class="class-header" v-show="this.$store.state.isHeader">
+    <div class="class-header">
       <img :src="classlogo" @click="$router.push('/class')">
       <span>三年级二班</span>
       <span>班主任：李老师</span>

@@ -7,8 +7,8 @@ const store = new Vuex.Store({
         islogin: false,
         isNav:true,
         title:'育人教育',
-        isHeader:true,
         direction: 'forward',
+        role:'guest',
         reginfo:{}
     },
     mutations: {
