@@ -55,9 +55,9 @@
     <card v-for="item in list" :key="item.date">
       <div slot="header" class="header">
         <img :src="item.userImg" @click="fun('打开 '+item.name+' 的个人页面')">
-        <span>{{ item.name }}</span>
+        <span>{{ item.auther }}</span>
         <span>{{ item.date }}</span>
-        <span>{{ item.class }}</span>
+        <span>{{ item.category }}</span>
       </div> 
       <div slot="content" class="content">
         <p @click="$router.push('/class/msg')">{{ item.content }}</p>
