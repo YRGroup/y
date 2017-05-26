@@ -53,10 +53,6 @@ export default {
     change(val) {
       this.$store.state.role = val
       this.$vux.toast.show('切换到' + val)
-    },
-    test() {
-      this.$API.signup('0123')
-      // this.$store.commit("logout")
     }
   },
   created() {

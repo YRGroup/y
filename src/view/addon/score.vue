@@ -123,7 +123,4 @@ export default {
     }
   }
 }
-.record{
-
-}
 </style>

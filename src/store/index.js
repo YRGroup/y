@@ -9,8 +9,10 @@ const store = new Vuex.Store({
         title:'育人教育',
         direction: 'forward',
         role:'guest',
+        APItype:'server',
         reginfo:{},
-        classInfo:{}
+        classId:'19',
+        classInfo:{null:true}
     },
     mutations: {
         login(state,name) {

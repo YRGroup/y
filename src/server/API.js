@@ -1,15 +1,14 @@
-const API = {}
+var API = {}
 
 import axios from 'axios'
 
+// Bmob设置
 API.config = function () {
   Bmob.initialize("38b5c33b1c0fdd6d39ea302d0a5071a0", "d870024b3314b4d1b680634105c8c600")
 }
-
 API.config()
 
-import Mock from 'mockjs'
-
+// 使用bmob的API
 API.signup = (info) => {
   return new Promise((resolve, reject) => {
     console.log(info)
@@ -70,6 +69,7 @@ API.logout = () => {
   })
 }
 
+// 自定义API
 API.sms = (tel) => {
   return new Promise((resolve, reject) => {
     var config = {
@@ -155,6 +155,7 @@ API.getClassNews = (class_id) => {
   })
 }
 
+//  192.168.3.195的API
 API.newClassPost = (data) => {
   return new Promise((resolve, reject) => {
     axios.post('http://192.168.3.195:3000/class/new',data).then((res)=>{
@@ -175,16 +176,6 @@ API.getAllClassPost = () => {
   })
 }
 
-API.getAllClassinfo = (id) => {
-  return new Promise((resolve, reject) => {
-    axios.get('http://192.168.3.188/api/Class?cid='+id).then((res)=>{
-      resolve(res)
-    }).catch((err)=>{
-      reject(err)
-    })
-  })
-}
-
 API.newSchoolPost = (data) => {
   return new Promise((resolve, reject) => {  
     axios.post('http://192.168.3.195:3000/school/new',data).then((res)=>{
@@ -195,6 +186,25 @@ API.newSchoolPost = (data) => {
   })
 }
 
+API.newComment = (data) => {
+  return new Promise((resolve, reject) => {
+    resolve(results)
+    reject(error)
+  })
+}
+
+//  192.168.3.188的API
+API.getAllClassinfo = (id) => {
+  return new Promise((resolve, reject) => {
+    axios.get('http://192.168.3.188/api/Class?cid='+id).then((res)=>{
+      resolve(res)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+
+// API默认格式
 API.default = () => {
   return new Promise((resolve, reject) => {
     resolve(results)
