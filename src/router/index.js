@@ -111,7 +111,7 @@ export default new Router({
             component: timeline
         },
         {
-            path: '/class',
+            path: '/class/:id',
             component: classmain,
             children: [
                 {

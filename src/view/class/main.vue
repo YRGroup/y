@@ -3,9 +3,9 @@
 
     <div class="class-header">
       <img :src="classlogo" @click="$router.push('/class')">
-      <span>三年级二班</span>
-      <span>班主任：李老师</span>
-      <span>班级人数：40人</span>
+      <span>{{$store.state.classInfo.name}}</span>
+      <span>班主任：{{ $store.state.classInfo.teacher.TrueName }}</span>
+      <span>班级人数：{{ $store.state.classInfo.student_count }}人</span>
     </div>
 
     <transition name="slide-fade">
@@ -26,7 +26,13 @@ export default {
     
   },
   created(){
-
+    this.$store.state.isNav = true
+    this.$store.state.title = '我的班级'
+    console.log(this.$route.params.id)
+    this.$API.getAllClassinfo(this.$route.params.id).then(res=>{
+      this.$store.state.classInfo = res.data.ClassInfo
+      // console.log(res.data.ClassInfo)
+    })
   },
   mounted(){
 

@@ -52,7 +52,7 @@
 教师端显示
 家长端显示
 -->
-    <card v-for="item in list" :key="item.date">
+    <card v-for="item in this.$store.state.classInfo.dynamic" :key="item.date">
       <div slot="header" class="header">
         <img :src="item.userImg" @click="fun('打开 '+item.name+' 的个人页面')">
         <span>{{ item.auther }}</span>
@@ -154,13 +154,12 @@ export default {
     this.boxwid = this.teachers.length * 100 +'px'
     this.$store.state.isNav = true
     this.$store.state.title = '班级动态'
-    // this.$API.getClassNews('班级ID').then(res=>{
-    //   this.list = res
-    // })
-    this.$API.getAllClassPost().then(res=>{
-      console.log(res)
-      this.list = res.data
-    })
+    // if(this.$store.state.classInfo.dynamic.length===0){
+    //   this.$API.getAllClassPost().then(res=>{
+    //     console.log(res)
+    //     this.list = res.data
+    //   })
+    // }
   },
   mounted(){
 
