@@ -20,7 +20,7 @@ export default {
   data () {
     return {
       data:{},
-      categoryList: [{key: 'activity', value: '校园活动'}, {key: 'news', value: '校园新闻'},{key: 'message', value: '校长寄语'}]
+      categoryList: [{key: '校园活动', value: '校园活动'}, {key: '校园新闻', value: '校园新闻'},{key: '校长寄语', value: '校长寄语'}]
     }
   },
   methods:{

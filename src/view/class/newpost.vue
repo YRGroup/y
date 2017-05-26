@@ -20,13 +20,14 @@ export default {
   data () {
     return {
       data:{},
-      categoryList: [{key: 'activity', value: '班级活动'}, {key: 'news', value: '班级新闻'},{key: 'studywork', value: '班级作业'}]
+      categoryList: [{key: '班级活动', value: '班级活动'}, {key: '班级新闻', value: '班级新闻'},{key: '班级作业', value: '班级作业'}]
     }
   },
   methods:{
     newPost(){
       console.log('本地数据：')
       console.log(this.data)
+      this.data.userImg='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg'
       this.$API.newClassPost(this.data).then(res=>{
         console.log('返回的数据：')
         console.log(res)
