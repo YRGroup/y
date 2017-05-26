@@ -5,14 +5,68 @@
     <swiper loop auto :list="swiperdate"></swiper>
 
     <!--功能导航-->
-    <flexbox wrap="wrap" :gutter="0">
+    <!--<flexbox wrap="wrap" :gutter="0">
       <flexbox-item :span="4" v-for="i in icon_nav" :key="i">
         <router-link :to="i.link">
-          <div :style="{background:i.color}"><icon :name="i.icon" scale="4"></icon></div>
+          <div :style="{background:i.color}"><:name="i.icon" scale="4"></icon></div>
           <span>{{i.title}}</span>
         </router-link>
       </flexbox-item>
+    </flexbox>-->
+
+    <flexbox wrap="wrap" :gutter="0">
+      <flexbox-item :span="4">
+        <router-link to="/main">
+          <div style="background:#fe970f"><i class="iconfont">&#xe649;</i></div>
+          <span>通知</span>
+        </router-link>
+      </flexbox-item>
+      <flexbox-item :span="4">
+        <router-link to="/class">
+          <div style="background:#8f59ff"><i class="iconfont">&#xe672;</i></div>
+          <span>班级</span>
+        </router-link>
+      </flexbox-item>
+      <flexbox-item :span="4">
+        <router-link to="/main">
+          <div style="background:#28cb60"><i class="iconfont">&#xe668;</i></div>
+          <span>作业</span>
+        </router-link>
+      </flexbox-item>
+      <flexbox-item :span="4">
+        <router-link to="/user">
+          <div style="background:#0ab9f7"><i class="iconfont">&#xe601;</i></div>
+          <span>成绩报告</span>
+        </router-link>
+      </flexbox-item>
+      <flexbox-item :span="4">
+        <router-link to="/main">
+          <div style="background:#ff5251"><i class="iconfont">&#xe629;</i></div>
+          <span>消息</span>
+        </router-link>
+      </flexbox-item>
+      <flexbox-item :span="4">
+        <router-link to="/main">
+          <div style="background:#fbc700"><i class="iconfont">&#xe602;</i></div>
+          <span>一卡通</span>
+        </router-link>
+      </flexbox-item>
+      <flexbox-item :span="4">
+        <router-link to="/main">
+          <div style="background:#ff5498"><i class="iconfont">&#xe604;</i></div>
+          <span>资料库</span>
+        </router-link>
+      </flexbox-item>
+
+      <flexbox-item :span="4">
+        <router-link to="/main">
+          <div style="background:#8dc62c"><i class="iconfont">&#xe737;</i></div>
+          <span>校园新闻</span>
+        </router-link>
+      </flexbox-item>
+      
     </flexbox>
+    <br />
 
     <!--集团动态-->
     <!--</br>
@@ -81,49 +135,49 @@ export default {
           link:'/main',
           title:'通知',
           icon:'聊天',
-          color:'#34495e'
+          color:'#fe970f'
         },
         {
           link:'/class',
           title:'班级',
           icon:'班级',
-          color:'#1abc9c'
+          color:'#8f59ff'
         },
         {
           link:'/main',
           title:'作业',
           icon:'笔记',
-          color:'#2ecc71'
+          color:'#28cb60'
         },
         {
           link:'/user',
           title:'成绩报告',
           icon:'资料',
-          color:'#3498db'
+          color:'#0ab9f7'
         },
         {
           link:'/main',
           title:'消息',
           icon:'评论',
-          color:'#9b59b6'
+          color:'#ff5251'
         },
         {
           link:'/main',
           title:'一卡通',
           icon:'student',
-          color:'#e74c3c'
+          color:'#fbc700'
         },
         {
           link:'/main',
           title:'校园新闻',
           icon:'浏览',
-          color:'#f1c40f'
+          color:'#ff5498'
         },
         {
           link:'/main',
           title:'校园新闻',
           icon:'student',
-          color:'#e67e22'
+          color:'#4ea7e4'
         }
       ],
       list:[
@@ -206,25 +260,31 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+.hello{
+  background: #fff;
+}
 .vux-flexbox{
   text-align: center;
   padding:1em 0;
   background-color: white;
+  height: 100%;
   .vux-flexbox-item{
     cursor:pointer; 
+    margin:0.5em 0;
+
       div{
         border-radius: 50%;
-        margin: .5em auto 0 auto;
-        width:5em;
-        height:5em;
-        line-height:5em;
+        margin: 1em auto 0 auto;
+        width:6em;
+        height:6em;
+        line-height:6em;
         color:white;
         svg{
           margin-top:.2em;
         }
         i{
-          font-size: 2.5em;
+          font-size: 3em;
+          text-shadow: 2px 2px 1px rgba(0,0,0,.1);
         }
       }
     span{
