@@ -7,7 +7,6 @@
       <span>班主任：李老师</span>
       <span>班级人数：40人</span>
     </div>
-    </br>
 
     <transition name="slide-fade">
       <router-view></router-view>
