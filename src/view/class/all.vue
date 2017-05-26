@@ -4,13 +4,22 @@
 <!--班级通知
 教师端显示
 -->
-
+    <div class="notice" v-show="this.$store.state.role == 'teacher'">
+      <div class="icon">
+        <span>通知</span>
+      </div>
+      <div class="title">周三开家长会，请全体家长按时参加</div>
+      <div class="info">
+        <span class="auther">班主任</span>
+        <span class="time">5-11 14:00</span>
+      </div>
+    </div>
 
 <!--教师列表
 教师端不显示
 家长端显示
 -->
-    <scroller lock-y scrollbar-x>
+    <scroller lock-y scrollbar-x v-show="this.$store.state.role == 'parent'">
       <div class="box" :style="{ width: boxwid}">
         <div class="box-item" v-for="item in teachers" @click="$router.push('/teacher/'+item.name)">
           <img :src="item.img">
@@ -24,7 +33,7 @@
 教师端不显示
 家长端显示
 -->
-    <div class="notice"  @click="$router.push('/class/work')">
+    <div class="classWork"  @click="$router.push('/class/work')" v-show="this.$store.state.role == 'parent'">
       <div>
         <span>班级作业</span>
       </div>
@@ -193,7 +202,7 @@ export default {
   margin-left: 1rem;
 }
 
-.notice{
+.classWork{
   margin-top:0.8rem;
   margin-bottom:0.8rem;
   background:#fff;
@@ -256,4 +265,31 @@ export default {
   }
 }
 
+.notice{
+  height:3rem;
+  background: #fff;
+  margin-bottom:1rem;
+  padding:.5rem;
+  width: 100%;
+  .icon{
+    width:3rem;
+    height: 3rem;
+    display: inline-block;
+    background: orangered;
+    color:#fff;
+    text-align: center;
+    border-radius: 5px;
+    span{
+      line-height:3rem;
+    }
+  }
+  .title{
+    margin-top:-2.7rem;
+    margin-left:4rem;
+  }
+  .info{
+    margin-left:4rem;
+    color:#ccc;
+  }
+}
 </style>

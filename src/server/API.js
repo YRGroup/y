@@ -28,6 +28,7 @@ API.signup = (info) => {
     })
   })
 }
+
 API.addstudent = (info) => {
   return new Promise((resolve, reject) => {
     let Student = Bmob.Object.extend("Student")

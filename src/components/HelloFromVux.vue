@@ -16,14 +16,6 @@
       q-btn.royal(rounded)= name
 
     .nav
-      router-link(to="/main")
-        +btn('学校主页')
-      router-link(to="/classmain")
-        +btn1('班级主页')
-      router-link(to="/msg")
-        +btn2('消息主页')
-      router-link(to="/user")
-        +btn3('我的主页')
       router-link(to="/login")
         +btn4('注册')
       router-link(to="/news")
@@ -36,6 +28,12 @@
         +btn3('教师主页')
       router-link(to="/reader")
         +btn4('添加校园动态')
+      router-link(to="/class/new")
+        +btn4('添加班级动态')
+      div(@click="change('teacher')")
+        +btn1('切换成教师端')
+      div(@click="change('parent')")
+        +btn2('切换成家长端')
   
 </template>
 
@@ -46,29 +44,32 @@ export default {
   components: {
     qBtn
   },
-  data () {
+  data() {
     return {
 
     }
   },
-  methods:{
-    test(){
+  methods: {
+    change(val) {
+      this.$store.state.role = val
+      this.$vux.toast.show('切换到' + val)
+    },
+    test() {
       this.$API.signup('0123')
       // this.$store.commit("logout")
     }
   },
-  created(){
+  created() {
     this.$store.state.isNav = true
   }
 }
 </script>
 
 <style lang="less" scoped>
-.home{
+.home {
   text-align: center;
-  button{
-    margin:1em;
+  button {
+    margin: 1em;
   }
 }
-
 </style>

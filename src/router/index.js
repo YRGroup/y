@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+// 临时页面
 import Hello from '@/components/HelloFromVux'
 import newless from '@/components/l'
 
-import addon from '@/view/addon/main'
+// 功能模块
+import addon from '@/view/addon/default'
 import kechengbiao from '@/view/addon/kechengbiao'
 import reader from '@/view/addon/reader'
 import remark from '@/view/addon/remark'
@@ -12,37 +14,45 @@ import schoolcard from '@/view/addon/schoolcard'
 import score from '@/view/addon/score'
 import timeline from '@/view/addon/timeline'
 
+// 班级
 import classmain from '@/view/class/main'
 import classall from '@/view/class/all'
 import classmsg from '@/view/class/msg'
 import homework from '@/view/class/homework'
 import student from '@/view/class/student'
 import kcb from '@/view/class/kcb'
+import newpost from '@/view/class/newpost'
 
+// 教师
 import teacher from '@/view/teacher/main'
 import teacherprofile from '@/view/teacher/profile'
 import teacherfeed from '@/view/teacher/feed'
 import teacherwork from '@/view/teacher/work'
 
+// 注册
 import reg from '@/view/login/reg'
 import step1 from '@/view/login/step1'
 import step2 from '@/view/login/step2'
 import step3 from '@/view/login/step3'
 
+// 登陆
 import login from '@/view/login/login'
 import teacherlogin from '@/view/login/teacher'
 import studentlogin from '@/view/login/student'
 import parentlogin from '@/view/login/parent'
 
+// 学校
 import main from '@/view/main/main'
 import banji from '@/view/main/class'
 import news from '@/view/main/news'
 import school from '@/view/main/school'
 
+// 消息
 import msg from '@/view/msg/main'
 import allmsg from '@/view/msg/allmsg'
 import mymsg from '@/view/msg/mymsg'
 
+// 个人
 import user from '@/view/user/main'
 import edit from '@/view/user/edit'
 import parentcenter from '@/view/user/parent'
@@ -52,6 +62,7 @@ import teachercenter from '@/view/user/teacher'
 Vue.use(Router)
 
 export default new Router({
+    // 历史记录模式，需服务器配置支持
     // mode: 'history',
     routes: [{
             path: '/',
@@ -125,6 +136,10 @@ export default new Router({
                 {
                     path: 'kcb',
                     component: kcb
+                },  
+                {
+                    path: 'new',
+                    component: newpost
                 },         
             ]
         },

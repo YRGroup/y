@@ -131,4 +131,10 @@ a{
 .nav_icon{
   line-height: 27px;
 }
+
+.card{
+  background: #fff;
+  margin-top:1rem;
+  width:100%;
+}
 </style>
