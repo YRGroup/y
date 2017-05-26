@@ -21,7 +21,7 @@ import classmsg from '@/view/class/msg'
 import homework from '@/view/class/homework'
 import student from '@/view/class/student'
 import kcb from '@/view/class/kcb'
-import newpost from '@/view/class/newpost'
+import newClassPost from '@/view/class/newpost'
 
 // 教师
 import teacher from '@/view/teacher/main'
@@ -46,6 +46,7 @@ import main from '@/view/main/main'
 import banji from '@/view/main/class'
 import news from '@/view/main/news'
 import school from '@/view/main/school'
+import newSchoolPost from '@/view/main/newpost'
 
 // 消息
 import msg from '@/view/msg/main'
@@ -139,7 +140,7 @@ export default new Router({
                 },  
                 {
                     path: 'new',
-                    component: newpost
+                    component: newClassPost
                 },         
             ]
         },
@@ -213,6 +214,11 @@ export default new Router({
             path: '/main',
             name: 'main',
             component: main
+        },
+        {
+            path: '/school/new',
+            name: 'newSchoolPost',
+            component: newSchoolPost
         },
         {
             path: '/banji',

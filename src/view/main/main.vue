@@ -206,6 +206,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.hello{
+  padding-bottom: 20em;
+}
 
 .vux-flexbox{
   text-align: center;

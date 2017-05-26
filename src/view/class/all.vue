@@ -154,8 +154,11 @@ export default {
     this.boxwid = this.teachers.length * 100 +'px'
     this.$store.state.isNav = true
     this.$store.state.title = '班级动态'
-    this.$API.getClassNews('班级ID').then(res=>{
-      this.list = res
+    // this.$API.getClassNews('班级ID').then(res=>{
+    //   this.list = res
+    // })
+    this.$API.getAllClassPost().then(res=>{
+      this.list = res.data
     })
   },
   mounted(){

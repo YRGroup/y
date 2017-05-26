@@ -26,12 +26,6 @@ export default {
 
   }
 }
-
-window.onload = function() {
-  document.getElementById("navbtn").addEventListener("click", function(){
-        window.location.href="http://www.yearnedu.com/"
-    });
- }
 </script>
 
 <style lang="less" scoped>

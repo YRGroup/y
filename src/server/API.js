@@ -1,5 +1,7 @@
 const API = {}
 
+import axios from 'axios'
+
 API.config = function () {
   Bmob.initialize("38b5c33b1c0fdd6d39ea302d0a5071a0", "d870024b3314b4d1b680634105c8c600")
 }
@@ -150,6 +152,43 @@ API.getClassNews = (class_id) => {
     ]
     resolve(results)
     reject('error')
+  })
+}
+
+API.newClassPost = (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post('http://192.168.3.195:3000/class/new',data).then((res)=>{
+      resolve(res)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+
+API.getAllClassPost = () => {
+  return new Promise((resolve, reject) => {
+    axios.get('http://192.168.3.195:3000/school/all').then((res)=>{
+      resolve(res)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+
+API.newSchoolPost = (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post('http://192.168.3.195:3000/school/new',data).then((res)=>{
+      resolve(res)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+
+API.default = () => {
+  return new Promise((resolve, reject) => {
+    resolve(results)
+    reject(error)
   })
 }
 
