@@ -167,7 +167,7 @@ API.newClassPost = (data) => {
 
 API.getAllClassPost = () => {
   return new Promise((resolve, reject) => {
-    axios.get('http://192.168.3.195:3000/school/all').then((res)=>{
+    axios.get('http://192.168.3.195:3000/class/all').then((res)=>{
       resolve(res)
     }).catch((err)=>{
       reject(err)
@@ -176,7 +176,7 @@ API.getAllClassPost = () => {
 }
 
 API.newSchoolPost = (data) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {  
     axios.post('http://192.168.3.195:3000/school/new',data).then((res)=>{
       resolve(res)
     }).catch((err)=>{

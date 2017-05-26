@@ -54,7 +54,7 @@
 -->
     <card v-for="item in list" :key="item.date">
       <div slot="header" class="header">
-        <img :src="item.img" @click="fun('打开 '+item.name+' 的个人页面')">
+        <img :src="item.userImg" @click="fun('打开 '+item.name+' 的个人页面')">
         <span>{{ item.name }}</span>
         <span>{{ item.date }}</span>
         <span>{{ item.class }}</span>
@@ -158,6 +158,7 @@ export default {
     //   this.list = res
     // })
     this.$API.getAllClassPost().then(res=>{
+      console.log(res)
       this.list = res.data
     })
   },

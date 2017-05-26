@@ -27,6 +27,7 @@ export default {
     newPost(){
       console.log('本地数据：')
       console.log(this.data)
+      this.data.userImg='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg'
       this.$API.newClassPost(this.data).then(res=>{
         console.log('返回的数据：')
         console.log(res)

@@ -260,15 +260,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.hello{
-<<<<<<< HEAD
-  padding-bottom: 20em;
-}
-
-=======
-  background: #fff;
-}
->>>>>>> 2ebd1800088b3bd8972edcaea14395f9666702c6
 .vux-flexbox{
   text-align: center;
   padding:1em 0;
