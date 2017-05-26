@@ -58,18 +58,18 @@ export default {
   }
   span:nth-child(2){
     position:absolute;
-    top:2rem;
+    top:1.4rem;
     left:7rem;
     font-size:1.5em;
   }
   span:nth-child(3){
     position:absolute;
-    top:4rem;
+    top:3.6rem;
     left:7rem;
   }
   span:nth-child(4){
     position:absolute;
-    top:4rem;
+    top:3.6rem;
     left:14rem;
   }
 }
