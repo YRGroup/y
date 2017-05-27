@@ -76,6 +76,7 @@ body {
   font-size:12px;
   background:@c1;
   overflow-x: hidden;
+  color: @cc1;
 }
 #inview{
   margin-top:3.8em;

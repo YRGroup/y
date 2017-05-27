@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="content">
     
     <!--轮播图-->
     <swiper loop auto :list="swiperdate"></swiper>
@@ -260,6 +260,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.content{
+  background: #fff;
+}
 .vux-flexbox{
   text-align: center;
   padding:1em 0;
