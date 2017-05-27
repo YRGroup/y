@@ -2,11 +2,11 @@
   <div>
 
     <card>
-      <div slot="header" class="header">
-        <img :src="data.userImg" @click="fun('打开 '+data.name+' 的个人页面')">
-        <span>{{ data.auther }}</span>
-        <span>{{ data.date }}</span>
-        <span>{{ data.category }}</span>
+      <div slot="header" class="header cardcont">
+        <img :src="data.userImg" @click="fun('打开 '+data.auther+' 的个人页面')">
+        <span class="usename">{{ data.auther }}</span>
+        <span class="time">{{ data.date }}</span>
+        <span class="tips">{{ data.category }}</span>
       </div> 
       <div slot="content" class="content">
         <p>{{ data.content }}</p>
@@ -17,11 +17,11 @@
       <span>全部评论（{{commentLength }}）</span>
       <span class="addbtn" @click="openreply">添加评论</span>
     </div>
-    <card class="comment" v-for="comment in data.comment" :key="comment.name">
+    <card class="comment cardcont" v-for="comment in data.comment" :key="comment.name">
       <div slot="header" class="header">
         <img src="https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png" @click="fun('打开 '+comment.userName+' 的个人页面')">
-        <span  @click="fun('打开 '+comment.userName+' 的个人页面')">{{ comment.userName }}</span>
-        <span>{{ comment.addTime }}</span>
+        <span class="usename" @click="fun('打开 '+comment.userName+' 的个人页面')">{{ comment.userName }}</span>
+        <span class="time">{{ comment.addTime }}</span>
       </div> 
       <div slot="content" class="content">
         <p>{{comment.content }}</p>
@@ -97,6 +97,27 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.cardcont{
+  img{
+      width:3.6em;
+      margin-right:0.6em;
+    }
+    .usename{
+      font-size: 1.1em;
+      top:1.2em;
+    }
+    .time{
+      top:3.5em;
+    }
+    .reply{
+      position:absolute;
+      top:2rem;
+      right:0;
+      border:none;
+      color:@cc6;
+      padding:0 1em;
+    }
+}
 .weui-panel{
   position:relative;
   margin-top:0;
@@ -105,32 +126,29 @@ export default {
     width:100%;
     padding:1em;
     font-size:1.2em;
-    img{
-      width:4em;
-      margin-right:1em;
-    }
-    span:nth-child(2){ 
-      position:absolute;
-      top:1.5em;
-    }
-    span:nth-child(3){
-      position:absolute;
-      top:3.5em;
-      color:grey;
-    }
-    span:nth-child(4){
-      position:absolute;
-      top:2rem;
-      right:1.5rem;
-      border:1px solid #CCC;
-      padding:0 1em;
-    }
+    
+    // span:nth-child(2){ 
+    //   position:absolute;
+    //   top:1.2em;
+    // }
+    // span:nth-child(3){
+    //   position:absolute;
+    //   top:3.5em;
+    //   color:grey;
+    // }
+    // span:nth-child(4){
+    //   position:absolute;
+    //   top:2rem;
+    //   right:1.5rem;
+    //   border:1px solid #CCC;
+    //   padding:0 1em;
+    // }
   }
   .content{
-    padding-left:2em;
-    padding-right:2em;
-    line-height:2em;
+    padding-left:0 1em;
+    line-height:1.6em;
     margin-bottom:1em;
+    margin-top:-1em;
     font-size:1.2em;
   }
 }
@@ -142,44 +160,44 @@ export default {
     width:100%;
     padding:1em;
     font-size:1.2em;
-    img{
-      width:4em;
-      margin-right:1em;
-      border-radius: 50%;
-    }
-    span:nth-child(2){ 
-      position:absolute;
-      color:#03a9f4;
-      top:1.5em;
-    }
-    span:nth-child(3){
-      position:absolute;
-      top:3.5em;
-      color:grey;
-    }
-    span:nth-child(4){
-      position:absolute;
-      top:2rem;
-      right:1.5rem;
-      border:none;
-      color:#03a9f4;
-      padding:0 1em;
-    }
+    // img{
+    //   width:3.6em;
+    //   margin-right:1em;
+    //   border-radius: 50%;
+    // }
+    // span:nth-child(2){ 
+    //   position:absolute;
+    //   color:@cc6;
+    //   top:1.2em;
+    // }
+    // span:nth-child(3){
+    //   position:absolute;
+    //   top:3em;
+    //   color:@cc3;
+    // }
   }
   .content{
-    padding-left:2em;
-    padding-right:2em;
-    line-height:2em;
     margin-bottom:1em;
     font-size:1.2em;
   }
 }
 .comment-header{
-  height:3em;
+  position: relative;
+  height:2.8em;
   font-size: 1.3em;
   background: #fff;
-  line-height: 3em;
+  line-height: 2.8em;
   padding-left:2em;
+  color: @cc2;
+  :after{
+    content: "";
+    position: absolute;
+    width: 3px;
+    height: 1.2em;
+    top:13px;
+    left: 1em;
+    background: @cc6;
+  }
   .addbtn{
     float:right;
     padding:0 2rem;
