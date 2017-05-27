@@ -2,10 +2,10 @@
   <div class="hello">
     
     <div class="teacher-header">
-      <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg" >
+      <img :src="data.Headimgurl" >
       <p>
-        <span>{{ $route.params.id }}</span>
-        <span>（语文）</span>
+        <span>{{ data.TrueName }}</span>
+        <span>{{ data.Course }}</span>
       </p>
       <p>
         <span>辛勤园丁</span>
@@ -13,9 +13,9 @@
       </p> 
     </div>
     <tab>
-      <tab-item selected @on-item-click="$router.push('/teacher/'+$route.params.id+'/profile')">主页</tab-item>
-      <tab-item @on-item-click="$router.push('/teacher/'+$route.params.id+'/feed')">动态</tab-item>
-      <tab-item @on-item-click="$router.push('/teacher/'+$route.params.id+'/work')">作业</tab-item>
+      <tab-item selected @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/profile')">主页</tab-item>
+      <tab-item @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/feed')">动态</tab-item>
+      <tab-item @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/work')">作业</tab-item>
     </tab>
     </br>
 
@@ -35,12 +35,17 @@ export default {
   },
   data () {
     return {
+      data:{},
       msg: 'Welcome to Your Vue.js App'
     }
   },
   methods:{
-    fun(val){
-
+    getData(){
+      this.$API.getTeacherInfo($route.params.teacherId).then(res=>{
+        console.log('获取教师信息：')
+        console.log(res)
+        this.data=res
+      })
     }
   },
   created(){

@@ -3,9 +3,10 @@
 
     <div class="class-header">
       <img :src="classlogo" @click="$router.push('/class')">
-      <span>{{ data.name }}</span>
-      <span>班主任：{{ mainTeacherName }}</span>
-      <span>班级人数：{{ data.student_count }}人</span>
+      <span class="name">{{ data.name }}</span>
+      <span class="teacher">班主任：{{ mainTeacherName }}</span>
+      <span class="count">班级人数：{{ data.student_count }}人</span>
+      <div class="addbtn" @click="$router.push('/class/'+$store.state.classId+'/new')">添加班级动态</div>
     </div>
 
     <transition name="slide-fade">
@@ -34,8 +35,8 @@ export default {
   created(){
     this.$store.state.isNav = true
     this.$store.state.title = '我的班级'
-    console.log(this.$route.params)
     this.$API.getClassInfo(this.$route.params.classId).then(res=>{
+      console.log('获取到的班级信息：')
       console.log(res.data.Content)
       this.$store.state.classInfo = res.data.Content
       this.mainTeacherName = res.data.Content.teacher.TrueName
@@ -67,21 +68,29 @@ export default {
     left:1rem;
     border: 4px solid rgba(255,255,255,0.3);
   }
-  span:nth-child(2){
+  .name{
     position:absolute;
     top:1.4rem;
     left:7rem;
     font-size:1.5em;
   }
-  span:nth-child(3){
+  .teacher{
     position:absolute;
     top:3.6rem;
     left:7rem;
   }
-  span:nth-child(4){
+  .count{
     position:absolute;
     top:3.6rem;
     left:14rem;
+  }
+  .addbtn{
+    position: absolute;
+    top:1rem;
+    right:1rem;
+    background: rgba(255,255,255,0.3);
+    padding:.5em;
+    border-radius: 15px;
   }
 }
 

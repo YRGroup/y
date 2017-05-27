@@ -145,7 +145,7 @@ export default new Router({
             ]
         },
         {
-            path: '/teacher/:id',
+            path: '/teacher/:teacherId',
             component: teacher,
             children: [
                 {

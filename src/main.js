@@ -29,27 +29,27 @@ Vue.prototype.$BmobAPI = BmobAPI
 
 switch(store.state.APItype){
     case 'server':
-        console.log('使用win-server API')
+        console.log('使用win-server API\nAPI列表')
         Vue.prototype.$API = serverAPI
         console.log(Vue.prototype.$API)
         break;
     case 'node':
-        console.log('使用node.js API')
+        console.log('使用node.js API\nAPI列表')
         Vue.prototype.$API = nodeAPI
         console.log(Vue.prototype.$API)
         break;
     case 'static':
-        console.log('使用本地静态API')
+        console.log('使用本地静态API\nAPI列表')
         Vue.prototype.$API = staticAPI
         console.log(Vue.prototype.$API)
         break;
     case 'Bmob':
-        console.log('使用Bmob云端API')
+        console.log('使用Bmob云端API\nAPI列表')
         Vue.prototype.$API = BmobAPI
         console.log(Vue.prototype.$API)
         break;
     default :
-        console.log('未指定API，默认使用win-server API')
+        console.log('未指定API，默认使用win-server API\nAPI列表')
         Vue.prototype.$API = serverAPI
         console.log(Vue.prototype.$API)
         break;

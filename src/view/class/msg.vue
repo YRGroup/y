@@ -19,7 +19,7 @@
     </div>
     <card class="comment cardcont" v-for="comment in data.comment" :key="comment.name">
       <div slot="header" class="header">
-        <img src="https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png" @click="fun('打开 '+comment.userName+' 的个人页面')">
+        <img :src="fakeUserImg" @click="fun('打开 '+comment.userName+' 的个人页面')">
         <span class="usename" @click="fun('打开 '+comment.userName+' 的个人页面')">{{ comment.userName }}</span>
         <span class="time">{{ comment.addTime }}</span>
       </div> 
@@ -56,6 +56,7 @@ export default {
       replymsg:'',
       commentId:'',
       commentLength:0,
+      fakeUserImg:'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
       data:{}
     }
   },
@@ -67,6 +68,15 @@ export default {
         text: msg
       })
     },
+    getData(){
+      this.$API.getClassDynamic(this.$route.params.classId,this.$route.params.msgId).then(res=>{
+        this.data = res
+        this.commentLength = res.comment.length
+        this.commentId = res.id
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     openreply(){
       this.showpopup = true
     },
@@ -74,21 +84,26 @@ export default {
       let replyData ={}
       replyData.did=this.commentId
       replyData.content=this.replymsg
-      this.$API.postNewComment(replyData).then(res=>{
-        console.log('ok')
-      })
+      if(replyData.content!=''){
+        this.$API.postNewComment(replyData).then(res=>{
+          console.log('添加评论成功！')
+          console.log(replyData)
+          this.getData()
+          this.showpopup=false
+        }).catch(err=>{
+          console.log('Add new reply error!')
+          console.log(err)
+        })
+      }else{
+        this.fun('评论内容不能为空！')
+      }
+      
     }
   },
   created(){
     // this.$store.state.isNav = false
     this.$store.state.title = '动态详情'
-    this.$API.getClassDynamic(this.$route.params.classId,this.$route.params.msgId).then(res=>{
-      this.data = res
-      this.commentLength = res.comment.length
-      this.commentId = res.id
-    }).catch(err=>{
-      console.log(err)
-    })
+    this.getData()
   },
   mounted(){
 

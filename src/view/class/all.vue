@@ -21,10 +21,9 @@
 -->
     <scroller lock-y scrollbar-x v-show="this.$store.state.role == 'parent'">
       <div class="box" :style="{ width: boxwid}">
-        <div class="box-item" v-for="item in teachers" @click="$router.push('/teacher/'+item.name)">
-          <img :src="item.img">
-          <span>{{ item.name }}</span>
-          <span>{{ item.job }}</span>
+        <div class="box-item" v-for="item in teachers" @click="$router.push('/teacher/'+item.Meid)">
+          <img :src="item.Headimgurl">
+          <span>{{ item.TrueName }}</span>
         </div>
       </div>
     </scroller>
@@ -54,7 +53,7 @@
 -->
     <card v-for="item in list" :key="item.date">
       <div slot="header" class="header">
-        <img :src="item.userImg" @click="fun('打开 '+item.name+' 的个人页面')">
+        <img :src="item.userImg" @click="$router.push('/teacher/'+item.auther_meid)">
         <span class="usename">{{ item.auther }}</span>
         <span class="time">{{ item.date }}</span>
         <span class="tips">{{ item.category }}</span>
@@ -65,7 +64,7 @@
       <div slot="footer" class="footer">
         <div class="footer-btn">
           <!--<i class="iconfont view" @click="$router.push('/class/msg')">&#xe60f;  </i>-->
-          <i class="iconfont lick" @click="item.like++">&#xe646; {{ item.like }}</i>
+          <i class="iconfont lick" @click="doLike(item.id),item.like++">&#xe646; {{ item.like }}</i>
           <i class="iconfont combtn">&#xe6c3; {{ item.read }}</i>
         </div>  
         <div class="comment">
@@ -78,7 +77,7 @@
             查看更多
           </div>
         </div>
-      </div> 
+      </div>
     </card>
 
   </div>
@@ -94,34 +93,7 @@ export default {
   data () {
     return {
       boxwid:'500px',
-      teachers:[
-        {
-          'img':require('@/assets/face/jay.jpg'),
-          'name':'周老师',
-          'job':'班主任'
-        },
-        {
-          'img':require('@/assets/face/dk.png'),
-          'name':'李老师',
-          'job':'体育'
-        },
-        
-        {
-          'img':require('@/assets/face/lh.jpg'),
-          'name':'鹿老师',
-          'job':'英语'
-        },
-        {
-          'img':require('@/assets/face/tc.png'),
-          'name':'唐老师',
-          'job':'科学'
-        },
-        {
-          'img':require('@/assets/face/jobs.jpg'),
-          'name':'乔老师',
-          'job':'语文'
-        }
-      ],
+      teachers:[],
       notice:[
         {
           "class":'语文',
@@ -138,9 +110,7 @@ export default {
     }
   },
   computed:{
-    box_width:()=>{
-      this.teachers.length * 100 +'px'
-    }
+
   },
   methods:{
     fun(msg){
@@ -149,19 +119,41 @@ export default {
         width:"20em",
         text: msg
       })
+    },
+    getData(){
+      this.$API.getAllClassDynamic(this.$store.state.classId).then(res=>{
+        console.log('获取到的班级动态：')
+        console.log(res)
+        this.list = res
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    getTeacherList(){
+      this.$API.getTeacherList(this.$store.state.classId).then(res=>{
+        console.log('获取到的教师列表：')
+        console.log(res)
+        this.teachers = res
+        this.boxwid = res.length * 100 +'px'
+      })
+    },
+    doLike(id){
+      this.$API.likeThisPost(id).then(res=>{
+        this.$vux.toast.show({
+          type:"success",
+          text: '点赞成功'
+        })
+      })
     }
   },
   created(){
-    this.boxwid = this.teachers.length * 100 +'px'
     this.$store.state.isNav = true
     this.$store.state.title = '班级动态'
-    this.$API.getAllClassDynamic(this.$store.state.classId).then(res=>{
-      console.log(res)
-      this.list = res
-    })
+    this.getData()
+    this.getTeacherList()
   },
   mounted(){
-
+    // this.boxwid = this.teachers.length * 100 +'px'
   }
 }
 </script>
@@ -191,13 +183,6 @@ export default {
     font-size:0.7rem;
     display:block;
     text-align: center;
-  }
-  span:nth-child(3){
-    color:@c4;
-    position:absolute;
-    top:3.5rem;
-    margin-left:1.5rem;
-    display:none;
   }
 }
 .box-item:first-child {
