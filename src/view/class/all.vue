@@ -52,7 +52,7 @@
 教师端显示
 家长端显示
 -->
-    <card v-for="item in this.$store.state.classInfo.dynamic" :key="item.date">
+    <card v-for="item in list" :key="item.date">
       <div slot="header" class="header">
         <img :src="item.userImg" @click="fun('打开 '+item.name+' 的个人页面')">
         <span class="usename">{{ item.auther }}</span>
@@ -65,15 +65,16 @@
       <div slot="footer" class="footer">
         <div class="footer-btn">
           <!--<i class="iconfont view" @click="$router.push('/class/msg')">&#xe60f;  </i>-->
-          <i class="iconfont lick" @click="fun(item.liked++)">&#xe646; {{ item.liked }}</i>
+          <i class="iconfont lick" @click="item.like++">&#xe646; {{ item.like }}</i>
           <i class="iconfont combtn">&#xe6c3; {{ item.read }}</i>
         </div>  
         <div class="comment">
           <li v-for="comment in item.comment" :key="comment.name">
-            <span @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.name }}：</span>
+            <span @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.userName }}：</span>
             <span>{{ comment.content }}</span>
           </li>
-          <div class="more" @click="$router.push('/class/msg')">
+          <div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>
+          <div class="more" @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)">
             查看更多
           </div>
         </div>
@@ -154,12 +155,10 @@ export default {
     this.boxwid = this.teachers.length * 100 +'px'
     this.$store.state.isNav = true
     this.$store.state.title = '班级动态'
-    // if(this.$store.state.classInfo.dynamic.length===0){
-    //   this.$API.getAllClassPost().then(res=>{
-    //     console.log(res)
-    //     this.list = res.data
-    //   })
-    // }
+    this.$API.getAllClassDynamic(this.$store.state.classId).then(res=>{
+      console.log(res)
+      this.list = res
+    })
   },
   mounted(){
 

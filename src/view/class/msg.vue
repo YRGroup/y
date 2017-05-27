@@ -3,10 +3,10 @@
 
     <card>
       <div slot="header" class="header">
-        <img :src="data.img" @click="fun('打开 '+data.name+' 的个人页面')">
-        <span>{{ data.name }}</span>
+        <img :src="data.userImg" @click="fun('打开 '+data.name+' 的个人页面')">
+        <span>{{ data.auther }}</span>
         <span>{{ data.date }}</span>
-        <span>{{ data.class }}</span>
+        <span>{{ data.category }}</span>
       </div> 
       <div slot="content" class="content">
         <p>{{ data.content }}</p>
@@ -14,14 +14,14 @@
     </card>
 
     <div class="comment-header">
-      <span>全部评论（{{data.comment.length }}）</span>
+      <span>全部评论（{{commentLength }}）</span>
+      <span class="addbtn" @click="openreply">添加评论</span>
     </div>
     <card class="comment" v-for="comment in data.comment" :key="comment.name">
       <div slot="header" class="header">
-        <img :src="comment.img" @click="fun('打开 '+comment.name+' 的个人页面')">
-        <span  @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.name }}</span>
-        <span>{{ comment.date }}</span>
-        <span  @click="reply(comment.name)"> 回复 </span>
+        <img src="https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png" @click="fun('打开 '+comment.userName+' 的个人页面')">
+        <span  @click="fun('打开 '+comment.userName+' 的个人页面')">{{ comment.userName }}</span>
+        <span>{{ comment.addTime }}</span>
       </div> 
       <div slot="content" class="content">
         <p>{{comment.content }}</p>
@@ -31,10 +31,10 @@
     <popup v-model="showpopup" height="270px" is-transparent>
       <div style="width: 95%;background-color:#fff;height:250px;margin:0 auto;border-radius:5px;padding-top:10px;">
         <group>
-          <x-input v-model="value" :placeholder="'回复 '+commentid+' 的内容'"></x-input>
+          <x-input v-model="replymsg" :placeholder="'回复 '+data.auther+' 的内容'"></x-input>
         </group>
         <div style="padding:20px 15px;">
-        <x-button type="primary">发表回复</x-button>
+        <x-button type="primary" @click.native="addreply">发表回复</x-button>
         <x-button @click.native="showpopup = false">取消回复</x-button>
         </div>
       </div>
@@ -53,37 +53,10 @@ export default {
   data () {
     return {
       showpopup:false,
-      commentid:'0',
-      value:'',
-      data:{
-          'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-          'name':'张丽丽的家长',
-          'date':'2017-4-25',
-          'class':'文章',
-          'content':'『育人朗读者』是由育人教育集团宣传部推出，每周为大家推选出一本书，并择选出书中的优秀章节，由朗读者为大家领读。。。',
-          'read':'40',
-          'liked':'3',
-          'comment':[
-            {
-              'name':'李大明的家长',
-              'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-              'date':'2017-4-25',
-              'content':'祝育人教育集团越来越好！'
-            },
-            {
-              'name':'小李',
-              'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-              'date':'2017-4-25',
-              'content':'这一期，我们大家带来的这是来自法《人间喜剧》。'
-            },
-            {
-              'name':'周杰伦',
-              'img':'http://i.gtimg.cn/qqlive/images/namelib/v688/8/6/8/72868.jpg',
-              'date':'2017-4-25',
-              'content':'刘老师的课程讲的很好！'
-            }
-          ]
-        }
+      replymsg:'',
+      commentId:'',
+      commentLength:0,
+      data:{}
     }
   },
   methods:{
@@ -94,14 +67,28 @@ export default {
         text: msg
       })
     },
-    reply(id){
-      this.commentid = id
+    openreply(){
       this.showpopup = true
+    },
+    addreply(){
+      let replyData ={}
+      replyData.did=this.commentId
+      replyData.content=this.replymsg
+      this.$API.postNewComment(replyData).then(res=>{
+        console.log('ok')
+      })
     }
   },
   created(){
-    this.$store.state.isNav = false
+    // this.$store.state.isNav = false
     this.$store.state.title = '动态详情'
+    this.$API.getClassDynamic(this.$route.params.classId,this.$route.params.msgId).then(res=>{
+      this.data = res
+      this.commentLength = res.comment.length
+      this.commentId = res.id
+    }).catch(err=>{
+      console.log(err)
+    })
   },
   mounted(){
 
@@ -193,5 +180,15 @@ export default {
   background: #fff;
   line-height: 3em;
   padding-left:2em;
+  .addbtn{
+    float:right;
+    padding:0 2rem;
+    color:#fff;
+    background: #03a9f4;
+    cursor: pointer;
+    // border-radius: 15px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
 }
 </style>

@@ -30,9 +30,9 @@
         +btn4('添加校园动态')
       router-link(to="/class/new")
         +btn4('添加班级动态')
-      div(@click="change('teacher')")
+      div(@click="changeRole('teacher')")
         +btn1('切换成教师端')
-      div(@click="change('parent')")
+      div(@click="changeRole('parent')")
         +btn2('切换成家长端')
   
 </template>
@@ -50,8 +50,8 @@ export default {
     }
   },
   methods: {
-    change(val) {
-      this.$store.state.role = val
+    changeRole(val) {
+      this.$store.commit('changeRole',val)
       this.$vux.toast.show('切换到' + val)
     }
   },

@@ -14,6 +14,7 @@ Vue.config.productionTip = false
 // import myAPI from './server/API'
 // Vue.prototype.$API = myAPI
 
+// 多API切换
 import nodeAPI from './server/nodeAPI'
 Vue.prototype.$nodeAPI = nodeAPI
 
@@ -28,19 +29,29 @@ Vue.prototype.$BmobAPI = BmobAPI
 
 switch(store.state.APItype){
     case 'server':
+        console.log('使用win-server API')
         Vue.prototype.$API = serverAPI
+        console.log(Vue.prototype.$API)
         break;
     case 'node':
+        console.log('使用node.js API')
         Vue.prototype.$API = nodeAPI
+        console.log(Vue.prototype.$API)
         break;
     case 'static':
+        console.log('使用本地静态API')
         Vue.prototype.$API = staticAPI
+        console.log(Vue.prototype.$API)
         break;
     case 'Bmob':
+        console.log('使用Bmob云端API')
         Vue.prototype.$API = BmobAPI
+        console.log(Vue.prototype.$API)
         break;
     default :
+        console.log('未指定API，默认使用win-server API')
         Vue.prototype.$API = serverAPI
+        console.log(Vue.prototype.$API)
         break;
 }
 

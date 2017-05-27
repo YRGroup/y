@@ -111,7 +111,7 @@ export default new Router({
             component: timeline
         },
         {
-            path: '/class',
+            path: '/class/:classId/',
             component: classmain,
             children: [
                 {
@@ -127,7 +127,7 @@ export default new Router({
                     component: homework
                 },
                 {
-                    path: 'msg',
+                    path: 'msg/:msgId',
                     component: classmsg
                 },
                 {

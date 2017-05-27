@@ -15,7 +15,7 @@
         <i slot="icon" class="iconfont nav_icon">&#xe666;</i>
         <span slot="label">主页</span>
       </tabbar-item>
-      <tabbar-item show-dot link="/class">
+      <tabbar-item show-dot :link="'/class/'+$store.state.classId">
         <i slot="icon" class="iconfont nav_icon">&#xe672;</i>
         <span slot="label">班级</span>
       </tabbar-item>
@@ -42,7 +42,7 @@ export default {
   },
   data(){
     return{
-
+      test0:'00'
     }
   },
   methods:{

@@ -4,7 +4,7 @@
     <div class="class-header">
       <img :src="classlogo" @click="$router.push('/class')">
       <span>{{ data.name }}</span>
-      <span>班主任：{{ data.teacher }}</span>
+      <span>班主任：{{ mainTeacherName }}</span>
       <span>班级人数：{{ data.student_count }}人</span>
     </div>
 
@@ -20,6 +20,7 @@ export default {
   data () {
     return {
       classlogo:require('@/assets/face/c.jpeg'),
+      mainTeacherName:''
     }
   },
   computed:{
@@ -33,17 +34,16 @@ export default {
   created(){
     this.$store.state.isNav = true
     this.$store.state.title = '我的班级'
-    if(this.$store.state.classInfo.null){
-      console.log('获取班级数据')
-      console.log(this.$API)
-      this.$serverAPI.getAllClassinfo(this.$store.state.classId).then(res=>{
-        this.$store.state.classInfo = res.data.ClassInfo
-        // console.log(res.data.ClassInfo)
-      }).catch(err=>{
-        console.log('获取数据失败，显示默认数据')
-        this.$store.state.classInfo = {"name":"初一一班","student_count":3,"teacher":"李老师","dynamic":[{"auther":"王老师","userImg":"http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg","date":"2017-05-26","category":"作业","content":"作业1","like":12,"comment":[]},{"auther":"王老师","userImg":"http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg","date":"2017-05-26","category":"动态","content":"动态1","like":43,"comment":[{"addTime":"2017-05-26","content":"好","userName":"王家长"},{"addTime":"2017-05-26","content":"好好好好","userName":"王家长"}]}]}
-      })
-    }
+    console.log(this.$route.params)
+    this.$API.getClassInfo(this.$route.params.classId).then(res=>{
+      console.log(res.data.Content)
+      this.$store.state.classInfo = res.data.Content
+      this.mainTeacherName = res.data.Content.teacher.TrueName
+    }).catch(err=>{
+      console.log('获取数据失败，显示默认数据')
+      console.log(err)
+      this.$store.state.classInfo = {"name":"初一一班","student_count":3,"teacher":"李老师","dynamic":[{"auther":"王老师","userImg":"http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg","date":"2017-05-26","category":"作业","content":"作业1","like":12,"comment":[]},{"auther":"王老师","userImg":"http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg","date":"2017-05-26","category":"动态","content":"动态1","like":43,"comment":[{"addTime":"2017-05-26","content":"好","userName":"王家长"},{"addTime":"2017-05-26","content":"好好好好","userName":"王家长"}]}]}
+    })
   },
   mounted(){
 

@@ -39,6 +39,12 @@ const store = new Vuex.Store({
         },
         UPDATE_DIRECTION (state, direction) {
             state.direction = direction
+        },
+        changeRole(state,val){
+            state.role=val.toString()
+        },
+        getClassInfo(state,val){
+            state.classInfo=val
         }
     }
 })
