@@ -28,7 +28,7 @@
         +btn3('教师主页')
       router-link(to="/reader")
         +btn4('添加校园动态')
-      router-link(to="/class/new")
+      router-link(:to="'/class/'+$store.state.classId+'/new'")
         +btn4('添加班级动态')
       div(@click="changeRole('teacher')")
         +btn1('切换成教师端')

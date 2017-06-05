@@ -46,7 +46,10 @@ export default {
     }
   },
   methods:{
-
+    showRouterInfo(){
+      console.log('当前路由信息：')
+      console.log(this.$route.params)
+    }
   },
   created(){
 
@@ -54,7 +57,8 @@ export default {
   watch:{
     web_title:(val)=>{
       document.title = val+' - 育人教育'
-    }
+    },
+    "$route": "showRouterInfo"
   },
   computed:{
     web_title () {
