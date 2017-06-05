@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-
-    <x-header id="nav-top" :left-options="{backText: ''}" v-show="$store.state.isHeader">
+    <x-header id="nav-top" :left-options="{backText: ''}" v-show="$store.state.isNav">
       {{web_title}}
       <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
     </x-header>

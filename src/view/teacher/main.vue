@@ -49,8 +49,8 @@ export default {
     }
   },
   created(){
-    this.$store.state.isNav = true
-    this.$store.state.title = '教师主页'
+    this.$store.commit('showNav',true)
+    this.$store.commit('changeTitle','教师主页')
   },
   mounted(){
 

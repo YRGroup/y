@@ -6,6 +6,7 @@ const _APIurl = 'http://192.168.3.188'
 
 
 // not OK
+// 获取班级所有信息
 serverAPI.getAllClassInfo = (id) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class?cid='+id).then((res)=>{
@@ -17,6 +18,7 @@ serverAPI.getAllClassInfo = (id) => {
 }
 
 // testing
+// 获取班级信息
 serverAPI.getClassInfo = (classId) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class/GetInfo?cid='+classId).then((res)=>{
@@ -28,6 +30,7 @@ serverAPI.getClassInfo = (classId) => {
 }
 
 // testing
+// 获取班级动态列表
 serverAPI.getAllClassDynamic = (classId) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class/GetDynamicList?cid='+classId).then((res)=>{
@@ -39,6 +42,7 @@ serverAPI.getAllClassDynamic = (classId) => {
 }
 
 // testing
+// 获取单条班级动态
 serverAPI.getClassDynamic = (classId,msgId) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class/GetDynamic?cid='+classId+'&did='+msgId).then((res)=>{
@@ -50,6 +54,7 @@ serverAPI.getClassDynamic = (classId,msgId) => {
 }
 
 // testing
+// 添加班级动态
 serverAPI.postNewClassDynamic = (classDynamicData) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Class/AddDynamic',classDynamicData).then((res)=>{
@@ -68,6 +73,7 @@ serverAPI.postNewClassDynamic = (classDynamicData) => {
 }
 
 // testing
+// 添加班级动态评论
 serverAPI.postNewComment = (replyData) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Class/AddComment',replyData).then((res)=>{
@@ -86,7 +92,8 @@ serverAPI.postNewComment = (replyData) => {
 }
 
 // testing
-serverAPI.likeThisPost = (classId) => {
+// 点赞班级动态
+serverAPI.doLikeThisPost = (classId) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class/Zan?did='+classDynamicId).then((res)=>{
       resolve(res.data.Content)
@@ -150,7 +157,7 @@ serverAPI.getAllTeacherDynamic = (teacherId) => {
   })
 }
 
-// API默认格式
+// 空API模板
 serverAPI.default = (id) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class/GetDynamic?cid='+id).then((res)=>{

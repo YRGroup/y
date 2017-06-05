@@ -262,8 +262,8 @@ export default {
     }
   },
   created(){
-    this.$store.state.isNav = true
-    this.$store.state.title = '校园动态'
+    this.$store.commit('showNav',true)
+    this.$store.commit('changeTitle','校园动态')
   }
 }
 </script>

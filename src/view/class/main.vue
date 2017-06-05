@@ -30,21 +30,23 @@ export default {
     }
   },
   methods:{
-    
+    getClassInfo(){
+      this.$API.getClassInfo(this.$route.params.classId).then(res=>{
+        console.log('获取到的班级信息：')
+        console.log(res.data.Content)
+        this.$store.state.classInfo = res.data.Content
+        this.mainTeacherName = res.data.Content.teacher.TrueName
+      }).catch(err=>{
+        console.log('获取数据失败，显示默认数据')
+        console.log(err)
+        this.$store.state.classInfo = {"name":"初一一班","student_count":3,"teacher":"李老师","dynamic":[{"auther":"王老师","userImg":"http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg","date":"2017-05-26","category":"作业","content":"作业1","like":12,"comment":[]},{"auther":"王老师","userImg":"http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg","date":"2017-05-26","category":"动态","content":"动态1","like":43,"comment":[{"addTime":"2017-05-26","content":"好","userName":"王家长"},{"addTime":"2017-05-26","content":"好好好好","userName":"王家长"}]}]}
+      })
+    }
   },
   created(){
-    this.$store.state.isNav = true
-    this.$store.state.title = '我的班级'
-    this.$API.getClassInfo(this.$route.params.classId).then(res=>{
-      console.log('获取到的班级信息：')
-      console.log(res.data.Content)
-      this.$store.state.classInfo = res.data.Content
-      this.mainTeacherName = res.data.Content.teacher.TrueName
-    }).catch(err=>{
-      console.log('获取数据失败，显示默认数据')
-      console.log(err)
-      this.$store.state.classInfo = {"name":"初一一班","student_count":3,"teacher":"李老师","dynamic":[{"auther":"王老师","userImg":"http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg","date":"2017-05-26","category":"作业","content":"作业1","like":12,"comment":[]},{"auther":"王老师","userImg":"http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg","date":"2017-05-26","category":"动态","content":"动态1","like":43,"comment":[{"addTime":"2017-05-26","content":"好","userName":"王家长"},{"addTime":"2017-05-26","content":"好好好好","userName":"王家长"}]}]}
-    })
+    this.$store.commit('showNav',true)
+    this.$store.commit('changeTitle','我的班级')
+    this.getClassInfo()
   },
   mounted(){
 

@@ -45,6 +45,12 @@ const store = new Vuex.Store({
         },
         getClassInfo(state,val){
             state.classInfo=val
+        },
+        showNav(state,val){
+            state.isNav=val
+        },
+        changeTitle(state,val){
+            state.title=val.toString()
         }
     }
 })

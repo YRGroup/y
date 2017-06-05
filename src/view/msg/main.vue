@@ -55,8 +55,8 @@ export default {
     }
   },
   created() {
-    this.$store.state.isNav = true
-    this.$store.state.title = '消息中心'
+    this.$store.commit('showNav',true)
+    this.$store.commit('changeTitle','消息中心')
   },
   mounted() {
 
