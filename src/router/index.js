@@ -30,6 +30,7 @@ import teacherfeed from '@/view/teacher/feed'
 import teacherwork from '@/view/teacher/work'
 
 // 注册
+import regist from '@/view/login/regist'
 import reg from '@/view/login/reg'
 import step1 from '@/view/login/step1'
 import step2 from '@/view/login/step2'
@@ -172,26 +173,14 @@ export default new Router({
             ]
         },
         {
-            path: '/reg',
-            component: reg,
-            children: [
-                {
-                path: '',
-                component: step1
-                },
-                {
-                path: 'step1',
-                component: step1
-                },
-                {
-                path: 'step2',
-                component: step2
-                },
-                {
-                path: 'step3',
-                component: step3
-                }            
-            ]
+            path: '/regist',
+            name: 'regist',
+            component: regist,
+        },
+        {
+            path: '/step',
+            name: 'step',
+            component: step1,
         },
         {
             path: '/school',

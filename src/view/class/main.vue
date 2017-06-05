@@ -5,8 +5,8 @@
       <img :src="classlogo" @click="$router.push('/class/'+$store.state.classId)">
       <span class="name">{{ data.name }}</span>
       <span class="teacher">班主任：{{ mainTeacherName }}</span>
-      <span class="count" @click="$router.push('/class/'+$store.state.classId+'/student')">班级人数：{{ data.student_count }}人</span>
-      <div class="addbtn" @click="$router.push('/class/'+$store.state.classId+'/new')">添加班级动态</div>
+      <span class="count" @click="$router.push('/class/'+$store.state.classId+'/student')">人数：{{ data.student_count }}</span>
+      <div class="addbtn" @click="$router.push('/class/'+$store.state.classId+'/new')"><i class="iconfont">&#xe606;</i>发布动态</div>
     </div>
 
     <transition name="slide-fade">
@@ -73,26 +73,33 @@ export default {
   .name{
     position:absolute;
     top:1.4rem;
-    left:7rem;
+    left:6.4rem;
     font-size:1.5em;
   }
   .teacher{
     position:absolute;
     top:3.6rem;
-    left:7rem;
+    left:6.4rem;
   }
   .count{
     position:absolute;
     top:3.6rem;
-    left:14rem;
+    left:13rem;
   }
   .addbtn{
     position: absolute;
-    top:1rem;
-    right:1rem;
+    top:2rem;
+    right:0;
     background: rgba(255,255,255,0.3);
-    padding:.5em;
-    border-radius: 15px;
+    padding:.2em;
+    border-radius: 20px 0 0 20px;
+    cursor: pointer;
+    .iconfont{
+      font-size: 1.3em;
+      margin:0 5px 0 5px;
+      position: relative;
+      top: 2px;
+    }
   }
 }
 

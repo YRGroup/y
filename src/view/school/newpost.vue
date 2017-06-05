@@ -4,7 +4,7 @@
     <group title="发布新的校园动态" labelWidth="6em">
       <x-input title="作者：" placeholder="just for demo" v-model="data.auther" novalidate show-clear placeholder-align="right"></x-input>
       <selector title="类别：" placeholder="请选择类别" direction="right" v-model="data.category"  :options="categoryList"></selector>
-      <x-textarea title="内容" v-model="data.content" placeholder="请输入内容" autosize></x-textarea>
+      <x-textarea title="内容：" v-model="data.content" placeholder="请输入内容" autosize></x-textarea>
     </group>
     <div style="padding:2rem;"><x-button @click.native="newPost" type="primary">确认发布</x-button></div>
   </div>

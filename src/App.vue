@@ -1,13 +1,12 @@
 <template>
   <div id="app">
-
     <x-header id="nav-top" :left-options="{backText: ''}" v-show="$store.state.isNav">
       {{web_title}}
       <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
     </x-header>
 
     <transition name='slide-fade'>
-      <router-view id="inview"></router-view>
+      <router-view id="inview" :style="{marginTop:ptop}"></router-view>
     </transition>
 
     <tabbar id="nav-bottom" v-show="$store.state.isNav">
@@ -64,6 +63,9 @@ export default {
   computed:{
     web_title () {
       return this.$store.state.title
+    },
+    ptop (){
+      return this.$store.state.isNav ? '3.8em' : '0'
     }
   }
 }
@@ -101,6 +103,10 @@ body {
   position:fixed;
   bottom:0;
 }
+
+::-webkit-input-placeholder { 
+color: @cc4; 
+} 
 li{
   list-style:none;
   padding:0;
@@ -120,11 +126,11 @@ a{
 
 @font-face {
   font-family: 'iconfont';  /* project id 291668 */
-  src: url('//at.alicdn.com/t/font_m31nrwig4h63l3di.eot');
-  src: url('//at.alicdn.com/t/font_m31nrwig4h63l3di.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_m31nrwig4h63l3di.woff') format('woff'),
-  url('//at.alicdn.com/t/font_m31nrwig4h63l3di.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_m31nrwig4h63l3di.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_6nlk2nj81lzbyb9.eot');
+  src: url('//at.alicdn.com/t/font_6nlk2nj81lzbyb9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_6nlk2nj81lzbyb9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_6nlk2nj81lzbyb9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_6nlk2nj81lzbyb9.svg#iconfont') format('svg');
 }
 .iconfont{
   font-family:"iconfont";
