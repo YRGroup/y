@@ -101,8 +101,8 @@ export default {
     }
   },
   created(){
-    // this.$store.state.isNav = false
-    this.$store.state.title = '动态详情'
+    this.$store.commit('showNav',true)
+    this.$store.commit('changeTitle','动态详情')
     this.getData()
   },
   mounted(){

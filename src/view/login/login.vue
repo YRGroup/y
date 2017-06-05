@@ -56,8 +56,8 @@ export default {
     }
   },
   created(){
-    this.$store.state.title = '登录智慧校园'
-    this.$store.state.isNav = false
+    this.$store.commit('showNav',false)
+    this.$store.commit('changeTitle','登录智慧校园')
   },
   mounted(){
 

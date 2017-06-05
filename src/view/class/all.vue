@@ -135,20 +135,25 @@ export default {
         console.log(res)
         this.teachers = res
         this.boxwid = res.length * 100 +'px'
+      }).catch(err=>{
+        console.log(err)
       })
     },
     doLike(id){
-      this.$API.likeThisPost(id).then(res=>{
+      this.$API.doLikeThisPost(id).then(res=>{
+        console.log('rrr000')
         this.$vux.toast.show({
           type:"success",
           text: '点赞成功'
         })
+      }).catch(err=>{
+        console.log(err)
       })
     }
   },
   created(){
-    this.$store.state.isNav = true
-    this.$store.state.title = '班级动态'
+    this.$store.commit('showNav',true)
+    this.$store.commit('changeTitle','班级动态')
     this.getData()
     this.getTeacherList()
   },
