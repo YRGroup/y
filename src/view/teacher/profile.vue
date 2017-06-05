@@ -1,9 +1,22 @@
 <template>
-  <div id="profile">
+  <div class="profile">
 
-    <group label-width="4.5em" label-margin-right="2em" label-align="right" gutter="0">
-      <cell title="职称：" value="高级教师" value-align="left"></cell>
-      <cell title="教龄：" value="5年" value-align="left"></cell>
+    <group label-width="13em" label-align="left">
+      <cell title="授课班级">
+        <i slot="icon" class="fa fa-user">&nbsp&nbsp</i>
+      </cell>
+      <hr>
+      <cell title="三年二班" value="班主任、语文" value-align="right"></cell>
+      <cell title="三年六班" value="语文" value-align="right"></cell>
+    </group>
+
+    <group label-width="13em" label-align="left">
+      <cell title="个人资料">
+        <i slot="icon" class="fa fa-user">&nbsp&nbsp</i>
+      </cell>
+      <hr>
+      <cell title="职称：" value="高级教师" value-align="right"></cell>
+      <cell title="教龄：" value="5年" value-align="right"></cell>
       <cell value="查看更多" is-link></cell>
     </group>
 
@@ -83,8 +96,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.weui-cell{
-  font-size:14px!important;
+.profile{
+  margin-top:0;
 }
 .box {
   height: 4em;

@@ -1,83 +1,55 @@
 <template>
   <div class="hello">
-    <card v-for="item in list" :key="item.date">
+
+    </br>
+
+    <card v-for="(item,index) in data" :key="index">
       <div slot="header" class="header">
-        <img :src="item.img" @click="fun('打开 '+item.name+' 的个人页面')">
-        <span>{{ item.name }}</span>
-        <span>{{ item.date }}</span>
-        <span>{{ item.class }}</span>
+        <img :src="item.userImg" @click="$router.push('/teacher/'+item.auther_meid)">
+        <span class="usename">{{ item.auther }}</span>
+        <span class="time">{{ item.date }}</span>
+        <span class="tips">{{ item.category }}</span>
       </div> 
       <div slot="content" class="content">
         <p>{{ item.content }}</p>
       </div>
       <div slot="footer" class="footer">
         <div class="footer-btn">
-          <i class="fa fa-eye"> {{ item.read }}</i>
-          <i class="fa fa-thumbs-up" @click="fun('给 '+item.name+' 点赞成功')"> {{ item.liked }}</i>
+          <i class="iconfont lick" @click="doLike(item.id),item.like++">&#xe646; {{ item.like }}</i>
+          <i class="iconfont combtn">&#xe6c3; {{ item.read }}</i>
         </div>  
         <div class="comment">
-          <li v-for="comment in item.comment" :key="comment.name">
-            <span @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.name }}：</span>
+          <li v-for="(comment,index) in item.comment" v-if="index<3" :key="index">
+            <span @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.userName }}：</span>
             <span>{{ comment.content }}</span>
           </li>
-          <div @click="$router.push('/class/msg')">
+          <div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>
+          <div class="more" @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)">
             查看更多
           </div>
         </div>
       </div> 
     </card>
+
+    <div class="hasNoData" v-if="data.length===0">
+      <icon type="safe_warn" is-msg></icon>
+      <p>当前用户还没有发布过的动态</p>
+      <x-button>给ta发条私信</x-button>
+    </div>
+
   </div>
 </template>
 
 <script>
-import { Card } from 'vux'
+import { Card,Icon,XButton } from 'vux'
 
 export default {
   components: {
-    Card
+    Card,Icon,XButton 
   },
   data () {
     return {
-      list:[
-        {
-          'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-          'name':'李老师',
-          'date':'2017-4-25',
-          'class':'文章',
-          'content':'『育人朗读者』是由育人教育集团宣传部推出，每周为大家推选出一本书，并择选出书中的优秀章节，由朗读者为大家领读。。。',
-          'read':'40',
-          'liked':'3',
-          'comment':[
-            {
-              'name':'李大明的家长',
-              'content':'祝育人教育集团越来越好！'
-            },
-            {
-              'name':'小李',
-              'content':'这一期，我们大家带来的这是来自法《人间喜剧》。'
-            }
-          ]
-        },
-        {
-          'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-          'name':'李老师',
-          'date':'2017-4-25',
-          'class':'文章',
-          'content':'『育人朗读者』是由育人教育集团宣传部推出，每周为大家推选出一本书，并择选出书中的优秀章节，由朗读者为大家领读。。。',
-          'read':'40',
-          'liked':'3',
-          'comment':[
-            {
-              'name':'李大明的家长',
-              'content':'祝育人教育集团越来越好！'
-            },
-            {
-              'name':'小李',
-              'content':'这一期，我们大家带来的这是来自法《人间喜剧》。'
-            }
-          ]
-        }
-      ]
+      data:[]
     }
   },
   methods:{
@@ -87,10 +59,31 @@ export default {
         width:"20em",
         text: msg
       })
+    },
+    doLike(id){
+      this.$API.doLikeThisPost(id).then(res=>{
+        this.$vux.toast.show({
+          type:"success",
+          text: '点赞成功'
+        })
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    getData(){
+      this.$API.getAllTeacherDynamic(this.$route.params.teacherId).then(res=>{
+        console.log('获取到的所有教师动态：')
+        console.log(res)
+        this.data=res
+      }).catch(err=>{
+        console.log(err)
+      })
     }
   },
   created(){
-  
+    this.$store.commit('showNav',true)
+    this.$store.commit('changeTitle','教师动态')
+    this.getData()
   },
   mounted(){
 
@@ -99,5 +92,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+.hasNoData{
+  text-align: center;
+  background: #fff;
+  padding:1rem;
+  p{
+    line-height: 3rem;
+  }
+}
 </style>

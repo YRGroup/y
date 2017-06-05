@@ -2,8 +2,8 @@
   <div class="hello">
     
     <div class="user-header">
-      <img :src="userface" >
-      <p class="usename">李晓明的家长</p>
+      <img :src="data.Headimgurl" >
+      <p class="usename">{{data.TrueName}}</p>
       <p @click="fun('打开学校主页')">郑州航空港育人国际学校</p>
       <p class="bottomnav">
         <span @click="fun('打开班级主页')">三年级二班</span>
@@ -15,7 +15,7 @@
       <cell title="我的孩子" value="李晓明" is-link @click.native="fun('打开学生主页')">
         <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>
-      <cell title="我的账号" value="15838150666" is-link>
+      <cell title="我的账号" :value="data.Mobilephone" is-link>
         <i slot="icon" class="iconfont">&#xe693;</i>
       </cell>
       <cell title="完善资料"  is-link @click.native="fun('修改资料')">
@@ -44,6 +44,7 @@ export default {
   },
   data () {
     return {
+      data:{},
       userface: require('@/assets/face/bw.jpg')
     }
   },
@@ -54,14 +55,24 @@ export default {
         width:"20em",
         text: msg
       })
+    },
+    getData(){
+      this.$API.getCurrentUser().then(res=>{
+        console.log('获取到的用户信息：')
+        console.log(res)
+        this.data = res
+      }).catch(err=>{
+        console.log(err)
+      })
     }
   },
   created(){
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','个人中心')
+    this.getData()
   },
   mounted(){
-    
+
   }
 }
 </script>

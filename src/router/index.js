@@ -42,11 +42,14 @@ import studentlogin from '@/view/login/student'
 import parentlogin from '@/view/login/parent'
 
 // 学校
-import main from '@/view/main/main'
 import banji from '@/view/main/class'
-import news from '@/view/main/news'
-import school from '@/view/main/school'
-import newSchoolPost from '@/view/main/newpost'
+import news from '@/view/school/news'
+import school from '@/view/school/main'
+import newSchoolPost from '@/view/school/newpost'
+import allSchoolPost from '@/view/school/all'
+
+// 主页
+import main from '@/view/main/main'
 
 // 消息
 import msg from '@/view/msg/main'
@@ -63,7 +66,7 @@ import teachercenter from '@/view/user/teacher'
 Vue.use(Router)
 
 export default new Router({
-    // 历史记录模式，需服务器配置支持
+    // 历史记录模式，需要服务器配置支持
     // mode: 'history',
     routes: [{
             path: '/',
@@ -191,6 +194,26 @@ export default new Router({
             ]
         },
         {
+            path: '/school',
+            component: school,
+            children: [
+                {
+                    path: '',
+                    component: allSchoolPost
+                },
+                {
+                    path: 'new',
+                    name: 'newSchoolPost',
+                    component: newSchoolPost
+                },
+                {
+                    path: 'all',
+                    name: 'allSchoolPost',
+                    component: allSchoolPost
+                }
+            ]
+        },
+        {
             path: '/login',
             name: 'login',
             component: login
@@ -216,11 +239,6 @@ export default new Router({
             component: main
         },
         {
-            path: '/school/new',
-            name: 'newSchoolPost',
-            component: newSchoolPost
-        },
-        {
             path: '/banji',
             name: 'banji',
             component: banji
@@ -230,11 +248,7 @@ export default new Router({
             name: 'news',
             component: news
         },
-        {
-            path: '/school',
-            name: 'school',
-            component: school
-        },
+        
         {
             path: '/msg',
             name: 'msg',

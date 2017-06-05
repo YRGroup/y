@@ -1,6 +1,8 @@
 <template>
   <div>
-
+    
+    </br>
+    
     <div class="feed" v-for="i in data" @click="fun('打开 '+i.title+' '+i.class+' 的作业页面')">
       <div class="time">{{ i.time }}</div>
       <card class="card">

@@ -49,6 +49,7 @@ export default {
     showRouterInfo(){
       console.log('当前路由信息：')
       console.log(this.$route.params)
+      window.scrollTo(0,0);
     }
   },
   created(){

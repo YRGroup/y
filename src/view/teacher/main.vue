@@ -3,21 +3,16 @@
     
     <div class="teacher-header">
       <img :src="data.Headimgurl" >
-      <p>
+      <div class="nameInfo">
         <span>{{ data.TrueName }}</span>
         <span>{{ data.Course }}</span>
-      </p>
-      <p>
-        <span>辛勤园丁</span>
-        <span>教学奉献奖</span>
-      </p> 
+      </div>
     </div>
     <tab>
       <tab-item selected @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/profile')">主页</tab-item>
       <tab-item @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/feed')">动态</tab-item>
       <tab-item @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/work')">作业</tab-item>
     </tab>
-    </br>
 
     <transition name="slide-fade">
       <router-view></router-view>
@@ -27,11 +22,11 @@
 </template>
 
 <script>
-import { Tab, TabItem } from 'vux'
+import { Tab, TabItem,Blur  } from 'vux'
 
 export default {
   components: {
-    Tab,TabItem
+    Tab,TabItem,Blur 
   },
   data () {
     return {
@@ -41,16 +36,19 @@ export default {
   },
   methods:{
     getData(){
-      this.$API.getTeacherInfo($route.params.teacherId).then(res=>{
-        console.log('获取教师信息：')
+      this.$API.getTeacherInfo(this.$route.params.teacherId).then(res=>{
+        console.log('获取到的教师信息：')
         console.log(res)
         this.data=res
+      }).catch(err=>{
+        console.log(err)
       })
     }
   },
   created(){
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','教师主页')
+    this.getData()
   },
   mounted(){
 
@@ -60,30 +58,36 @@ export default {
 
 <style lang="less" scoped>
 .teacher-header{
-  height:13em;
   width:100%;
-  background:linear-gradient(right top,#00c0a1, #00c06f);
-  background-size:100% 100%;
   color:#fff;
   text-align: center;
-  padding-top:2em;
+  background:linear-gradient(right top,#00c0a1, #00c06f);
+  background-size:100% 100%;
+  padding:1rem 0;
   img{
     width:5rem;
     border-radius:50%;
+    border:3px solid rgba(255,255,255,0.3);
+  }
+  .nameInfo{
+    font-size: 1.4em;
+  }
+  .tipInfo{
+    margin:1rem 0;
+    span{
+      border: 1px solid #fff;
+      padding:.3rem 1em;
+      border-radius: 25px;
+    }
   }
   p:nth-child(2){
     span:nth-child(1){
-      font-size: 1.4em;
+      
     }
-    
   }
   p:nth-child(3){
-    margin-top:1em;
-    span{
-      border: 1px solid #fff;
-      padding:.3em 1em;
-      border-radius: 25px;
-    }
+    
+    
   }
 }
 </style>

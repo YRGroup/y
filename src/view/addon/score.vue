@@ -32,11 +32,11 @@
           <span class="score">108</span>
           <span class="fullScore">/150</span>
         </li>
-        <li>
+        <!--<li>
           <span class="title">语文</span>
           <span class="score">108</span>
           <span class="fullScore">/150</span>
-        </li>
+        </li>-->
       </div>
       <div class="more card">
         查看历次成绩 >>>
@@ -105,7 +105,7 @@ export default {
   }
   .subject{
     display:flex;
-    justify-content:center;
+    // justify-content:center;
     flex-wrap: wrap;
     padding:0 .5rem;
     position: relative;
@@ -116,6 +116,7 @@ export default {
       width:1px;
       height:100%;
       position: absolute;
+      left:50%;
     }
     li{
       width:50%;
