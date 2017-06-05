@@ -20,7 +20,7 @@
       <x-button type="primary" @click.native="login">登录</x-button>
     </div>
     <div class="parentReg">
-      <x-button plain type="primary">家长注册</x-button>
+      <x-button plain type="primary" @click.native="$router.push('/regist')">家长注册</x-button>
     </div>
     <!--<x-button type="warn" @click.native="$router.push('/reg')">注册</x-button>-->
   </div>
@@ -74,11 +74,13 @@ export default {
 
 <style lang="less" scoped>
 .login{
-  height: 100vh -;
-  // padding:0 2em;
+  position: relative;
+  height: 70vh;
+  text-align: center;
+  padding-top: 8em;
+  margin:0 auto;
   .logo{
     margin:0 auto;
-    text-align: center; 
     img{
       width:12em;
     }
@@ -90,6 +92,13 @@ export default {
 }
 .parentReg{
   position: absolute;
-  bottom: 0rem;
+  bottom: 0;
+  width: 100%;
+  margin:0 auto;
+  text-align: center;
+  .weui-btn{
+    margin:0 auto;
+    width: 40%;
+   }
 }
 </style>

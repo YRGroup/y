@@ -16,34 +16,17 @@
           <span class="num">560</span>
         </div> 
       </div>
-      <div class="subject">
-        <li>
-          <span class="title">语文</span>
-          <span class="score">108</span>
-          <span class="fullScore">/150</span>
+      <ul class="subject">
+        <li v-for="list in score">
+          <span class="title">{{list.title}}</span>
+          <span class="score">{{list.score}}</span>
+          <span class="fullScore">/{{list.fullscore}}</span>
         </li>
-        <li>
-          <span class="title">语文</span>
-          <span class="score">108</span>
-          <span class="fullScore">/150</span>
-        </li>
-        <li>
-          <span class="title">语文</span>
-          <span class="score">108</span>
-          <span class="fullScore">/150</span>
-        </li>
-        <li>
-          <span class="title">语文</span>
-          <span class="score">108</span>
-          <span class="fullScore">/150</span>
-        </li>
-      </div>
+      </ul>
       <div class="more card">
         查看历次成绩 >>>
       </div>
     </div>
-
-    
 
   </div>
 </template>
@@ -53,7 +36,33 @@ export default {
   name: 'hello',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      score: [
+        {
+          title:'语文',
+          score:'108',
+          fullscore:'145'
+        },
+        {
+          title:'数学',
+          score:'108',
+          fullscore:'145'
+        },
+        {
+          title:'英文',
+          score:'108',
+          fullscore:'145'
+        },
+        {
+          title:'音乐',
+          score:'108',
+          fullscore:'145'
+        },
+        {
+          title:'美术',
+          score:'108',
+          fullscore:'145'
+        }
+      ]
     }
   },
   methods:{
@@ -62,7 +71,8 @@ export default {
     }
   },
   created(){
-
+    this.$store.commit('showNav',false)
+    this.$store.commit('changeTitle','成绩报告')
   },
   mounted(){
 
@@ -105,10 +115,10 @@ export default {
   }
   .subject{
     display:flex;
-    justify-content:center;
     flex-wrap: wrap;
     padding:0 .5rem;
     position: relative;
+    border-bottom: 1px solid @cc4;
     &:before{
       content: "";
       display: block;
@@ -116,6 +126,7 @@ export default {
       width:1px;
       height:100%;
       position: absolute;
+      left:50%;
     }
     li{
       width:50%;
@@ -128,6 +139,9 @@ export default {
       }
       .fullScore{
         color: @cc2;
+      }
+      &:last-child{
+        border-bottom: none;
       }
     }
     

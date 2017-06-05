@@ -6,7 +6,7 @@
     </x-header>
 
     <transition name='slide-fade'>
-      <router-view id="inview"></router-view>
+      <router-view id="inview" :style="{marginTop:ptop}"></router-view>
     </transition>
 
     <tabbar id="nav-bottom" v-show="$store.state.isNav">
@@ -62,6 +62,9 @@ export default {
   computed:{
     web_title () {
       return this.$store.state.title
+    },
+    ptop (){
+      return this.$store.state.isNav ? '3.8em' : '0'
     }
   }
 }
