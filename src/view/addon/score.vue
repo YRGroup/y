@@ -22,26 +22,7 @@
           <span class="score">{{list.score}}</span>
           <span class="fullScore">/{{list.fullscore}}</span>
         </li>
-<<<<<<< HEAD
-        <li>
-          <span class="title">语文</span>
-          <span class="score">108</span>
-          <span class="fullScore">/150</span>
-        </li>
-        <li>
-          <span class="title">语文</span>
-          <span class="score">108</span>
-          <span class="fullScore">/150</span>
-        </li>
-        <!--<li>
-          <span class="title">语文</span>
-          <span class="score">108</span>
-          <span class="fullScore">/150</span>
-        </li>-->
-      </div>
-=======
       </ul>
->>>>>>> a2d790d853d00144bede28550e443f2d371240c4
       <div class="more card">
         查看历次成绩 >>>
       </div>
