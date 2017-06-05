@@ -40,13 +40,13 @@
         </router-link>
       </flexbox-item>
       <flexbox-item :span="4">
-        <router-link to="/user">
+        <router-link to="/score">
           <div style="background:#0ab9f7"><i class="iconfont">&#xe601;</i></div>
           <span>成绩报告</span>
         </router-link>
       </flexbox-item>
       <flexbox-item :span="4">
-        <router-link to="/main">
+        <router-link to="/msg">
           <div style="background:#ff5251"><i class="iconfont">&#xe629;</i></div>
           <span>消息</span>
         </router-link>

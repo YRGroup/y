@@ -12,7 +12,7 @@ const store = new Vuex.Store({
         APItype:'server',
         reginfo:{},
         classId:'19',
-        classInfo:{null:true}
+        classInfo:{null:true},
     },
     mutations: {
         login(state,name) {

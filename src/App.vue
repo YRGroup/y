@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <x-header id="nav-top" :left-options="{backText: ''}">
+    <x-header id="nav-top" :left-options="{backText: ''}" v-show="$store.state.isHeader">
       {{web_title}}
       <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
     </x-header>
@@ -100,6 +100,10 @@ body {
   position:fixed;
   bottom:0;
 }
+
+::-webkit-input-placeholder { 
+color: @cc4; 
+} 
 li{
   list-style:none;
   padding:0;
@@ -119,11 +123,11 @@ a{
 
 @font-face {
   font-family: 'iconfont';  /* project id 291668 */
-  src: url('//at.alicdn.com/t/font_m31nrwig4h63l3di.eot');
-  src: url('//at.alicdn.com/t/font_m31nrwig4h63l3di.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_m31nrwig4h63l3di.woff') format('woff'),
-  url('//at.alicdn.com/t/font_m31nrwig4h63l3di.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_m31nrwig4h63l3di.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_6nlk2nj81lzbyb9.eot');
+  src: url('//at.alicdn.com/t/font_6nlk2nj81lzbyb9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_6nlk2nj81lzbyb9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_6nlk2nj81lzbyb9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_6nlk2nj81lzbyb9.svg#iconfont') format('svg');
 }
 .iconfont{
   font-family:"iconfont";
