@@ -1,5 +1,11 @@
 <template>
   <div class="content">
+    <div class="follow">
+        <span class="tips"><i class="iconfont">&#xe620;</i></span>
+        <!--<span class="text">您还没有关注公共账号！</span>-->
+        <marquee class="text" direction="left">您还没有关注公共账号,关注后可收到学生在校动态！</marquee>
+         <x-button class="right" mini type="primary" @click.native='mytest'><i class="iconfont">&#xe61f;</i>关注</x-button>
+    </div>
     
     <!--轮播图-->
     <swiper loop auto :list="swiperdate"></swiper>
@@ -107,12 +113,12 @@
 </template>
 
 <script>
-import { Swiper,Flexbox,FlexboxItem,Card,Tab, TabItem  } from 'vux'
+import { Swiper,Flexbox,FlexboxItem,Card,Tab, TabItem ,XButton } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Swiper,Flexbox,FlexboxItem,Card,Tab, TabItem
+    Swiper,Flexbox,FlexboxItem,Card,Tab, TabItem,XButton
   },
   data () {
     return {
@@ -250,6 +256,9 @@ export default {
         this.list = res.data
         console.log(this.list)
       })
+    },
+    mytest(){
+      this.$router.push('/msg')
     }
   },
   created(){
@@ -293,5 +302,37 @@ export default {
   }
 }
 
+.follow{
+  font-size: 1em;
+  height: 3em;
+  line-height: 3em;
+  padding:0 1em;
+  background: #fcefbf;
+  color:#666;
+  overflow: hidden;
+  position: relative;
+  .tips{
+    color:#f76260;
+    font-size: 1.6em;
+    margin-right: 5px;
+  }
+  .text{
+    position: absolute;
+    left: 3em;
+    font-size: 1.2em;
+    width: 70%;
+  }
+  .right{
+    position: absolute;
+    right:1em;
+    top:0.3em;
+  }
+  .weui-btn{
+    padding:0 10px;
+    .iconfont{
+      margin-right: 5px;
+    }
+  }
+}
 
 </style>

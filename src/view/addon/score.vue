@@ -1,8 +1,7 @@
 <template>
   <div>
-    score info
     <div class="header card">
-      <p class="title">2015-2016学年吉林省中学高一下学期期末考试</p>
+      <p class="title">2015-2016学年吉林省中学学年吉林省中学</p>
       <p class="time">2017-5-10</p>
     </div>
 
@@ -72,30 +71,35 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@borderColor:#ccc;
-@subColor:#ccc;
 
 .header{
   text-align: center;
-  line-height: 2rem;
+  line-height: 1.6rem;
+  padding-bottom:14px;
+  .title{
+    padding:14px 14px 0 14px;
+    font-size: 1rem;
+  }
   .time{
-    color:@subColor;
+    color:@cc3;
   }
 }
 .main{
   text-align: center;
   
   .total{
-    line-height: 3rem;
+    line-height: 4rem;
     padding:0 .5rem;
     display:flex;
     justify-content:center;
     .item{
-      font-size: 1.1rem;
+      font-size: 1rem;
       width:50%;
-      border-bottom: 1px solid @borderColor;
+      border-bottom: 1px solid @cc4;
       .num{
         font-weight: bold;
+        font-size: 1.2rem;
+        color:@cc6;
       }
     }
   }
@@ -104,23 +108,34 @@ export default {
     justify-content:center;
     flex-wrap: wrap;
     padding:0 .5rem;
+    position: relative;
     &:before{
       content: "";
       display: block;
-      background: @borderColor;
+      background: @cc4;
       width:1px;
-      height:6rem;
+      height:100%;
       position: absolute;
     }
     li{
       width:50%;
       line-height: 3rem;
-      border-bottom: 1px solid @borderColor;
+      border-bottom: 1px solid @cc4;
+      .score{
+        font-size:1.2rem;
+        color: @cc6;
+        font-weight: 600;
+      }
+      .fullScore{
+        color: @cc2;
+      }
     }
-    .more{
-      line-height: 3rem;
-      color:@subColor;
-    }
+    
   }
+  .more{
+      line-height: 3rem;
+      margin-top:0;
+      color:@cc2;
+    }
 }
 </style>

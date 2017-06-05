@@ -2,12 +2,20 @@
   <div class="login">
     </br>
     <group>
-      <x-input title="手机号：" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" v-model="tel"></x-input>
-      <x-input title="密码：" placeholder="请输入密码" type="password" v-model="pw" @keyup.native.enter="login"></x-input>
+      <x-input title="手机号：" :is-type="china-mobile" placeholder="填写手机号" keyboard="number" v-model="tel">
+        <!--<img slot="label" style="padding-right:10px;display:block;" src="http://dn-placeholder.qbox.me/110x110/FF2D55/000" width="24" height="24">-->
+        <span slot="label" class="loginIcon"><i class="iconfont" >&#xe620;</i></span>
+      </x-input>
+      <x-input title="密码：" placeholder="请输入密码" type="password" v-model="pw" @keyup.native.enter="login">
+        <!--<img slot="label" style="padding-right:10px;display:block;" src="http://dn-placeholder.qbox.me/110x110/FF2D55/000" width="24" height="24">-->
+        <span slot="label" class="loginIcon"><i class="iconfont" >&#xe620;</i></span>
+      </x-input>
+      <!--<x-input title="手机号：" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" v-model="tel"></x-input>-->
+      <!--<x-input title="密码：" placeholder="请输入密码" type="password" v-model="pw" @keyup.native.enter="login"></x-input>-->
     </group>
     </br>
-    <x-button type="primary" @click.native="login">登陆</x-button>
-    <x-button type="warn" @click.native="$router.push('/reg')">注册</x-button>
+    <x-button type="primary" @click.native="login">登录</x-button>
+    <!--<x-button type="warn" @click.native="$router.push('/reg')">注册</x-button>-->
   </div>
 </template>
 
@@ -48,7 +56,7 @@ export default {
     }
   },
   created(){
-    this.$store.state.title = '注册/登陆'
+    this.$store.state.title = '登录智慧校园'
     this.$store.state.isNav = false
   },
   mounted(){
@@ -60,5 +68,9 @@ export default {
 <style lang="less" scoped>
 .login{
   padding:2em;
+}
+.loginIcon{
+  margin-right:8px;
+  color: #888;
 }
 </style>
