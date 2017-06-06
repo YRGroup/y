@@ -1,39 +1,33 @@
 <template>
   <div class="profile">
-
-    <group label-width="13em" label-align="left">
-      <cell title="授课班级">
-        <i slot="icon" class="fa fa-user">&nbsp&nbsp</i>
+    <group label-width="13em" label-align="left" class="itemlist">
+      <cell title="职称：" value="高级教师" value-align="right"></cell>
+      <cell title="教龄：" value="5年" value-align="right"></cell>
+      <div class="more" @click="$router.push('/main')">更多基本资料</div>
+      <!--<cell value-align="left" value="查看更多" is-link></cell>-->
+    </group>
+    <group label-width="13em" label-align="left" class="itemlist">
+      <cell title="授课班级" class="title">
+        <!--<i slot="icon" class="fa fa-user">&nbsp&nbsp</i>-->
+        <i class="iconfont" slot="icon">&#xe614;</i>
       </cell>
-      <hr>
       <cell title="三年二班" value="班主任、语文" value-align="right"></cell>
       <cell title="三年六班" value="语文" value-align="right"></cell>
     </group>
-
-    <group label-width="13em" label-align="left">
-      <cell title="个人资料">
-        <i slot="icon" class="fa fa-user">&nbsp&nbsp</i>
+    <group label-width="13em" label-align="left" class="itemlist">
+      <cell title="教学经历" class="title">
+        <!--<i slot="icon" class="fa fa-user">&nbsp&nbsp</i>-->
+        <i class="iconfont" slot="icon">&#xe603;</i>
       </cell>
-      <hr>
-      <cell title="职称：" value="高级教师" value-align="right"></cell>
-      <cell title="教龄：" value="5年" value-align="right"></cell>
-      <cell value="查看更多" is-link></cell>
-    </group>
-
-    <group label-width="13em" label-align="left">
-      <cell title="教学经历">
-        <i slot="icon" class="fa fa-user">&nbsp&nbsp</i>
-      </cell>
-      <hr>
       <cell title="郑州航空港区育人国际学校" value="2016-2017" value-align="right"></cell>
       <cell title="郑州航空港区育人高级中学" value="2013-2015" value-align="right"></cell>
     </group>
 
-    <group label-width="13em" label-align="left">
-      <cell title="个人荣誉">
-        <i slot="icon" class="fa fa-user">&nbsp&nbsp</i>
+    <group label-width="13em" label-align="left" class="itemlist">
+      <cell title="个人荣誉" class="title">
+        <!--<i slot="icon" class="fa fa-user">&nbsp&nbsp</i>-->
+        <i class="iconfont" slot="icon">&#xe671;</i>
       </cell>
-      <hr>
       <scroller lock-y scrollbar-x>
       <div class="box" :style="{ width: boxwid}">
         <div class="box-item" v-for="(item,index) in cup">
@@ -116,6 +110,25 @@ export default {
     width:4em;
     margin:0 1em;
     // border-radius:50%;
+  }
+}
+.itemlist{
+  margin-top:-10px;
+  .title{
+    border-bottom: 1px solid @cc3;
+    margin-bottom: -1px;
+    font-size:1.1em;
+    line-height: 1.4em;
+    .iconfont{
+      margin-right:5px;
+      font-size:1.2em;
+    }
+  }
+  .more{
+    border-top:1px solid @cc4;
+    color:@cc3;
+    text-align: center;
+    line-height: 3em;
   }
 }
 

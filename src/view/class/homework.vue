@@ -100,6 +100,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+<<<<<<< HEAD
 .workcard{
   background: #fff;
   padding:1rem;
@@ -111,6 +112,31 @@ export default {
       padding:.3rem 1rem;
       color:#fff;
       border-radius: 5px;
+=======
+.feed{
+  text-align:center;
+  .time{
+    margin:0 auto;
+    background:#e3e3e3;
+    padding:0.5em;
+    display:inline;
+    border-radius:20px;
+  }
+  &:first-child{
+    margin-top:10px;
+  }
+}
+.card{
+  margin:1em;
+  padding:1em;
+  box-shadow:0 0 1px #ccc;
+  position:relative;
+  text-align:left;
+  p{
+    img{
+      width:6em;
+      border-radius:5px;
+>>>>>>> 76a3f9cf6370e84c13862a2217f3b57d79138794
     }
     .auther{
       float:right;

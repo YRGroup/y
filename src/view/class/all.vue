@@ -221,13 +221,15 @@ export default {
     position:absolute;
     left:1em;
     top:1em;
+    font-size: 1.1em;
+    line-height: 1.4em;
   }
   div:nth-child(2):before{
     content:"";
     display:block;
     width:1px;
     height:4em;
-    background:@c6;
+    background:@c2;
     position:absolute;
     left:4em;
     top:.5em;
@@ -257,7 +259,7 @@ export default {
     display:block;
     width:1px;
     height:4em;
-    background:@c6;
+    background:@c2;
     position:absolute;
     right:4em;
     top:.5em;
@@ -266,7 +268,7 @@ export default {
     color:@c4;
     width:1em;
     position:absolute;
-    right:2em;
+    right:1.6em;
     top:1em;
   }
 }
