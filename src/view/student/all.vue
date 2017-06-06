@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    test info
+    学生主页
   </div>
 </template>
 
@@ -27,7 +27,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.hello{
-  text-align: center;
-}
+
 </style>

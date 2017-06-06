@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <x-header id="nav-top" :left-options="{backText: ''}" v-show="$store.state.isNav">
+    <x-header id="nav-top" :left-options="{backText: ''}" v-show="shownav">
       {{web_title}}
       <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
     </x-header>
@@ -9,7 +9,7 @@
       <router-view id="inview" :style="{marginTop:ptop}"></router-view>
     </transition>
 
-    <tabbar id="nav-bottom" v-show="$store.state.isNav">
+    <tabbar id="nav-bottom" v-show="shownav">
       <tabbar-item selected link="/main">
         <i slot="icon" class="iconfont nav_icon">&#xe666;</i>
         <span slot="label">主页</span>
@@ -63,6 +63,9 @@ export default {
   computed:{
     web_title () {
       return this.$store.state.title
+    },
+    shownav(){
+      return this.$store.state.isNav
     },
     ptop (){
       return this.$store.state.isNav ? '3.8em' : '0'
@@ -147,6 +150,5 @@ a{
 .card{
   background: #fff;
   margin-top:1rem;
-  width:100%;
 }
 </style>

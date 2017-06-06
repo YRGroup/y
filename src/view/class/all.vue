@@ -5,13 +5,13 @@
 教师端显示
 -->
     <div class="notice" >
-      <div class="icon">
+      <div class="icon" @click="$router.push('/class/'+$store.state.classId+'/notice')">
         <span>通知</span>
       </div>
-      <div class="title">周三开家长会，请全体家长按时参加</div>
+      <div class="title">{{notice.content}}</div>
       <div class="info">
-        <span class="auther">班主任</span>
-        <span class="time">5-11 14:00</span>
+        <span class="auther">{{notice.auther}}</span>
+        <span class="time">{{notice.date}}</span>
       </div>
     </div>
 
@@ -20,10 +20,11 @@
 家长端显示
 -->
     <scroller lock-y scrollbar-x >
-      <div class="box" :style="{ width: boxwid}">
+      <div class="teacherListBox" :style="{ width: boxwid}">
         <div class="box-item" v-for="item in teachers" @click="$router.push('/teacher/'+item.Meid)">
           <img :src="item.Headimgurl">
-          <span>{{ item.TrueName }}</span>
+          <div class="name">{{ item.TrueName }}</div>
+          <div class="job">{{ item.SelfDiscription }}</div>
         </div>
       </div>
     </scroller>
@@ -32,17 +33,17 @@
 教师端不显示
 家长端显示
 -->
-    <div class="classWork"  @click="$router.push('/class/'+$store.state.classId+'/work')" >
+    <div class="classWork">
       <div>
         <span>班级作业</span>
       </div>
       <div>
-        <li v-for="i in notice">
-          <span>【{{ i.class }}】：{{ i.msg }}</span>
+        <li v-for="i in homework">
+          <span>【{{ i.category }}】：{{ i.content }}</span>
           <span>{{ i.date }}</span>
         </li>
       </div>
-      <div>
+      <div @click="$router.push('/class/'+$store.state.classId+'/work')">
         <span>更多</span>
       </div>
     </div>
@@ -94,18 +95,8 @@ export default {
     return {
       boxwid:'500px',
       teachers:[],
-      notice:[
-        {
-          "class":'语文',
-          'msg':'唐诗三百首读后感一篇',
-          'date':'4.26'
-        },
-        {
-          "class":'数学',
-          'msg':'二次幂和公式的推倒过程',
-          'date':'4.25'
-        }
-      ],
+      notice:[],
+      homework:[],
       list:[]
     }
   },
@@ -139,6 +130,26 @@ export default {
         console.log(err)
       })
     },
+    getNotice(){
+      this.$API.getAllClassDynamic(this.$store.state.classId,3,1).then(res=>{
+        console.log('获取到的班级通知第一条：')
+        console.log(res)
+        this.notice = res[0]
+        this.boxwid = res.length * 100 +'px'
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    getHomeWork(){
+      this.$API.getAllClassDynamic(this.$store.state.classId,4,2).then(res=>{
+        console.log('获取班级作业前两条：')
+        console.log(res)
+        this.homework = res
+        this.boxwid = res.length * 100 +'px'
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     doLike(id){
       this.$API.doLikeThisPost(id).then(res=>{
         this.$vux.toast.show({
@@ -155,6 +166,8 @@ export default {
     this.$store.commit('changeTitle','班级动态')
     this.getData()
     this.getTeacherList()
+    this.getNotice()
+    this.getHomeWork()
   },
   mounted(){
     // this.boxwid = this.teachers.length * 100 +'px'
@@ -163,35 +176,37 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.box {
+.teacherListBox {
   height: 7rem;
   position: relative;
   background:transparent;
   background-color:#fff;
   min-width: 100vw;
-}
-.box-item {
-  width: 5rem;
-  height: 6rem;
-  border-radius:15px;
-  display:inline-block;
-  margin-left: 15px;
-  img{
-    width:4rem;
-    margin-top:.5rem;
-    margin-left:.5rem;
-    border-radius:50%;
+  .box-item {
+    width: 5rem;
+    height: 6rem;
+    border-radius:15px;
+    display:inline-block;
+    margin-left: 15px;
+    img{
+      width:4rem;
+      margin-top:.5rem;
+      margin-left:.5rem;
+      border-radius:50%;
+    }
+    .name{
+      font-size:0.7rem;
+      text-align: center;
+    }
+    .job{
+      text-align: center;      
+    }
   }
-  span:nth-child(2){
-    color:#000;
-    font-size:0.7rem;
-    display:block;
-    text-align: center;
+  .box-item:first-child {
+    margin-left: 1rem;
   }
 }
-.box-item:first-child {
-  margin-left: 1rem;
-}
+
 
 .classWork{
   margin-top:0.8rem;

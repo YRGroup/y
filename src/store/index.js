@@ -12,6 +12,7 @@ const store = new Vuex.Store({
         APItype:'server',
         reginfo:{},
         classId:'19',
+        studentId:'65412',
         classInfo:{null:true},
     },
     mutations: {

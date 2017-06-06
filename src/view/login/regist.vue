@@ -1,11 +1,11 @@
 <template>
   <div class="register">
     <group class="item">
-      <x-input class="itemList" placeholder="请输入手机号" is-type="china-mobile"  keyboard="number" v-model="tel">
+      <x-input class="itemList" :class="index===0?'active':null" @click.native="changeIndex(0)" placeholder="请输入手机号" is-type="china-mobile"  keyboard="number" v-model="tel">
       </x-input>
     </group>
     <group class="item">
-      <x-input class="itemList" placeholder="请输入验证码" v-model="imgcheck">
+      <x-input class="itemList" placeholder="请输入验证码" v-model="imgcheck" :class="index===1?'active':null" @click.native="changeIndex(1)">
         <img slot="right" :src="'http://api.zzcowboy.com/ck/captcha.png?n='+checkc" @click="newimg">
       </x-input>
     </group>
@@ -38,7 +38,8 @@ export default {
       imgcheck:'',
       checkc:'',
       disabled:'',
-      countdown:0
+      countdown:0,
+      index:0
     }
   },
   methods:{
@@ -71,6 +72,9 @@ export default {
         width:"20em",
         text: msg
       })
+    },
+    changeIndex(val){
+      this.index=val
     }
   },
   created(){
@@ -104,6 +108,9 @@ export default {
       img{
         height: 1.4em;
       }
+    }
+    .active{
+      border:1px solid red;
     }
   }
 }

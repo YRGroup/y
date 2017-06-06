@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    test info
+    成长记录
   </div>
 </template>
 

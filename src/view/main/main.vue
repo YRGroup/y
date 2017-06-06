@@ -11,18 +11,9 @@
     <swiper loop auto :list="swiperdate"></swiper>
 
     <!--功能导航-->
-    <!--<flexbox wrap="wrap" :gutter="0">
-      <flexbox-item :span="4" v-for="i in icon_nav" :key="i">
-        <router-link :to="i.link">
-          <div :style="{background:i.color}"><:name="i.icon" scale="4"></icon></div>
-          <span>{{i.title}}</span>
-        </router-link>
-      </flexbox-item>
-    </flexbox>-->
-
     <flexbox wrap="wrap" :gutter="0">
       <flexbox-item :span="4">
-        <router-link to="/main">
+        <router-link :to="'/class/'+$store.state.classId+'/notice'">
           <div style="background:#fe970f"><i class="iconfont">&#xe649;</i></div>
           <span>通知</span>
         </router-link>
@@ -40,7 +31,7 @@
         </router-link>
       </flexbox-item>
       <flexbox-item :span="4">
-        <router-link to="/score">
+        <router-link :to="'/student/'+$store.state.studentId+'/score'">
           <div style="background:#0ab9f7"><i class="iconfont">&#xe601;</i></div>
           <span>成绩报告</span>
         </router-link>

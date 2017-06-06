@@ -2,24 +2,29 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 // 临时页面
-import Hello from '@/components/HelloFromVux'
-import newless from '@/components/l'
+import dev from '@/components/dev'
+// 主页
+import main from '@/view/main/main'
 
 // 功能模块
 import addon from '@/view/addon/default'
 import kechengbiao from '@/view/addon/kechengbiao'
 import reader from '@/view/addon/reader'
 import remark from '@/view/addon/remark'
-import schoolcard from '@/view/addon/schoolcard'
-import score from '@/view/addon/score'
-import timeline from '@/view/addon/timeline'
+
+// 学校
+import news from '@/view/school/news'
+import school from '@/view/school/main'
+import newSchoolPost from '@/view/school/newpost'
+import allSchoolPost from '@/view/school/all'
 
 // 班级
 import classmain from '@/view/class/main'
-import classall from '@/view/class/all'
+import classMainPage from '@/view/class/all'
 import classmsg from '@/view/class/msg'
+import notice from '@/view/class/notice'
 import homework from '@/view/class/homework'
-import student from '@/view/class/student'
+import studentlist from '@/view/class/student'
 import kcb from '@/view/class/kcb'
 import newClassPost from '@/view/class/newpost'
 
@@ -28,6 +33,14 @@ import teacher from '@/view/teacher/main'
 import teacherprofile from '@/view/teacher/profile'
 import teacherfeed from '@/view/teacher/feed'
 import teacherwork from '@/view/teacher/work'
+
+// 学生
+import student from '@/view/student/main'
+import studentMainPage from '@/view/student/all'
+import score from '@/view/student/score'
+import studentfeed from '@/view/student/feed'
+import schoolcard from '@/view/student/schoolcard'
+import timeline from '@/view/student/timeline'
 
 // 注册
 import regist from '@/view/login/regist'
@@ -42,22 +55,12 @@ import teacherlogin from '@/view/login/teacher'
 import studentlogin from '@/view/login/student'
 import parentlogin from '@/view/login/parent'
 
-// 学校
-import banji from '@/view/main/class'
-import news from '@/view/school/news'
-import school from '@/view/school/main'
-import newSchoolPost from '@/view/school/newpost'
-import allSchoolPost from '@/view/school/all'
+// 通讯录
+import msg from '@/view/contact/main'
+import allmsg from '@/view/contact/allmsg'
+import mymsg from '@/view/contact/mymsg'
 
-// 主页
-import main from '@/view/main/main'
-
-// 消息
-import msg from '@/view/msg/main'
-import allmsg from '@/view/msg/allmsg'
-import mymsg from '@/view/msg/mymsg'
-
-// 个人
+// 用户
 import user from '@/view/user/main'
 import edit from '@/view/user/edit'
 import parentcenter from '@/view/user/parent'
@@ -69,62 +72,45 @@ Vue.use(Router)
 export default new Router({
     // 历史记录模式，需要服务器配置支持
     // mode: 'history',
-    routes: [{
+    routes: [
+        {//测试主页
             path: '/',
-            name: 'Hello',
-            component: Hello
+            name: 'dev',
+            component: dev  
         },
-        {
-            path: '/l',
-            name: 'newless',
-            component: newless
+        {//主页
+            path: '/main',
+            name: 'main',
+            component: main
         },
-        {
+        {//扩展模块
             path: '/addon',
-            name: 'addon',
-            component: addon
+            component: addon,
+            children:[
+                {
+                    path: 'kechengbiao',
+                    name: 'kechengbiao',
+                    component: kechengbiao
+                },
+                {
+                    path: 'reader',
+                    name: 'reader',
+                    component: reader
+                },
+                {
+                    path: 'remark',
+                    name: 'remark',
+                    component: remark
+                },
+            ]
         },
-        {
-            path: '/kechengbiao',
-            name: 'kechengbiao',
-            component: kechengbiao
-        },
-        {
-            path: '/reader',
-            name: 'reader',
-            component: reader
-        },
-        {
-            path: '/remark',
-            name: 'remark',
-            component: remark
-        },
-        {
-            path: '/schoolcard',
-            name: 'schoolcard',
-            component: schoolcard
-        },
-        {
-            path: '/score',
-            name: 'score',
-            component: score
-        },
-        {
-            path: '/timeline',
-            name: 'timeline',
-            component: timeline
-        },
-        {
+        {//班级
             path: '/class/:classId/',
             component: classmain,
             children: [
                 {
                     path: '',
-                    component: classall
-                },
-                {
-                    path: 'all',
-                    component: classall
+                    component: classMainPage
                 },
                 {
                     path: 'work',
@@ -136,7 +122,7 @@ export default new Router({
                 },
                 {
                     path: 'student',
-                    component: student
+                    component: studentlist
                 },
                 {
                     path: 'kcb',
@@ -145,44 +131,63 @@ export default new Router({
                 {
                     path: 'new',
                     component: newClassPost
-                },         
+                },   
+                {
+                    path: 'notice',
+                    component: notice
+                },       
             ]
         },
-        {
+        {//教师
             path: '/teacher/:teacherId',
             component: teacher,
             children: [
                 {
-                path: '',
-                name: 'teacher',
-                component: teacherprofile
+                    path: '',
+                    name: 'teacher',
+                    component: teacherprofile
                 },
                 {
-                path: 'profile',
-                component: teacherprofile
+                    path: 'profile',
+                    component: teacherprofile
                 },
                 {
-                path: 'feed',
-                component: teacherfeed
+                    path: 'feed',
+                    component: teacherfeed
                 },
                 {
-                path: 'work',
-                component: teacherwork
+                    path: 'work',
+                    component: teacherwork
                 }
-            
             ]
         },
-        {
-            path: '/regist',
-            name: 'regist',
-            component: regist,
+        {//学生
+            path: '/student/:studentId',
+            component: student,
+            children:[
+                {
+                    path: '',
+                    component: studentMainPage
+                },
+                {
+                    path: 'feed',
+                    component: studentfeed
+                },
+                {
+                    path: 'score',
+                    component: score
+                },
+                {
+                    path: 'schoolcard',
+                    component: schoolcard
+                },
+                {
+                    path: 'timeline',
+                    component: timeline
+                }
+            ]
         },
-        {
-            path: '/step',
-            name: 'step',
-            component: step1,
-        },
-        {
+        {//学校
             path: '/school',
             component: school,
             children: [
@@ -199,9 +204,26 @@ export default new Router({
                     path: 'all',
                     name: 'allSchoolPost',
                     component: allSchoolPost
+                },
+                {
+                    path: 'news',
+                    name: 'news',
+                    component: news
                 }
             ]
         },
+        // 注册 登陆
+        {
+            path: '/regist',
+            name: 'regist',
+            component: regist,
+        },
+        {
+            path: '/step',
+            name: 'step',
+            component: step1,
+        },
+        
         {
             path: '/login',
             name: 'login',
@@ -221,23 +243,9 @@ export default new Router({
             path: '/parentlogin',
             name: 'parentlogin',
             component: parentlogin
-        },
-        {
-            path: '/main',
-            name: 'main',
-            component: main
-        },
-        {
-            path: '/banji',
-            name: 'banji',
-            component: banji
-        },
-        {
-            path: '/news',
-            name: 'news',
-            component: news
-        },
-        
+        },   
+
+        // 通讯录
         {
             path: '/msg',
             name: 'msg',
@@ -253,6 +261,8 @@ export default new Router({
             name: 'mymsg',
             component: mymsg
         },
+
+        // 用户
         {
             path: '/user',
             name: 'user',

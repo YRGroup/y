@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    test info
+    一卡通
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    test info
+    育人朗读者
   </div>
 </template>
 

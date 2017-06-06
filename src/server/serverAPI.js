@@ -33,9 +33,15 @@ serverAPI.getClassInfo = (classId) => {
 
 
 // 获取班级动态列表
-serverAPI.getAllClassDynamic = (classId) => {
+serverAPI.getAllClassDynamic = (classId,typeId,count) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/Class/GetDynamicList?cid='+classId).then((res)=>{
+    axios.get(_APIurl+'/api/Class/GetDynamicList',{
+      params:{
+        cid:classId,
+        type:typeId||0,
+        count:count||0
+      }
+  }).then((res)=>{
       resolve(res.data.Content)
     }).catch((err)=>{
       reject(err)
