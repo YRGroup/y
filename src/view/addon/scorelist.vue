@@ -1,33 +1,35 @@
 <template>
-  <div>
-    test info
+  <div class="scorelist">
+    <div class="card">
+      <div></div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'hello',
-  data () {
+  data() {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
   },
-  methods:{
-    fun(val){
+  methods: {
+    fun(val) {
 
     }
   },
-  created(){
+  created() {
 
   },
-  mounted(){
+  mounted() {
 
   }
 }
 </script>
 
 <style lang="less" scoped>
-.hello{
+.hello {
   text-align: center;
 }
 </style>

@@ -86,6 +86,9 @@ export default {
     display:inline;
     border-radius:20px;
   }
+  &:first-child{
+    margin-top:10px;
+  }
 }
 .card{
   margin:1em;
