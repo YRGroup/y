@@ -80,14 +80,5 @@ export default {
       border-radius: 25px;
     }
   }
-  p:nth-child(2){
-    span:nth-child(1){
-      
-    }
-  }
-  p:nth-child(3){
-    
-    
-  }
 }
 </style>
