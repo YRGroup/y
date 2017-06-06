@@ -1,11 +1,7 @@
 <template>
   <div class="register">
     <group class="item">
-<<<<<<< HEAD
       <x-input class="itemList" :class="index===0?'active':null" @click.native="changeIndex(0)" placeholder="请输入手机号" is-type="china-mobile"  keyboard="number" v-model="tel">
-=======
-      <x-input class="itemList" placeholder="请输入手机号" is-type="china-mobile" keyboard="number" v-model.trim="tel" ref="input">
->>>>>>> 76a3f9cf6370e84c13862a2217f3b57d79138794
       </x-input>
     </group>
     <group class="item">
@@ -36,16 +32,6 @@ export default {
   },
   data() {
     return {
-<<<<<<< HEAD
-      tel:'',
-      smscheck:'',
-      pw:'',
-      imgcheck:'',
-      checkc:'',
-      disabled:'',
-      countdown:0,
-      index:0
-=======
       tel: '',
       smscheck: '',
       pw: '',
@@ -56,7 +42,6 @@ export default {
       valida:false, 
       currect:'',
       index:''
->>>>>>> 76a3f9cf6370e84c13862a2217f3b57d79138794
     }
   },
   methods: {
@@ -93,11 +78,9 @@ export default {
         text: msg
       })
     },
-<<<<<<< HEAD
     changeIndex(val){
       this.index=val
-    }
-=======
+    },
     submit() {
       let vm = this
       console.log(this.tel)
@@ -117,8 +100,7 @@ export default {
         text: '提交成功，跳转到主页'
       })
       vm.$router.push('/main')
-    },
->>>>>>> 76a3f9cf6370e84c13862a2217f3b57d79138794
+    }
   },
   created() {
     this.$store.commit('showNav', false)
