@@ -12,19 +12,19 @@
     <tabbar id="nav-bottom" v-show="shownav">
       <tabbar-item selected link="/main">
         <i slot="icon" class="iconfont nav_icon">&#xe666;</i>
-        <span slot="label">主页</span>
+        <span slot="label" class="navtext">主页</span>
       </tabbar-item>
       <tabbar-item show-dot :link="'/class/'+$store.state.classId">
         <i slot="icon" class="iconfont nav_icon">&#xe672;</i>
-        <span slot="label">班级</span>
+        <span slot="label" class="navtext">班级</span>
       </tabbar-item>
       <tabbar-item badge="2" link="/msg">
         <i slot="icon" class="iconfont nav_icon">&#xe629;</i>
-        <span slot="label" class="fff">通讯录</span>
+        <span slot="label" class="navtext">通讯录</span>
       </tabbar-item>
       <tabbar-item link="/user">
         <i slot="icon" class="iconfont nav_icon">&#xe719;</i>
-        <span slot="label" class="fff">我的</span>
+        <span slot="label" class="navtext">我的</span>
       </tabbar-item>
     </tabbar>
 
@@ -128,11 +128,11 @@ a{
 }
 @font-face {
   font-family: 'iconfont';  /* project id 291668 */
-  src: url('//at.alicdn.com/t/font_d12xy3wjgmrc0udi.eot');
-  src: url('//at.alicdn.com/t/font_d12xy3wjgmrc0udi.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_d12xy3wjgmrc0udi.woff') format('woff'),
-  url('//at.alicdn.com/t/font_d12xy3wjgmrc0udi.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_d12xy3wjgmrc0udi.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_3yb0hlzfwvfs9k9.eot');
+  src: url('//at.alicdn.com/t/font_3yb0hlzfwvfs9k9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_3yb0hlzfwvfs9k9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_3yb0hlzfwvfs9k9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_3yb0hlzfwvfs9k9.svg#iconfont') format('svg');
 }
 .iconfont{
   font-family:"iconfont";
@@ -146,9 +146,14 @@ a{
   line-height: 27px;
 }
 
+#app .weui-bar__item_on .nav_icon,#app .weui-bar__item_on .navtext{
+  color: @cc6;
+}
 .card{
   background: #fff;
   margin-top:10px;
 }
-
+#app .weui-btn:after{
+  border:none;
+}
 </style>

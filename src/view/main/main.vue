@@ -181,7 +181,6 @@ export default {
   .vux-flexbox-item{
     cursor:pointer; 
     margin:0.5em 0;
-
       div{
         border-radius: 50%;
         margin: 1em auto 0 auto;
@@ -230,6 +229,7 @@ export default {
   }
   .weui-btn{
     padding:0 10px;
+    background: @cc7;
     .iconfont{
       margin-right: 5px;
     }
