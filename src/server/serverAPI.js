@@ -40,7 +40,7 @@ serverAPI.getAllClassDynamic = (classId,typeId,count) => {
     axios.get(_APIurl+'/api/Class/GetDynamicList',{
       params:{
         cid:classId,
-        type:typeId||0,
+        type:typeId||1,
         count:count||0
       }
   }).then((res)=>{
@@ -64,6 +64,20 @@ serverAPI.getHomeworkList = (classId,count) => {
       }
   }).then((res)=>{
       console.log('获取班级作业列表：')
+      console.log(res)
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+// testing
+
+// 发布新班级作业
+serverAPI.addHomework = (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/Class/AddHomework',data).then((res)=>{
+      console.log('添加新班级作业成功：')
       console.log(res)
       resolve(res.data.Content)
     }).catch((err)=>{
@@ -98,14 +112,7 @@ serverAPI.getClassDynamic = (classId,msgId) => {
 serverAPI.postNewClassDynamic = (classDynamicData) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Class/AddDynamic',classDynamicData).then((res)=>{
-      if(res.data.Status===1){
-        resolve(res)
-      }else{
-        let error ={}
-        error.status = res.data.Status
-        error.msg = res.data.Msg
-        reject(error)
-      }
+      resolve(res)
     }).catch((err)=>{
       reject(err)
     })
@@ -203,7 +210,6 @@ serverAPI.getTeacherInfo = (teacherId) => {
 }
 // testing
 
-
 // 获取教师发表的动态列表
 serverAPI.getAllTeacherDynamic = (teacherId) => {
   return new Promise((resolve, reject) => {
@@ -266,7 +272,93 @@ serverAPI.getMsgInfo = (userId) => {
         count:0
       }
     }).then((res)=>{
+      let resData={}
+      let replyData=[]
+      let orginres=res.data.Content
+      resData.sendto_Headimgurl=orginres.sendto_Headimgurl
+      resData.sendto_TrueName=orginres.sendto_TrueName
+      resData.sendto_meid=orginres.sendto_meid
+      orginres.CL.forEach(function(el) {
+        let thisreply={}
+        thisreply.Content=el.Content
+        thisreply.IsRead=el.IsRead
+        thisreply.SendTo=el.SendTo
+        let a = new Date(el.CreateTime)
+        let today = new Date()
+        if(a.Format("yyyy-MM-dd")===today.Format("yyyy-MM-dd")){
+          thisreply.CreateTime=a.Format("hh:mm:ss")
+        }else{
+          thisreply.CreateTime=a.Format("yyyy-MM-dd")
+        }
+        replyData.push(thisreply)
+      }, this);
+      resData.CL=replyData
       console.log('获取到的用户站内消息列表：')
+      console.log(resData)
+      resolve(resData)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+// testing
+
+// 回复消息
+serverAPI.replyMsg = (msgdata) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/Chat/AddChat',msgdata).then((res)=>{
+      console.log('回复消息成功：')
+      console.log(res)
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+// testing
+
+// 获取学生信息
+serverAPI.getStudentInfo = (studentId) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/Student/GetInfo?meid='+studentId).then((res)=>{
+      console.log('获取到的学生信息：')
+      console.log(res)
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+// testing
+
+// 获取学生的成绩单
+serverAPI.getExamScore = (userId,examid) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/Student/GetExamScore',{
+      params:{
+        meid:userId,
+        examid:examid||0
+      }
+    }).then((res)=>{
+      console.log('获取到的当前考试成绩单信息：')
+      console.log(res)
+      resolve(res.data.Content[0])
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+// testing
+
+// 获取考试列表
+serverAPI.getExamList = (userId) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/Student/GetExamTotalScore',{
+      params:{
+        meid:userId
+      }
+    }).then((res)=>{
+      console.log('获取到的考试列表信息：')
       console.log(res)
       resolve(res.data.Content)
     }).catch((err)=>{

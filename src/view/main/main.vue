@@ -31,7 +31,7 @@
         </router-link>
       </flexbox-item>
       <flexbox-item :span="4">
-        <router-link :to="'/student/'+$store.state.studentId+'/score'">
+        <router-link :to="'/student/'+$store.state.studentId+'/score/1'">
           <div style="background:#0ab9f7"><i class="iconfont">&#xe601;</i></div>
           <span>成绩报告</span>
         </router-link>
@@ -54,14 +54,12 @@
           <span>资料库</span>
         </router-link>
       </flexbox-item>
-
       <flexbox-item :span="4">
         <router-link to="/school">
           <div style="background:#8dc62c"><i class="iconfont">&#xe737;</i></div>
           <span>校园新闻</span>
         </router-link>
       </flexbox-item>
-      
     </flexbox>
     <br />
 

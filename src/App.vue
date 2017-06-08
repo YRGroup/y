@@ -18,7 +18,7 @@
         <i slot="icon" class="iconfont nav_icon">&#xe672;</i>
         <span slot="label">班级</span>
       </tabbar-item>
-      <tabbar-item badge="2" link="/msg">
+      <tabbar-item badge="2" link="/contact">
         <i slot="icon" class="iconfont nav_icon">&#xe629;</i>
         <span slot="label" class="fff">通讯录</span>
       </tabbar-item>
@@ -52,7 +52,7 @@ export default {
     }
   },
   created(){
-
+    this.showRouterInfo()
   },
   watch:{
     web_title:(val)=>{

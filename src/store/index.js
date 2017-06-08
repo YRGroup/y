@@ -12,7 +12,7 @@ const store = new Vuex.Store({
         APItype:'server',
         reginfo:{},
         classId:'19',
-        studentId:'65412',
+        studentId:'z6vzso72',
         currentUserId:'s0zdelmp',
         classInfo:{null:true},
     },

@@ -1,5 +1,21 @@
 <template>
-  <div class="hello">
+  <div class="notice">
+
+    <div class="addbtn">
+      <x-button @click.native="newNotice=true">发布新通知</x-button>
+    </div>  
+
+    <popup v-model="newNotice" height="270px" is-transparent>
+      <div class="popup">
+        <group>
+        <x-textarea title="通知内容" placeholder="在此输入通知内容" v-model="newNoticeData.content"></x-textarea>
+        </group>
+        <div style="padding:20px 15px;">
+        <x-button type="primary" @click.native="addNotice">发布</x-button>
+        <x-button @click.native="newNotice = false">取消</x-button>
+        </div>
+      </div>
+    </popup>
 
     <div class="card" v-for="(item,index) in data" :key="index">
       <div class="header">
@@ -17,22 +33,54 @@
 </template>
 
 <script>
+import { Popup, Group, XTextarea , XButton } from 'vux'
+
 export default {
-  name: 'hello',
+  name: 'notice',
+  components: {
+    Popup,
+    Group,
+    XTextarea ,
+    XButton
+  },
   data () {
     return {
+      newNotice:false,
+      newNoticeData:{},
       data:[],
     }
   },
   methods:{
     getData(){
-      this.$API.getAllClassDynamic(this.$store.state.classId).then(res=>{
+      this.$API.getAllClassDynamic(this.$store.state.classId,3).then(res=>{
         console.log('获取到的班级通知：')
         console.log(res)
         this.data = res
       }).catch(err=>{
         console.log(err)
       })
+    },
+    addNotice(){
+      if(this.newNoticeData.content){
+        this.newNoticeData.cid=this.$store.state.classId
+        this.newNoticeData.type=3
+        console.log(this.newNoticeData)
+        this.$API.postNewClassDynamic(this.newNoticeData).then(res=>{
+          this.$vux.toast.show({
+            type:"success",
+            text: "发布成功"
+          })
+          this.newNotice=false
+          this.getData()
+        }).catch(err=>{
+          console.log(err)
+        })
+      }else{
+        this.$vux.toast.show({
+          type:"warn",
+          text: "数据不完整"
+        })
+      }
     }
   },
   created(){
@@ -47,6 +95,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.addbtn{
+  padding:1rem;
+}
 .card{
   background: #fff;
   padding:12px;
@@ -72,5 +123,13 @@ export default {
   .content{
     margin-top:10px;;
   }
+}
+.popup{
+  width: 95%;
+  background-color:#fff;
+  height:250px;
+  margin:0 auto;
+  border-radius:5px;
+  padding-top:10px;
 }
 </style>

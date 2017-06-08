@@ -7,6 +7,7 @@
         <span>{{ data.TrueName }}</span>
         <span>{{ data.Course }}</span>
       </div>
+      <div class="msgbtn" @click="$router.push('/msg/'+data.Meid)">发消息</div>
     </div>
     <tab>
       <tab-item selected @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/profile')">主页</tab-item>
@@ -79,6 +80,14 @@ export default {
       padding:.3rem 1em;
       border-radius: 25px;
     }
+  }
+  .msgbtn{
+    position: absolute;
+    right:1rem;
+    top:1rem;
+    padding:5px 1rem;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.3);
   }
 }
 </style>

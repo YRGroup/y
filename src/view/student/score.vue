@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header card">
-      <p class="title">2015-2016学年吉林省中学学年吉林省中学</p>
+      <p class="title">{{score.ExamName}}</p>
       <p class="time">2017-5-10</p>
     </div>
 
@@ -13,29 +13,29 @@
         </div>
         <div class="item">
           <span>总分</span>
-          <span class="num">560</span>
+          <span class="num">{{score.Score}}</span>
         </div> 
       </div>
       <ul class="subject">
-        <li v-for="list in score">
-          <span class="title">{{list.title}}</span>
-          <span class="score">{{list.score}}</span>
-          <span class="fullScore">/{{list.fullscore}}</span>
+        <li v-for="list in score.ScoreInfo">
+          <span class="title">{{list.CourseName}}</span>
+          <span class="score">{{list.Score}}</span>
+          <span class="fullScore">/{{list.FullScore}}</span>
         </li>
       </ul>
     </div>
 
-    <div class="more card" @click="showpopup=true">
+    <div class="more card" @click="showpopup=true,getExamList()">
       查看历次成绩 >>>
     </div>
 
       <popup v-model="showpopup" height="100%" class="popup">
         <div class="close" @click="showpopup=false">返回</div>
         <div class="content">
-          <li class="card examItem" v-for="i in exam" @click="showpopup=false">
-            <div class="title">{{i.title}} > </div>
-            <div class="time">{{i.time}}</div>
-            <div class="score">{{i.score}}分</div>
+          <li class="card examItem" v-for="i in exam" @click="$router.push('/student/'+$store.state.studentId+'/score/'+i.ExamID),showpopup=false">
+            <div class="title">{{i.ExamName}} > </div>
+            <div class="time">{{i.Type}}</div>
+            <div class="score">{{i.Score}}分</div>
           </li>
         </div>
       </popup>   
@@ -54,93 +54,36 @@ export default {
   data () {
     return {
       showpopup:false,
-      exam:[
-        {
-          title:'2015-2016学年期中考试',
-          time:'2017-3-30',
-          score:'580.5'
-        },
-        {
-          title:'2015-2016学年期中考试',
-          time:'2017-3-30',
-          score:'580.5'
-        },
-        {
-          title:'2015-2016学年期中考试',
-          time:'2017-3-30',
-          score:'580.5'
-        },
-        {
-          title:'2015-2016学年期中考试',
-          time:'2017-3-30',
-          score:'580.5'
-        },
-        {
-          title:'2015-2016学年期中考试',
-          time:'2017-3-30',
-          score:'580.5'
-        },
-        {
-          title:'2015-2016学年期中考试',
-          time:'2017-3-30',
-          score:'580.5'
-        },
-        {
-          title:'2015-2016学年期中考试',
-          time:'2017-3-30',
-          score:'580.5'
-        },
-        {
-          title:'2015-2016学年期中考试',
-          time:'2017-3-30',
-          score:'580.5'
-        },
-        {
-          title:'2015-2016学年期中考试',
-          time:'2017-3-30',
-          score:'580.5'
-        }
-      ],
-      score: [
-        {
-          title:'语文',
-          score:'108',
-          fullscore:'145'
-        },
-        {
-          title:'数学',
-          score:'108',
-          fullscore:'145'
-        },
-        {
-          title:'英文',
-          score:'108',
-          fullscore:'145'
-        },
-        {
-          title:'音乐',
-          score:'108',
-          fullscore:'145'
-        },
-        {
-          title:'美术',
-          score:'108',
-          fullscore:'145'
-        }
-      ]
+      exam:[],
+      score:{}
     }
   },
   methods:{
-    change(val){
-
+    getScoreData(){
+      this.$API.getExamScore(this.$route.params.studentId,this.$route.params.examId).then(res=>{
+        this.score=res
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    getExamList(){
+      this.$API.getExamList(this.$route.params.studentId).then(res=>{
+        this.exam=res
+      }).catch(err=>{
+        console.log(err)
+      })
     }
   },
   created(){
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','成绩报告')
-  },
-  mounted(){
-    console.log(this.$refs.thistest)
+    this.getScoreData()
+    if(this.exam.length===0){
+      this.$vux.toast.show({
+        type: "warn",
+        text: '没有查询到考试信息'
+      })
+    }
   },
   watch:{
     showpopup(val){
@@ -149,7 +92,8 @@ export default {
       }else{
         this.$store.commit('showNav',true)
       }
-    }
+    },
+    "$route": "getScoreData"
   }
 }
 </script>

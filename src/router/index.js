@@ -55,8 +55,8 @@ import studentlogin from '@/view/login/student'
 import parentlogin from '@/view/login/parent'
 
 // 通讯录
-import msg from '@/view/contact/main'
-import allmsg from '@/view/contact/allmsg'
+import contact from '@/view/contact/main'
+import msg from '@/view/contact/allmsg'
 import mymsg from '@/view/contact/mymsg'
 
 // 用户
@@ -169,7 +169,7 @@ export default new Router({
                     component: studentfeed
                 },
                 {
-                    path: 'score',
+                    path: 'score/:examId',
                     component: score
                 },
                 {
@@ -242,14 +242,14 @@ export default new Router({
 
         // 通讯录
         {
-            path: '/msg',
-            name: 'msg',
-            component: msg
+            path: '/contact',
+            name: 'contact',
+            component: contact
         },
         {
-            path: '/allmsg/:userId',
-            name: 'allmsg',
-            component: allmsg
+            path: '/msg/:userId',
+            name: 'msg',
+            component: msg
         },
         {
             path: '/mymsg',

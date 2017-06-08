@@ -1,12 +1,22 @@
 <template>
   <div class="hello">
-    学生主页
+
+    <group title="功能导航">
+      <cell title="成绩报告" is-link :link="'/student/'+$route.params.studentId+'/score/1'"></cell>
+      <cell title="一卡通" is-link :link="'/student/'+$route.params.studentId+'/schoolcard'"></cell>
+    </group>
+
   </div>
 </template>
 
 <script>
+import { Group,Cell } from 'vux'
+
 export default {
   name: 'hello',
+  components: {
+    Group,Cell
+  },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'

@@ -1,6 +1,22 @@
 <template>
   <div class="work">
-    <br />
+
+    <div class="addbtn">
+      <x-button @click.native="newHomework=true">发布新作业</x-button>
+    </div>    
+
+    <popup v-model="newHomework" height="310px" is-transparent>
+      <div class="popup">
+        <group>
+          <selector title="科目" :options="course_list" v-model="newHomeworkData.course_id"></selector>
+          <x-textarea title="作业内容" placeholder="在此输入作业内容" v-model="newHomeworkData.content"></x-textarea>
+        </group>
+        <div style="padding:20px 15px;">
+          <x-button type="primary" @click.native="addHomework">发布</x-button>
+          <x-button @click.native="newHomework = false">取消</x-button>
+        </div>
+      </div>
+    </popup>
 
       <div class="workcard" v-for="i in homework">
         <div class="header">
@@ -17,19 +33,45 @@
 </template>
 
 <script>
+import { Popup, Group, XTextarea , XButton, Selector } from 'vux'
+
 export default {
+  components: {
+    Popup,
+    Group,
+    XTextarea ,
+    Selector,
+    XButton
+  },
   data () {
     return {
+      newHomework:false,
+      newHomeworkData:{},
+      course_list:[
+        {key:'1',value:'语文'},
+        {key:'2',value:'数学'},
+        {key:'3',value:'英语'},
+        {key:'4',value:'物理'},
+        {key:'5',value:'化学'},
+        {key:'6',value:'历史'},
+        {key:'7',value:'政治'},
+        {key:'8',value:'地理'},
+        {key:'9',value:'音乐'},
+        {key:'10',value:'美术'},
+        {key:'11',value:'体育'}
+      ],
       colors:{
         '语文':'#1abc9c',
         '数学':'#2ecc71',
         '英语':'#3498db',
         '物理':'#9b59b6',
-        '历史':'#f1c40f',
-        '政治':'#e67e22',
-        '化学':'#e74c3c',
-        '代数':'#34495e',
-        '几何':'#95a5a6'
+        '化学':'#f1c40f',
+        '历史':'#e67e22',
+        '政治':'#e74c3c',
+        '地理':'#34495e',
+        '音乐':'#95a5a6',
+        '美术':'#1abc9c',
+        '体育':'#2ecc71'
       },
       homework:[]
     }
@@ -50,19 +92,41 @@ export default {
         console.log(err)
       })
     },
+    addHomework(){
+      if(this.newHomeworkData.course_id&&this.newHomeworkData.content){
+        this.newHomeworkData.class_id=this.$store.state.classId
+        this.newHomeworkData.title=''
+        console.log(this.newHomeworkData)
+        this.$API.addHomework(this.newHomeworkData).then(res=>{
+          this.$vux.toast.show({
+            type:"success",
+            text: "发布成功"
+          })
+          this.newHomework=false
+          this.getHomeWork()
+        }).catch(err=>{
+          console.log(err)
+        })
+      }else{
+        this.$vux.toast.show({
+          type:"warn",
+          text: "数据不完整"
+        })
+      }
+    }
   },
   created(){
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','班级作业')
     this.getHomeWork()
-  },
-  mounted(){
-
   }
 }
 </script>
 
 <style lang="less" scoped>
+.addbtn{
+  padding:1rem;
+}
 .workcard{
   background: #fff;
   padding:1rem;
@@ -85,5 +149,13 @@ export default {
     color:@cc3;
     text-align: right;
   }
+}
+.popup{
+  width: 95%;
+  background-color:#fff;
+  height:290px;
+  margin:0 auto;
+  border-radius:5px;
+  padding-top:10px;
 }
 </style>

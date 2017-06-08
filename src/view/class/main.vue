@@ -2,12 +2,24 @@
   <div class="hello">
 
     <div class="class-header">
-      <img :src="classlogo" @click="$router.push('/class/'+$store.state.classId)">
-      <span class="name">{{ data.name }}</span>
-      <span class="teacher">班主任：{{ mainTeacherName }}</span>
-      <span class="count">人数：{{ data.student_count }}</span>
-      <div class="addbtn" @click="$router.push('/class/'+$store.state.classId+'/new')"><i class="iconfont">&#xe606;</i>发布动态</div>
+      <img :src="classInfo.classlogo" @click="$router.push('/class/'+$store.state.classId)">
+      <span class="name">{{ classInfo.name }}</span>
+      <span class="teacher">班主任：{{ classInfo.teacherName }}</span>
+      <span class="count">人数：{{ classInfo.student_count }}</span>
+      <div class="addbtn" @click="newPost=true"><i class="iconfont">&#xe606;</i>发布动态</div>
     </div>
+
+    <popup v-model="newPost" height="270px" is-transparent>
+      <div class="popup">
+        <group>
+          <x-textarea title="内容" placeholder="在此输入内容" v-model="newPostData.content"></x-textarea>
+        </group>
+        <div style="padding:20px 15px;">
+          <x-button type="primary" @click.native="addNewPost">发布</x-button>
+          <x-button @click.native="newPost = false">取消</x-button>
+        </div>
+      </div>
+    </popup>
 
     <transition name="slide-fade">
       <router-view></router-view>
@@ -17,11 +29,20 @@
 </template>
 
 <script>
+import { Popup, Group, XTextarea , XButton } from 'vux'
+
 export default {
+  components: {
+    Popup,
+    Group,
+    XTextarea ,
+    XButton
+  },
   data () {
     return {
-      classlogo:require('@/assets/face/c.jpeg'),
-      mainTeacherName:''
+      newPost:false,
+      newPostData:{},
+      classInfo:{}
     }
   },
   computed:{
@@ -32,13 +53,33 @@ export default {
   methods:{
     getClassInfo(){
       this.$API.getClassInfo(this.$route.params.classId).then(res=>{
-        this.$store.state.classInfo = res
-        this.mainTeacherName = res.teacher.TrueName
+        this.classInfo = res
+        this.classInfo.teacherName = res.teacher.TrueName    
+        this.classInfo.classlogo = require('@/assets/face/c.jpeg')         
       }).catch(err=>{
         console.log(err)
-        // console.log('获取数据失败，显示默认数据') 
-        // this.$store.state.classInfo = {"name":"默认班级","student_count":3,"teacher":"班主任","dynamic":[{"auther":"王老师","userImg":"http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg","date":"2017-05-26","category":"作业","content":"作业1","like":12,"comment":[]},{"auther":"王老师","userImg":"http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg","date":"2017-05-26","category":"动态","content":"动态1","like":43,"comment":[{"addTime":"2017-05-26","content":"好","userName":"王家长"},{"addTime":"2017-05-26","content":"好好好好","userName":"王家长"}]}]}
       })
+    },
+    addNewPost(){
+      if(this.newPostData.content){
+        this.newPostData.cid=this.$store.state.classId
+        this.newPostData.type=1
+        console.log(this.newPostData)
+        this.$API.postNewClassDynamic(this.newPostData).then(res=>{
+          this.$vux.toast.show({
+            type:"success",
+            text: "发布成功"
+          })
+          this.newPost=false
+        }).catch(err=>{
+          console.log(err)
+        })
+      }else{
+        this.$vux.toast.show({
+          type:"warn",
+          text: "数据不完整"
+        })
+      }
     }
   },
   created(){
@@ -86,7 +127,7 @@ export default {
   }
   .addbtn{
     position: absolute;
-    top:2rem;
+    top:1rem;
     right:0;
     background: rgba(255,255,255,0.3);
     padding:.2em;
@@ -100,5 +141,12 @@ export default {
     }
   }
 }
-
+.popup{
+  width: 95%;
+  background-color:#fff;
+  height:250px;
+  margin:0 auto;
+  border-radius:5px;
+  padding-top:10px;
+}
 </style>

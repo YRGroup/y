@@ -8,7 +8,7 @@
       </cell>
       <div class="slide" :class="showContent1?'animate':null" >
         <cell class="item" is-link v-for="(i,index) in student" :link="'/student/'+i.Meid"
-        :title="i.TrueName" :inline-desc="'学号：'+i.Meid">
+        :title="i.TrueName" :inline-desc="'学号：'+i.Meid" :key="index">
           <img class="cellicon" slot="icon" :src="i.userImg">
         </cell>
       </div>
@@ -19,7 +19,7 @@
       </cell>
       <div class="slide" :class="showContent2?'animate':null" >
         <cell class="item" is-link v-for="(i,index) in parent" :link="'/student/'+i.Meid"
-        :title="i.ParentTrueName" :inline-desc="i.ParentType">
+        :title="i.ParentTrueName" :inline-desc="i.ParentType" :key="index">
           <img class="cellicon" slot="icon" :src="i.ParentHeadimgurl">
         </cell>
       </div>
@@ -29,8 +29,8 @@
         <i slot="icon" class="iconfont">&#xe666;</i>
       </cell>
       <div class="slide" :class="showContent3?'animate':null" >
-        <cell class="item" is-link v-for="(i,index) in teacher" :link="'/student/'+i.Meid"
-        :title="i.TrueName" :inline-desc="i.SelfDiscription">
+        <cell class="item" is-link v-for="(i,index) in teacher" :link="'/teacher/'+i.Meid"
+        :title="i.TrueName" :inline-desc="i.SelfDiscription" :key="index">
           <img class="cellicon" slot="icon" :src="i.Headimgurl">
         </cell>
       </div>
@@ -39,9 +39,9 @@
 
     </br>
     <ul class="msglist">
-      <li @click="$router.push('/allmsg/'+item.FromMeid)" v-for="item in msgdata">
-        <img :src="item.FromHeadImg">
-        <span class="usename">{{ item.FromName }}</span>
+      <li @click="$router.push('/msg/'+item.ToMeid)" v-for="item in msgdata">
+        <img :src="item.ToHeadImg">
+        <span class="usename">{{ item.ToName }}</span>
         <span class="info">{{ item.Content }}</span>
         <span class="time">{{ item.LastTime }}</span>
         <span class="num">{{ item.UnReadCount }}</span>
@@ -107,6 +107,10 @@ export default {
         width: "20em",
         text: msg
       })
+    },
+    goAnchor(selector) {
+      var anchor = this.$el.querySelector(selector)
+      document.body.scrollTop = anchor.offsetTop
     },
     getStudentList(){
       this.$API.getStudentList(this.$store.state.classId).then(res=>{

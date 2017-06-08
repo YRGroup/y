@@ -40,7 +40,7 @@
       <div class="content">
         <li v-for="i in homework" @click="$router.push('/class/'+$store.state.classId+'/work')">
           <div class="msg">
-            【{{ i.CourseName }}】：{{ i.Title }}
+            {{ i.CourseName }}：{{ i.Content }}
           </div>
           <div class="date">{{ i.CreateTime }}</div>
         </li>
@@ -113,7 +113,7 @@ export default {
         text: msg
       })
     },
-    getData() {
+    getAllClassDynamic() {
       this.$API.getAllClassDynamic(this.$store.state.classId).then(res => {
         this.list = res
       }).catch(err => {
@@ -162,7 +162,7 @@ export default {
   created() {
     this.$store.commit('showNav', true)
     this.$store.commit('changeTitle', '班级动态')
-    this.getData()
+    this.getAllClassDynamic()
     this.getTeacherList()
     this.getNotice()
     this.getHomeWork()
