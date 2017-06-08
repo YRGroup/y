@@ -41,8 +41,8 @@ export default {
 
 <style lang="less" scoped>
 .item{
-  padding:.5rem 1rem;
-  margin:.5rem 0;
+  padding:12px;
+  margin:10px 0;
   background: #fff;
   position: relative;
   img{
@@ -53,7 +53,7 @@ export default {
   .userName{
     display: inline-block;
     vertical-align:middle;
-    font-size: 1.5rem;
+    font-size: 1rem;
     margin-left:1rem;
   }
   .userIndex{

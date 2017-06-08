@@ -22,7 +22,6 @@ export default {
   data () {
     return {
       data:[],
-      msg: 'Welcome to Your Vue.js App'
     }
   },
   methods:{
@@ -50,19 +49,19 @@ export default {
 <style lang="less" scoped>
 .card{
   background: #fff;
-  padding:1rem;
+  padding:12px;
   .header{
     img{
-      height:4rem;
+      height:3.2rem;
       border-radius: 50%;
       vertical-align:top;
-      margin-right:1rem;
+      margin-right:0.6rem;
     }
     .info{
       display: inline-block;
-      margin-top:.7rem;
+      margin-top:5px;
       .usename{
-        font-size: 1.1rem;
+        font-size: 1rem;
       }
       .time{
         display: block;
@@ -71,7 +70,7 @@ export default {
     }
   }
   .content{
-    margin-top:1rem;
+    margin-top:10px;;
   }
 }
 </style>

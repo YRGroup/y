@@ -4,10 +4,18 @@
     <div class="time">4月25日</div>
     </br>
     <ul> 
-      <li :class="(item.class=='me')?right:null" v-for="item in msg">
-        <img :src="item.img">
-        <span>{{ item.msg }}</span>
+      <li :class="(item.class=='me')?right:null" v-for="item in msg" class="item">
+        <img class="picinfo" :src="item.img">
+        <span class="msginfo">{{ item.msg }}</span>
       </li> 
+      <li class="item">
+        <img data-v-57b0144c="" src="/static/img/tc.4e7e6a1.png" class="picinfo">
+        <span data-v-57b0144c="" class="msginfo">今天的作今天的作业是什么今天的作业是什么今天的作业是什么今天的作业是什么今天的作业是什么今天的作业是什么业是什么</span>
+      </li>
+      <li class="right item">
+        <img data-v-57b0144c="" src="/static/img/tc.4e7e6a1.png" class="picinfo">
+        <span data-v-57b0144c="" class="msginfo">今天的作今天的作业是什么今天的作业是什么今天的作业是什么今天的作业是什么今天的作业是什么今天的作业是什么业是什么</span>
+      </li>
     </ul>
   </div>
 </template>
@@ -72,35 +80,45 @@ export default {
   }
 }
 
-li{
+.item{
   text-align:left;
-  padding:1em 0 1em 1em;
+  padding:10px;
   font-size:1.2em;
   position:relative;
-  height:4.5rem;
-  img{
-    width:4em;
-    margin-right:1em;
+  // padding-left:4rem;
+  margin:10px 0;
+  .picinfo{
+    position: absolute;
+    left: 20px;
+    width:3em;
     border-radius:50%;
   }
-  span:nth-child(2){ 
-    position:absolute;
-    top:3.5rem;
-    left:2.5rem;
+  .msginfo{ 
+    // position:absolute;
+    // left:4rem;
+    // margin:10px 0 0 3rem;
+    display: inline-block;
+    padding:10px;
     background:#fff;
-    padding:1rem;
-    border-radius:15px;
-    border:1px solid @c4;
+    margin:0 10px 0 4rem;
+    border-radius:6px;
     z-index:-1;
+    border-radius: 1px solid @cc4;
+    box-shadow: 0 0 3px rgba(0,0,0,.1);
   }
 }
-.right{
-  text-align:right;
-  span:nth-child(2){ 
-    float:right;
-    margin:0;
-    right:2.5rem;
-    left:inherit;
+li.right{
+  text-align: right;
+  .picinfo{
+    position: absolute;
+    right:20px;
+    left: inherit;
+  }
+  .msginfo{ 
+    background: #9eea6a;
+    margin:0 4rem 0 20px;
+    text-align:left;
   }
 }
+
 </style>
