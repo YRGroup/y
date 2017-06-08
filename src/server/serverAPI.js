@@ -368,6 +368,38 @@ serverAPI.getExamList = (userId) => {
 }
 // testing
 
+// 获取一卡通消费记录
+serverAPI.getExamList = (userId) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/User/GetFinanceLog?currentPage=1&pagesize=10',{
+      params:{
+        meid:userId
+      }
+    }).then((res)=>{
+      console.log('获取到的一卡通消费记录：')
+      console.log(res)
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+// testing
+
+// 家长注册
+serverAPI.parentReg = (regdata) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/User/RegisterByPhone',regdata).then((res)=>{
+      console.log('注册信息：')
+      console.log(res)
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+// testing
+
 // 空API模板
 serverAPI.default = (id) => {
   return new Promise((resolve, reject) => {

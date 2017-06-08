@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <img :src="data.Headimgurl" >
+      <img :src="data.Headimgurl" @click="$router.push('/student/'+$route.params.studentId)">
       <div class="nameInfo">
         <span>{{ data.TrueName }}</span>
         <span>{{ data.Course }}</span>

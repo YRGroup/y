@@ -7,6 +7,9 @@
     <q-btn class="success" rounded @click.native="$router.push('/class/'+$store.state.classId+'/new')">添加校园动态</q-btn>
     <q-btn class="success" rounded @click.native="$router.push('/class/'+$store.state.classId+'/new')">添加班级动态</q-btn>
 
+    <q-btn class="warning" rounded @click.native="$router.push('/login')">家长登陆</q-btn>
+    <q-btn class="warning" rounded @click.native="$router.push('/regist')">家长注册</q-btn>
+
   </div>
 </template>
 

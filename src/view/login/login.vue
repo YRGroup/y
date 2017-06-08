@@ -124,7 +124,7 @@ export default {
 }
 .parentReg{
   position: absolute;
-  bottom: 0;
+  bottom: 1rem;
   width: 100%;
   margin:0 auto;
   text-align: center;

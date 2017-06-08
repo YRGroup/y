@@ -7,24 +7,36 @@
       <span>智慧校园-注册</span>
     </div>
     <group class="item">
-      <x-input class="itemList" placeholder="请输入手机号" is-type="china-mobile" keyboard="number" v-model="tel">
+      <x-input class="itemList" placeholder="请输入手机号" :show-clear="false" 
+      required is-type="china-mobile" ref="mobilephone" keyboard="number" v-model="data.phone"
+      >
       </x-input>
     </group>
     <group class="item">
-      <x-input class="itemList" placeholder="请输入验证码" v-model="imgcheck" >
+      <x-input class="itemList" placeholder="请输入验证码" :show-clear="false" required v-model="imgcheck" >
         <img slot="right" :src="'http://api.zzcowboy.com/ck/captcha.png?n='+checkc" @click="newimg">
       </x-input>
     </group>
+
     <group class="item">
-      <x-input class="itemList" placeholder="请输入短信验证码" v-model="smscheck" @keyup.native.enter="next">
+      <x-input class="itemList" placeholder="请输入短信验证码" :show-clear="false" required v-model="smscheck">
         <x-button slot="right" type="primary" @click.native="sms" mini :disabled="disabled || countdown > 0">{{ smsbtntext }}</x-button>
       </x-input>
     </group>
+
     <group class="item">
-      <x-input class="itemList" placeholder="请设置密码（8-20位字符）" type="password" keyboard="number" v-model="pw">
+      <x-input class="itemList" placeholder="请设置密码（8-20位字符）" :show-clear="false" 
+      required type="password" keyboard="number" v-model="data.password">
       </x-input>
     </group>
-    <group class="regBtn">
+
+    <group class="item">
+      <x-input class="itemList" placeholder="请重复输入密码" :show-clear="false" 
+      required type="password" keyboard="number" v-model="password2">
+      </x-input>
+    </group>
+
+    <group class="regBtn" :class="(!data.phone|!imgcheck|!smscheck|!data.password|!password2)?'hidden':null">
       <x-button type="primary" @click.native="submit">注册</x-button>
     </group>
   </div>
@@ -38,16 +50,19 @@ export default {
   },
   data() {
     return {
-      tel: '',
+      data:{},
+      password2:'',
+      showNext:1,
       smscheck: '',
-      pw: '',
       imgcheck: '',
       checkc: '',
       disabled: '',
-      countdown: 0,
-      valida: false,
-      currect: '',
-      index: ''
+      countdown: 0
+    }
+  },
+  computed: {
+    smsbtntext: function () {
+      return this.countdown > 0 ? this.countdown + 's 后重新获取' : '获取验证码';
     }
   },
   methods: {
@@ -55,17 +70,16 @@ export default {
       this.checkc = Math.floor(Math.random() * 9000) + 1000
     },
     sms() {
-      console.log(this.$refs.input)
-      if (this.tel == "" || this.$refs.input.valid == false) {
+      if (this.tel == "" || this.$refs.mobilephone.valid == false) {
         this.fun('请输入正确手机号')
       } else if (this.checkc == this.imgcheck) {
-        this.$http.get('http://api.zzcowboy.com/sms?tel=' + this.tel).then((response) => {
+        this.$http.get('http://api.zzcowboy.com/sms?tel=' + this.data.phone).then((res) => {
           this.fun('获取短信验证码成功')
           this.countdown = 60
           this.timer()
         }).catch((error) => {
+          console.log('获取短信验证码失败:')
           console.log(error)
-          console.log('error')
         })
       } else {
         this.fun('图片验证码输入错误')
@@ -77,49 +91,38 @@ export default {
         setTimeout(this.timer, 1000);
       }
     },
-    fun(msg) {
-      this.$vux.toast.show({
-        type: "text",
-        width: "20em",
-        text: msg
-      })
-    },
-    changeIndex(val) {
-      this.index = val
-    },
     submit() {
       let vm = this
-      console.log(this.tel)
-      if (this.tel !== undefined) {
-
-      } else {
+      this.data.nickname=''
+      this.data.role=2
+      console.log(this.data)
+      
+      if(!this.$refs.mobilephone.valid|!this.imgcheck|!this.smscheck){
         vm.$vux.toast.show({
-          type: "text",
-          width: "20em",
-          text: '请输入手机号'
+          type: "cancel",
+          text: '表单信息不完整'
         })
+      }else if (this.data.password!= this.password2) {
+        this.$vux.toast.show({
+          type: "cancel",
+          text: '两次输入的密码不一致'
+        })
+      }else{
+        this.$API.parentReg(this.data).then(res=>{
+          this.$vux.toast.show({
+            type: "success",
+            text: '提交成功，跳转到主页'
+          })
+        })
+        
+        // this.$router.push('/main')
       }
-      this.$store.state.reginfo.tel = this.tel
-      vm.$vux.toast.show({
-        type: "text",
-        width: "20em",
-        text: '提交成功，跳转到主页'
-      })
-      vm.$router.push('/main')
     }
   },
   created() {
     this.$store.commit('showNav', false)
     this.$store.commit('changeTitle', '注册')
-    this.checkc = Math.floor(Math.random() * 9000) + 1000
-  },
-  mounted() {
-
-  },
-  computed: {
-    smsbtntext: function () {
-      return this.countdown > 0 ? this.countdown + 's 后重新获取' : '获取验证码';
-    }
+    this.newimg()
   }
 }
 </script>
@@ -177,5 +180,8 @@ export default {
   .weui-btn{
     background: linear-gradient(right top, #00c0a1, #00c06f);
   }
+}
+.hidden{
+  opacity: 0.5;
 }
 </style>

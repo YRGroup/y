@@ -1,10 +1,15 @@
 <template>
   <div class="hello">
     
-    <group title="use slot for complexed content">
-      <cell title="slot content">
+    <group>
+      <cell title="一卡通当前余额：" :value="data.Blance+'元'">
+      </cell>
+    </group>
+
+    <group title="消费记录：">
+      <cell :title="i.Title" :inline-desc="i.CreateTime" v-for="i in data.Log">
         <div slot="value">
-          <span style="color: green">Hi, I\'m Vux.</span>
+          <span style="color: red">- {{i.Money}}</span>
         </div>
       </cell>
     </group>
@@ -22,16 +27,22 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      data:{}
     }
   },
   methods:{
-    fun(val){
-
-    }
+    getExamList(){
+      this.$API.getExamList(this.$route.params.studentId,this.$route.params.examId).then(res=>{
+        this.data=res
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
   },
   created(){
-
+    this.$store.commit('showNav',true)
+    this.$store.commit('changeTitle','一卡通消费记录')
+    this.getExamList()
   },
   mounted(){
 
@@ -40,7 +51,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.hello{
-  text-align: center;
-}
+
 </style>
