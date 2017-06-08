@@ -184,25 +184,6 @@ export default {
   box-sizing: border-box;
   .box-item {
     width: 5rem;
-// <<<<<<< HEAD
-//     height: 6rem;
-//     border-radius: 15px;
-//     display: inline-block;
-//     margin-left: 15px;
-//     img {
-//       width: 4rem;
-//       margin-top: .5rem;
-//       margin-left: .5rem;
-//       border-radius: 50%;
-//     }
-//     .name {
-//       font-size: 0.7rem;
-//       text-align: center;
-//     }
-//     .job {
-//       text-align: center;
-//     }
-// =======
     border-radius:15px;
     display:inline-block;
     margin-left: 10px;
@@ -230,7 +211,7 @@ export default {
   padding: .5em;
   position: relative;
   .icon {
-    color: @c6;
+    color: @cc6;
     width: 2.2em;
     position: absolute;
     left: 1em;
@@ -243,7 +224,7 @@ export default {
     display: block;
     width: 1px;
     height: 4em;
-    background: @c2;
+    background: @cc4;
     position: absolute;
     left: 4em;
     top: .5em;
@@ -251,7 +232,6 @@ export default {
   .content {
     margin-left: 4em;
     margin-top: .5em;
-    color: @c3;
     li {
       display: block;
       position: relative;
@@ -266,7 +246,7 @@ export default {
       .date {
         z-index: 100;
         background: #fff;
-        color: @c4;
+        color: @cc3;
         padding-left: 0.5em;
         width: 6em;
         right: 4em;
@@ -280,13 +260,13 @@ export default {
     display: block;
     width: 1px;
     height: 4em;
-    background: @c2;
+    background: @cc4;
     position: absolute;
     right: 4em;
     top: .5em;
   }
   .link {
-    color: @c4;
+    color: @cc2;
     width: 1em;
     position: absolute;
     right: 1.6em;

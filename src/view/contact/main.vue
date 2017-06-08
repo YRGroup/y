@@ -4,7 +4,7 @@
     <group class="link">
       <cell title="学生" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'"
         @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null">
-        <i slot="icon" class="iconfont">&#xe666;</i>
+        <i slot="icon" class="iconfont">&#xe605;</i>
       </cell>
       <div class="slide" :class="showContent1?'animate':null" >
         <cell class="item" is-link v-for="(i,index) in student" :link="'/student/'+i.Meid"
@@ -15,7 +15,7 @@
 
       <cell title="家长" is-link :border-intent="false" :arrow-direction="showContent2 ? 'up' : 'down'"
         @click.native="showContent2 = !showContent2" :class="showContent2?'activenav':null">
-        <i slot="icon" class="iconfont">&#xe666;</i>
+        <i slot="icon" class="iconfont">&#xe609;</i>
       </cell>
       <div class="slide" :class="showContent2?'animate':null" >
         <cell class="item" is-link v-for="(i,index) in parent" :link="'/student/'+i.Meid"
@@ -26,7 +26,7 @@
 
       <cell title="老师" is-link :border-intent="false" :arrow-direction="showContent3 ? 'up' : 'down'"
         @click.native="showContent3 = !showContent3" :class="showContent3?'activenav':null">
-        <i slot="icon" class="iconfont">&#xe666;</i>
+        <i slot="icon" class="iconfont">&#xe607;</i>
       </cell>
       <div class="slide" :class="showContent3?'animate':null" >
         <cell class="item" is-link v-for="(i,index) in teacher" :link="'/teacher/'+i.Meid"
@@ -189,11 +189,11 @@ export default {
       position: absolute;
       top: 3.5em;
       right: 1em;
-      background: @c6;
+      background: @cc6;
       line-height: 1.2em;
       text-align: center;
-      width: 1.2em;
-      height: 1.2em;
+      width: 1.3em;
+      height: 1.3em;
       border-radius: 50%;
       color: #fff;
       font-size: .9em;
@@ -222,7 +222,7 @@ export default {
   vertical-align: middle;
 }
 .iconfont{
-  margin:0 1rem;
+  margin:0 0.5rem;
   font-size: 2rem;
 }
 .slide {
@@ -230,9 +230,13 @@ export default {
   max-height: 0;
   transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
 }
+
 .animate {
   max-height: 9999px;
   transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
   transition-delay: 0s;
+  .weui-cell_access{
+  background: #f5f5f5;
+}
 }
 </style>

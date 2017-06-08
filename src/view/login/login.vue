@@ -1,5 +1,9 @@
 <template>
   <div class="login">
+    <div class="header">
+      <span class="left"  @click="$router.go(-1)"><i class="iconfont">&#xe600;</i></span>
+      <span>智慧校园-登录</span>
+    </div>
     <div class="logo">
         <img src="../../assets/logo.png">
     </div>
@@ -16,11 +20,11 @@
       <!--<x-input title="密码：" placeholder="请输入密码" type="password" v-model="pw" @keyup.native.enter="login"></x-input>-->
     </group>
     </br>
-    <div style="padding:0 20px">
+    <div style="padding:0 20px" class="loginBtn">
       <x-button type="primary" @click.native="login">登录</x-button>
     </div>
     <div class="parentReg">
-      <x-button plain type="primary" @click.native="$router.push('/regist')">家长注册</x-button>
+      <x-button plain @click.native="$router.push('/regist')">家长注册</x-button>
     </div>
     <!--<x-button type="warn" @click.native="$router.push('/reg')">注册</x-button>-->
   </div>
@@ -77,12 +81,40 @@ export default {
   position: relative;
   height: 70vh;
   text-align: center;
-  padding-top: 8em;
   margin:0 auto;
   .logo{
-    margin:0 auto;
+    margin:10em auto 0 auto;
     img{
       width:12em;
+      
+    }
+  }
+  .header{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 3.8em;
+    line-height: 3.8em;
+    display: block;
+    background: @cc6;
+    
+    .left{
+      position:absolute;
+      left: 0;
+      display: inline-block;
+      width: 2.2em;
+    }
+    span{
+      font-size: 18px;
+      color: #fff;
+    }
+  }
+  .loginBtn{
+    .weui-btn{
+      background: linear-gradient(right top, #00c0a1, #00c06f);
+      :after{
+        border:none;
+      }
     }
   }
 }
@@ -99,6 +131,8 @@ export default {
   .weui-btn{
     margin:0 auto;
     width: 40%;
+    color: @cc6;
+    border:1px solid @cc6;
    }
 }
 </style>

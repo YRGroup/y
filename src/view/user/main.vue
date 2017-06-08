@@ -131,13 +131,13 @@ export default {
     background: #fff;
     padding: 0.5em;
     color: @cc6;
-    font-size: 1.4em;
+    font-size: 1.2em;
     border-top: 1px solid @cc4;
     border-bottom: 1px solid @cc4;
   }
 }
 .iconfont{
-  color:@c6;
+  color:@cc6;
   margin-right:.5em;
 }
 </style>

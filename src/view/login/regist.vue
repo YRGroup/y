@@ -1,11 +1,17 @@
 <template>
   <div class="register">
+    <div class="header">
+      <span class="left" @click="$router.go(-1)">
+        <i class="iconfont">&#xe600;</i>
+      </span>
+      <span>智慧校园-注册</span>
+    </div>
     <group class="item">
-      <x-input class="itemList" :class="index===0?'active':null" @click.native="changeIndex(0)" placeholder="请输入手机号" is-type="china-mobile"  keyboard="number" v-model="tel">
+      <x-input class="itemList" placeholder="请输入手机号" is-type="china-mobile" keyboard="number" v-model="tel">
       </x-input>
     </group>
     <group class="item">
-      <x-input class="itemList" placeholder="请输入验证码" v-model="imgcheck" :class="index===1?'active':null" @click.native="changeIndex(1)">
+      <x-input class="itemList" placeholder="请输入验证码" v-model="imgcheck" >
         <img slot="right" :src="'http://api.zzcowboy.com/ck/captcha.png?n='+checkc" @click="newimg">
       </x-input>
     </group>
@@ -18,17 +24,17 @@
       <x-input class="itemList" placeholder="请设置密码（8-20位字符）" type="password" keyboard="number" v-model="pw">
       </x-input>
     </group>
-    <group>
+    <group class="regBtn">
       <x-button type="primary" @click.native="submit">注册</x-button>
     </group>
   </div>
 </template>
 
 <script>
-import { XButton, XInput, Group,Cell  } from 'vux'
+import { XButton, XInput, Group, Cell } from 'vux'
 export default {
   components: {
-    XButton, XInput, Group,Cell 
+    XButton, XInput, Group, Cell
   },
   data() {
     return {
@@ -39,9 +45,9 @@ export default {
       checkc: '',
       disabled: '',
       countdown: 0,
-      valida:false, 
-      currect:'',
-      index:''
+      valida: false,
+      currect: '',
+      index: ''
     }
   },
   methods: {
@@ -50,9 +56,9 @@ export default {
     },
     sms() {
       console.log(this.$refs.input)
-      if(this.tel == "" || this.$refs.input.valid == false){
+      if (this.tel == "" || this.$refs.input.valid == false) {
         this.fun('请输入正确手机号')
-      }else if (this.checkc == this.imgcheck) {
+      } else if (this.checkc == this.imgcheck) {
         this.$http.get('http://api.zzcowboy.com/sms?tel=' + this.tel).then((response) => {
           this.fun('获取短信验证码成功')
           this.countdown = 60
@@ -78,15 +84,15 @@ export default {
         text: msg
       })
     },
-    changeIndex(val){
-      this.index=val
+    changeIndex(val) {
+      this.index = val
     },
     submit() {
       let vm = this
       console.log(this.tel)
-      if(this.tel !== undefined){
-        
-      }else{
+      if (this.tel !== undefined) {
+
+      } else {
         vm.$vux.toast.show({
           type: "text",
           width: "20em",
@@ -119,24 +125,45 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
 .register {
-  padding: 0 20px;
+  padding-top: 5em;
+  ;
   margin-top: -10em;
   .item {
+    padding: 0 20px;
     margin-top: -0.6em;
     .weui-cells {
       margin-top: 0;
     }
     .itemList {
-      border:1px solid @cc4;
+      border: 1px solid @cc4;
       border-radius: 5px;
       img {
         height: 1.4em;
       }
     }
-    .active{
-      border:1px solid red;
+    .active {
+      border: 1px solid red;
+    }
+  }
+  .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 3.8em;
+    line-height: 3.8em;
+    display: block;
+    background: @cc6;
+    text-align: center;
+    .left {
+      position: absolute;
+      left: 0;
+      display: inline-block;
+      width: 2.2em;
+    }
+    span {
+      font-size: 18px;
+      color: #fff;
     }
   }
 }
@@ -144,5 +171,11 @@ export default {
 .loginIcon {
   margin-right: 8px;
   color: @cc3;
+}
+.regBtn{
+  padding:0 20px;
+  .weui-btn{
+    background: linear-gradient(right top, #00c0a1, #00c06f);
+  }
 }
 </style>
