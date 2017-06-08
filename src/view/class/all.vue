@@ -24,7 +24,7 @@
         <div class="box-item" v-for="item in teachers" @click="$router.push('/teacher/'+item.Meid)">
           <img :src="item.Headimgurl">
           <div class="name">{{ item.TrueName }}</div>
-          <div class="job">{{ item.SelfDiscription }}</div>
+          <!--<div class="job">{{ item.SelfDiscription }}</div>-->
         </div>
       </div>
     </scroller>
@@ -175,36 +175,52 @@ export default {
 
 <style lang="less" scoped>
 .teacherListBox {
-  height: 7rem;
+  // height: 7rem;
   position: relative;
   background: transparent;
   background-color: #fff;
   min-width: 100vw;
+  padding:10px 0;
+  box-sizing: border-box;
   .box-item {
     width: 5rem;
-    height: 6rem;
-    border-radius: 15px;
-    display: inline-block;
-    margin-left: 15px;
-    img {
-      width: 4rem;
-      margin-top: .5rem;
-      margin-left: .5rem;
-      border-radius: 50%;
-    }
-    .name {
-      font-size: 0.7rem;
-      text-align: center;
-    }
-    .job {
-      text-align: center;
+// <<<<<<< HEAD
+//     height: 6rem;
+//     border-radius: 15px;
+//     display: inline-block;
+//     margin-left: 15px;
+//     img {
+//       width: 4rem;
+//       margin-top: .5rem;
+//       margin-left: .5rem;
+//       border-radius: 50%;
+//     }
+//     .name {
+//       font-size: 0.7rem;
+//       text-align: center;
+//     }
+//     .job {
+//       text-align: center;
+//     }
+// =======
+    border-radius:15px;
+    display:inline-block;
+    margin-left: 10px;
+    text-align: center;
+    img{
+      width:3.6rem;
+      border-radius:50%;
     }
   }
   .box-item:first-child {
     margin-left: 1rem;
   }
 }
-
+.header{
+  .tips{
+    font-size: 0.8em;
+  }
+}
 
 .classWork {
   margin-top: 0.8rem;
@@ -288,17 +304,18 @@ export default {
     width: 3rem;
     height: 3rem;
     display: inline-block;
-    background: orangered;
-    color: #fff;
+    background: #ff8e00;
+    color:#fff;
     text-align: center;
     border-radius: 5px;
     span {
       line-height: 3rem;
     }
   }
-  .title {
-    margin-top: -2.7rem;
-    margin-left: 4rem;
+  .title{
+    margin-top:-2.7rem;
+    margin-left:4rem;
+    font-size: 1rem;
   }
   .info {
     margin-left: 4rem;

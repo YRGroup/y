@@ -1,12 +1,16 @@
 <template>
-  <div class="hello">
-
-    <ul> 
-      <li :class="(item.SendTo!=$route.params.userId)?'right':null" v-for="item in data">
-        <img :src="userImg">
-        <div class="content">{{ item.Content }}</div>              
-        <div class="time">{{ item.CreateTime }}</div>           
-      </li> 
+  <div class="msg">
+  
+    <div class="time">
+      <span>item.CreateTime</span>
+    </div>
+  
+    <ul>
+      <li class="item" :class="(item.SendTo!=$route.params.userId)?'right':null" v-for="item in data">
+        <img class="picinfo" :src="userImg">
+        <div class="content">{{ item.Content }}</div>
+  
+      </li>
     </ul>
   </div>
 </template>
@@ -14,93 +18,88 @@
 <script>
 export default {
   name: 'hello',
-  data () {
+  data() {
     return {
-      data:[]
+      data: []
     }
   },
-  methods:{
-    fun(msg){
+  methods: {
+    fun(msg) {
       this.$vux.toast.show({
-        type:"text",
-        width:"20em",
+        type: "text",
+        width: "20em",
         text: msg
       })
     },
-    getMsgInfo(){
-      this.$API.getMsgInfo(this.$route.params.userId).then(res=>{
-        this.data=res.CL
-        this.userImg=res.sendto_Headimgurl
-      }).catch(err=>{
+    getMsgInfo() {
+      this.$API.getMsgInfo(this.$route.params.userId).then(res => {
+        this.data = res.CL
+        this.userImg = res.sendto_Headimgurl
+      }).catch(err => {
         console.log(err)
       })
     }
   },
-  created(){
-    this.$store.commit('showNav',true)
-    this.$store.commit('changeTitle','消息中心')
+  created() {
+    this.$store.commit('showNav', true)
+    this.$store.commit('changeTitle', '消息中心')
     this.getMsgInfo()
   },
-  mounted(){
+  mounted() {
 
   }
 }
 </script>
 
 <style lang="less" scoped>
-.hello{
-  text-align:center;
-
+.msg{
+  padding-top:1rem;
 }
-
-li{
-  text-align:left;
-  padding:1em 0 1em 1em;
-  font-size:1.2em;
-  position:relative;
-  height:4.5rem;
-  margin-bottom:1em;
-  // border-top:1px solid @cc3;
-  img{
-    width:4em;
-    margin-right:1em;
-    border-radius:50%;
-  }
-  .content{ 
-    position:absolute;
-    top:3.5rem;
-    left:3.5rem;
-    background:@cc6;
-    color:#fff;
-    padding:1rem;
-    border-radius:15px;
-    border:1px solid @cc4;
-    z-index:-1;
-  }
-  .time{
-    background:#e3e3e3;
-    border-radius:20px;
+.item {
+  text-align: left;
+  padding: 10px;
+  font-size: 1.2em;
+  position: relative; 
+  margin: 10px 0; 
+  .picinfo {
     position: absolute;
-    // width:7em;
-    text-align: center;
-    line-height: 1.5em;
-    left:5.5em;
-    top:2em;
+    left: 20px;
+    width: 3em;
+    border-radius: 50%;
+  }
+  .content {
+    display: inline-block;
+    padding: 10px;
+    background: #fff;
+    margin: 0 10px 0 4rem;
+    border-radius: 6px;
+    z-index: -1;
+    border-radius: 1px solid @cc4;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .1);
   }
 }
-.right{
-  text-align:right;
-  .content{ 
-    float:right;
-    margin:0;
-    color:#000;
-    right:3.5rem;
-    left:inherit;
-    background:#fff;
+
+.time {
+  text-align: center;
+  line-height: 1.5em;
+  span{
+    background: #e3e3e3;
+    border-radius: 20px; 
+    padding:5px 10px;
   }
-  .time{
-    left:inherit;
-    right:5.5em;
+}
+
+.right {
+  text-align: right;
+  .picinfo {
+    position: absolute;
+    right: 20px;
+    left: inherit;
+  }
+  .content {
+    background: #9eea6a;
+    margin: 0 4rem 0 20px;
+    text-align: left;
   }
 }
 </style>

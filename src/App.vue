@@ -148,6 +148,7 @@ a{
 
 .card{
   background: #fff;
-  margin-top:1rem;
+  margin-top:10px;
 }
+
 </style>
