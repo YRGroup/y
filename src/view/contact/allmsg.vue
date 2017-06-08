@@ -76,8 +76,6 @@ li{
     border-radius:15px;
     border:1px solid @cc4;
     z-index:-1;
-    max-width:10em;
-    white-space: normal;
   }
   .time{
     background:#e3e3e3;
