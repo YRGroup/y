@@ -8,8 +8,7 @@
     <ul>
       <li class="item" :class="(item.SendTo!=$route.params.userId)?'right':null" v-for="item in data">
         <img class="picinfo" :src="userImg">
-        <div class="content">{{ item.Content }}</div>
-  
+        <span class="content">{{item.Content}}</span>
       </li>
     </ul>
   </div>
@@ -74,6 +73,7 @@ export default {
     margin: 0 10px 0 4rem;
     border-radius: 6px;
     z-index: -1;
+    word-break:break-all;
     border-radius: 1px solid @cc4;
     box-shadow: 0 0 3px rgba(0, 0, 0, .1);
   }
