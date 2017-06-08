@@ -1,13 +1,15 @@
 <template>
-  <div class="hello">
-    </br>
-    <div class="time">4月25日</div>
-    </br>
-    <ul> 
-      <li :class="(item.class=='me')?right:null" v-for="item in msg" class="item">
-        <img class="picinfo" :src="item.img">
-        <span class="msginfo">{{ item.msg }}</span>
-      </li> 
+  <div class="msg">
+  
+    <div class="time">
+      <span>item.CreateTime</span>
+    </div>
+  
+    <ul>
+      <li class="item" :class="(item.SendTo!=$route.params.userId)?'right':null" v-for="item in data">
+        <img class="picinfo" :src="userImg">
+        <span class="content">{{item.Content}}</span>
+      </li>
     </ul>
   </div>
 </template>
@@ -15,102 +17,89 @@
 <script>
 export default {
   name: 'hello',
-  data () {
+  data() {
     return {
-      right:'right',
-      msg:[
-        {
-          'img':require('@/assets/face/tc.png'),
-          'msg':'今天的作业是什么',
-          'class':'me',
-          'date':'4-26',
-          'num':'4'
-        },
-        {
-          'img':require('@/assets/face/jay.jpg'),
-          'msg':'今天的语文作业是唐诗三百首读后感一篇',
-          'date':'4-26',
-          'num':'4'
-        },
-        {
-          'img':require('@/assets/face/jay.jpg'),
-          'msg':'记得要用黑色记号笔',
-          'date':'4-26',
-          'num':'4'
-        }
-      ]
+      data: []
     }
   },
-  methods:{
-    fun(msg){
+  methods: {
+    fun(msg) {
       this.$vux.toast.show({
-        type:"text",
-        width:"20em",
+        type: "text",
+        width: "20em",
         text: msg
+      })
+    },
+    getMsgInfo() {
+      this.$API.getMsgInfo(this.$route.params.userId).then(res => {
+        this.data = res.CL
+        this.userImg = res.sendto_Headimgurl
+      }).catch(err => {
+        console.log(err)
       })
     }
   },
-  created(){
-    this.$store.commit('showNav',true)
-    this.$store.commit('changeTitle','消息中心')
+  created() {
+    this.$store.commit('showNav', true)
+    this.$store.commit('changeTitle', '消息中心')
+    this.getMsgInfo()
   },
-  mounted(){
+  mounted() {
 
   }
 }
 </script>
 
 <style lang="less" scoped>
-.hello{
-  text-align:center;
-  .time{
-    margin:0 auto;
-    background:#e3e3e3;
-    padding:0.5em;
-    display:inline;
-    border-radius:20px;
-  }
+.msg{
+  padding-top:1rem;
 }
-
-.item{
-  text-align:left;
-  padding:10px;
-  font-size:1.2em;
-  position:relative;
-  // padding-left:4rem;
-  margin:10px 0;
-  .picinfo{
+.item {
+  text-align: left;
+  padding: 10px;
+  font-size: 1.2em;
+  position: relative; 
+  margin: 10px 0; 
+  .picinfo {
     position: absolute;
     left: 20px;
-    width:3em;
-    border-radius:50%;
+    width: 3em;
+    border-radius: 50%;
   }
-  .msginfo{ 
-    // position:absolute;
-    // left:4rem;
-    // margin:10px 0 0 3rem;
+  .content {
     display: inline-block;
-    padding:10px;
-    background:#fff;
-    margin:0 10px 0 4rem;
-    border-radius:6px;
-    z-index:-1;
+    padding: 10px;
+    background: #fff;
+    margin: 0 10px 0 4rem;
+    border-radius: 6px;
+    z-index: -1;
+    word-break:break-all;
     border-radius: 1px solid @cc4;
-    box-shadow: 0 0 3px rgba(0,0,0,.1);
-  }
-}
-li.right{
-  text-align: right;
-  .picinfo{
-    position: absolute;
-    right:20px;
-    left: inherit;
-  }
-  .msginfo{ 
-    background: #9eea6a;
-    margin:0 4rem 0 20px;
-    text-align:left;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .1);
   }
 }
 
+.time {
+  text-align: center;
+  line-height: 1.5em;
+  span{
+    background: #e3e3e3;
+    border-radius: 20px; 
+    padding:5px 10px;
+  }
+}
+
+.right {
+  text-align: right;
+  .picinfo {
+    position: absolute;
+    right: 20px;
+    left: inherit;
+  }
+  .content {
+    background: #9eea6a;
+    margin: 0 4rem 0 20px;
+    text-align: left;
+  }
+}
 </style>

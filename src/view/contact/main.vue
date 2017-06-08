@@ -1,22 +1,77 @@
 <template>
   <div class="hello">
+
+    <group class="link">
+      <cell title="学生" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'"
+        @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null">
+        <i slot="icon" class="iconfont">&#xe666;</i>
+      </cell>
+      <div class="slide" :class="showContent1?'animate':null" >
+        <cell class="item" is-link v-for="(i,index) in student" :link="'/student/'+i.Meid"
+        :title="i.TrueName" :inline-desc="'学号：'+i.Meid">
+          <img class="cellicon" slot="icon" :src="i.userImg">
+        </cell>
+      </div>
+
+      <cell title="家长" is-link :border-intent="false" :arrow-direction="showContent2 ? 'up' : 'down'"
+        @click.native="showContent2 = !showContent2" :class="showContent2?'activenav':null">
+        <i slot="icon" class="iconfont">&#xe666;</i>
+      </cell>
+      <div class="slide" :class="showContent2?'animate':null" >
+        <cell class="item" is-link v-for="(i,index) in parent" :link="'/student/'+i.Meid"
+        :title="i.ParentTrueName" :inline-desc="i.ParentType">
+          <img class="cellicon" slot="icon" :src="i.ParentHeadimgurl">
+        </cell>
+      </div>
+
+      <cell title="老师" is-link :border-intent="false" :arrow-direction="showContent3 ? 'up' : 'down'"
+        @click.native="showContent3 = !showContent3" :class="showContent3?'activenav':null">
+        <i slot="icon" class="iconfont">&#xe666;</i>
+      </cell>
+      <div class="slide" :class="showContent3?'animate':null" >
+        <cell class="item" is-link v-for="(i,index) in teacher" :link="'/student/'+i.Meid"
+        :title="i.TrueName" :inline-desc="i.SelfDiscription">
+          <img class="cellicon" slot="icon" :src="i.Headimgurl">
+        </cell>
+      </div>
+
+    </group>
+
+    </br>
     <ul class="msglist">
-      <li @click="$router.push('/allmsg')" v-for="item in msg">
-        <img :src="item.img">
-        <span class="usename">{{ item.name }} （{{ item.class }}）</span>
-        <span class="info">{{ item.msg }}</span>
-        <span class="time">{{ item.date }}</span>
-        <span class="num">{{ item.num }}</span>
+      <li @click="$router.push('/allmsg/'+item.FromMeid)" v-for="item in msgdata">
+        <img :src="item.FromHeadImg">
+        <span class="usename">{{ item.FromName }}</span>
+        <span class="info">{{ item.Content }}</span>
+        <span class="time">{{ item.LastTime }}</span>
+        <span class="num">{{ item.UnReadCount }}</span>
       </li>
     </ul>
+
   </div>
 </template>
 
 <script>
+import { Cell, CellBox, CellFormPreview, Group, Badge } from 'vux'
+
 export default {
   name: 'hello',
+  components: {
+    Group,
+    Cell,
+    CellFormPreview,
+    CellBox,
+    Badge
+  },
   data() {
     return {
+      showContent1:false,
+      showContent2:false,
+      showContent3:false,
+      msgdata:[],
+      student:[],
+      parent:[],
+      teacher:[],
       msg: [
         {
           'name': '李老师',
@@ -52,11 +107,43 @@ export default {
         width: "20em",
         text: msg
       })
+    },
+    getStudentList(){
+      this.$API.getStudentList(this.$store.state.classId).then(res=>{
+        this.student=res
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    getTeacherList(){
+      this.$API.getTeacherList(this.$store.state.classId).then(res=>{
+        this.teacher=res
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    getParentList(){
+      this.$API.getParentList(this.$store.state.classId).then(res=>{
+        this.parent=res
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    getMsgList(){
+      this.$API.getMsgList().then(res=>{
+        this.msgdata=res
+      }).catch(err=>{
+        console.log(err)
+      })
     }
   },
   created() {
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','消息中心')
+    this.getStudentList()
+    this.getTeacherList()
+    this.getParentList()
+    this.getMsgList()
   },
   mounted() {
 
@@ -72,7 +159,7 @@ export default {
     background: #fff;
     position: relative;
     img {
-      width: 4em;
+      width: 3rem;
       margin-right: 1em;
       border-radius: 50%;
     }
@@ -119,5 +206,29 @@ export default {
   li:last-child {
     padding-bottom: 0;
   }
+}
+.activenav{
+  background: @cc6;
+  color:#fff;
+}
+.cellicon{
+  width:3rem;
+  border-radius: 50%;
+  margin-right:1rem;
+  vertical-align: middle;
+}
+.iconfont{
+  margin:0 1rem;
+  font-size: 2rem;
+}
+.slide {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
+}
+.animate {
+  max-height: 9999px;
+  transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+  transition-delay: 0s;
 }
 </style>

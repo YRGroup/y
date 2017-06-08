@@ -5,7 +5,7 @@
       <img :src="classlogo" @click="$router.push('/class/'+$store.state.classId)">
       <span class="name">{{ data.name }}</span>
       <span class="teacher">班主任：{{ mainTeacherName }}</span>
-      <span class="count" @click="$router.push('/class/'+$store.state.classId+'/student')">人数：{{ data.student_count }}</span>
+      <span class="count">人数：{{ data.student_count }}</span>
       <div class="addbtn" @click="$router.push('/class/'+$store.state.classId+'/new')"><i class="iconfont">&#xe606;</i>发布动态</div>
     </div>
 
@@ -32,10 +32,8 @@ export default {
   methods:{
     getClassInfo(){
       this.$API.getClassInfo(this.$route.params.classId).then(res=>{
-        console.log('获取到的班级信息：')
-        console.log(res.data.Content)
-        this.$store.state.classInfo = res.data.Content
-        this.mainTeacherName = res.data.Content.teacher.TrueName
+        this.$store.state.classInfo = res
+        this.mainTeacherName = res.teacher.TrueName
       }).catch(err=>{
         console.log(err)
         // console.log('获取数据失败，显示默认数据') 

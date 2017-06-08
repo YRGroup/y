@@ -24,7 +24,6 @@ import classMainPage from '@/view/class/all'
 import classmsg from '@/view/class/msg'
 import notice from '@/view/class/notice'
 import homework from '@/view/class/homework'
-import studentlist from '@/view/class/student'
 import kcb from '@/view/class/kcb'
 import newClassPost from '@/view/class/newpost'
 
@@ -119,10 +118,6 @@ export default new Router({
                 {
                     path: 'msg/:msgId',
                     component: classmsg
-                },
-                {
-                    path: 'student',
-                    component: studentlist
                 },
                 {
                     path: 'kcb',
@@ -252,7 +247,7 @@ export default new Router({
             component: msg
         },
         {
-            path: '/allmsg',
+            path: '/allmsg/:userId',
             name: 'allmsg',
             component: allmsg
         },

@@ -20,12 +20,11 @@ export default {
   data () {
     return {
       data:{},
-      categoryList: [{key: '1', value: '班级活动'}, {key: '2', value: '班级新闻'},{key: '3', value: '班级作业'}]
+      categoryList: [{key: '1', value: '班级动态'}, {key: '2', value: '班级新闻'},{key: '3', value: '班级通知'},{key: '4', value: '班级作业'}]
     }
   },
   methods:{
     addNewPost(){
-      // this.data.userImg='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg'
       this.data.cid = this.$store.state.classId
       if(this.data.type!=null&&this.data.content!=undefined){
         console.log('本地的数据：')
