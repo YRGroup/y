@@ -8,14 +8,6 @@
         <img class="picinfo" :src="item.img">
         <span class="msginfo">{{ item.msg }}</span>
       </li> 
-      <li class="item">
-        <img data-v-57b0144c="" src="/static/img/tc.4e7e6a1.png" class="picinfo">
-        <span data-v-57b0144c="" class="msginfo">今天的作今天的作业是什么今天的作业是什么今天的作业是什么今天的作业是什么今天的作业是什么今天的作业是什么业是什么</span>
-      </li>
-      <li class="right item">
-        <img data-v-57b0144c="" src="/static/img/tc.4e7e6a1.png" class="picinfo">
-        <span data-v-57b0144c="" class="msginfo">今天的作今天的作业是什么今天的作业是什么今天的作业是什么今天的作业是什么今天的作业是什么今天的作业是什么业是什么</span>
-      </li>
     </ul>
   </div>
 </template>
