@@ -13,6 +13,7 @@ const store = new Vuex.Store({
         reginfo:{},
         classId:'19',
         studentId:'65412',
+        currentUserId:'s0zdelmp',
         classInfo:{null:true},
     },
     mutations: {

@@ -1,12 +1,11 @@
 <template>
   <div class="hello">
-    </br>
-    <div class="time">4月25日</div>
-    </br>
+
     <ul> 
-      <li :class="(item.class=='me')?right:null" v-for="item in msg">
-        <img :src="item.img">
-        <span>{{ item.msg }}</span>
+      <li :class="(item.SendTo!=$route.params.userId)?'right':null" v-for="item in data">
+        <img :src="userImg">
+        <div class="content">{{ item.Content }}</div>              
+        <div class="time">{{ item.CreateTime }}</div>           
       </li> 
     </ul>
   </div>
@@ -17,28 +16,7 @@ export default {
   name: 'hello',
   data () {
     return {
-      right:'right',
-      msg:[
-        {
-          'img':require('@/assets/face/tc.png'),
-          'msg':'今天的作业是什么',
-          'class':'me',
-          'date':'4-26',
-          'num':'4'
-        },
-        {
-          'img':require('@/assets/face/jay.jpg'),
-          'msg':'今天的语文作业是唐诗三百首读后感一篇',
-          'date':'4-26',
-          'num':'4'
-        },
-        {
-          'img':require('@/assets/face/jay.jpg'),
-          'msg':'记得要用黑色记号笔',
-          'date':'4-26',
-          'num':'4'
-        }
-      ]
+      data:[]
     }
   },
   methods:{
@@ -48,11 +26,20 @@ export default {
         width:"20em",
         text: msg
       })
+    },
+    getMsgInfo(){
+      this.$API.getMsgInfo(this.$route.params.userId).then(res=>{
+        this.data=res.CL
+        this.userImg=res.sendto_Headimgurl
+      }).catch(err=>{
+        console.log(err)
+      })
     }
   },
   created(){
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','消息中心')
+    this.getMsgInfo()
   },
   mounted(){
 
@@ -63,13 +50,7 @@ export default {
 <style lang="less" scoped>
 .hello{
   text-align:center;
-  .time{
-    margin:0 auto;
-    background:#e3e3e3;
-    padding:0.5em;
-    display:inline;
-    border-radius:20px;
-  }
+
 }
 
 li{
@@ -78,29 +59,50 @@ li{
   font-size:1.2em;
   position:relative;
   height:4.5rem;
+  margin-bottom:1em;
+  // border-top:1px solid @cc3;
   img{
     width:4em;
     margin-right:1em;
     border-radius:50%;
   }
-  span:nth-child(2){ 
+  .content{ 
     position:absolute;
     top:3.5rem;
-    left:2.5rem;
-    background:#fff;
+    left:3.5rem;
+    background:@cc6;
+    color:#fff;
     padding:1rem;
     border-radius:15px;
-    border:1px solid @c4;
+    border:1px solid @cc4;
     z-index:-1;
+    max-width:10em;
+    white-space: normal;
+  }
+  .time{
+    background:#e3e3e3;
+    border-radius:20px;
+    position: absolute;
+    // width:7em;
+    text-align: center;
+    line-height: 1.5em;
+    left:5.5em;
+    top:2em;
   }
 }
 .right{
   text-align:right;
-  span:nth-child(2){ 
+  .content{ 
     float:right;
     margin:0;
-    right:2.5rem;
+    color:#000;
+    right:3.5rem;
     left:inherit;
+    background:#fff;
+  }
+  .time{
+    left:inherit;
+    right:5.5em;
   }
 }
 </style>

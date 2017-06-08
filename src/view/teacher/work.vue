@@ -4,13 +4,10 @@
     </br>
     
     <div class="feed" v-for="i in data" @click="fun('打开 '+i.title+' '+i.class+' 的作业页面')">
-      <div class="time">{{ i.time }}</div>
       <card class="card">
-        <p slot="content">
-          <img :src="i.img">
-          <span>{{ i.title }}（{{ i.class }}）</span>
-          <span>{{ i.content }}</span>
-        </p>
+        <!--<div class="header" slot="header">{{i.Title}}</div>-->
+        <div class="content" slot="content">{{ i.Content }}</div>
+        <div class="footer" slot="footer">{{ i.CreateTime }}</div>
       </card>
     </div>
     
@@ -29,11 +26,11 @@ export default {
     return {
       data:[
         {
-          'time':'4月25日 18:00',
-          'img':'https://modao.cc/uploads3/images/900/9007938/raw_1493017174.jpeg',
-          'title':'课堂实践活动',
-          'class':'语文',
-          'content':'如果你无法简洁的表达你的想法，那只说明你还不够了解它。'
+          'CreateTime':'4月25日 18:00',
+          'AutherUserImg':'https://modao.cc/uploads3/images/900/9007938/raw_1493017174.jpeg',
+          'Title':'课堂实践活动',
+          'CourseName':'语文',
+          'Content':'如果你无法简洁的表达你的想法，那只说明你还不够了解它。'
         },
         {
           'time':'4月26日 18:00',
@@ -67,10 +64,19 @@ export default {
         width:"20em",
         text: msg
       })
+    },
+    getHomeworkList(){
+      this.$API.getHomeworkList(this.$store.state.classId).then(res=>{
+        console.log('获取到的教师发布的作业：')
+        console.log(res)
+        this.data=res
+      }).catch(err=>{
+        console.log(err)
+      })
     }
   },
   created(){
-
+    this.getHomeworkList()
   },
   mounted(){
 
@@ -91,28 +97,17 @@ export default {
 }
 .card{
   margin:1em;
-  padding:1em;
-  box-shadow:0 0 1px #ccc;
-  position:relative;
   text-align:left;
-  p{
-    img{
-      width:6em;
-      border-radius:5px;
-    }
-    :nth-child(2){
-      position:absolute;
-      top:1.5em;
-      left:7em;
-      font-size:1.3em;
-    }
-    :nth-child(3){
-      position:absolute;
-      top:4em;
-      left:9em;
-      width:17em;
-      color:@c4;
-    }
+  .header{
+    border-bottom: 1px solid @cc4;
+  }
+  .content{
+    padding:1em;
+    // border-bottom: 1px solid @cc4;
+  }
+  .footer{
+    text-align: right;
+    color:@cc2;
   }
 }
 </style>
