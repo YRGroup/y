@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    test info
     <router-view></router-view>
   </div>
 </template>
@@ -28,7 +27,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.hello{
-  text-align: center;
-}
+
 </style>

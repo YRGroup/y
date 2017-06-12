@@ -113,21 +113,21 @@ export default {
       document.body.scrollTop = anchor.offsetTop
     },
     getStudentList(){
-      this.$API.getStudentList(this.$store.state.classId).then(res=>{
+      this.$API.getStudentList(this.$store.state.currentClassId).then(res=>{
         this.student=res
       }).catch(err=>{
         console.log(err)
       })
     },
     getTeacherList(){
-      this.$API.getTeacherList(this.$store.state.classId).then(res=>{
+      this.$API.getTeacherList(this.$store.state.currentClassId).then(res=>{
         this.teacher=res
       }).catch(err=>{
         console.log(err)
       })
     },
     getParentList(){
-      this.$API.getParentList(this.$store.state.classId).then(res=>{
+      this.$API.getParentList(this.$store.state.currentClassId).then(res=>{
         this.parent=res
       }).catch(err=>{
         console.log(err)

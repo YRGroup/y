@@ -10,7 +10,8 @@ import main from '@/view/main/main'
 import addon from '@/view/addon/default'
 import kechengbiao from '@/view/addon/kechengbiao'
 import reader from '@/view/addon/reader'
-import remark from '@/view/addon/remark'
+import idol from '@/view/addon/idol'
+import interview from '@/view/addon/interview'
 
 // 学校
 import news from '@/view/school/news'
@@ -40,13 +41,11 @@ import score from '@/view/student/score'
 import studentfeed from '@/view/student/feed'
 import schoolcard from '@/view/student/schoolcard'
 import timeline from '@/view/student/timeline'
+import studentedit from '@/view/student/edit'
+import studentprofile from '@/view/student/profile'
 
 // 注册
 import regist from '@/view/login/regist'
-import reg from '@/view/login/reg'
-import step1 from '@/view/login/step1'
-import step2 from '@/view/login/step2'
-import step3 from '@/view/login/step3'
 
 // 登陆
 import login from '@/view/login/login'
@@ -97,9 +96,14 @@ export default new Router({
                     component: reader
                 },
                 {
-                    path: 'remark',
-                    name: 'remark',
-                    component: remark
+                    path: 'idol',
+                    name: 'idol',
+                    component: idol
+                },
+                {
+                    path: 'interview',
+                    name: 'interview',
+                    component: interview
                 },
             ]
         },
@@ -179,7 +183,15 @@ export default new Router({
                 {
                     path: 'timeline',
                     component: timeline
-                }
+                },
+                {
+                    path: 'edit',
+                    component: studentedit
+                },
+                {
+                    path: 'profile',
+                    component: studentprofile
+                },
             ]
         },
         {//学校
@@ -212,13 +224,7 @@ export default new Router({
             path: '/regist',
             name: 'regist',
             component: regist,
-        },
-        {
-            path: '/step',
-            name: 'step',
-            component: step1,
-        },
-        
+        },        
         {
             path: '/login',
             name: 'login',

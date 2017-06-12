@@ -3,7 +3,7 @@ const serverAPI = {}
 import axios from 'axios'
 
 // API根目录
-const _APIurl = 'http://192.168.3.188'
+const _APIurl = 'http://api.test.com'
 
 
 // 获取班级所有信息
@@ -331,6 +331,24 @@ serverAPI.getStudentInfo = (studentId) => {
 }
 // testing
 
+// 获取学生信息
+serverAPI.editStudentInfo = (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/Student/ModifyInfo',data).then((res)=>{
+      if(res.data.Msg!='ok'){
+        console.log('修改的学生信息：')
+        console.log(res)
+        resolve(res.data.Msg)
+      }else{
+        reject(res.data.Msg)
+      }
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+// testing
+
 // 获取学生的成绩单
 serverAPI.getExamScore = (userId,examid) => {
   return new Promise((resolve, reject) => {
@@ -393,6 +411,29 @@ serverAPI.parentReg = (regdata) => {
       console.log('注册信息：')
       console.log(res)
       resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+// testing
+
+// 家长登陆
+serverAPI.login = (phone,password) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/User/LoginByPhone',{
+      params:{
+        phone:phone,
+        password:password,
+      }
+    }).then((res)=>{
+      if(res.data.Msg==='OK'){
+        console.log('登陆信息：')
+        console.log(res)
+        resolve(res.data.Content)
+      }else{
+        reject(res.data.Msg)
+      }
     }).catch((err)=>{
       reject(err)
     })

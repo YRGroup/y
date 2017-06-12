@@ -32,7 +32,6 @@ button{
   cursor: pointer;
   text-align: center;
   white-space:nowrap;
-  appearance: none;
   color:#FFF;
   min-width:8em;
   height:2.7em;

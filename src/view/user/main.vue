@@ -26,9 +26,8 @@
       </cell>
     </group>
     <br>
-    <!--<x-button class="btn" @click.native="fun('登出')">退出登陆</x-button>-->
     <div class="exitbtn">
-      <a class="btn" @click="fun('登出')">退出登陆</a>
+      <a class="btn" @click="logout">退出登陆</a>
     </div>
 
   </div>
@@ -56,6 +55,14 @@ export default {
         text: msg
       })
     },
+    logout(){
+      this.$store.commit('logout')
+      this.$vux.toast.show({
+        type:"text",
+        text: '登出成功'
+      })
+      this.$router.push('/main')
+    },
     getData(){
       this.$API.getCurrentUser().then(res=>{
         console.log('获取到的用户信息：')
@@ -72,7 +79,13 @@ export default {
     this.getData()
   },
   mounted(){
-
+    if(this.$store.state.hasLogin===false){
+      this.$vux.toast.show({
+        type:"cancel",
+        text: "当前未登录"
+      })
+      // this.$router.push('/login')
+    }
   }
 }
 </script>

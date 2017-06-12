@@ -7,7 +7,7 @@
     </group>
 
     <group title="消费记录：">
-      <cell :title="i.Title" :inline-desc="i.CreateTime" v-for="i in data.Log">
+      <cell :title="i.Title" :inline-desc="i.CreateTime" v-for="(i,index) in data.Log" :key="index">
         <div slot="value">
           <span style="color: red">- {{i.Money}}</span>
         </div>

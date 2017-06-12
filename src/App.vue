@@ -1,20 +1,20 @@
 <template>
   <div id="app">
-    <x-header id="nav-top" :left-options="{backText: ''}" v-show="shownav">
+    <x-header id="nav-top" :left-options="{backText: ''}" v-show="$store.state.showTopNav">
       {{web_title}}
       <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
     </x-header>
 
     <transition name='slide-fade'>
-      <router-view id="inview" :style="{marginTop:ptop}"></router-view>
+      <router-view id="inview" :style="{marginTop:ptop,marginBottom:pdown}"></router-view>
     </transition>
 
-    <tabbar id="nav-bottom" v-show="shownav">
+    <tabbar id="nav-bottom" v-show="$store.state.showBottomNav">
       <tabbar-item selected link="/main">
         <i slot="icon" class="iconfont nav_icon">&#xe666;</i>
         <span slot="label" class="navtext">主页</span>
       </tabbar-item>
-      <tabbar-item show-dot :link="'/class/'+$store.state.classId">
+      <tabbar-item show-dot :link="'/class/'+$store.state.currentClassId">
         <i slot="icon" class="iconfont nav_icon">&#xe672;</i>
         <span slot="label" class="navtext">班级</span>
       </tabbar-item>
@@ -22,9 +22,9 @@
         <i slot="icon" class="iconfont nav_icon">&#xe629;</i>
         <span slot="label" class="navtext">通讯录</span>
       </tabbar-item>
-      <tabbar-item link="/user">
+      <tabbar-item :link="hasLogin?'/user':'/login'">
         <i slot="icon" class="iconfont nav_icon">&#xe719;</i>
-        <span slot="label" class="navtext">我的</span>
+        <span slot="label" class="navtext">{{hasLogin?'用户':'未登陆'}}</span>
       </tabbar-item>
     </tabbar>
 
@@ -48,6 +48,13 @@ export default {
     showRouterInfo(){
       console.log('当前路由信息：')
       console.log(this.$route.params)
+      console.log('当前VueX信息：')
+      console.log(this.$store.state)
+      console.log('当前localStorage信息：')      
+      console.log(localStorage)
+      console.log('当前cookie信息：')      
+      console.log(document.cookie)
+
       window.scrollTo(0,0);
     }
   },
@@ -68,7 +75,19 @@ export default {
       return this.$store.state.isNav
     },
     ptop (){
-      return this.$store.state.isNav ? '3.8em' : '0'
+      return this.$store.state.showTopNav ? '46px' : '0'
+    },
+    pdown (){
+      return this.$store.state.showBottomNav ? '53px' : '0'
+    },
+    hasLogin(){
+      return this.$store.state.hasLogin
+    }
+  },
+  mounted(){
+    if(localStorage.hasLogin=='true'){
+      this.$store.commit('login',localStorage.id)
+      console.log('has login')
     }
   }
 }
@@ -78,6 +97,7 @@ export default {
 @import '~vux/src/styles/reset.less';
 @import './style/card.less';
 
+// 界面最大宽度
 @appwidth:475px;
 
 body {
@@ -89,8 +109,6 @@ body {
   color: @cc1;
 }
 #inview{
-  margin-top:3.8em;
-  padding-bottom:4.5em;
   position: relative;
   top:0;
 }
@@ -119,6 +137,7 @@ a{
   color:inherit;
 }
 
+// 切换动画
 .slide-fade-enter-active {
   transition: all .3s ease;
 }
@@ -136,7 +155,6 @@ a{
 }
 .iconfont{
   font-family:"iconfont";
-  // font-size:16px;
   font-style:normal;
   // -webkit-font-smoothing: antialiased;
   // -webkit-text-stroke-width: 0.2px;

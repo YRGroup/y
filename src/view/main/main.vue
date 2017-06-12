@@ -4,7 +4,7 @@
         <span class="tips"><i class="iconfont">&#xe620;</i></span>
         <!--<span class="text">您还没有关注公共账号！</span>-->
         <marquee class="text" direction="left">您还没有关注公共账号,关注后可收到学生在校动态！</marquee>
-        <x-button class="right" mini type="primary" @click.native='mytest'><i class="iconfont">&#xe61f;</i>关注</x-button>
+        <x-button class="right" mini type="primary" @click.native="fun('关注跳转')"><i class="iconfont">&#xe61f;</i>关注</x-button>
     </div>
     
     <!--轮播图-->
@@ -12,7 +12,7 @@
 
     <!--功能导航-->
     <flexbox wrap="wrap" :gutter="0">
-      <flexbox-item :span="4">
+      <!--<flexbox-item :span="4">
         <router-link :to="'/class/'+$store.state.classId+'/notice'">
           <div style="background:#fe970f"><i class="iconfont">&#xe649;</i></div>
           <span>通知</span>
@@ -23,27 +23,27 @@
           <div style="background:#8f59ff"><i class="iconfont">&#xe672;</i></div>
           <span>班级</span>
         </router-link>
-      </flexbox-item>
+      </flexbox-item>-->
       <flexbox-item :span="4">
-        <router-link :to="'/class/'+$store.state.classId+'/work'">
+        <router-link :to="'/class/'+$store.state.currentClassId+'/work'">
           <div style="background:#28cb60"><i class="iconfont">&#xe668;</i></div>
           <span>作业</span>
         </router-link>
       </flexbox-item>
       <flexbox-item :span="4">
-        <router-link :to="'/student/'+$store.state.studentId+'/score/1'">
+        <router-link :to="'/student/'+$store.state.currentStudentId+'/score/1'">
           <div style="background:#0ab9f7"><i class="iconfont">&#xe601;</i></div>
           <span>成绩报告</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="4">
-        <router-link to="/msg">
+      <!--<flexbox-item :span="4">
+        <router-link to="/contact">
           <div style="background:#ff5251"><i class="iconfont">&#xe629;</i></div>
           <span>消息</span>
         </router-link>
-      </flexbox-item>
+      </flexbox-item>-->
       <flexbox-item :span="4">
-        <router-link :to="'/student/'+$store.state.studentId+'/schoolcard'">
+        <router-link :to="'/student/'+$store.state.currentStudentId+'/schoolcard'">
           <div style="background:#fbc700"><i class="iconfont">&#xe602;</i></div>
           <span>一卡通</span>
         </router-link>
@@ -60,6 +60,24 @@
           <span>校园新闻</span>
         </router-link>
       </flexbox-item>
+      <flexbox-item :span="4">
+        <router-link to="/addon/reader">
+          <div style="background:#fe970f"><i class="iconfont">&#xe737;</i></div>
+          <span>朗读者</span>
+        </router-link>
+      </flexbox-item>
+      <flexbox-item :span="4">
+        <router-link to="/addon/idol">
+          <div style="background:#8f59ff"><i class="iconfont">&#xe737;</i></div>
+          <span>iDOL</span>
+        </router-link>
+      </flexbox-item>
+      <flexbox-item :span="4">
+        <router-link to="/addon/interview">
+          <div style="background:#28cb60"><i class="iconfont">&#xe737;</i></div>
+          <span>谈话录</span>
+        </router-link>
+      </flexbox-item>
     </flexbox>
     <br />
 
@@ -67,12 +85,12 @@
 </template>
 
 <script>
-import { Swiper,Flexbox,FlexboxItem,Card,Tab, TabItem ,XButton } from 'vux'
+import { Swiper,Flexbox,FlexboxItem,XButton  } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Swiper,Flexbox,FlexboxItem,Card,Tab, TabItem,XButton
+    Swiper,Flexbox,FlexboxItem,XButton 
   },
   data () {
     return {
@@ -88,56 +106,6 @@ export default {
         { url: 'http://www.gy720.com/pano/view/6614',
           img: require('@/assets/img/s3.jpg'),
           title: '郑州外国语女子中学'
-        }
-      ],
-      icon_nav:[
-        {
-          link:'/main',
-          title:'通知',
-          icon:'聊天',
-          color:'#fe970f'
-        },
-        {
-          link:'/class',
-          title:'班级',
-          icon:'班级',
-          color:'#8f59ff'
-        },
-        {
-          link:'/main',
-          title:'作业',
-          icon:'笔记',
-          color:'#28cb60'
-        },
-        {
-          link:'/user',
-          title:'成绩报告',
-          icon:'资料',
-          color:'#0ab9f7'
-        },
-        {
-          link:'/main',
-          title:'消息',
-          icon:'评论',
-          color:'#ff5251'
-        },
-        {
-          link:'/main',
-          title:'一卡通',
-          icon:'student',
-          color:'#fbc700'
-        },
-        {
-          link:'/main',
-          title:'校园新闻',
-          icon:'浏览',
-          color:'#ff5498'
-        },
-        {
-          link:'/main',
-          title:'校园新闻',
-          icon:'student',
-          color:'#4ea7e4'
         }
       ]
     }

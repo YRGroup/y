@@ -7,32 +7,39 @@
       <span>智慧校园-注册</span>
     </div>
     <group class="item">
-      <x-input class="itemList" placeholder="请输入手机号" :show-clear="false" 
+      <x-input class="itemList" placeholder="请输入手机号" :show-clear="false"  
       required is-type="china-mobile" ref="mobilephone" keyboard="number" v-model="data.phone"
       >
       </x-input>
     </group>
     <group class="item">
-      <x-input class="itemList" placeholder="请输入验证码" :show-clear="false" required v-model="imgcheck" >
-        <img slot="right" :src="'http://api.zzcowboy.com/ck/captcha.png?n='+checkc" @click="newimg">
+      <x-input class="itemList" placeholder="请输入验证码" :show-clear="false" 
+      required v-model="imgcheck" 
+      >
+        <img slot="right" :src="imgCheckUrl" @click="newimg">
       </x-input>
     </group>
 
     <group class="item">
-      <x-input class="itemList" placeholder="请输入短信验证码" :show-clear="false" required v-model="smscheck">
-        <x-button slot="right" type="primary" @click.native="sms" mini :disabled="disabled || countdown > 0">{{ smsbtntext }}</x-button>
+      <x-input class="itemList" placeholder="请输入短信验证码" :show-clear="false" 
+      required v-model="smscheck" 
+      >
+        <x-button slot="right" type="primary" @click.native="sms" mini 
+        :disabled="disabled || countdown > 0">{{ smsbtntext }}</x-button>
       </x-input>
     </group>
 
     <group class="item">
       <x-input class="itemList" placeholder="请设置密码（8-20位字符）" :show-clear="false" 
-      required type="password" keyboard="number" v-model="data.password">
+      required type="password" keyboard="number" v-model="data.password"
+      >
       </x-input>
     </group>
 
     <group class="item">
       <x-input class="itemList" placeholder="请重复输入密码" :show-clear="false" 
-      required type="password" keyboard="number" v-model="password2">
+      required type="password" keyboard="number" v-model="password2"
+      >
       </x-input>
     </group>
 
@@ -52,12 +59,13 @@ export default {
     return {
       data:{},
       password2:'',
-      showNext:1,
       smscheck: '',
       imgcheck: '',
-      checkc: '',
+      imgCheckUrl:'http://api.test.com/api/auth/Captcha',
+      checknum: '',
       disabled: '',
-      countdown: 0
+      countdown: 0,
+      index:0
     }
   },
   computed: {
@@ -67,23 +75,42 @@ export default {
   },
   methods: {
     newimg() {
-      this.checkc = Math.floor(Math.random() * 9000) + 1000
+      this.imgCheckUrl = null      
+      this.$http.get('http://api.test.com/api/auth/Captcha').then((res)=>{
+        this.imgCheckUrl='http://api.test.com/api/auth/Captcha'
+      })
     },
     sms() {
-      if (this.tel == "" || this.$refs.mobilephone.valid == false) {
-        this.fun('请输入正确手机号')
-      } else if (this.checkc == this.imgcheck) {
-        this.$http.get('http://api.zzcowboy.com/sms?tel=' + this.data.phone).then((res) => {
-          this.fun('获取短信验证码成功')
-          this.countdown = 60
-          this.timer()
-        }).catch((error) => {
-          console.log('获取短信验证码失败:')
-          console.log(error)
-        })
-      } else {
-        this.fun('图片验证码输入错误')
-      }
+      this.$http.get('http://api.test.com/api/auth/CheckCaptcha?captcha='+this.imgcheck).then((res)=>{
+        console.log(res)
+      })
+      // if (this.tel == "" || this.$refs.mobilephone.valid == false) {
+      //   this.$vux.toast.show(
+      //     {
+      //     type: "cancel",
+      //     text: '请输入正确手机号'
+      //   })
+      // } else if (this.checkc == this.imgcheck) {
+      //   this.$http.get('http://api.zzcowboy.com/sms?tel=' + this.data.phone).then((res) => {
+      //     this.$vux.toast.show({
+      //       type: "success",
+      //       text: '获取短信验证码成功'
+      //     })
+      //     this.countdown = 60
+      //     this.timer()
+      //   }).catch((error) => {
+      //     console.log('获取短信验证码失败:')
+      //     console.log(error)
+      //   })
+      // } else {
+      //   this.$vux.toast.show({
+      //     type: "cancel",
+      //     text: '图片验证码错误'
+      //   })
+      // }
+    },
+    active(val){
+      this.index=val
     },
     timer: function () {
       if (this.countdown > 0) {
@@ -93,10 +120,9 @@ export default {
     },
     submit() {
       let vm = this
-      this.data.nickname=''
       this.data.role=2
+      this.data.TrueName=this.data.phone
       console.log(this.data)
-      
       if(!this.$refs.mobilephone.valid|!this.imgcheck|!this.smscheck){
         vm.$vux.toast.show({
           type: "cancel",
@@ -122,7 +148,7 @@ export default {
   created() {
     this.$store.commit('showNav', false)
     this.$store.commit('changeTitle', '注册')
-    this.newimg()
+    // this.newimg()
   }
 }
 </script>

@@ -62,12 +62,12 @@
         <span class="tips">{{ item.category }}</span>
       </div>
       <div slot="content" class="content">
-        <p @click="$router.push('/class/msg')">{{ item.content }}</p>
+        <pre @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)">{{ item.content }}</pre>
       </div>
       <div slot="footer" class="footer">
         <div class="footer-btn">
           <!--<i class="iconfont view" @click="$router.push('/class/msg')">&#xe60f;  </i>-->
-          <i class="iconfont lick" @click="doLike(item.id),item.like++">&#xe646; {{ item.like }}</i>
+          <i class="iconfont lick" @click.once="doLike(item.id),item.like++">&#xe646; {{ item.like }}</i>
           <i class="iconfont combtn">&#xe6c3; {{ item.read }}</i>
         </div>
         <div class="comment">
@@ -77,7 +77,7 @@
           </li>
           <div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>
           <div class="more" @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)">
-            查看更多
+            查看详情
           </div>
         </div>
       </div>
@@ -114,14 +114,14 @@ export default {
       })
     },
     getAllClassDynamic() {
-      this.$API.getAllClassDynamic(this.$store.state.classId).then(res => {
+      this.$API.getAllClassDynamic(this.$route.params.classId).then(res => {
         this.list = res
       }).catch(err => {
         console.log(err)
       })
     },
     getTeacherList() {
-      this.$API.getTeacherList(this.$store.state.classId).then(res => {
+      this.$API.getTeacherList(this.$route.params.classId).then(res => {
         this.teachers = res
         this.boxwid = res.length * 100 + 'px'
       }).catch(err => {
@@ -129,7 +129,7 @@ export default {
       })
     },
     getNotice() {
-      this.$API.getAllClassDynamic(this.$store.state.classId, 3, 1).then(res => {
+      this.$API.getAllClassDynamic(this.$route.params.classId, 3, 1).then(res => {
         console.log('获取到的班级通知第一条：')
         console.log(res)
         this.notice = res[0]
@@ -139,7 +139,7 @@ export default {
       })
     },
     getHomeWork() {
-      this.$API.getHomeworkList(this.$store.state.classId,2).then(res => {
+      this.$API.getHomeworkList(this.$route.params.classId,2).then(res => {
         console.log('获取班级作业前两条：')
         console.log(res)
         this.homework = res
@@ -165,10 +165,7 @@ export default {
     this.getAllClassDynamic()
     this.getTeacherList()
     this.getNotice()
-    this.getHomeWork()
-  },
-  mounted() {
-    // this.boxwid = this.teachers.length * 100 +'px'
+    this.getHomeWork() 
   }
 }
 </script>

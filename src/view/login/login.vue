@@ -9,29 +9,25 @@
     </div>
     <group>
       <x-input title="手机号：" placeholder="学号/手机号" keyboard="number" v-model="tel">
-        <!--<img slot="label" style="padding-right:10px;display:block;" src="http://dn-placeholder.qbox.me/110x110/FF2D55/000" width="24" height="24">-->
         <span slot="label" class="loginIcon"><i class="iconfont" >&#xe618;</i></span>
       </x-input>
       <x-input title="密码：" placeholder="密码" type="password" v-model="pw" @keyup.native.enter="login">
-        <!--<img slot="label" style="padding-right:10px;display:block;" src="http://dn-placeholder.qbox.me/110x110/FF2D55/000" width="24" height="24">-->
         <span slot="label" class="loginIcon"><i class="iconfont" >&#xe6ec;</i></span>
       </x-input>
-      <!--<x-input title="手机号：" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" v-model="tel"></x-input>-->
-      <!--<x-input title="密码：" placeholder="请输入密码" type="password" v-model="pw" @keyup.native.enter="login"></x-input>-->
     </group>
     </br>
     <div style="padding:0 20px" class="loginBtn">
       <x-button type="primary" @click.native="login">登录</x-button>
     </div>
+    
     <div class="parentReg">
+      <x-button plain @click.native="$router.push('/main')">进入主页</x-button>      
       <x-button plain @click.native="$router.push('/regist')">家长注册</x-button>
     </div>
-    <!--<x-button type="warn" @click.native="$router.push('/reg')">注册</x-button>-->
   </div>
 </template>
 
 <script>
-import API from '@/server/API'
 import { XButton,XInput,Group  } from 'vux'
 
 export default {
@@ -46,17 +42,27 @@ export default {
   },
   methods:{
     login(){
-      API.login(this.tel,this.pw).then(res=>{
-        this.fun('登录成功')
-        this.$router.push('/main')
-      }).catch(err=>{
+      if(this.tel!=''|this.pw!=''){
+        this.$API.login(this.tel,this.pw).then(res=>{
+          this.$vux.toast.show({
+            type:"success",
+            text: res.Nickname+'登录成功'
+          })
+          // console.log(res)
+          this.$store.commit('login',res.Meid)
+          this.$router.push('/main')
+        }).catch(err=>{
+          this.$vux.toast.show({
+            type:"warn",
+            text: err
+          })
+        })   
+      }else{
         this.$vux.toast.show({
-          type:"text",
-          width:"20em",
-          text: err
+          type:"warn",
+          text: '表单信息不完整'
         })
-      })
-      
+      }
     },
     fun(msg){
       this.$vux.toast.show({
@@ -129,6 +135,7 @@ export default {
   margin:0 auto;
   text-align: center;
   .weui-btn{
+    display: inline-block;
     margin:0 auto;
     width: 40%;
     color: @cc6;

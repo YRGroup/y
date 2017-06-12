@@ -62,7 +62,7 @@ export default {
     },
     addNewPost(){
       if(this.newPostData.content){
-        this.newPostData.cid=this.$store.state.classId
+        this.newPostData.cid=this.$route.params.classId
         this.newPostData.type=1
         console.log(this.newPostData)
         this.$API.postNewClassDynamic(this.newPostData).then(res=>{
@@ -86,9 +86,6 @@ export default {
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','我的班级')
     this.getClassInfo()
-  },
-  mounted(){
-
   }
 }
 </script>

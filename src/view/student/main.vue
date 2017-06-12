@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="header">
-      <img :src="data.Headimgurl" @click="$router.push('/student/'+$route.params.studentId)">
+      <img :src="headimgurl" @click="$router.push('/student/'+$route.params.studentId)">
       <div class="nameInfo">
-        <span>{{ data.TrueName }}</span>
-        <span>{{ data.Course }}</span>
+        <span>{{ className }}</span>
+        <span>{{ studentName }}</span>
       </div>
       <div class="msgbtn" @click="$router.push('/msg/'+$route.params.studentId)">发消息</div>
     </div>
@@ -26,13 +26,17 @@ export default {
   data () {
     return {
       data:{},
-      msg: 'Welcome to Your Vue.js App'
+      headimgurl:null,
+      className:null,
+      studentName:null,
     }
   },
   methods:{
     getData(){
       this.$API.getStudentInfo(this.$route.params.studentId).then(res=>{
-        this.data=res
+        this.headimgurl=res.user.Headimgurl
+        this.className=res.Class.Name
+        this.studentName=res.user.TrueName
       }).catch(err=>{
         console.log(err)
       })
@@ -40,7 +44,7 @@ export default {
   },
   created(){
     this.$store.commit('showNav',true)
-    this.$store.commit('changeTitle','教师主页')
+    this.$store.commit('changeTitle','学生主页')
     this.getData()
   },
   mounted(){
