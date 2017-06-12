@@ -139,7 +139,7 @@ export default {
   .weui-btn{
     display: inline-block;
     // margin:0 auto;
-    margin:0 1rem;
+    margin:1em 1em 0;
     width: 40%;
     color: @cc6;
     border:1px solid @cc6;

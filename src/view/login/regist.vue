@@ -134,28 +134,33 @@ export default {
       if(!this.$refs.mobilephone.valid|!this.imgcheck|!this.smscheck){
         vm.$vux.toast.show({
           type: "cancel",
-          text: '表单信息不完整'
+          text: '表单信息不完整',
+          width:'20em'
         })
       }else if (this.data.password!= this.password2) {
         this.$vux.toast.show({
           type: "cancel",
-          text: '两次输入的密码不一致'
+          text: '两次输入的密码不一致',
+          width:'20em'
         })
       }else if (this.data.password.length<6) {
         this.$vux.toast.show({
           type: "cancel",
-          text: '密码太短了'
+          text: '密码太短了',
+          width:'20em'
         })
       }else if(this.smscheck.length<5){
         this.$vux.toast.show({
           type: "cancel",
-          text: '短信验证码错误,测试使用大于5位数就行了'
+          text: '短信验证码错误,测试使用大于5位数就行了',
+          width:'20em'
         })
       }else{
         this.$API.parentReg(this.data).then(res=>{
           this.$vux.toast.show({
             type: "success",
-            text: '提交成功，跳转到主页'
+            text: '提交成功，跳转到主页',
+            width:'20em'
           })
         })
         this.$router.push('/main')
@@ -188,7 +193,7 @@ export default {
       border: 1px solid @cc4;
       border-radius: 5px;
       img {
-        height: 1.4em;
+        vertical-align: middle;
       }
     }
     .active {
