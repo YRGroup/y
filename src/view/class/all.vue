@@ -276,7 +276,7 @@ export default {
   background: #fff;
   margin-bottom: 1rem;
   padding: .5rem;
-  width: 100%;
+  // width: 100%;
   .icon {
     width: 3rem;
     height: 3rem;

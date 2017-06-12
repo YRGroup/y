@@ -1,5 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import "babel-polyfill"
+
 import Vue from 'vue'
 import FastClick from 'fastclick'
 import App from './App'
@@ -32,6 +34,7 @@ import serverAPI from './server/serverAPI'
 Vue.prototype.$API = serverAPI
 
 import axios from 'axios'
+axios.defaults.withCredentials=true
 Vue.prototype.$http = axios
 
 import  { ToastPlugin } from 'vux'

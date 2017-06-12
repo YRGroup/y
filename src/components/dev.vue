@@ -27,6 +27,7 @@ export default {
   },
   methods: {
     changeRole(val) {
+      this.$store.commit('showNav', true)
       this.$store.commit('changeRole',val)
       this.$vux.toast.show('切换到' + val)
     }
