@@ -4,7 +4,7 @@
     <group class="link">
       <cell title="学生" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'"
         @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null">
-        <i slot="icon" class="iconfont">&#xe605;</i>
+        <i slot="icon" class="iconfont">&#xe607;</i>
       </cell>
       <div class="slide" :class="showContent1?'animate':null" >
         <cell class="item" is-link v-for="(i,index) in student" :link="'/student/'+i.Meid"
@@ -26,7 +26,7 @@
 
       <cell title="老师" is-link :border-intent="false" :arrow-direction="showContent3 ? 'up' : 'down'"
         @click.native="showContent3 = !showContent3" :class="showContent3?'activenav':null">
-        <i slot="icon" class="iconfont">&#xe607;</i>
+        <i slot="icon" class="iconfont">&#xe605;</i>
       </cell>
       <div class="slide" :class="showContent3?'animate':null" >
         <cell class="item" is-link v-for="(i,index) in teacher" :link="'/teacher/'+i.Meid"
