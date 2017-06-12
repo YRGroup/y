@@ -97,9 +97,6 @@ export default {
 @import '~vux/src/styles/reset.less';
 @import './style/card.less';
 
-// 界面最大宽度
-@appwidth:475px;
-
 body {
   max-width: @appwidth;
   margin:0 auto;

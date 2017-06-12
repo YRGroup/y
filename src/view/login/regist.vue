@@ -51,6 +51,9 @@
 
 <script>
 import { XButton, XInput, Group, Cell } from 'vux'
+
+import md5 from 'js-md5'
+
 export default {
   components: {
     XButton, XInput, Group, Cell
@@ -81,36 +84,41 @@ export default {
       })
     },
     sms() {
-      this.$http.get('http://api.test.com/api/auth/CheckCaptcha?captcha='+this.imgcheck).then((res)=>{
-        console.log(res)
-      })
-      // if (this.tel == "" || this.$refs.mobilephone.valid == false) {
-      //   this.$vux.toast.show(
-      //     {
-      //     type: "cancel",
-      //     text: '请输入正确手机号'
-      //   })
-      // } else if (this.checkc == this.imgcheck) {
-      //   this.$http.get('http://api.zzcowboy.com/sms?tel=' + this.data.phone).then((res) => {
-      //     this.$vux.toast.show({
-      //       type: "success",
-      //       text: '获取短信验证码成功'
-      //     })
-      //     this.countdown = 60
-      //     this.timer()
-      //   }).catch((error) => {
-      //     console.log('获取短信验证码失败:')
-      //     console.log(error)
-      //   })
-      // } else {
-      //   this.$vux.toast.show({
-      //     type: "cancel",
-      //     text: '图片验证码错误'
-      //   })
-      // }
-    },
-    active(val){
-      this.index=val
+      if (this.tel == "" || this.$refs.mobilephone.valid == false) {
+        this.$vux.toast.show(
+          {
+          type: "cancel",
+          text: '请输入正确手机号'
+        })
+      } else if (this.imgcheck==''){
+        this.$vux.toast.show(
+          {
+          type: "cancel",
+          text: '请输入图片验证码'
+        })
+      } else {
+        // this.$vux.toast.show(
+        //   {
+        //   type: "success",
+        //   text: '获取手机验证码成功，请注意查收短信'
+        // })
+        this.$http.get('http://api.test.com/api/auth/CheckCaptcha?captcha='+this.imgcheck).then((res)=>{
+          // console.log(res)
+          if(res.data.Status==1){
+            this.$vux.toast.show({
+              type: "success",
+              text: '获取手机验证码成功，请注意查收短信'
+            })
+            this.countdown = 60
+            this.timer()
+          }else{
+            this.$vux.toast.show({
+              type: "cancel",
+              text: '图片验证码错误'
+            })
+          }
+        })    
+      } 
     },
     timer: function () {
       if (this.countdown > 0) {
@@ -133,6 +141,16 @@ export default {
           type: "cancel",
           text: '两次输入的密码不一致'
         })
+      }else if (this.data.password.length<6) {
+        this.$vux.toast.show({
+          type: "cancel",
+          text: '密码太短了'
+        })
+      }else if(this.smscheck.length<5){
+        this.$vux.toast.show({
+          type: "cancel",
+          text: '短信验证码错误,测试使用大于5位数就行了'
+        })
       }else{
         this.$API.parentReg(this.data).then(res=>{
           this.$vux.toast.show({
@@ -140,8 +158,7 @@ export default {
             text: '提交成功，跳转到主页'
           })
         })
-        
-        // this.$router.push('/main')
+        this.$router.push('/main')
       }
     }
   },
@@ -149,6 +166,9 @@ export default {
     this.$store.commit('showNav', false)
     this.$store.commit('changeTitle', '注册')
     // this.newimg()
+    console.log(md5(String(1)))
+    console.log(md5('1'))
+    console.log(md5(1))
   }
 }
 </script>
@@ -179,6 +199,7 @@ export default {
     position: fixed;
     top: 0;
     width: 100%;
+    max-width: @appwidth;
     height: 3.8em;
     line-height: 3.8em;
     display: block;
