@@ -68,7 +68,8 @@ export default {
         this.$API.postNewClassDynamic(this.newPostData).then(res=>{
           this.$vux.toast.show({
             type:"success",
-            text: "发布成功"
+            text: "发布成功",
+            width:"20em"
           })
           this.newPost=false
         }).catch(err=>{

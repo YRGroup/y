@@ -7,42 +7,31 @@
       <span>智慧校园-注册</span>
     </div>
     <group class="item">
-      <x-input class="itemList" placeholder="请输入手机号" :show-clear="false"  
-      required is-type="china-mobile" ref="mobilephone" keyboard="number" v-model="data.phone"
-      >
+      <x-input class="itemList" placeholder="请输入手机号" :show-clear="false" required is-type="china-mobile" ref="mobilephone" keyboard="number" v-model="data.phone">
       </x-input>
     </group>
     <group class="item">
-      <x-input class="itemList" placeholder="请输入验证码" :show-clear="false" 
-      required v-model="imgcheck" 
-      >
-        <img slot="right" :src="imgCheckUrl" @click="newimg">
+      <x-input class="itemList" placeholder="请输入验证码" :show-clear="false" required v-model="imgcheck">
+        <img slot="right" :src="imgCheckUrl" @click="newimg" class="imgcode">
       </x-input>
     </group>
-
+  
     <group class="item">
-      <x-input class="itemList" placeholder="请输入短信验证码" :show-clear="false" 
-      required v-model="smscheck" 
-      >
-        <x-button slot="right" type="primary" @click.native="sms" mini 
-        :disabled="disabled || countdown > 0">{{ smsbtntext }}</x-button>
+      <x-input class="itemList" placeholder="请输入短信验证码" :show-clear="false" required v-model="smscheck">
+        <x-button slot="right" type="primary" @click.native="sms" mini :disabled="disabled || countdown > 0">{{ smsbtntext }}</x-button>
       </x-input>
     </group>
-
+  
     <group class="item">
-      <x-input class="itemList" placeholder="请设置密码（8-20位字符）" :show-clear="false" 
-      required type="password" keyboard="number" v-model="data.password"
-      >
+      <x-input class="itemList" placeholder="请设置密码（8-20位字符）" :show-clear="false" required type="password" keyboard="number" v-model="data.password">
       </x-input>
     </group>
-
+  
     <group class="item">
-      <x-input class="itemList" placeholder="请重复输入密码" :show-clear="false" 
-      required type="password" keyboard="number" v-model="password2"
-      >
+      <x-input class="itemList" placeholder="请重复输入密码" :show-clear="false" required type="password" keyboard="number" v-model="password2">
       </x-input>
     </group>
-
+  
     <group class="regBtn" :class="(!data.phone|!imgcheck|!smscheck|!data.password|!password2)?'hidden':null">
       <x-button type="primary" @click.native="submit">注册</x-button>
     </group>
@@ -57,15 +46,15 @@ export default {
   },
   data() {
     return {
-      data:{},
-      password2:'',
+      data: {},
+      password2: '',
       smscheck: '',
       imgcheck: '',
-      imgCheckUrl:'http://api.test.com/api/auth/Captcha',
+      imgCheckUrl: 'http://api.test.com/api/auth/Captcha',
       checknum: '',
       disabled: '',
       countdown: 0,
-      index:0
+      index: 0
     }
   },
   computed: {
@@ -75,13 +64,13 @@ export default {
   },
   methods: {
     newimg() {
-      this.imgCheckUrl = null      
-      this.$http.get('http://api.test.com/api/auth/Captcha').then((res)=>{
-        this.imgCheckUrl='http://api.test.com/api/auth/Captcha'
+      this.imgCheckUrl = null
+      this.$http.get('http://api.test.com/api/auth/Captcha').then((res) => {
+        this.imgCheckUrl = 'http://api.test.com/api/auth/Captcha'
       })
     },
     sms() {
-      this.$http.get('http://api.test.com/api/auth/CheckCaptcha?captcha='+this.imgcheck).then((res)=>{
+      this.$http.get('http://api.test.com/api/auth/CheckCaptcha?captcha=' + this.imgcheck).then((res) => {
         console.log(res)
       })
       // if (this.tel == "" || this.$refs.mobilephone.valid == false) {
@@ -109,8 +98,8 @@ export default {
       //   })
       // }
     },
-    active(val){
-      this.index=val
+    active(val) {
+      this.index = val
     },
     timer: function () {
       if (this.countdown > 0) {
@@ -120,27 +109,30 @@ export default {
     },
     submit() {
       let vm = this
-      this.data.role=2
-      this.data.TrueName=this.data.phone
+      this.data.role = 2
+      this.data.TrueName = this.data.phone
       console.log(this.data)
-      if(!this.$refs.mobilephone.valid|!this.imgcheck|!this.smscheck){
+      if (!this.$refs.mobilephone.valid | !this.imgcheck | !this.smscheck) {
         vm.$vux.toast.show({
           type: "cancel",
-          text: '表单信息不完整'
+          text: '表单信息不完整',
+          width: '20em'
         })
-      }else if (this.data.password!= this.password2) {
+      } else if (this.data.password != this.password2) {
         this.$vux.toast.show({
           type: "cancel",
-          text: '两次输入的密码不一致'
+          text: '两次输入的密码不一致',
+          width: '20em'
         })
-      }else{
-        this.$API.parentReg(this.data).then(res=>{
+      } else {
+        this.$API.parentReg(this.data).then(res => {
           this.$vux.toast.show({
             type: "success",
-            text: '提交成功，跳转到主页'
+            text: '提交成功，跳转到主页',
+            width: '20em'
           })
         })
-        
+
         // this.$router.push('/main')
       }
     }
@@ -156,7 +148,6 @@ export default {
 <style lang="less" scoped>
 .register {
   padding-top: 5em;
-  ;
   margin-top: -10em;
   .item {
     padding: 0 20px;
@@ -168,7 +159,7 @@ export default {
       border: 1px solid @cc4;
       border-radius: 5px;
       img {
-        height: 1.4em;
+        vertical-align: middle;
       }
     }
     .active {
@@ -201,13 +192,15 @@ export default {
   margin-right: 8px;
   color: @cc3;
 }
-.regBtn{
-  padding:0 20px;
-  .weui-btn{
+
+.regBtn {
+  padding: 0 20px;
+  .weui-btn {
     background: linear-gradient(right top, #00c0a1, #00c06f);
   }
 }
-.hidden{
+
+.hidden {
   opacity: 0.5;
 }
 </style>

@@ -59,8 +59,9 @@ export default {
         })   
       }else{
         this.$vux.toast.show({
-          type:"warn",
-          text: '表单信息不完整'
+          type:"cancel",
+          text: '表单信息不完整',
+          width:"20em"
         })
       }
     },
@@ -85,11 +86,12 @@ export default {
 <style lang="less" scoped>
 .login{
   position: relative;
-  height: 70vh;
+  height: 80vh;
   text-align: center;
   margin:0 auto;
+  padding-top:8em;
   .logo{
-    margin:10em auto 0 auto;
+    // margin:10em auto 0 auto;
     img{
       width:12em;
       
@@ -136,7 +138,8 @@ export default {
   text-align: center;
   .weui-btn{
     display: inline-block;
-    margin:0 auto;
+    // margin:0 auto;
+    margin:0 1rem;
     width: 40%;
     color: @cc6;
     border:1px solid @cc6;

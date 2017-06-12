@@ -108,6 +108,9 @@ body {
   overflow-x: hidden;
   color: @cc1;
 }
+pre{
+  font-family: -apple-system-font, "Helvetica Neue", sans-serif;
+}
 #inview{
   position: relative;
   top:0;
