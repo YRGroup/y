@@ -81,7 +81,8 @@ export default {
     if(this.exam.length===0){
       this.$vux.toast.show({
         type: "warn",
-        text: '没有查询到考试信息'
+        text: '没有查询到考试信息',
+        width:'20em'
       })
     }
   },
