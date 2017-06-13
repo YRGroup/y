@@ -15,7 +15,7 @@
   
     <div class="comment-header">
       <span>全部评论（{{commentLength }}）</span>
-      <span class="addbtn" @click="openreply">添加评论</span>
+      <span class="addbtn" @click="openreply">回复</span>
     </div>
     <card class="comment cardcont" v-for="comment in data.comment" :key="comment.name">
       <div slot="header" class="header">
@@ -113,15 +113,15 @@ export default {
 <style lang="less" scoped>
 .cardcont {
   img {
-    width: 3.6em;
+    width: 3.2em;
     margin-right: 0.6em;
   }
   .usename {
     font-size: 1.1em;
-    top: 1.2em;
+    top: 1em;
   }
   .time {
-    top: 3.5em;
+    top: 3em;
   }
   .reply {
     position: absolute;
@@ -184,12 +184,12 @@ export default {
   }
   .addbtn {
     float: right;
-    padding: 0 2rem;
-    color: #fff;
-    background: #03a9f4;
+    padding: 0 1rem;
+    color: @cc6;
+    // background: #03a9f4;
     cursor: pointer;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
+    // border-top-left-radius: 15px;
+    // border-bottom-left-radius: 15px;
   }
 }
 </style>

@@ -40,7 +40,7 @@
       <div class="content">
         <li v-for="i in homework" @click="$router.push('/class/'+$store.state.classId+'/work')">
           <div class="msg">
-            {{ i.CourseName }}：{{ i.Content }}
+           【 {{ i.CourseName }}】：{{ i.Content }}
           </div>
           <div class="date">{{ i.CreateTime }}</div>
         </li>

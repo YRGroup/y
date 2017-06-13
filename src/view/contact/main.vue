@@ -236,7 +236,7 @@ export default {
   transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
   transition-delay: 0s;
   .weui-cell_access{
-  background: #f5f5f5;
+    background: #f5f5f5;
 }
 }
 </style>

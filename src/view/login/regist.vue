@@ -88,13 +88,15 @@ export default {
         this.$vux.toast.show(
           {
           type: "cancel",
-          text: '请输入正确手机号'
+          text: '请输入正确手机号',
+          width:'20em'
         })
       } else if (this.imgcheck==''){
         this.$vux.toast.show(
           {
           type: "cancel",
-          text: '请输入图片验证码'
+          text: '请输入图片验证码',
+          width:'20em'
         })
       } else {
         // this.$vux.toast.show(
@@ -107,14 +109,16 @@ export default {
           if(res.data.Status==1){
             this.$vux.toast.show({
               type: "success",
-              text: '获取手机验证码成功，请注意查收短信'
+              text: '获取手机验证码成功，请注意查收短信',
+              width: '20em'
             })
             this.countdown = 60
             this.timer()
           }else{
             this.$vux.toast.show({
               type: "cancel",
-              text: '图片验证码错误'
+              text: '图片验证码错误',
+              width: '20em'
             })
           }
         })    
