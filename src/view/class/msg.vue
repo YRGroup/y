@@ -34,7 +34,7 @@
           <x-input v-model="replymsg" placeholder="在此输入内容内容" @keyup.enter.native="addreply"></x-input>
         </group>
         <div style="padding:20px 15px;">
-          <x-button type="primary" @click.native="addreply">发表回复</x-button>
+          <x-button type="primary" @click.native="addreply">发表</x-button>
         </div>
       </div>
     </popup>
@@ -69,6 +69,7 @@ export default {
     },
     getData() {
       this.$API.getClassDynamic(this.$route.params.classId, this.$route.params.msgId).then(res => {
+        console.log(this.data)
         this.data = res
         this.commentLength = res.comment.length
         this.commentId = res.id

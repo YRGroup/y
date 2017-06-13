@@ -12,10 +12,10 @@
     </div>
 
     <group>
-      <cell title="我的学生" :value="studentName" is-link @click.native="myStudentPopup=true">
+      <cell title="我的孩子" :value="studentName" is-link @click.native="myStudentPopup=true">
         <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>
-      <cell title="我的账号" :value="mobilePhone" is-link @click.native="myProfilePopup=true">
+      <cell title="我的账号" :value="mobilePhone" >
         <i slot="icon" class="iconfont">&#xe693;</i>
       </cell>
       <cell title="完善资料"  is-link @click.native="$router.push('/edit')">
@@ -27,12 +27,12 @@
     </group>
     <br>
     <div class="exitbtn">
-      <a class="btn" @click="logout">退出登陆</a>
+      <a class="btn" @click="logout">退出登录</a>
     </div>
 
     <popup v-model="myStudentPopup" is-transparent>
       <div class="popup">
-        <group title="切换学生">
+        <group title="切换孩子">
           <cell title="李晓明" is-link @click.native="fun('切换学生'),myStudentPopup=false">
             <i slot="icon" class="iconfont">&#xe719;</i>
           </cell>
@@ -40,7 +40,9 @@
             <i slot="icon" class="iconfont">&#xe719;</i>
           </cell>
         </group>
-        <x-button type="primary">添加学生</x-button>
+        <group style="padding:0 20px">
+          <x-button type="primary">添加孩子</x-button>
+        </group>
       </div>
     </popup>
 
@@ -96,7 +98,7 @@ export default {
       this.$store.commit('logout')
       this.$vux.toast.show({
         type:"text",
-        text: '登出成功'
+        text: '退出成功'
       })
       this.$router.push('/main')
     },
