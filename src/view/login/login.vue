@@ -43,7 +43,10 @@ export default {
   methods:{
     login(){
       if(this.tel!=''|this.pw!=''){
-        this.$API.login(this.tel,this.pw).then(res=>{
+        let logData={}
+        logData.phone=this.tel
+        logData.password=this.pw
+        this.$API.login(logData).then(res=>{
           this.$vux.toast.show({
             type:"success",
             text: res.Nickname+'登录成功'

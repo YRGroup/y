@@ -27,13 +27,13 @@ export default {
   },
   methods: {
     changeRole(val) {
-      this.$store.commit('showNav', true)
       this.$store.commit('changeRole',val)
       this.$vux.toast.show('切换到' + val)
     }
   },
   created() {
-    this.$store.state.isNav = true
+    this.$store.commit('showNav', true)
+    this.$store.commit('changeTitle', 'dev index')
   }
 }
 </script>
