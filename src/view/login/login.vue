@@ -49,7 +49,8 @@ export default {
         this.$API.login(logData).then(res=>{
           this.$vux.toast.show({
             type:"success",
-            text: res.Nickname+'登录成功'
+            text: res.Nickname+'登录成功',
+            width:"20em"
           })
           // console.log(res)
           this.$store.commit('login',res.Meid)
@@ -57,7 +58,8 @@ export default {
         }).catch(err=>{
           this.$vux.toast.show({
             type:"warn",
-            text: err
+            text: err,
+            width:"20em"
           })
         })   
       }else{
