@@ -23,11 +23,6 @@ const store = new Vuex.Store({
 
             localStorage.setItem('hasLogin', true)
             localStorage.setItem('id', id)
-
-            let expires = new Date(new Date().getTime() + 1000 * 3600 * 24 * 365*10)
-            document.cookie = "hasLogin" + "=" + 'true' + ";expires="+expires
-            document.cookie = "id" + "=" + id + ";expires="+expires
-
         },
         logout(state) {
             state.hasLogin = false
@@ -35,10 +30,6 @@ const store = new Vuex.Store({
 
             localStorage.setItem('hasLogin', false)
             localStorage.setItem('id', null)
-
-            let expires = new Date(new Date().getTime() + 1000 * 3600 * 24 * 365*10)
-            document.cookie = "hasLogin" + "=" + 'false' + ";expires="+expires
-            document.cookie = "id" + "=" + 'null' + ";expires="+expires
         },
         changeRole(state,val){
             state.role=val.toString()

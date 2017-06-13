@@ -2,23 +2,23 @@
   <div class="hello">
     
     <div class="user-header">
-      <img :src="data.Headimgurl" >
-      <p class="usename">{{data.TrueName}}</p>
-      <p @click="fun('打开学校主页')">郑州航空港育人国际学校</p>
+      <img :src="headimgurl" >
+      <p class="usename">{{trueName}}</p>
+      <p @click="fun('打开学校主页')">{{schoolName}}</p>
       <p class="bottomnav">
-        <span @click="fun('打开班级主页')">三年级二班</span>
-        <span>学号：46565686</span>
+        <span @click="fun('打开班级主页')">{{className}}</span>
+        <span>学号：{{studentId}}</span>
       </p>
     </div>
 
     <group>
-      <cell title="我的孩子" value="李晓明" is-link @click.native="fun('打开学生主页')">
+      <cell title="我的学生" :value="studentName" is-link @click.native="myStudentPopup=true">
         <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>
-      <cell title="我的账号" :value="data.Mobilephone" is-link>
+      <cell title="我的账号" :value="mobilePhone" is-link @click.native="myProfilePopup=true">
         <i slot="icon" class="iconfont">&#xe693;</i>
       </cell>
-      <cell title="完善资料"  is-link @click.native="fun('修改资料')">
+      <cell title="完善资料"  is-link @click.native="$router.push('/edit')">
         <i slot="icon" class="iconfont">&#xe60b;</i>
       </cell>
       <cell title="修改密码"  is-link @click.native="fun('修改密码')">
@@ -30,20 +30,57 @@
       <a class="btn" @click="logout">退出登陆</a>
     </div>
 
+    <popup v-model="myStudentPopup" is-transparent>
+      <div class="popup">
+        <group title="切换学生">
+          <cell title="李晓明" is-link @click.native="fun('切换学生'),myStudentPopup=false">
+            <i slot="icon" class="iconfont">&#xe719;</i>
+          </cell>
+          <cell title="李大明" is-link @click.native="fun('切换学生'),myStudentPopup=false">
+            <i slot="icon" class="iconfont">&#xe719;</i>
+          </cell>
+        </group>
+        <x-button type="primary">添加学生</x-button>
+      </div>
+    </popup>
+
+    <popup v-model="myProfilePopup" height="270px" is-transparent>
+      <div class="popup">
+        <group title="我的账号">
+          <cell title="账号名/手机号" value="000000">
+            <i slot="icon" class="iconfont">&#xe719;</i>
+          </cell>
+          <cell title="李大明" is-link @click.native="fun('切换学生'),myProfilePopup=false">
+            <i slot="icon" class="iconfont">&#xe719;</i>
+          </cell>
+        </group>
+      </div>
+    </popup>
+
   </div>
 </template>
 
 <script>
-import { Group,Cell,XButton } from 'vux'
+import { Group,Cell,XButton,Popup } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Group,Cell,XButton
+    Group,Cell,XButton,Popup
   },
   data () {
     return {
       data:{},
+      headimgurl:'null',
+      trueName:'null',
+      schoolName:'null',
+      className:'null',      
+      studentId:'null',
+      studentName:'null',
+      mobilePhone:null,
+      mystudents:null,
+      myStudentPopup:false,
+      myProfilePopup:false,
       userface: require('@/assets/face/bw.jpg')
     }
   },
@@ -68,8 +105,26 @@ export default {
         console.log('获取到的用户信息：')
         console.log(res)
         this.data = res
+        this.headimgurl = res.Headimgurl
+        this.trueName = res.TrueName
+        // this.schoolName = res.Sex
+        // this.className = res.Sex        
+        // this.studentId = res.Sex
+        
+        if(res.ExtendInfo.Students.length==0){
+          this.studentName = '当前未绑定学生'
+        }else{
+          let currentStudent = res.ExtendInfo.Students[0]
+          this.studentName = currentStudent.TrueName
+        }
+        this.mobilePhone = res.Mobilephone
       }).catch(err=>{
         console.log(err)
+        this.$vux.toast.show({
+          type:"cancel",
+          text: "当前未登录"
+        })
+        this.$router.push('/login')
       })
     }
   },
@@ -152,5 +207,13 @@ export default {
 .iconfont{
   color:@cc6;
   margin-right:.5em;
+}
+.popup{
+  width: 95%;
+  background-color:#fff;
+  margin:0 auto;
+  border-radius:5px;
+  padding:10px 0;
+  margin-bottom:10px;
 }
 </style>

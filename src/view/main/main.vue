@@ -81,6 +81,8 @@
     </flexbox>
     <br />
 
+    <div class="newsCard"></div>
+
   </div>
 </template>
 

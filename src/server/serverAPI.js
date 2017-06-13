@@ -419,22 +419,48 @@ serverAPI.parentReg = (regdata) => {
 // testing
 
 // 家长登陆
-serverAPI.login = (phone,password) => {
+serverAPI.login = (logData) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/User/LoginByPhone',{
-      params:{
-        phone:phone,
-        password:password,
-      }
-    }).then((res)=>{
+    axios.post(_APIurl+'/api/User/LoginByPhone',logData).then((res)=>{
+      console.log('登陆信息：')
+      console.log(res)
       if(res.data.Msg==='OK'){
-        console.log('登陆信息：')
-        console.log(res)
         resolve(res.data.Content)
       }else{
         reject(res.data.Msg)
       }
     }).catch((err)=>{
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+// testing
+
+// 修改家长资料
+serverAPI.editParentInfo = (editData) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/Parent/ModifyInfo',editData).then((res)=>{
+      console.log('修改后的信息：')
+      console.log(res)
+      resolve(res)
+    }).catch((err)=>{
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+// testing
+
+// 家长添加学生
+serverAPI.addStudent = (addStudentData) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/Parent/BindStudent',addStudentData).then((res)=>{
+      console.log('添加学生后的信息：')
+      console.log(res)
+      resolve(res)
+    }).catch((err)=>{
+      console.log(err)
       reject(err)
     })
   })
