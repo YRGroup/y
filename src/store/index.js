@@ -15,6 +15,7 @@ const store = new Vuex.Store({
         currentUserId:null,
         currentClassId:null||19,
         currentStudentId:null||'z6vzso72',        
+        currentStudent:{},        
     },
     mutations: {
         login(state,id) {
@@ -43,6 +44,9 @@ const store = new Vuex.Store({
         },
         changeTitle(state,val){
             state.title=val.toString()
+        },
+        changeCurrentStudent(state,val){
+            state.currentStudent = val
         }
     }
 })
