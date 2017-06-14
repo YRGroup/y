@@ -15,7 +15,10 @@ const store = new Vuex.Store({
         currentUserId:null,
         currentClassId:null||19,
         currentStudentId:null||'z6vzso72',        
-        currentStudent:{},        
+        currentStudent:{},   
+
+        classHeader:true,
+        stuHeader:true
     },
     mutations: {
         login(state,id) {
@@ -47,6 +50,12 @@ const store = new Vuex.Store({
         },
         changeCurrentStudent(state,val){
             state.currentStudent = val
+        },
+        showclassHeader(state,val){
+            state.classHeader = val
+        },
+        showstuHeader(state,val){
+            state.stuHeader = val
         }
     }
 })

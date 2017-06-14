@@ -56,7 +56,8 @@ export default {
       commentId: '',
       commentLength: 0,
       fakeUserImg: 'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-      data: {}
+      data: {},
+      classHeader:false
     }
   },
   methods: {
@@ -104,6 +105,7 @@ export default {
     this.$store.commit('showNav', true)
     this.$store.commit('changeTitle', '动态详情')
     this.getData()
+    this.$store.commit('showclassHeader',false)
   },
   mounted() {
 

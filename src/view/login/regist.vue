@@ -138,7 +138,7 @@ export default {
       if(!this.$refs.mobilephone.valid|!this.imgcheck|!this.smscheck){
         vm.$vux.toast.show({
           type: "cancel",
-          text: '表单信息不完整',
+          text: '请完善注册信息',
           width:'20em'
         })
       }else if (this.data.password!= this.password2) {

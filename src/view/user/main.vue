@@ -45,7 +45,6 @@
         </group>
       </div>
     </popup>
-
     <popup v-model="addStudentPopup" is-transparent>
       <div class="popup">
         <group title="添加学生">
@@ -127,7 +126,8 @@ export default {
         console.log(err)
         this.$vux.toast.show({
           type:"cancel",
-          text: "当前未登录"
+          text: "您还未登录",
+          width:"20em"
         })
         this.$router.push('/login')
       })

@@ -77,6 +77,7 @@ export default {
   created(){
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','成绩报告')
+    this.$store.commit('showstuHeader', false)
     this.getScoreData()
     if(this.exam.length===0){
       this.$vux.toast.show({

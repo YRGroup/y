@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
 
-    <div class="class-header">
+    <div class="class-header" v-show="$store.state.classHeader">
       <img :src="classInfo.classlogo" @click="$router.push('/class/'+$store.state.classId)">
       <span class="name">{{ classInfo.name }}</span>
       <span class="teacher">班主任：{{ classInfo.teacherName }}</span>
@@ -88,6 +88,7 @@ export default {
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','我的班级')
     this.getClassInfo()
+    this.$store.commit('showclassHeader',true)
   }
 }
 </script>

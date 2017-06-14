@@ -103,7 +103,7 @@ export default {
     }
   },
   computed: {
-
+    
   },
   methods: {
     fun(msg) {

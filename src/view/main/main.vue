@@ -3,7 +3,7 @@
     <div class="follow">
         <span class="tips"><i class="iconfont">&#xe620;</i></span>
         <!--<span class="text">您还没有关注公共账号！</span>-->
-        <marquee class="text" direction="left">您还没有关注公共账号,关注后可收到学生在校动态！</marquee>
+        <marquee class="text" direction="left" scrollamount="5">您还没有关注公共账号,关注后可收到学生在校动态！</marquee>
         <x-button class="right" mini type="primary" @click.native="fun('关注跳转')"><i class="iconfont">&#xe61f;</i>关注</x-button>
     </div>
     
@@ -175,12 +175,12 @@ export default {
   height: 3em;
   line-height: 3em;
   padding:0 1em;
-  background: #fcefbf;
-  color:#666;
+  background: #fefcec;
+  color:#f76a24;
   overflow: hidden;
   position: relative;
   .tips{
-    color:#f76260;
+    color:#f76a24;
     font-size: 1.6em;
     margin-right: 5px;
   }
