@@ -54,6 +54,8 @@ export default {
       console.log(localStorage)
       console.log('当前cookie信息：')      
       console.log(document.cookie)
+      console.log('当前API信息：')      
+      console.log(this.$API)
 
       window.scrollTo(0,0);
     }

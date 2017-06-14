@@ -4,7 +4,7 @@
       <span class="left" @click="$router.go(-1)">
         <i class="iconfont">&#xe600;</i>
       </span>
-      <span>智慧校园-注册</span>
+      <span>教师注册 - 智慧校园</span>
     </div>
     <group class="item">
       <x-input class="itemList" placeholder="请输入手机号" :show-clear="false"  
@@ -88,15 +88,13 @@ export default {
         this.$vux.toast.show(
           {
           type: "cancel",
-          text: '请输入正确手机号',
-          width:'20em'
+          text: '请输入正确手机号'
         })
       } else if (this.imgcheck==''){
         this.$vux.toast.show(
           {
           type: "cancel",
-          text: '请输入图片验证码',
-          width:'20em'
+          text: '请输入图片验证码'
         })
       } else {
         // this.$vux.toast.show(
@@ -109,16 +107,14 @@ export default {
           if(res.data.Status==1){
             this.$vux.toast.show({
               type: "success",
-              text: '获取手机验证码成功，请注意查收短信',
-              width: '20em'
+              text: '获取手机验证码成功，请注意查收短信'
             })
             this.countdown = 60
             this.timer()
           }else{
             this.$vux.toast.show({
               type: "cancel",
-              text: '图片验证码错误',
-              width: '20em'
+              text: '图片验证码错误'
             })
           }
         })    
@@ -132,13 +128,13 @@ export default {
     },
     submit() {
       let vm = this
-      this.data.role=2
+      this.data.role=3
       this.data.TrueName=this.data.phone
       console.log(this.data)
       if(!this.$refs.mobilephone.valid|!this.imgcheck|!this.smscheck){
         vm.$vux.toast.show({
           type: "cancel",
-          text: '请完善注册信息',
+          text: '表单信息不完整',
           width:'20em'
         })
       }else if (this.data.password!= this.password2) {
@@ -163,11 +159,24 @@ export default {
         this.$API.parentReg(this.data).then(res=>{
           this.$vux.toast.show({
             type: "success",
-            text: '提交成功，跳转到主页',
+            text: '提交成功',
             width:'20em'
           })
+          let logData={}
+          logData.phone=this.data.phone
+          logData.password=this.data.password
+          console.log(logData)
+          this.$API.login(logData).then((res)=>{
+            this.$vux.toast.show({
+              type: "success",
+              text: '已为您自动登陆',
+              width:'20em'
+            })
+            this.$router.push('/main')
+          }).catch((err)=>{
+            console.log(err)
+          })
         })
-        this.$router.push('/main')
       }
     }
   },

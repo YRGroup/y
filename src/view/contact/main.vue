@@ -48,7 +48,9 @@
         <span class="num">{{ item.UnReadCount }}</span>
       </li>
     </ul>
-  
+
+    <div class="noMsg" v-if="msgdata.length===0">当前没有消息</div>
+
   </div>
 </template>
 
@@ -263,5 +265,9 @@ export default {
   .weui-cell_access {
     // background: #f5f5f5;
   }
+}
+.noMsg{
+  text-align: center;
+  line-height: 150px;
 }
 </style>

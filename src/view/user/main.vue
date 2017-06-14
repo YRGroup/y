@@ -35,6 +35,8 @@
       <a class="btn" @click="logout">退出登录</a>
     </div>
 
+    </br>
+
     <popup v-model="myStudentPopup" is-transparent>
       <div class="popup">
         <group title="切换学生">
@@ -105,21 +107,23 @@ export default {
       this.$API.getCurrentUser().then(res=>{
         console.log('获取到的用户信息：')
         console.log(res)
-        this.data = res      
-        if(res.ExtendInfo.Students.length==0){
-          let noStudentDate = {
-            TrueName:'null',
-            SchoolName:'null',
-            ClassName:'null',
-            StudentID:'null'
+        this.data = res   
+        if(res.ExtendInfo!=null){
+          if(res.ExtendInfo.Students.length==0){
+            let noStudentDate = {
+              TrueName:'null',
+              SchoolName:'null',
+              ClassName:'null',
+              StudentID:'null'
+            }
+            this.allStudentData.push(noStudentDate)
+          }else{
+            let num = res.ExtendInfo.Students.length
+            for(let i=0;i<num;i++){
+              this.allStudentData.push(res.ExtendInfo.Students[i])
+            }
+            this.$store.commit('changeCurrentStudent',this.allStudentData[0])
           }
-          this.allStudentData.push(noStudentDate)
-        }else{
-          let num = res.ExtendInfo.Students.length
-          for(let i=0;i<num;i++){
-            this.allStudentData.push(res.ExtendInfo.Students[i])
-          }
-          this.$store.commit('changeCurrentStudent',this.allStudentData[0])
         }
         this.mobilePhone = res.Mobilephone
       }).catch(err=>{
@@ -223,6 +227,7 @@ export default {
     font-size: 1.2em;
     border-top: 1px solid @cc4;
     border-bottom: 1px solid @cc4;
+    color:red;
   }
 }
 .iconfont{

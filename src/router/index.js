@@ -27,6 +27,7 @@ import notice from '@/view/class/notice'
 import homework from '@/view/class/homework'
 import kcb from '@/view/class/kcb'
 import newClassPost from '@/view/class/newpost'
+import manage from '@/view/class/manage'
 
 // 教师
 import teacher from '@/view/teacher/main'
@@ -45,13 +46,12 @@ import studentedit from '@/view/student/edit'
 import studentprofile from '@/view/student/profile'
 
 // 注册
-import regist from '@/view/login/regist'
+import regparent from '@/view/login/regparent'
+import regteacher from '@/view/login/regteacher'
+import regstudent from '@/view/login/regstudent'
 
 // 登陆
 import login from '@/view/login/login'
-import teacherlogin from '@/view/login/teacher'
-import studentlogin from '@/view/login/student'
-import parentlogin from '@/view/login/parent'
 
 // 通讯录
 import contact from '@/view/contact/main'
@@ -134,7 +134,11 @@ export default new Router({
                 {
                     path: 'notice',
                     component: notice
-                },       
+                },  
+                {
+                    path: 'manage',
+                    component: manage
+                },      
             ]
         },
         {//教师
@@ -221,29 +225,24 @@ export default new Router({
         },
         // 注册 登陆
         {
-            path: '/regist',
-            name: 'regist',
-            component: regist,
+            path: '/regparent',
+            name: 'regparent',
+            component: regparent,
         },        
+        {
+            path: '/regteacher',
+            name: 'regteacher',
+            component: regteacher
+        },
+        {
+            path: '/regstudent',
+            name: 'regstudent',
+            component: regstudent
+        },
         {
             path: '/login',
             name: 'login',
             component: login
-        },
-        {
-            path: '/teacherlogin',
-            name: 'teacherlogin',
-            component: teacherlogin
-        },
-        {
-            path: '/studentlogin',
-            name: 'studentlogin',
-            component: studentlogin
-        },
-        {
-            path: '/parentlogin',
-            name: 'parentlogin',
-            component: parentlogin
         },   
 
         // 通讯录
