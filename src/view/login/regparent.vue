@@ -4,7 +4,7 @@
       <span class="left" @click="$router.go(-1)">
         <i class="iconfont">&#xe600;</i>
       </span>
-      <span>智慧校园-注册</span>
+      <span>家长注册 - 智慧校园</span>
     </div>
     <group class="item">
       <x-input class="itemList" placeholder="请输入手机号" :show-clear="false"  

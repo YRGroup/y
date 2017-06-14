@@ -120,7 +120,7 @@ export default {
 .nomsg{
   text-align: center;
   padding:5rem;
-  background: @cc4;
+  // background: @cc4;
 }
 .item {
   text-align: left;

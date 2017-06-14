@@ -35,6 +35,8 @@
       <a class="btn" @click="logout">退出登陆</a>
     </div>
 
+    </br>
+
     <popup v-model="myStudentPopup" is-transparent>
       <div class="popup">
         <group title="切换学生">
@@ -223,6 +225,7 @@ export default {
     font-size: 1.2em;
     border-top: 1px solid @cc4;
     border-bottom: 1px solid @cc4;
+    color:red;
   }
 }
 .iconfont{

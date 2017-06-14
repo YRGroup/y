@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     test info
+    老师登陆
   </div>
 </template>
 

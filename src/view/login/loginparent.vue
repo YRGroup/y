@@ -22,7 +22,7 @@
     
     <div class="parentReg">
       <x-button plain @click.native="$router.push('/main')">进入主页</x-button>      
-      <x-button plain @click.native="$router.push('/regist')">家长注册</x-button>
+      <x-button plain @click.native="$router.push('/regparent')">家长注册</x-button>
     </div>
   </div>
 </template>
@@ -110,7 +110,7 @@ export default {
     line-height: 3.8em;
     display: block;
     background: @cc6;
-    
+    max-width: 475px;
     .left{
       position:absolute;
       left: 0;

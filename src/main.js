@@ -30,8 +30,8 @@ Date.prototype.Format = function (fmt) { //author: meizz
 }
 
 
-import serverAPI from './server/serverAPI'
-Vue.prototype.$API = serverAPI
+import API from './server/API'
+Vue.prototype.$API = API
 
 import axios from 'axios'
 axios.defaults.withCredentials=true

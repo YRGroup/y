@@ -6,7 +6,8 @@
       <span class="name">{{ classInfo.name }}</span>
       <span class="teacher">班主任：{{ classInfo.teacherName }}</span>
       <span class="count">人数：{{ classInfo.student_count }}</span>
-      <div class="addbtn" @click="newPost=true"><i class="iconfont">&#xe606;</i>发布动态</div>
+      <div class="addbtn1" @click="newPost=true"><i class="iconfont">&#xe606;</i>发布</div>
+      <div class="addbtn2" @click="$router.push('/class/'+$route.params.classId+'/manage')"><i class="iconfont">&#xe606;</i>管理</div>
     </div>
 
     <popup v-model="newPost" height="270px" is-transparent>
@@ -123,9 +124,24 @@ export default {
     top:3.6rem;
     left:13rem;
   }
-  .addbtn{
+  .addbtn1{
     position: absolute;
     top:1rem;
+    right:0;
+    background: rgba(255,255,255,0.3);
+    padding:.2em;
+    border-radius: 20px 0 0 20px;
+    cursor: pointer;
+    .iconfont{
+      font-size: 1.3em;
+      margin:0 5px 0 5px;
+      position: relative;
+      top: 2px;
+    }
+  }
+  .addbtn2{
+    position: absolute;
+    top:3rem;
     right:0;
     background: rgba(255,255,255,0.3);
     padding:.2em;
