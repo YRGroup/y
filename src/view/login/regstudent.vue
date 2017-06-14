@@ -4,7 +4,7 @@
       <span class="left" @click="$router.go(-1)">
         <i class="iconfont">&#xe600;</i>
       </span>
-      <span>教师注册 - 智慧校园</span>
+      <span>学生注册 - 智慧校园</span>
     </div>
     <group class="item">
       <x-input class="itemList" placeholder="请输入手机号" :show-clear="false"  
@@ -128,7 +128,7 @@ export default {
     },
     submit() {
       let vm = this
-      this.data.role=3
+      this.data.role=1
       this.data.TrueName=this.data.phone
       console.log(this.data)
       if(!this.$refs.mobilephone.valid|!this.imgcheck|!this.smscheck){
@@ -159,24 +159,11 @@ export default {
         this.$API.parentReg(this.data).then(res=>{
           this.$vux.toast.show({
             type: "success",
-            text: '提交成功',
+            text: '提交成功，跳转到主页',
             width:'20em'
           })
-          let logData={}
-          logData.phone=this.data.phone
-          logData.password=this.data.password
-          console.log(logData)
-          this.$API.login(logData).then((res)=>{
-            this.$vux.toast.show({
-              type: "success",
-              text: '已为您自动登陆',
-              width:'20em'
-            })
-            this.$router.push('/main')
-          }).catch((err)=>{
-            console.log(err)
-          })
         })
+        this.$router.push('/main')
       }
     }
   },

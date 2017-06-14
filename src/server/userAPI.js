@@ -5,7 +5,7 @@ import axios from 'axios'
 // API根目录
 import _APIurl from './config'
 
-// 家长登陆
+// 登陆
 API.login = (logData) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/User/LoginByPhone',logData).then((res)=>{

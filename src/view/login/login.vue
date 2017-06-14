@@ -52,7 +52,6 @@ export default {
             text: res.Nickname+'登录成功',
             width:"20em"
           })
-          // console.log(res)
           this.$store.commit('login',res.Meid)
           this.$router.push('/main')
         }).catch(err=>{

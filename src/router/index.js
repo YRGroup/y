@@ -48,12 +48,10 @@ import studentprofile from '@/view/student/profile'
 // 注册
 import regparent from '@/view/login/regparent'
 import regteacher from '@/view/login/regteacher'
+import regstudent from '@/view/login/regstudent'
 
 // 登陆
-import loginparent from '@/view/login/loginparent'
-import loginteacher from '@/view/login/loginteacher'
-import studentlogin from '@/view/login/student'
-import parentlogin from '@/view/login/parent'
+import login from '@/view/login/login'
 
 // 通讯录
 import contact from '@/view/contact/main'
@@ -237,19 +235,14 @@ export default new Router({
             component: regteacher
         },
         {
-            path: '/loginteacher',
-            name: 'loginteacher',
-            component: loginteacher
+            path: '/regstudent',
+            name: 'regstudent',
+            component: regstudent
         },
         {
-            path: '/studentlogin',
-            name: 'studentlogin',
-            component: studentlogin
-        },
-        {
-            path: '/loginparent',
-            name: 'loginparent',
-            component: loginparent
+            path: '/login',
+            name: 'login',
+            component: login
         },   
 
         // 通讯录
