@@ -2,26 +2,31 @@
   <div class="hello">
     
     <div class="user-header">
-      <img :src="headimgurl" >
-      <p class="usename">{{trueName}}</p>
-      <p @click="fun('打开学校主页')">{{schoolName}}</p>
+      <img :src="data.Headimgurl" >
+      <p class="usename">{{data.TrueName}}
+        <small>{{$store.state.currentStudent.TrueName}}的家长</small>
+      </p>
+      <p>{{$store.state.currentStudent.SchoolName}}</p>
       <p class="bottomnav">
-        <span @click="fun('打开班级主页')">{{className}}</span>
-        <span>学号：{{studentId}}</span>
+        <span>{{$store.state.currentStudent.ClassName}}</span>
+        <span>学号：{{$store.state.currentStudent.StudentID}}</span>
       </p>
     </div>
 
     <group>
-      <cell title="我的孩子" :value="studentName" is-link @click.native="myStudentPopup=true">
-        <i slot="icon" class="iconfont">&#xe719;</i>
-      </cell>
-      <cell title="我的账号" :value="mobilePhone" >
+      <cell title="我的账号" :value="data.Mobilephone">
         <i slot="icon" class="iconfont">&#xe693;</i>
+      </cell>
+      <cell title="切换当前学生" :value="$store.state.currentStudent.TrueName" is-link @click.native="myStudentPopup=true">
+        <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>
       <cell title="完善资料"  is-link @click.native="$router.push('/edit')">
         <i slot="icon" class="iconfont">&#xe60b;</i>
       </cell>
-      <cell title="修改密码"  is-link @click.native="fun('修改密码')">
+      <cell title="添加学生绑定"  is-link @click.native="addStudentPopup=true">
+        <i slot="icon" class="iconfont">&#xe60b;</i>
+      </cell>
+      <cell title="修改密码"  is-link @click.native="fun('修改密码暂未开通')">
         <i slot="icon" class="iconfont">&#xe692;</i>
       </cell>
     </group>
@@ -32,29 +37,24 @@
 
     <popup v-model="myStudentPopup" is-transparent>
       <div class="popup">
-        <group title="切换孩子">
-          <cell title="李晓明" is-link @click.native="fun('切换学生'),myStudentPopup=false">
+        <group title="切换学生">
+          <cell :title="i.TrueName" is-link v-for="i in allStudentData" :key="i.StudentID"
+          @click.native="$store.commit('changeCurrentStudent',i),myStudentPopup=false">
             <i slot="icon" class="iconfont">&#xe719;</i>
           </cell>
-          <cell title="李大明" is-link @click.native="fun('切换学生'),myStudentPopup=false">
-            <i slot="icon" class="iconfont">&#xe719;</i>
-          </cell>
-        </group>
-        <group style="padding:0 20px">
-          <x-button type="primary">添加孩子</x-button>
         </group>
       </div>
     </popup>
 
-    <popup v-model="myProfilePopup" height="270px" is-transparent>
+    <popup v-model="addStudentPopup" is-transparent>
       <div class="popup">
-        <group title="我的账号">
-          <cell title="账号名/手机号" value="000000">
-            <i slot="icon" class="iconfont">&#xe719;</i>
-          </cell>
-          <cell title="李大明" is-link @click.native="fun('切换学生'),myProfilePopup=false">
-            <i slot="icon" class="iconfont">&#xe719;</i>
-          </cell>
+        <group title="添加学生">
+          <x-input title="学生ID" v-model="addStudentData.student_meid" 
+          text-align="right" placeholder="请在此填上学生ID"></x-input>
+          <selector title="title" :options="parentTypeList" v-model="addStudentData.type"></selector>
+        </group>
+        <group class="btn">
+          <x-button type="primary" @click.native="addStudent">提交修改</x-button>
         </group>
       </div>
     </popup>
@@ -63,26 +63,26 @@
 </template>
 
 <script>
-import { Group,Cell,XButton,Popup } from 'vux'
+import { Group,Cell,XButton,Popup,Selector,XInput } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Group,Cell,XButton,Popup
+    Group,Cell,XButton,Popup,Selector,XInput
   },
   data () {
     return {
       data:{},
-      headimgurl:'null',
-      trueName:'null',
-      schoolName:'null',
-      className:'null',      
-      studentId:'null',
-      studentName:'null',
-      mobilePhone:null,
-      mystudents:null,
       myStudentPopup:false,
-      myProfilePopup:false,
+      addStudentPopup:false,
+      parentTypeList:[
+        { key: 1, value: '爸爸' },
+        { key: 2, value: '妈妈' },
+        { key: 3, value: '爷爷' },
+        { key: 4, value: '奶奶' }
+      ],
+      addStudentData:{},
+      allStudentData:[],
       userface: require('@/assets/face/bw.jpg')
     }
   },
@@ -106,18 +106,21 @@ export default {
       this.$API.getCurrentUser().then(res=>{
         console.log('获取到的用户信息：')
         console.log(res)
-        this.data = res
-        this.headimgurl = res.Headimgurl
-        this.trueName = res.TrueName
-        // this.schoolName = res.Sex
-        // this.className = res.Sex        
-        // this.studentId = res.Sex
-        
+        this.data = res      
         if(res.ExtendInfo.Students.length==0){
-          this.studentName = '当前未绑定学生'
+          let noStudentDate = {
+            TrueName:'null',
+            SchoolName:'null',
+            ClassName:'null',
+            StudentID:'null'
+          }
+          this.allStudentData.push(noStudentDate)
         }else{
-          let currentStudent = res.ExtendInfo.Students[0]
-          this.studentName = currentStudent.TrueName
+          let num = res.ExtendInfo.Students.length
+          for(let i=0;i<num;i++){
+            this.allStudentData.push(res.ExtendInfo.Students[i])
+          }
+          this.$store.commit('changeCurrentStudent',this.allStudentData[0])
         }
         this.mobilePhone = res.Mobilephone
       }).catch(err=>{
@@ -128,6 +131,22 @@ export default {
         })
         this.$router.push('/login')
       })
+    },
+    addStudent(){
+      this.$API.addStudent(this.addStudentData).then((res)=>{
+        this.$vux.toast.show({
+          type: "success",
+          width: "20em",
+          text: '修改成功'
+        })
+        this.addStudentPopup=false
+      }).catch((err)=>{
+        this.$vux.toast.show({
+          type: "warn",
+          width: "20em",
+          text: '修改失败'
+        })
+      })
     }
   },
   created(){
@@ -136,13 +155,13 @@ export default {
     this.getData()
   },
   mounted(){
-    if(this.$store.state.hasLogin===false){
-      this.$vux.toast.show({
-        type:"cancel",
-        text: "当前未登录"
-      })
-      // this.$router.push('/login')
-    }
+    // if(this.$store.state.hasLogin===false){
+    //   this.$vux.toast.show({
+    //     type:"cancel",
+    //     text: "当前未登录"
+    //   })
+    //   // this.$router.push('/login')
+    // }
   }
 }
 </script>

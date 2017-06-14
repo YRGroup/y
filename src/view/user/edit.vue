@@ -15,16 +15,24 @@
       text-align="right" placeholder="请在此填上新内容"></x-input>
     </group>
 
-    <group title="学生资料：" v-if="!noStudent">
-      <x-input title="姓名" v-model="studentData.TrueName"></x-input>
-      <x-input title="性别" value="nan"></x-input>
-      <x-input title="学号" value="nan"></x-input>
-      <x-input title="年龄" value="nan"></x-input>
-      <x-input title="家庭住址" value="nan"></x-input>
-      <x-input title="头像" value="nan"></x-input>
+    <group title="学生资料：" v-if="!noStudent" v-for="i in allStudentData"
+    :key="i.StudentID">
+      <cell title="姓名" v-model="i.TrueName"
+      text-align="right" placeholder="请在此填上新内容"></cell>
+      <cell title="性别" v-model="i.Sex"
+      text-align="right" placeholder="请在此填上新内容"></cell>
+      <cell title="学号" v-model="i.StudentID"
+      text-align="right" placeholder="请在此填上新内容"></cell>
+      <cell title="年龄" v-model="i.Age"
+      text-align="right" placeholder="请在此填上新内容"></cell>
+      <cell title="家庭住址" v-model="i.Add"
+      text-align="right" placeholder="请在此填上新内容"></cell>
+      <cell title="头像" v-model="i.Headimgurl"
+      text-align="right" placeholder="请在此填上新内容"></cell>
     </group>
 
     <!--<group title="当前没有学生" class="btn" v-if="noStudent">
+    <group class="btn" v-if="noStudent">
       <x-button type="default" @click.native="addStudentPopup=true">添加学生</x-button>
     </group>-->
 
@@ -36,7 +44,7 @@
           <selector title="title" :options="parentTypeList" v-model="addStudentData.type"></selector>
         </group>
         <group class="btn">
-          <x-button type="primary" @click.native="submitChange">保存</x-button>
+          <x-button type="primary" @click.native="addStudent">提交修改</x-button>
         </group>
       </div>
     </popup>
@@ -66,9 +74,9 @@ export default {
         { key: 4, value: '奶奶' }
       ],
       addStudentData:{},
-      studentData:{},
+      allStudentData:[],
       noStudent:false,
-      data:null
+      data:{}
     }
   },
   methods:{
@@ -82,13 +90,16 @@ export default {
           this.noStudent = true
         }else{
           this.noStudent = false
-          this.studentData = data.ExtendInfo.Students[0].Student
+          let num = this.data.ExtendInfo.Students.length
+          for(let i=0;i<num;i++){
+            this.allStudentData.push(res.ExtendInfo.Students[i])
+          }
         }
       }).catch(err=>{
         console.log(err)
       })
     },
-    submitChange(){
+    addStudent(){
       this.$API.addStudent(this.addStudentData).then((res)=>{
         this.$vux.toast.show({
           type: "success",
