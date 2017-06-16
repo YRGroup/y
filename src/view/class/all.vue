@@ -1,10 +1,10 @@
 <template>
   <div>
-  
+
     <!--班级通知
   教师端显示
   -->
-    <div class="notice">
+    <div class="notice" v-if="notice.length!=0">
       <div class="icon" @click="$router.push('/class/'+$store.state.classId+'/notice')">
         <span>通知</span>
       </div>
@@ -19,21 +19,21 @@
   教师端不显示
   家长端显示
   -->
-    <scroller lock-y scrollbar-x>
-      <div class="teacherListBox" :style="{ width: boxwid}">
+
+      <div class="teacherListBox">
         <div class="box-item" v-for="item in teachers" @click="$router.push('/teacher/'+item.Meid)">
           <img :src="item.Headimgurl">
           <div class="name">{{ item.TrueName }}</div>
-          <!--<div class="job">{{ item.SelfDiscription }}</div>-->
+          <div class="job">{{ item.Sex }}</div>
         </div>
       </div>
-    </scroller>
+
   
     <!--班级作业
   教师端不显示
   家长端显示
   -->
-    <div class="classWork">
+    <div class="classWork" v-if="homework!=[]">
       <div class="icon">
         <span>班级作业</span>
       </div>
@@ -71,7 +71,7 @@
           <i class="iconfont combtn">&#xe6c3; {{ item.read }}</i>
         </div>
         <div class="comment">
-          <li v-for="(comment,index) in item.comment" v-if="index<3" :key="index">
+          <li v-for="(comment,index) in item.comment" v-if="item.comment.length!=0&&index<3" :key="index">
             <span @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.userName }}：</span>
             <span>{{ comment.content }}</span>
           </li>
@@ -87,15 +87,15 @@
 </template>
 
 <script>
-import { Scroller, Flexbox, FlexboxItem, Card, Tab, TabItem } from 'vux'
+import { Flexbox, FlexboxItem, Card, Tab, TabItem } from 'vux'
 
 export default {
   components: {
-    Scroller, Flexbox, FlexboxItem, Card, Tab, TabItem
+    Flexbox, FlexboxItem, Card, Tab, TabItem
   },
   data() {
     return {
-      boxwid: '500px',
+      boxwid: null||'1500px',
       teachers: [],
       notice: [],
       homework: [],
@@ -114,42 +114,42 @@ export default {
       })
     },
     getAllClassDynamic() {
-      this.$API.getAllClassDynamic(this.$route.params.classId).then(res => {
+      this.$API.getAllClassDynamic(this.$route.params.classId).then((res) => {
         this.list = res
+        this.$vux.loading.hide()                
       }).catch(err => {
         console.log(err)
       })
     },
     getTeacherList() {
-      this.$API.getTeacherList(this.$route.params.classId).then(res => {
+      this.$API.getTeacherList(this.$route.params.classId).then((res) => {
         this.teachers = res
         this.boxwid = res.length * 100 + 'px'
+        console.log(this.boxwid)
       }).catch(err => {
         console.log(err)
       })
     },
     getNotice() {
-      this.$API.getAllClassDynamic(this.$route.params.classId, 3, 1).then(res => {
+      this.$API.getAllClassDynamic(this.$route.params.classId, 3, 1).then((res) => {
         console.log('获取到的班级通知第一条：')
         console.log(res)
         this.notice = res[0]
-        this.boxwid = res.length * 100 + 'px'
       }).catch(err => {
         console.log(err)
       })
     },
     getHomeWork() {
-      this.$API.getHomeworkList(this.$route.params.classId,2).then(res => {
+      this.$API.getHomeworkList(this.$route.params.classId,2).then((res) => {
         console.log('获取班级作业前两条：')
         console.log(res)
         this.homework = res
-        this.boxwid = res.length * 100 + 'px'
       }).catch(err => {
         console.log(err)
       })
     },
     doLike(id) {
-      this.$API.doLikeThisPost(id).then(res => {
+      this.$API.doLikeThisPost(id).then((res) => {
         this.$vux.toast.show({
           type: "success",
           text: '点赞成功'
@@ -160,22 +160,26 @@ export default {
     }
   },
   created() {
+    this.$vux.loading.show({
+      text: 'Loading'
+    })
     this.$store.commit('showNav', true)
     this.$store.commit('changeTitle', '班级动态')
     this.getAllClassDynamic()
     this.getTeacherList()
     this.getNotice()
-    this.getHomeWork() 
+    this.getHomeWork()
   }
 }
 </script>
 
 <style lang="less" scoped>
 .teacherListBox {
-  // height: 7rem;
   position: relative;
   background: transparent;
   background-color: #fff;
+  white-space: nowrap;
+  overflow-x: auto;
   min-width: 100vw;
   padding:10px 0;
   box-sizing: border-box;

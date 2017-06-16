@@ -8,27 +8,34 @@
 
     <group title="个人资料：">
       <x-input title="姓名" v-model="data.TrueName" 
-      text-align="right" placeholder="请在此填上新内容"></x-input>
-      <x-input title="身份" v-model="data.Role" 
-      text-align="right" placeholder="请在此填上新内容"></x-input>
-      <x-input title="联系方式" v-model="data.Mobilephone" 
-      text-align="right" placeholder="请在此填上新内容"></x-input>
+        text-align="right" placeholder="请在此填上新内容"></x-input>
+      <cell title="身份" v-model="data.Role" 
+        text-align="right" placeholder="请在此填上新内容"></cell>
+      <cell title="联系方式" v-model="data.Mobilephone" 
+        text-align="right" placeholder="请在此填上新内容"></cell>
+    </group>
+
+    <group title="教师资料："  v-if="$store.state.role=='老师'">
+      <cell title="当前学科" v-model="data.ExtendInfo.Course"></cell>
+      <selector title="修改学科" v-model="data.course" :options="courseList"></selector>
+      <x-input title="添加班级" v-model="data.classId" 
+      text-align="right" placeholder="请在此填上班级ID"></x-input>
     </group>
 
     <group title="学生资料：" v-if="!noStudent" v-for="i in allStudentData"
-    :key="i.StudentID">
+      :key="i.StudentID">
       <cell title="姓名" v-model="i.TrueName"
-      text-align="right" placeholder="请在此填上新内容"></cell>
+        text-align="right" placeholder="请在此填上新内容"></cell>
       <cell title="性别" v-model="i.Sex"
-      text-align="right" placeholder="请在此填上新内容"></cell>
+        text-align="right" placeholder="请在此填上新内容"></cell>
       <cell title="学号" v-model="i.StudentID"
-      text-align="right" placeholder="请在此填上新内容"></cell>
+        text-align="right" placeholder="请在此填上新内容"></cell>
       <cell title="年龄" v-model="i.Age"
-      text-align="right" placeholder="请在此填上新内容"></cell>
+        text-align="right" placeholder="请在此填上新内容"></cell>
       <cell title="家庭住址" v-model="i.Add"
-      text-align="right" placeholder="请在此填上新内容"></cell>
+        text-align="right" placeholder="请在此填上新内容"></cell>
       <cell title="头像" v-model="i.Headimgurl"
-      text-align="right" placeholder="请在此填上新内容"></cell>
+        text-align="right" placeholder="请在此填上新内容"></cell>
     </group>
 
     <group class="btn" v-if="noStudent">
@@ -39,7 +46,7 @@
       <div class="popup">
         <group title="添加学生">
           <x-input title="学生ID" v-model="addStudentData.student_meid" 
-          text-align="right" placeholder="请在此填上学生ID"></x-input>
+            text-align="right" placeholder="请在此填上学生ID"></x-input>
           <selector title="title" :options="parentTypeList" v-model="addStudentData.type"></selector>
         </group>
         <group class="btn">
@@ -75,6 +82,10 @@ export default {
       addStudentData:{},
       allStudentData:[],
       noStudent:false,
+      courseList:[
+        '语文','数学','英语','物理','化学','历史','政治','地理',
+        '音乐','美术','体育'
+      ],
       data:{}
     }
   },
@@ -84,7 +95,6 @@ export default {
         console.log('获取到的用户信息：')
         console.log(res)
         this.data = res
-       
         if(this.data.ExtendInfo.Students.length==0){
           this.noStudent = true
         }else{
@@ -103,15 +113,52 @@ export default {
         this.$vux.toast.show({
           type: "success",
           width: "20em",
-          text: '修改成功'
+          text: '添加学生成功'
         })
       }).catch((err)=>{
         this.$vux.toast.show({
           type: "warn",
           width: "20em",
-          text: '修改失败'
+          text: '添加学生失败'
         })
       })
+    },
+    submitChange(){
+      if(this.$store.state.role=='家长'){
+        let editData={}
+        this.$API.editParentInfo(editData).then((res)=>{
+          this.$vux.toast.show({
+            type: "success",
+            width: "20em",
+            text: '修改家长资料成功'
+          })
+        }).catch((err)=>{
+          this.$vux.toast.show({
+            type: "warn",
+            width: "20em",
+            text: '修改家长资料失败'
+          })
+        })
+      }else if(this.$store.state.role=='老师'){
+        let editData={}
+        editData.meid=this.$store.state.currentUserId
+        editData.TrueName=this.data.TrueName
+        editData.coursename=this.data.course
+        editData.classid=this.data.classId
+        this.$API.editTeacherInfo(editData).then((res)=>{
+          this.$vux.toast.show({
+            type: "success",
+            width: "20em",
+            text: '修改老师资料成功'
+          })
+        }).catch((err)=>{
+          this.$vux.toast.show({
+            type: "warn",
+            width: "20em",
+            text: '修改老师资料失败'
+          })
+        })
+      }
     }
   },
   created(){

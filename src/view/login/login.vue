@@ -52,7 +52,14 @@ export default {
             text: res.Nickname+'登录成功',
             width:"20em"
           })
-          this.$store.commit('login',res.Meid)
+          this.$store.commit({
+            type:'login',
+            id:res.Meid,
+            role:res.Role
+          })
+          if(res.ExtendInfo.Classes[0]){
+            this.$store.state.currentClassId=res.ExtendInfo.Classes[0].ClassID
+          }
           this.$router.push('/main')
         }).catch(err=>{
           this.$vux.toast.show({

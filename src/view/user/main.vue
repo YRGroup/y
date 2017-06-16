@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     
-    <div class="user-header">
+    <div class="user-header" v-if="$store.state.role=='家长'">
       <img :src="data.Headimgurl" >
       <p class="usename">{{data.TrueName}}
         <small>{{$store.state.currentStudent.TrueName}}的家长</small>
@@ -13,17 +13,31 @@
       </p>
     </div>
 
+    <div class="user-header" v-if="$store.state.role=='老师'">
+      <img :src="data.Headimgurl" >
+      <p class="usename">{{data.TrueName}}
+        <small>{{data.ExtendInfo.Course}}</small>
+      </p>
+      <p>{{$store.state.currentStudent.SchoolName||'郑州航空港区育人国际学校'}}</p>
+      <p class="bottomnav">
+        <span @click="$router.push('/teacher/'+$store.state.currentUserId)">我的主页</span>
+        <span @click="$router.push('/class/'+data.ExtendInfo.Classes[0].ClassID)">我的班级</span>
+      </p>
+    </div>
+
     <group>
       <cell title="我的账号" :value="data.Mobilephone">
         <i slot="icon" class="iconfont">&#xe693;</i>
       </cell>
-      <cell title="切换当前学生" :value="$store.state.currentStudent.TrueName" is-link @click.native="myStudentPopup=true">
+      <cell title="切换当前学生" :value="$store.state.currentStudent.TrueName" 
+      is-link @click.native="myStudentPopup=true" v-if="$store.state.role=='家长'">
         <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>
       <cell title="完善资料"  is-link @click.native="$router.push('/edit')">
         <i slot="icon" class="iconfont">&#xe60b;</i>
       </cell>
-      <cell title="添加学生绑定"  is-link @click.native="addStudentPopup=true">
+      <cell title="添加学生绑定"  is-link @click.native="addStudentPopup=true"
+      v-if="$store.state.role=='家长'">
         <i slot="icon" class="iconfont">&#xe60b;</i>
       </cell>
       <cell title="修改密码"  is-link @click.native="fun('修改密码暂未开通')">
@@ -109,7 +123,7 @@ export default {
         console.log('获取到的用户信息：')
         console.log(res)
         this.data = res   
-        if(res.ExtendInfo!=null){
+        if(res.ExtendInfo.Students!=null){
           if(res.ExtendInfo.Students.length==0){
             let noStudentDate = {
               TrueName:'null',

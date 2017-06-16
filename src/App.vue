@@ -5,6 +5,8 @@
       <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
     </x-header>
 
+    <loading v-model="isLoading"></loading>
+
     <transition name='slide-fade'>
       <router-view id="inview" :style="{marginTop:ptop,marginBottom:pdown}"></router-view>
     </transition>
@@ -32,12 +34,13 @@
 </template>
 
 <script>
-import { Tabbar, TabbarItem, XHeader  } from 'vux'
+import { Tabbar, TabbarItem, XHeader,Loading   } from 'vux'
+import { mapState } from 'vuex'
 
 export default {
   name: 'app',
   components: {
-    Tabbar, TabbarItem, XHeader 
+    Tabbar, TabbarItem, XHeader ,Loading 
   },
   data(){
     return{
@@ -84,6 +87,9 @@ export default {
     },
     hasLogin(){
       return this.$store.state.hasLogin
+    },
+    isLoading(){
+      return this.$store.state.isLoading
     }
   },
   mounted(){

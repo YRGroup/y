@@ -3,9 +3,9 @@
 
     <group title="当前的班级信息">
       <cell title="班级ID" v-model="$route.params.classId" text-align="right"></cell>
-      <x-input title="所在学校" v-model="data.name" text-align="right"></x-input>      
+      <!--<x-input title="所在学校" v-model="data.name" text-align="right"></x-input>      -->
       <x-input title="班级名" v-model="data.name" text-align="right"></x-input>
-      <x-input title="班主任" v-model="data.teacher.TrueName" text-align="right"></x-input>
+      <cell title="班主任" v-model="data.teacher.TrueName" text-align="right"></cell>
       <cell title="班级logo" value="暂无" text-align="right"></cell>
     </group>
     <group title="班级成员管理">

@@ -2,9 +2,9 @@
   <div class="hello">
 
     <div class="class-header">
-      <img :src="classInfo.classlogo" @click="$router.push('/class/'+$store.state.classId)">
+      <img :src="classInfo.classlogo||'/static/img/c.b22e462.jpeg'" @click="$router.push('/class/'+$store.state.classId)">
       <span class="name">{{ classInfo.name }}</span>
-      <span class="teacher">班主任：{{ classInfo.teacherName }}</span>
+      <span class="teacher">班主任：{{ classInfo.teacherName||'未指定' }}</span>
       <span class="count">人数：{{ classInfo.student_count }}</span>
       <div class="addbtn1" @click="newPost=true"><i class="iconfont">&#xe606;</i>发布</div>
       <div class="addbtn2" @click="$router.push('/class/'+$route.params.classId+'/manage')"><i class="iconfont">&#xe606;</i>管理</div>

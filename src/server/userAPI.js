@@ -53,6 +53,21 @@ API.editParentInfo = (editData) => {
 }
 // testing
 
+// 修改教师资料
+API.editTeacherInfo = (editData) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/Teacher/ModifyInfo',editData).then((res)=>{
+      console.log('修改后的信息：')
+      console.log(res)
+      resolve(res)
+    }).catch((err)=>{
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+// testing
+
 // 获取当前用户信息
 API.getCurrentUser = () => {
   return new Promise((resolve, reject) => {

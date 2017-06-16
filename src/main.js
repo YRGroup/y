@@ -43,6 +43,9 @@ Vue.use(ToastPlugin)
 import Icon from 'vue-svg-icon/Icon.vue'
 Vue.component('icon', Icon)
 
+import  { LoadingPlugin } from 'vux'
+Vue.use(LoadingPlugin)
+
 new Vue({
     router,
     store,

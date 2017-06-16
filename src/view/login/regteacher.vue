@@ -165,8 +165,13 @@ export default {
           let logData={}
           logData.phone=this.data.phone
           logData.password=this.data.password
-          console.log(logData)
           this.$API.login(logData).then((res)=>{
+            console.log(res)
+            this.$store.commit({
+              type:'login',
+              id:res.Meid,
+              role:res.Role
+            })
             this.$vux.toast.show({
               type: "success",
               text: '已为您自动登陆',
@@ -176,6 +181,8 @@ export default {
           }).catch((err)=>{
             console.log(err)
           })
+        }).catch((err)=>{
+          console.log(err)
         })
       }
     }

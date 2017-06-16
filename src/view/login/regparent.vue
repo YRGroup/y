@@ -159,11 +159,31 @@ export default {
         this.$API.parentReg(this.data).then(res=>{
           this.$vux.toast.show({
             type: "success",
-            text: '提交成功，跳转到主页',
+            text: '提交成功',
             width:'20em'
           })
+          let logData={}
+          logData.phone=this.data.phone
+          logData.password=this.data.password
+          this.$API.login(logData).then((res)=>{
+            console.log(res)
+            this.$store.commit({
+              type:'login',
+              id:res.Meid,
+              role:res.Role
+            })
+            this.$vux.toast.show({
+              type: "success",
+              text: '已为您自动登陆',
+              width:'20em'
+            })
+            this.$router.push('/main')
+          }).catch((err)=>{
+            console.log(err)
+          })
+        }).catch((err)=>{
+          console.log(err)
         })
-        this.$router.push('/main')
       }
     }
   },

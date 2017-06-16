@@ -10,27 +10,31 @@ const store = new Vuex.Store({
         title:'育人教育',
 
         hasLogin: false,        
-        role:'guest',
+        role:null||'guest',
 
         currentUserId:null,
         currentClassId:null||19,
         currentStudentId:null||'z6vzso72',        
-        currentStudent:{},        
+        currentStudent:{},      
     },
     mutations: {
-        login(state,id) {
+        login(state,payload) {
             state.hasLogin = true
-            state.currentUserId = id
+            state.currentUserId = payload.id
+            state.role = payload.role
 
             localStorage.setItem('hasLogin', true)
-            localStorage.setItem('id', id)
+            localStorage.setItem('id', payload.id)
+            localStorage.setItem('role', payload.role)
         },
         logout(state) {
             state.hasLogin = false
-            state.role = '游客'
+            state.currentUserId = null
+            state.role = 'guest'
 
             localStorage.setItem('hasLogin', false)
             localStorage.setItem('id', null)
+            localStorage.setItem('role', 'guest')            
         },
         changeRole(state,val){
             state.role=val.toString()
@@ -49,17 +53,6 @@ const store = new Vuex.Store({
             state.currentStudent = val
         }
     }
-})
-
-store.registerModule('loading', { 
-  state: {
-    isLoading: false
-  },
-  mutations: {
-    updateLoadingStatus (state, payload) {
-      state.isLoading = payload.isLoading
-    }
-  }
 })
 
 export default store

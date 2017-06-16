@@ -67,6 +67,7 @@ import teachercenter from '@/view/user/teacher'
 
 Vue.use(Router)
 
+
 export default new Router({
     // 历史记录模式，需要服务器配置支持
     // mode: 'history',
