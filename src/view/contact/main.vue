@@ -16,7 +16,7 @@
       </template>-->
 
       <div class="slide" :class="showContent1?'animate':null">
-        <cell class="item" is-link v-for="(i,index) in student" :link="'/student/'+i.Meid" :title="i.TrueName +'  '+ i.Meid" :key="index">
+        <cell class="item" is-link v-for="(i,index) in student" :link="'/student/'+i.Meid"  :key="index">
           <img class="cellicon" slot="icon" :src="i.userImg">
         </cell>
       </div>

@@ -46,9 +46,7 @@ import studentedit from '@/view/student/edit'
 import studentprofile from '@/view/student/profile'
 
 // 注册
-import regparent from '@/view/login/regparent'
-import regteacher from '@/view/login/regteacher'
-import regstudent from '@/view/login/regstudent'
+import reg from '@/view/login/reg'
 
 // 登陆
 import login from '@/view/login/login'
@@ -233,20 +231,10 @@ export default new Router({
         },
         // 注册 登陆
         {
-            path: '/regparent',
-            name: 'regparent',
-            component: regparent,
+            path: '/reg',
+            name: 'reg',
+            component: reg,
         },        
-        {
-            path: '/regteacher',
-            name: 'regteacher',
-            component: regteacher
-        },
-        {
-            path: '/regstudent',
-            name: 'regstudent',
-            component: regstudent
-        },
         {
             path: '/login',
             name: 'login',

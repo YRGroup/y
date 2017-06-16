@@ -24,14 +24,45 @@ API.login = (logData) => {
 }
 // testing
 
-// 家长注册
-API.parentReg = (regdata) => {
+// 用户注册
+API.userReg = (regdata) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/User/RegisterByPhone',regdata).then((res)=>{
       console.log('注册信息：')
       console.log(res)
       resolve(res.data.Content)
     }).catch((err)=>{
+      console.log(err)      
+      reject(err)
+    })
+  })
+}
+// testing
+
+// 修改密码
+API.changePassword = (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/User/ModifyPassword',data).then((res)=>{
+      console.log('修改密码的信息：')
+      console.log(res)
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      console.log(err)      
+      reject(err)
+    })
+  })
+}
+// testing
+
+// 家长添加学生
+API.addStudent = (addStudentData) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/Parent/BindStudent',addStudentData).then((res)=>{
+      console.log('添加学生后的信息：')
+      console.log(res)
+      resolve(res)
+    }).catch((err)=>{
+      console.log(err)
       reject(err)
     })
   })
@@ -81,6 +112,7 @@ API.getCurrentUser = () => {
         reject(error)
       }
     }).catch((err)=>{
+      console.log(err)      
       reject(err)
     })
   })

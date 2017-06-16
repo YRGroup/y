@@ -7,21 +7,9 @@
       <span class="name">{{ classInfo.name }}</span>
       <span class="teacher">班主任：{{ classInfo.teacherName||'未指定' }}</span>
       <span class="count">人数：{{ classInfo.student_count }}</span>
-      <div class="addbtn1" @click="newPost=true"><i class="iconfont">&#xe606;</i>发布</div>
+      <div class="addbtn1" @click="$router.push('/class/'+$route.params.classId+'/new')"><i class="iconfont">&#xe606;</i>发布</div>
       <div class="addbtn2" @click="$router.push('/class/'+$route.params.classId+'/manage')"><i class="iconfont">&#xe606;</i>管理</div>
     </div>
-
-    <popup v-model="newPost" height="270px" is-transparent>
-      <div class="popup">
-        <group>
-          <x-textarea title="动态" placeholder="在此输入内容" v-model="newPostData.content"></x-textarea>
-        </group>
-        <div style="padding:20px 15px;">
-          <x-button type="primary" @click.native="addNewPost">发布</x-button>
-          <x-button @click.native="newPost = false">取消</x-button>
-        </div>
-      </div>
-    </popup>
 
     <transition name="slide-fade">
       <router-view></router-view>
@@ -42,8 +30,6 @@ export default {
   },
   data () {
     return {
-      newPost:false,
-      newPostData:{},
       classInfo:{}
     }
   },
@@ -61,29 +47,6 @@ export default {
       }).catch(err=>{
         console.log(err)
       })
-    },
-    addNewPost(){
-      if(this.newPostData.content){
-        this.newPostData.cid=this.$route.params.classId
-        this.newPostData.type=1
-        console.log(this.newPostData)
-        this.$API.postNewClassDynamic(this.newPostData).then(res=>{
-          this.$vux.toast.show({
-            type:"success",
-            text: "发布成功",
-            width:"20em"
-          })
-          this.newPost=false
-        }).catch(err=>{
-          console.log(err)
-        })
-      }else{
-        this.$vux.toast.show({
-          type:"warn",
-          text: "数据不完整",
-          width:"20em"
-        })
-      }
     }
   },
   created(){
