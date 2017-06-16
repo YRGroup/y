@@ -2,19 +2,26 @@
   <div class="hello">
   
     <group class="link">
-      <cell title="学生" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'" @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null">
+      <cell :title="'学生 （'+student.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'" @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null">
         
         <span slot="icon" class="roleheader bgcolor1">
           <i class="iconfont">&#xe607;</i>
         </span>
       </cell>
+
+      <!--<template v-if="showContent1"  class="slide" :class="showContent1?'animate':null">
+        <cell class="item" is-link v-for="(i,index) in student" :link="'/student/'+i.Meid" :title="i.TrueName +'  '+ i.Meid" :key="index">
+          <img class="cellicon" slot="icon" :src="i.userImg">
+        </cell>
+      </template>-->
+
       <div class="slide" :class="showContent1?'animate':null">
         <cell class="item" is-link v-for="(i,index) in student" :link="'/student/'+i.Meid" :title="i.TrueName +'  '+ i.Meid" :key="index">
           <img class="cellicon" slot="icon" :src="i.userImg">
         </cell>
       </div>
   
-      <cell title="家长" is-link :border-intent="false" :arrow-direction="showContent2 ? 'up' : 'down'" @click.native="showContent2 = !showContent2" :class="showContent2?'activenav':null">
+      <cell :title="'家长 （'+parent.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent2 ? 'up' : 'down'" @click.native="showContent2 = !showContent2" :class="showContent2?'activenav':null">
         <span slot="icon" class="roleheader bgcolor2">
           <i class="iconfont">&#xe609;</i>
         </span>
@@ -25,7 +32,7 @@
         </cell>
       </div>
   
-      <cell title="老师" is-link :border-intent="false" :arrow-direction="showContent3 ? 'up' : 'down'" @click.native="showContent3 = !showContent3" :class="showContent3?'activenav':null">
+      <cell  :title="'老师 （'+teacher.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent3 ? 'up' : 'down'" @click.native="showContent3 = !showContent3" :class="showContent3?'activenav':null">
         <span slot="icon" class="roleheader bgcolor3">
           <i class="iconfont">&#xe605;</i>
         </span>
@@ -233,6 +240,7 @@ export default {
   overflow: hidden;
   max-height: 0;
   transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
+  border-top: 1px solid @cc4;
 }
 
 .roleheader {
