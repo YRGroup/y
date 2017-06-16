@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="classMain">
 
     <!--班级通知
   教师端显示
@@ -63,6 +63,9 @@
       </div>
       <div slot="content" class="content">
         <pre @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)">{{ item.content }}</pre>
+        <div class="img">
+          <img @click="imgPopup(imgurl)" :src="'http://api.test.com'+imgurl" v-if="item.albums.length!=0" v-for="imgurl in item.albums">
+        </div>
       </div>
       <div slot="footer" class="footer">
         <div class="footer-btn">
@@ -82,20 +85,28 @@
         </div>
       </div>
     </card>
+
+    <popup v-model="showImgPopup" is-transparent>
+      <div class="popup" @click="showImgPopup=false">
+        <img :src="popupImgUrl" >
+      </div>
+    </popup>
   
   </div>
 </template>
 
 <script>
-import { Flexbox, FlexboxItem, Card, Tab, TabItem } from 'vux'
+import { Flexbox, FlexboxItem, Card, Popup,Tab, TabItem,WechatEmotion as Emotion } from 'vux'
 
 export default {
   components: {
-    Flexbox, FlexboxItem, Card, Tab, TabItem
+    Flexbox, FlexboxItem, Card,Popup, Tab, TabItem,Emotion
   },
   data() {
     return {
       boxwid: null||'1500px',
+      showImgPopup:false,
+      popupImgUrl:'',
       teachers: [],
       notice: [],
       homework: [],
@@ -112,6 +123,10 @@ export default {
         width: "20em",
         text: msg
       })
+    },
+    imgPopup(val){
+      this.popupImgUrl='http://api.test.com'+val
+      this.showImgPopup=true
     },
     getAllClassDynamic() {
       this.$API.getAllClassDynamic(this.$route.params.classId).then((res) => {
@@ -169,17 +184,21 @@ export default {
     this.getTeacherList()
     this.getNotice()
     this.getHomeWork()
+    this.$store.commit('showclassHeader',true)
   }
 }
 </script>
 
 <style lang="less" scoped>
+.classMain{
+  overflow-x: hidden;
+}
 .teacherListBox {
   position: relative;
   background: transparent;
   background-color: #fff;
   white-space: nowrap;
-  overflow-x: auto;
+  overflow-x: scroll;
   min-width: 100vw;
   padding:10px 0;
   box-sizing: border-box;
@@ -302,5 +321,9 @@ export default {
     margin-left: 4rem;
     color: #ccc;
   }
+}
+.popup{
+  text-align: center;
+  padding:1rem;
 }
 </style>

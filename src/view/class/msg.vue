@@ -54,6 +54,7 @@ export default {
       showpopup: false,
       replymsg: '',
       commentId: '',
+      content:'',
       commentLength: 0,
       fakeUserImg: 'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
       data: {},
