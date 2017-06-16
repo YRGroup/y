@@ -1,5 +1,5 @@
 <template>
-  <div class="profile">
+  <div class="profile"  style="margin-top:10px">
     <group label-width="13em" label-align="left" class="itemlist">
       <cell title="职称：" value="高级教师" value-align="right"></cell>
       <cell title="教龄：" value="5年" value-align="right"></cell>

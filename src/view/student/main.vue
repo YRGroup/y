@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="header" v-show="$store.state.stuHeader">
+    <div class="header">
       <div class="stuImg">
         <img :src="headimgurl" @click="$router.push('/student/'+$route.params.studentId)">
       </div>
@@ -47,7 +47,6 @@ export default {
   created() {
     this.$store.commit('showNav', true)
     this.$store.commit('changeTitle', '学生主页')
-    this.$store.commit('showstuHeader', true)
     this.getData()
   },
   mounted() {

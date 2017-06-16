@@ -1,7 +1,5 @@
 <template>
-  <div class="hello">
-
-    </br>
+  <div class="trends"  style="margin-top:10px">
 
     <card v-for="(item,index) in data" :key="index">
       <div slot="header" class="header">

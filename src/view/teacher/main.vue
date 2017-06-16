@@ -9,7 +9,7 @@
       </div>
       <div class="msgbtn" @click="$router.push('/msg/'+data.Meid)">发消息</div>
     </div>
-    <tab>
+    <tab class="tabmeun">
       <tab-item selected @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/profile')">主页</tab-item>
       <tab-item @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/feed')">动态</tab-item>
       <tab-item @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/work')">作业</tab-item>
@@ -66,12 +66,15 @@ export default {
   background-size:100% 100%;
   padding:1rem 0;
   img{
-    width:5rem;
+    width:4rem;
     border-radius:50%;
     border:3px solid rgba(255,255,255,0.3);
   }
   .nameInfo{
-    font-size: 1.4em;
+    font-size: 1.2em;
+  }
+  .tabmeun{
+    margin-bottom: 100px;
   }
   .tipInfo{
     margin:1rem 0;

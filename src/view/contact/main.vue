@@ -2,7 +2,7 @@
   <div class="hello">
   
     <group class="link">
-      <cell :title="'学生 （'+student.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'" @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null">
+      <cell class="itemlist" :title="'学生 （'+student.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'" @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null">
         
         <span slot="icon" class="roleheader bgcolor1">
           <i class="iconfont">&#xe607;</i>
@@ -21,18 +21,18 @@
         </cell>
       </div>
   
-      <cell :title="'家长 （'+parent.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent2 ? 'up' : 'down'" @click.native="showContent2 = !showContent2" :class="showContent2?'activenav':null">
+      <cell class="itemlist" :title="'家长 （'+parent.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent2 ? 'up' : 'down'" @click.native="showContent2 = !showContent2" :class="showContent2?'activenav':null">
         <span slot="icon" class="roleheader bgcolor2">
           <i class="iconfont">&#xe609;</i>
         </span>
       </cell>
       <div class="slide" :class="showContent2?'animate':null">
-        <cell class="item" is-link v-for="(i,index) in parent" :link="'/student/'+i.Meid" :title="i.ParentTrueName" :inline-desc="i.ParentType" :key="index">
+        <cell class="item" is-link v-for="(i,index) in parent" :link="'/student/'+i.Meid" :title="i.ParentTrueName  +'  '+ i.ParentType" :key="index">
           <img class="cellicon" slot="icon" :src="i.ParentHeadimgurl">
         </cell>
       </div>
   
-      <cell  :title="'老师 （'+teacher.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent3 ? 'up' : 'down'" @click.native="showContent3 = !showContent3" :class="showContent3?'activenav':null">
+      <cell  class="itemlist" :title="'老师 （'+teacher.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent3 ? 'up' : 'down'" @click.native="showContent3 = !showContent3" :class="showContent3?'activenav':null">
         <span slot="icon" class="roleheader bgcolor3">
           <i class="iconfont">&#xe605;</i>
         </span>
@@ -226,11 +226,14 @@ export default {
 //   background: @cc6;
 //   color: #fff;
 // }
-
+.itemlist{
+  background:#f9f9f9;
+}
 .cellicon {
   width: 2.4rem;
   border-radius: 50%;
   margin-right: 1rem;
+  margin-left: 1rem;
   vertical-align: middle;
 }
 

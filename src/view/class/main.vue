@@ -2,7 +2,7 @@
   <div class="hello">
 
 
-    <div class="class-header" v-show="$store.state.classHeader">
+    <div class="class-header">
       <img :src="classInfo.classlogo||'/static/img/c.b22e462.jpeg'" @click="$router.push('/class/'+$store.state.classId)">
       <span class="name">{{ classInfo.name }}</span>
       <span class="teacher">班主任：{{ classInfo.teacherName||'未指定' }}</span>
@@ -14,7 +14,7 @@
     <popup v-model="newPost" height="270px" is-transparent>
       <div class="popup">
         <group>
-          <x-textarea title="内容" placeholder="在此输入内容" v-model="newPostData.content"></x-textarea>
+          <x-textarea title="动态" placeholder="在此输入内容" v-model="newPostData.content"></x-textarea>
         </group>
         <div style="padding:20px 15px;">
           <x-button type="primary" @click.native="addNewPost">发布</x-button>
@@ -90,7 +90,6 @@ export default {
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','我的班级')
     this.getClassInfo()
-    this.$store.commit('showclassHeader',true)
   }
 }
 </script>

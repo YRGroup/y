@@ -120,10 +120,10 @@ export default new Router({
                     path: 'work',
                     component: homework
                 },
-                {
-                    path: 'msg/:msgId',
-                    component: classmsg
-                },
+                // {
+                //     path: 'msg/:msgId',
+                //     component: classmsg
+                // },
                 {
                     path: 'kcb',
                     component: kcb
@@ -141,6 +141,11 @@ export default new Router({
                     component: manage
                 },      
             ]
+        },
+        {//班级动态详情
+            path: '/class/:classId/msg/:msgId',
+            name: 'classmsg',
+            component: classmsg
         },
         {//教师
             path: '/teacher/:teacherId',
@@ -178,10 +183,6 @@ export default new Router({
                     component: studentfeed
                 },
                 {
-                    path: 'score/:examId',
-                    component: score
-                },
-                {
                     path: 'schoolcard',
                     component: schoolcard
                 },
@@ -192,12 +193,18 @@ export default new Router({
                 {
                     path: 'edit',
                     component: studentedit
-                },
-                {
-                    path: 'profile',
-                    component: studentprofile
-                },
+                }
             ]
+        },
+        {// 学生成绩
+            path: '/student/:studentId/profile',
+            name: 'studentprofile',
+            component: studentprofile
+        },
+        {// 学生编辑信息
+            path: '/student/:studentId/score/:examId',
+            name: 'score',
+            component: score
         },
         {//学校
             path: '/school',

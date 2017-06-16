@@ -96,6 +96,7 @@ export default {
   data() {
     return {
       boxwid: null||'1500px',
+      boxwid: null||'1500px',
       teachers: [],
       notice: [],
       homework: [],
@@ -126,6 +127,8 @@ export default {
         this.teachers = res
         this.boxwid = res.length * 100 + 'px'
         console.log(this.boxwid)
+        console.log(11111)
+        console.log(this.teachers)
       }).catch(err => {
         console.log(err)
       })

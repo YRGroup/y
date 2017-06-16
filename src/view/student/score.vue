@@ -77,7 +77,6 @@ export default {
   created(){
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','成绩报告')
-    this.$store.commit('showstuHeader', false)
     this.getScoreData()
     if(this.exam.length===0){
       this.$vux.toast.show({
@@ -186,12 +185,13 @@ export default {
   .content{
     margin:2.5rem 0;
     .examItem{
-      padding:.5rem 1rem;
+      padding:.8rem 1rem;
       text-align: left;
       .title{
-        font-weight: bold;
         font-size: 1rem;
-        line-height: 1.7rem;
+        line-height: 1.5rem;
+        height: 1.5rem;
+        overflow: hidden;
       }
       .time{
         display: inline-block;
@@ -200,7 +200,7 @@ export default {
       }
       .score{
         float: right;
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         color:@cc6;
         margin-right:.5rem;
       }

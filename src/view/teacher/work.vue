@@ -1,8 +1,6 @@
 <template>
-  <div>
-    
-    </br>
-    
+  <div class="work" style="margin-top:10px">
+
     <div class="feed" v-for="i in data" v-if="data!=[]"
     @click="fun('打开 '+i.title+' '+i.class+' 的作业页面')">
       <card class="card">

@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <group>
       <cell title="姓名" :value="data.user.TrueName"></cell>
       <cell title="所在学校" :value="data.School.Name"></cell>
@@ -21,7 +20,7 @@
     </group>
 
     <div class="editbtn">
-      <x-button text="修改资料" type="warn" 
+      <x-button text="修改资料" type="primary" 
       @click.native="$router.push('/student/'+$route.params.studentId+'/edit')"
       ></x-button>
     </div>
@@ -53,6 +52,7 @@ export default {
   created(){
     this.$store.commit('changeTitle','学生资料')
     this.getData()
+    this.$store.commit('showstuHeader',false)
   }
 }
 </script>
