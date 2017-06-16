@@ -1,7 +1,8 @@
 <template>
   <div class="hello">
 
-    <div class="class-header">
+
+    <div class="class-header" v-show="$store.state.classHeader">
       <img :src="classInfo.classlogo||'/static/img/c.b22e462.jpeg'" @click="$router.push('/class/'+$store.state.classId)">
       <span class="name">{{ classInfo.name }}</span>
       <span class="teacher">班主任：{{ classInfo.teacherName||'未指定' }}</span>
@@ -79,7 +80,8 @@ export default {
       }else{
         this.$vux.toast.show({
           type:"warn",
-          text: "数据不完整"
+          text: "数据不完整",
+          width:"20em"
         })
       }
     }
@@ -88,21 +90,22 @@ export default {
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','我的班级')
     this.getClassInfo()
+    this.$store.commit('showclassHeader',true)
   }
 }
 </script>
 
 <style lang="less" scoped>
 .class-header{
-  height:8.5em;
+  height:7.5em;
   width:100%;
   background:linear-gradient(right top,#00c0a1, #00c06f);
   background-size:100% 100%;
   color:#fff;
   position:relative;
   img{
-    width:4rem;
-    border-radius:10px;
+    width:3.4rem;
+    border-radius:6px;
     position:absolute;
     top:1rem;
     left:1rem;
@@ -110,18 +113,18 @@ export default {
   }
   .name{
     position:absolute;
-    top:1.4rem;
-    left:6.4rem;
-    font-size:1.5em;
+    top:1.3rem;
+    left:6rem;
+    font-size:1.4em;
   }
   .teacher{
     position:absolute;
-    top:3.6rem;
-    left:6.4rem;
+    top:3.3rem;
+    left:6rem;
   }
   .count{
     position:absolute;
-    top:3.6rem;
+    top:3.3rem;
     left:13rem;
   }
   .addbtn1{

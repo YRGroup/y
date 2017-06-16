@@ -15,7 +15,7 @@
   
     <div class="comment-header">
       <span>全部评论（{{commentLength }}）</span>
-      <span class="addbtn" @click="openreply">添加评论</span>
+      <span class="addbtn" @click="openreply">回复</span>
     </div>
     <card class="comment cardcont" v-for="comment in data.comment" :key="comment.name">
       <div slot="header" class="header">
@@ -34,7 +34,7 @@
           <x-input v-model="replymsg" placeholder="在此输入内容内容" @keyup.enter.native="addreply"></x-input>
         </group>
         <div style="padding:20px 15px;">
-          <x-button type="primary" @click.native="addreply">发表回复</x-button>
+          <x-button type="primary" @click.native="addreply">发表</x-button>
         </div>
       </div>
     </popup>
@@ -56,7 +56,8 @@ export default {
       commentId: '',
       commentLength: 0,
       fakeUserImg: 'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-      data: {}
+      data: {},
+      classHeader:false
     }
   },
   methods: {
@@ -69,6 +70,7 @@ export default {
     },
     getData() {
       this.$API.getClassDynamic(this.$route.params.classId, this.$route.params.msgId).then(res => {
+        console.log(this.data)
         this.data = res
         this.commentLength = res.comment.length
         this.commentId = res.id
@@ -103,6 +105,7 @@ export default {
     this.$store.commit('showNav', true)
     this.$store.commit('changeTitle', '动态详情')
     this.getData()
+    this.$store.commit('showclassHeader',false)
   },
   mounted() {
 
@@ -113,15 +116,15 @@ export default {
 <style lang="less" scoped>
 .cardcont {
   img {
-    width: 3.6em;
+    width: 3.2em;
     margin-right: 0.6em;
   }
   .usename {
     font-size: 1.1em;
-    top: 1.2em;
+    top: 1em;
   }
   .time {
-    top: 3.5em;
+    top: 3em;
   }
   .reply {
     position: absolute;
@@ -184,12 +187,12 @@ export default {
   }
   .addbtn {
     float: right;
-    padding: 0 2rem;
-    color: #fff;
-    background: #03a9f4;
+    padding: 0 1rem;
+    color: @cc6;
+    // background: #03a9f4;
     cursor: pointer;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
+    // border-top-left-radius: 15px;
+    // border-bottom-left-radius: 15px;
   }
 }
 </style>

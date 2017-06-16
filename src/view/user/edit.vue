@@ -1,12 +1,12 @@
 <template>
   <div class="hello">
     
-    <div class="user-header">
+    <!--<div class="user-header">
       <img :src="data.Headimgurl" >
       <div class="btn">修改头像</div>
-    </div>
+    </div>-->
 
-    <group title="个人资料：">
+    <group>
       <x-input title="姓名" v-model="data.TrueName" 
         text-align="right" placeholder="请在此填上新内容"></x-input>
       <cell title="身份" v-model="data.Role" 
@@ -38,9 +38,10 @@
         text-align="right" placeholder="请在此填上新内容"></cell>
     </group>
 
+    <!--<group title="当前没有学生" class="btn" v-if="noStudent">
     <group class="btn" v-if="noStudent">
       <x-button type="default" @click.native="addStudentPopup=true">添加学生</x-button>
-    </group>
+    </group>-->
 
     <popup v-model="addStudentPopup" is-transparent>
       <div class="popup">
@@ -56,7 +57,7 @@
     </popup>
 
     <group class="btn">
-      <x-button type="primary" @click.native="submitChange">提交修改</x-button>
+      <x-button type="primary" @click.native="submitChange">保存</x-button>
     </group>
 
   </div>

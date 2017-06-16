@@ -46,7 +46,7 @@
     </group>
     <br>
     <div class="exitbtn">
-      <a class="btn" @click="logout">退出登陆</a>
+      <a class="btn" @click="logout">退出登录</a>
     </div>
 
     </br>
@@ -61,7 +61,6 @@
         </group>
       </div>
     </popup>
-
     <popup v-model="addStudentPopup" is-transparent>
       <div class="popup">
         <group title="添加学生">
@@ -114,7 +113,7 @@ export default {
       this.$store.commit('logout')
       this.$vux.toast.show({
         type:"text",
-        text: '登出成功'
+        text: '退出成功'
       })
       this.$router.push('/main')
     },
@@ -145,7 +144,8 @@ export default {
         console.log(err)
         this.$vux.toast.show({
           type:"cancel",
-          text: "当前未登录"
+          text: "您还未登录",
+          width:"20em"
         })
         this.$router.push('/login')
       })
