@@ -6,57 +6,70 @@
       </span>
       <span>教师注册 - 智慧校园</span>
     </div>
-    <group class="item">
-      <x-input class="itemList" placeholder="请输入手机号" :show-clear="false"  
-      required is-type="china-mobile" ref="mobilephone" keyboard="number" v-model="data.phone"
-      >
-      </x-input>
-    </group>
-    <group class="item">
-      <x-input class="itemList" placeholder="请输入验证码" :show-clear="false" 
-      required v-model="imgcheck" 
-      >
-        <img slot="right" :src="imgCheckUrl" @click="newimg">
-      </x-input>
-    </group>
 
-    <group class="item">
-      <x-input class="itemList" placeholder="请输入短信验证码" :show-clear="false" 
-      required v-model="smscheck" 
-      >
-        <x-button slot="right" type="primary" @click.native="sms" mini 
-        :disabled="disabled || countdown > 0">{{ smsbtntext }}</x-button>
-      </x-input>
-    </group>
+    <div v-show="step1">
+      <group title="身份选择" >
+        <radio :options="rolecheck" v-model="data.role"></radio>
+      </group>
+      <group class="regBtn">
+        <x-button type="primary" @click.native="step1=false">下一步</x-button>
+      </group>
+    </div>
+    
+    <div v-show="!step1">
+      <group class="item">
+        <x-input class="itemList" placeholder="请输入手机号" :show-clear="false"  
+        required is-type="china-mobile" ref="mobilephone" keyboard="number" v-model="data.phone"
+        >
+        </x-input>
+      </group>
+      <group class="item">
+        <x-input class="itemList" placeholder="请输入验证码" :show-clear="false" 
+        required v-model="imgcheck" 
+        >
+          <img slot="right" :src="imgCheckUrl" @click="newimg">
+        </x-input>
+      </group>
 
-    <group class="item">
-      <x-input class="itemList" placeholder="请设置密码（8-20位字符）" :show-clear="false" 
-      required type="password" keyboard="number" v-model="data.password"
-      >
-      </x-input>
-    </group>
+      <group class="item">
+        <x-input class="itemList" placeholder="请输入短信验证码" :show-clear="false" 
+        required v-model="smscheck" 
+        >
+          <x-button slot="right" type="primary" @click.native="sms" mini 
+          :disabled="disabled || countdown > 0">{{ smsbtntext }}</x-button>
+        </x-input>
+      </group>
 
-    <group class="item">
-      <x-input class="itemList" placeholder="请重复输入密码" :show-clear="false" 
-      required type="password" keyboard="number" v-model="password2"
-      >
-      </x-input>
-    </group>
+      <group class="item">
+        <x-input class="itemList" placeholder="请设置密码（8-20位字符）" :show-clear="false" 
+        required type="password" keyboard="number" v-model="data.password"
+        >
+        </x-input>
+      </group>
 
-    <group class="regBtn" :class="(!data.phone|!imgcheck|!smscheck|!data.password|!password2)?'hidden':null">
-      <x-button type="primary" @click.native="submit">注册</x-button>
-    </group>
+      <group class="item">
+        <x-input class="itemList" placeholder="请重复输入密码" :show-clear="false" 
+        required type="password" keyboard="number" v-model="password2"
+        >
+        </x-input>
+      </group>
+
+      <group class="regBtn" :class="(!data.phone|!imgcheck|!smscheck|!data.password|!password2)?'hidden':null">
+        <x-button type="primary" @click.native="submit">注册</x-button>
+      </group>
+    </div>
+    
   </div>
 </template>
 
 <script>
-import { XButton, XInput, Group, Cell } from 'vux'
+import { XButton, XInput, Group, Cell,Radio } from 'vux'
 
 import md5 from 'js-md5'
 
 export default {
   components: {
-    XButton, XInput, Group, Cell
+    XButton, XInput, Group, Cell,Radio
   },
   data() {
     return {
@@ -66,6 +79,12 @@ export default {
       imgcheck: '',
       imgCheckUrl:'http://api.test.com/api/auth/Captcha',
       checknum: '',
+      rolecheck: [
+        {key:1,value:'学生'},
+        {key:2,value:'家长'},
+        {key:3,value:'老师'}
+      ],
+      step1:true,
       disabled: '',
       countdown: 0,
       index:0
@@ -127,12 +146,10 @@ export default {
       }
     },
     submit() {
-      let vm = this
-      this.data.role=3
       this.data.TrueName=this.data.phone
       console.log(this.data)
       if(!this.$refs.mobilephone.valid|!this.imgcheck|!this.smscheck){
-        vm.$vux.toast.show({
+        this.$vux.toast.show({
           type: "cancel",
           text: '表单信息不完整',
           width:'20em'
@@ -156,7 +173,7 @@ export default {
           width:'20em'
         })
       }else{
-        this.$API.parentReg(this.data).then(res=>{
+        this.$API.userReg(this.data).then(res=>{
           this.$vux.toast.show({
             type: "success",
             text: '提交成功',

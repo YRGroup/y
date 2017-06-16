@@ -1,25 +1,18 @@
 <template>
   <div class="hello">
     
-    <div class="user-header" v-if="$store.state.role=='家长'">
+    <div class="user-header" >
       <img :src="data.Headimgurl" >
       <p class="usename">{{data.TrueName}}
-        <small>{{$store.state.currentStudent.TrueName}}的家长</small>
+        <small v-if="$store.state.role=='家长'">{{$store.state.currentStudent.TrueName}}的家长</small>
+        <small v-if="$store.state.role=='老师'">{{data.ExtendInfo.Course}}</small>        
       </p>
-      <p>{{$store.state.currentStudent.SchoolName}}</p>
-      <p class="bottomnav">
+      <p>{{$store.state.currentStudent.SchoolName||'郑州航空港区育人国际学校'}}</p>
+      <p class="bottomnav" v-if="$store.state.role=='家长'">
         <span>{{$store.state.currentStudent.ClassName}}</span>
         <span>学号：{{$store.state.currentStudent.StudentID}}</span>
       </p>
-    </div>
-
-    <div class="user-header" v-if="$store.state.role=='老师'">
-      <img :src="data.Headimgurl" >
-      <p class="usename">{{data.TrueName}}
-        <small>{{data.ExtendInfo.Course}}</small>
-      </p>
-      <p>{{$store.state.currentStudent.SchoolName||'郑州航空港区育人国际学校'}}</p>
-      <p class="bottomnav">
+      <p class="bottomnav" v-if="$store.state.role=='老师'">
         <span @click="$router.push('/teacher/'+$store.state.currentUserId)">我的主页</span>
         <span @click="$router.push('/class/'+data.ExtendInfo.Classes[0].ClassID)">我的班级</span>
       </p>
@@ -40,7 +33,7 @@
       v-if="$store.state.role=='家长'">
         <i slot="icon" class="iconfont">&#xe60b;</i>
       </cell>
-      <cell title="修改密码"  is-link @click.native="fun('修改密码暂未开通')">
+      <cell title="修改密码"  is-link @click.native="changePasswordPopup=true">
         <i slot="icon" class="iconfont">&#xe692;</i>
       </cell>
     </group>
@@ -61,6 +54,7 @@
         </group>
       </div>
     </popup>
+
     <popup v-model="addStudentPopup" is-transparent>
       <div class="popup">
         <group title="添加学生">
@@ -70,6 +64,19 @@
         </group>
         <group class="btn">
           <x-button type="primary" @click.native="addStudent">提交修改</x-button>
+        </group>
+      </div>
+    </popup>
+
+    <popup v-model="changePasswordPopup" is-transparent>
+      <div class="popup">
+        <group title="修改密码">
+          <x-input title="以前的密码" v-model="changePasswordData.oldpwd" text-align="right" placeholder="请在此填上以前的密码"></x-input>
+          <x-input title="新密码" v-model="changePasswordData.newpwd" text-align="right" placeholder="请在此填上新密码"></x-input>
+          <x-input title="重复新密码" v-model="changePasswordData.newpwd2" text-align="right" placeholder="重复新密码"></x-input>
+        </group>
+        <group class="btn">
+          <x-button type="primary" @click.native="changePassword">提交修改</x-button>
         </group>
       </div>
     </popup>
@@ -88,8 +95,10 @@ export default {
   data () {
     return {
       data:{},
+      changePasswordData:{},
       myStudentPopup:false,
       addStudentPopup:false,
+      changePasswordPopup:false,
       parentTypeList:[
         { key: 1, value: '爸爸' },
         { key: 2, value: '妈妈' },
@@ -108,6 +117,33 @@ export default {
         width:"20em",
         text: msg
       })
+    },
+    changePassword(){
+      if(!this.changePasswordData.oldpwd|!this.changePasswordData.newpwd|!this.changePasswordData.newpwd2){
+        this.$vux.toast.show({
+          type:"warn",
+          width:"20em",
+          text: '数据不完整'
+        })
+      }else if(this.changePasswordData.newpwd!=this.changePasswordData.newpwd2){
+        this.$vux.toast.show({
+          type:"warn",
+          width:"20em",
+          text: '两次输入的新密码不一致'
+        })
+      }else{
+        this.$API.changePassword(this.changePasswordData).then((res)=>{
+          this.$vux.toast.show({
+            type:"success",
+            width:"20em",
+            text: '修改密码成功,请重新登陆'
+          })
+          this.$store.commit('logout')
+          this.$router.push('/login')
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }
     },
     logout(){
       this.$store.commit('logout')

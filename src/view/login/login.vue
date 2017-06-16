@@ -22,7 +22,7 @@
     
     <div class="parentReg">
       <x-button plain @click.native="$router.push('/main')">进入主页</x-button>      
-      <x-button plain @click.native="$router.push('/regparent')">家长注册</x-button>
+      <x-button plain @click.native="$router.push('/reg')">注册</x-button>
     </div>
   </div>
 </template>
@@ -49,7 +49,7 @@ export default {
         this.$API.login(logData).then(res=>{
           this.$vux.toast.show({
             type:"success",
-            text: res.Nickname+'登录成功',
+            text: res.TrueName+'登录成功',
             width:"20em"
           })
           this.$store.commit({

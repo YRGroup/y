@@ -83,7 +83,7 @@ export default {
   }
   .msgbtn{
     position: absolute;
-    right:1rem;
+    right:5px;
     top:1rem;
     padding:5px 1rem;
     border-radius: 10px;
