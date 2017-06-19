@@ -2,9 +2,10 @@ let API = {}
 
 import axios from 'axios'
 
-// API根目录
+
 import _APIurl from './config'
 import md5 from 'js-md5'
+import store from '@/store'
 
 API.AUTH_SIGN
 
@@ -15,7 +16,8 @@ API.login = (logData) => {
       console.log('登陆信息：')
       console.log(res)
       let token = res.data.Content.Token
-      localStorage.setItem('TOKEN', token)
+      // localStorage.setItem('TOKEN', token)
+      store.commit('setToken', token)
 
       if(res.data.Msg==='OK'){
         resolve(res.data.Content)

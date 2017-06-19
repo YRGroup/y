@@ -39,7 +39,7 @@ import axios from 'axios'
 axios.defaults.withCredentials=true
 axios.interceptors.request.use(function (config) {    
     let now = new Date().getTime()
-    let token = localStorage.TOKEN
+    let token = store.state.token
     let sigh = md5(token+now)
     config.headers.time = now
     config.headers.sign = sigh
@@ -48,6 +48,7 @@ axios.interceptors.request.use(function (config) {
     return config
 }, function (err) {
     console.log('error')
+    console.log(err)
     return Promise.reject(err)
 });
 Vue.prototype.$http = axios
