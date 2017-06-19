@@ -116,7 +116,6 @@ export default {
       font-size: 1.3em;
       margin:0 5px 0 5px;
       position: relative;
-      top: 2px;
     }
   }
 }

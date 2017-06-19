@@ -62,6 +62,7 @@ import edit from '@/view/user/edit'
 import parentcenter from '@/view/user/parent'
 import studentcenter from '@/view/user/student'
 import teachercenter from '@/view/user/teacher'
+import editcode from '@/view/user/editcode'
 
 Vue.use(Router)
 
@@ -187,10 +188,6 @@ export default new Router({
                 {
                     path: 'timeline',
                     component: timeline
-                },
-                {
-                    path: 'edit',
-                    component: studentedit
                 }
             ]
         },
@@ -199,10 +196,15 @@ export default new Router({
             name: 'studentprofile',
             component: studentprofile
         },
-        {// 学生编辑信息
+        {// 学生成绩报告
             path: '/student/:studentId/score/:examId',
             name: 'score',
             component: score
+        },
+        {// 学生编辑信息
+            path: '/student/:studentId/edit',
+            name: 'studentedit',
+            component: studentedit
         },
         {//学校
             path: '/school',
@@ -283,7 +285,12 @@ export default new Router({
             path: '/teachercenter',
             name: 'teachercenter',
             component: teachercenter
-        }
+        },
+        {
+            path: '/user/editcode',
+            name: 'editcode',
+            component: editcode
+        },
     ],
     scrollBehavior (to, from, savedPosition) {
         return { x: 0, y: 0 }
