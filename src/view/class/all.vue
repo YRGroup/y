@@ -96,11 +96,11 @@
 </template>
 
 <script>
-import { Flexbox, FlexboxItem, Card, Popup,Tab, TabItem,WechatEmotion as Emotion } from 'vux'
+import { Flexbox, FlexboxItem, Card, Popup,Tab, TabItem } from 'vux'
 
 export default {
   components: {
-    Flexbox, FlexboxItem, Card,Popup, Tab, TabItem,Emotion
+    Flexbox, FlexboxItem, Card,Popup, Tab, TabItem
   },
   data() {
     return {
