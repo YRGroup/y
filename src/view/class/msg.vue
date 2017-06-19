@@ -19,8 +19,8 @@
     </div>
     <card class="comment cardcont" v-for="comment in data.comment" :key="comment.name">
       <div slot="header" class="header">
-        <img :src="fakeUserImg" @click="fun('打开 '+comment.userName+' 的个人页面')">
-        <span class="usename" @click="fun('打开 '+comment.userName+' 的个人页面')">{{ comment.userName }}</span>
+        <img :src="fakeUserImg" @click="fun('打开 '+comment.TrueName+' 的个人页面')">
+        <span class="usename" @click="fun('打开 '+comment.TrueName+' 的个人页面')">{{ comment.TrueName }}</span>
         <span class="time">{{ comment.addTime }}</span>
       </div>
       <div slot="content" class="content">

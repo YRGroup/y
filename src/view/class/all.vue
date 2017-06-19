@@ -75,7 +75,7 @@
         </div>
         <div class="comment">
           <li v-for="(comment,index) in item.comment" v-if="item.comment.length!=0&&index<3" :key="index">
-            <span @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.userName }}：</span>
+            <span @click="fun('打开 '+comment.TrueName+' 的个人页面')">{{ comment.TrueName }}：</span>
             <span>{{ comment.content }}</span>
           </li>
           <div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>

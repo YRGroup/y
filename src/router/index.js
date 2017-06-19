@@ -44,6 +44,7 @@ import schoolcard from '@/view/student/schoolcard'
 import timeline from '@/view/student/timeline'
 import studentedit from '@/view/student/edit'
 import studentprofile from '@/view/student/profile'
+import studentparent from '@/view/student/parent'
 
 // 注册
 import reg from '@/view/login/reg'
@@ -191,6 +192,10 @@ export default new Router({
                 {
                     path: 'edit',
                     component: studentedit
+                },
+                {
+                    path: 'parent',
+                    component: studentparent
                 }
             ]
         },
