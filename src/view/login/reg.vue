@@ -191,7 +191,7 @@ export default {
             })
             this.$vux.toast.show({
               type: "success",
-              text: '已为您自动登陆',
+              text: '注册成功！',
               width:'20em'
             })
             this.$router.push('/main')

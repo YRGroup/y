@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <group>
       <x-input title="姓名" type="text" text-align="right" v-model="truename"></x-input>
 
@@ -14,7 +13,7 @@
     </group>
 
     <div class="editbtn">
-      <x-button text="提交修改" type="primary" @click.native="editData"></x-button>
+      <x-button text="保存" type="primary" @click.native="editData"></x-button>
     </div>
 
   </div>

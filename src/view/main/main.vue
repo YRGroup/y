@@ -1,5 +1,6 @@
 <template>
   <div class="content">
+
     <div class="follow">
         <span class="tips"><i class="iconfont">&#xe620;</i></span>
         <!--<span class="text">您还没有关注公共账号！</span>-->
@@ -87,12 +88,12 @@
 </template>
 
 <script>
-import { Swiper,Flexbox,FlexboxItem,XButton  } from 'vux'
+import { Swiper,Flexbox,FlexboxItem,XButton,Popup   } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Swiper,Flexbox,FlexboxItem,XButton 
+    Swiper,Flexbox,FlexboxItem,XButton ,Popup 
   },
   data () {
     return {
@@ -117,7 +118,8 @@ export default {
       this.$vux.toast.show({
         type:"text",
         width:"20em",
-        text: msg
+        text: msg,
+        show: true
       })
     },
     getnews(){

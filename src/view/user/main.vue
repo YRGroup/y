@@ -33,7 +33,7 @@
       v-if="$store.state.role=='家长'">
         <i slot="icon" class="iconfont">&#xe60b;</i>
       </cell>
-      <cell title="修改密码"  is-link @click.native="changePasswordPopup=true">
+      <cell title="修改密码"  is-link @click.native="$router.push('/user/editcode')">
         <i slot="icon" class="iconfont">&#xe692;</i>
       </cell>
     </group>
@@ -121,13 +121,13 @@ export default {
     changePassword(){
       if(!this.changePasswordData.oldpwd|!this.changePasswordData.newpwd|!this.changePasswordData.newpwd2){
         this.$vux.toast.show({
-          type:"warn",
+          type:"text",
           width:"20em",
           text: '数据不完整'
         })
       }else if(this.changePasswordData.newpwd!=this.changePasswordData.newpwd2){
         this.$vux.toast.show({
-          type:"warn",
+          type:"text",
           width:"20em",
           text: '两次输入的新密码不一致'
         })
@@ -136,7 +136,7 @@ export default {
           this.$vux.toast.show({
             type:"success",
             width:"20em",
-            text: '修改密码成功,请重新登陆'
+            text: '修改成功,请重新登录'
           })
           this.$store.commit('logout')
           this.$router.push('/login')
@@ -223,15 +223,15 @@ export default {
 <style lang="less" scoped>
 .user-header{
   text-align: center;
-  height:16em;
   width:100%;
   background:linear-gradient(right top,#00c0a1, #00c06f);
   background-size:100% 100%;
   color:#fff;
   position: relative;
   padding-top:1rem;
+  padding-bottom: 10px;
   img{
-    width:5rem;
+    width:4rem;
     border-radius:50%;
     border: 4px solid rgba(255,255,255,0.3);
   }
@@ -277,7 +277,6 @@ export default {
     font-size: 1.2em;
     border-top: 1px solid @cc4;
     border-bottom: 1px solid @cc4;
-    color:red;
   }
 }
 .iconfont{

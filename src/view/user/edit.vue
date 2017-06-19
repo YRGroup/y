@@ -163,7 +163,7 @@ export default {
     }
   },
   created(){
-    this.$store.commit('changeTitle','修改资料')
+    this.$store.commit('changeTitle','完善资料')
     this.getData()
   },
   mounted(){

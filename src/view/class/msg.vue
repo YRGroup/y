@@ -106,7 +106,6 @@ export default {
     this.$store.commit('showNav', true)
     this.$store.commit('changeTitle', '动态详情')
     this.getData()
-    this.$store.commit('showclassHeader',false)
   },
   mounted() {
 
@@ -137,52 +136,26 @@ export default {
   }
 }
 
-.weui-panel {
-  position: relative;
-  margin-top: 0;
-  margin-bottom: 1em;
-  .header {
-    width: 100%;
-    padding: 1em;
-    font-size: 1.2em;
-  }
-  .content {
-    padding-left: 0 1em;
-    line-height: 1.6em;
-    margin-bottom: 1em;
-    margin-top: -1em;
-    font-size: 1.2em;
-  }
-}
-
 .comment {
   position: relative;
   margin: 0;
-  .header {
-    width: 100%;
-    padding: 1em;
-    font-size: 1.2em;
-  }
-  .content {
-    margin-bottom: 1em;
-    font-size: 1.2em;
-  }
 }
 
 .comment-header {
   position: relative;
-  height: 2.8em;
-  font-size: 1.3em;
+  height: 2.6em;
+  line-height: 2.6em;
+  font-size: 1.2em;
   background: #fff;
-  line-height: 2.8em;
   padding-left: 2em;
+  margin-top:20px;
   color: @cc2;
    :after {
     content: "";
     position: absolute;
     width: 3px;
-    height: 1.2em;
-    top: 13px;
+    height: 1em;
+    top: 10px;
     left: 1em;
     background: @cc6;
   }
