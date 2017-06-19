@@ -62,7 +62,7 @@
         <span class="tips">{{ item.category }}</span>
       </div>
       <div slot="content" class="content">
-        <pre @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)">{{ item.content }}</pre>
+        <div @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)" v-html="item.content"></div>
         <div class="img">
           <img @click="imgPopup(imgurl)" :src="'http://api.test.com'+imgurl" v-if="item.albums.length!=0" v-for="imgurl in item.albums">
         </div>
