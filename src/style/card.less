@@ -1,11 +1,11 @@
 .weui-panel{
   position:relative;
-  margin-top:0;
-  margin-bottom:1em;
+  margin-bottom:@length;
+  padding:15px;
   // border-bottom: 1px solid #e9e9e9;
   .header{
     width:100%;
-    padding:10px 1em 0.5em 1em;
+    // padding:10px 1em 0.5em 20px;
     font-size:1.2em;
     img{
       width:3.2em;
@@ -35,8 +35,6 @@
     }
   }
   .content{
-    padding-left:1em;
-    padding-right:1em;
     line-height:1.5em;
     // margin-bottom:.5rem;
     font-size:1.2em;
@@ -54,8 +52,6 @@
     }
   }
   .footer{
-    padding-left:1em;
-    padding-right:1em;
     .footer-btn{
       color:@c4;
       font-size:0.9rem;
@@ -63,7 +59,7 @@
       overflow: hidden;
       .iconfont{
         float:right;
-        padding:0 1em;
+        padding-left:2em;
       }
     }
     .footer-btn:after{
@@ -76,7 +72,6 @@
       bottom:-1.3em;
     }
     .comment{
-      margin-bottom:1em;
       padding:1em;
       background:@c1;
       border-radius:6px;
@@ -97,4 +92,8 @@
       }
     }
   }
+  &:before{
+    border-top:none;
+  }
 }
+

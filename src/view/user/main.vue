@@ -223,15 +223,15 @@ export default {
 <style lang="less" scoped>
 .user-header{
   text-align: center;
-  height:16em;
   width:100%;
   background:linear-gradient(right top,#00c0a1, #00c06f);
   background-size:100% 100%;
   color:#fff;
   position: relative;
   padding-top:1rem;
+  padding-bottom: 10px;
   img{
-    width:5rem;
+    width:4rem;
     border-radius:50%;
     border: 4px solid rgba(255,255,255,0.3);
   }
@@ -277,7 +277,6 @@ export default {
     font-size: 1.2em;
     border-top: 1px solid @cc4;
     border-bottom: 1px solid @cc4;
-    color:red;
   }
 }
 .iconfont{

@@ -64,7 +64,7 @@ export default {
   text-align: center;
   background:linear-gradient(right top,#00c0a1, #00c06f);
   background-size:100% 100%;
-  padding:1rem 0;
+  padding:10px 0;
   img{
     width:4rem;
     border-radius:50%;

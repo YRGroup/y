@@ -73,12 +73,12 @@
           <i class="iconfont lick" @click.once="doLike(item.id),item.like++">&#xe646; {{ item.like }}</i>
           <i class="iconfont combtn">&#xe6c3; {{ item.read }}</i>
         </div>
-        <div class="comment">
+        <div class="comment" v-if="item.comment.length !== 0">
           <li v-for="(comment,index) in item.comment" v-if="item.comment.length!=0&&index<3" :key="index">
             <span @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.userName }}：</span>
             <span>{{ comment.content }}</span>
           </li>
-          <div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>
+          <!--<div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>-->
           <div class="more" @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)">
             查看详情
           </div>
@@ -110,7 +110,7 @@ export default {
       teachers: [],
       notice: [],
       homework: [],
-      list: []
+      list: [],
     }
   },
   computed: {
@@ -186,7 +186,6 @@ export default {
     this.getTeacherList()
     this.getNotice()
     this.getHomeWork()
-    this.$store.commit('showclassHeader',true)
   }
 }
 </script>
@@ -216,7 +215,7 @@ export default {
     }
   }
   .box-item:first-child {
-    margin-left: 1rem;
+    // margin-left: 1rem;
   }
 }
 .header{
@@ -226,8 +225,7 @@ export default {
 }
 
 .classWork {
-  margin-top: 0.8rem;
-  margin-bottom: 0.8rem;
+  margin: @length 0;
   background: #fff;
   height: 4em;
   padding: .5em;
@@ -299,7 +297,7 @@ export default {
 .notice {
   height: 3rem;
   background: #fff;
-  margin-bottom: 1rem;
+  margin-bottom: @length;
   padding: .5rem;
   // width: 100%;
   .icon {

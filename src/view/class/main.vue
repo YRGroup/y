@@ -8,7 +8,7 @@
       <span class="teacher">班主任：{{ classInfo.teacherName||'未指定' }}</span>
       <span class="count">人数：{{ classInfo.student_count }}</span>
       <div class="addbtn1" @click="$router.push('/class/'+$route.params.classId+'/new')"><i class="iconfont">&#xe606;</i>发布</div>
-      <div class="addbtn2" @click="$router.push('/class/'+$route.params.classId+'/manage')"><i class="iconfont">&#xe606;</i>管理</div>
+      <div class="addbtn2" @click="$router.push('/class/'+$route.params.classId+'/manage')"><i class="iconfont">&#xe832;</i>管理</div>
     </div>
 
     <transition name="slide-fade">
@@ -94,7 +94,7 @@ export default {
     top:1rem;
     right:0;
     background: rgba(255,255,255,0.3);
-    padding:.2em;
+    padding:0 .2em;
     border-radius: 20px 0 0 20px;
     cursor: pointer;
     .iconfont{
@@ -106,10 +106,10 @@ export default {
   }
   .addbtn2{
     position: absolute;
-    top:3rem;
+    top:3.4rem;
     right:0;
     background: rgba(255,255,255,0.3);
-    padding:.2em;
+    padding:0 .2em;
     border-radius: 20px 0 0 20px;
     cursor: pointer;
     .iconfont{
