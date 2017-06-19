@@ -78,14 +78,23 @@ API.uploadImg = (files) => {
 API.default = (id) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class/GetDynamic?cid='+id).then((res)=>{
-      console.log('获取信息成功：')
-      console.log(res)
+      console.log('测试：')
+      console.log(this)
       resolve(res.data.Content)
     }).catch((err)=>{
       console.log('获取信息失败：')
       console.log(err)
       reject(err)
     })
+  })
+}
+// testing
+
+// 空API模板
+API.test = () => {
+  return new Promise((resolve, reject) => {
+    console.log('测试：')
+    console.log(this)
   })
 }
 // testing

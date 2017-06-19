@@ -4,6 +4,9 @@ import axios from 'axios'
 
 // API根目录
 import _APIurl from './config'
+import md5 from 'js-md5'
+
+API.AUTH_SIGN
 
 // 登陆
 API.login = (logData) => {
@@ -11,6 +14,9 @@ API.login = (logData) => {
     axios.post(_APIurl+'/api/User/LoginByPhone',logData).then((res)=>{
       console.log('登陆信息：')
       console.log(res)
+      let token = res.data.Content.Token
+      localStorage.setItem('TOKEN', token)
+
       if(res.data.Msg==='OK'){
         resolve(res.data.Content)
       }else{
