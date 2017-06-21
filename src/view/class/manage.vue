@@ -18,23 +18,23 @@
     <popup v-model="showAddTeacher" is-transparent>
       <div class="popup">
         <group title="添加班级教师" >
-          <x-input title="教师ID" v-model="newClassTeacherID" placeholder="在此输入ID"></x-input>
+          <x-input title="教师ID:" v-model="newClassTeacherID" placeholder="在此输入ID"></x-input>
         </group>
         <div style="padding:20px 15px;">
           <x-button type="primary" @click.native="addClassTeacher">发布</x-button>
-          <x-button type="warn" @click.native="showAddTeacher=false">取消</x-button>
+          <x-button  @click.native="showAddTeacher=false">取消</x-button>
         </div>
       </div>
     </popup>
 
     <popup v-model="showAddStudent" is-transparent>
       <div class="popup">
-        <group title="添加班级教师" >
-          <x-input title="教师ID" v-model="newClassStudentID" placeholder="在此输入ID"></x-input>
+        <group title="添加学生" >
+          <x-input title="教师ID：" v-model="newClassStudentID" placeholder="在此输入ID"></x-input>
         </group>
         <div style="padding:20px 15px;">
           <x-button type="primary" @click.native="addClassStudent">发布</x-button>
-          <x-button type="warn" @click.native="showAddStudent=false">取消</x-button>
+          <x-button @click.native="showAddStudent=false">取消</x-button>
         </div>
       </div>
     </popup>

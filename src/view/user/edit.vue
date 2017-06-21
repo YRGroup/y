@@ -8,18 +8,18 @@
 
     <group>
       <x-input title="姓名" v-model="data.TrueName" 
-        text-align="right" placeholder="请在此填上新内容"></x-input>
+        text-align="right" placeholder="请输入姓名"></x-input>
       <cell title="身份" v-model="data.Role" 
-        text-align="right" placeholder="请在此填上新内容"></cell>
+        text-align="right"></cell>
       <cell title="联系方式" v-model="data.Mobilephone" 
         text-align="right" placeholder="请在此填上新内容"></cell>
     </group>
 
     <group title="教师资料："  v-if="$store.state.role=='老师'">
       <cell title="当前学科" v-model="data.ExtendInfo.Course"></cell>
-      <selector title="修改学科" v-model="data.course" :options="courseList"></selector>
+      <selector title="修改学科" v-model="data.course" :options="courseList"  text-align="right"></selector>
       <x-input title="添加班级" v-model="data.classId" 
-      text-align="right" placeholder="请在此填上班级ID"></x-input>
+      text-align="right" placeholder="请填写班级ID"></x-input>
     </group>
 
     <group title="学生资料：" v-if="!noStudent" v-for="i in allStudentData"

@@ -5,7 +5,7 @@
       <cell title="姓名" :value="i.ParentTrueName"></cell>
       <cell title="身份" :value="i.ParentType"></cell>
       <cell title="电话" :value="i.ParentPhone"></cell>
-      <cell title="发送站内信" is-link :link="'/msg/'+i.ParentMeid"></cell>      
+      <!--<cell title="发送站内信" is-link :link="'/msg/'+i.ParentMeid"></cell>      -->
       <cell title="头像">
         <img class="headImg" :src="i.ParentHeadimgurl" slot="default">
       </cell>
@@ -51,6 +51,7 @@ export default {
 
 <style lang="less" scoped>
 .headImg{
-  height:5rem;
+  height:3rem;
+  border-radius: 50%;
 }
 </style>

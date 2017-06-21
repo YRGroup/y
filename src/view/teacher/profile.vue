@@ -1,9 +1,9 @@
 <template>
-  <div class="profile"  style="margin-top:10px">
+  <div class="profile">
     <group label-width="13em" label-align="left" class="itemlist">
       <cell title="职称：" value="高级教师" value-align="right"></cell>
       <cell title="教龄：" value="5年" value-align="right"></cell>
-      <div class="more" @click="$router.push('/main')">更多基本资料</div>
+      <div class="more" @click="$router.push('/teacher/'+$route.params.teacherId+'/information')">更多基本资料</div>
       <!--<cell value-align="left" value="查看更多" is-link></cell>-->
     </group>
     <group label-width="13em" label-align="left" class="itemlist">

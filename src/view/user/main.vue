@@ -223,13 +223,11 @@ export default {
 <style lang="less" scoped>
 .user-header{
   text-align: center;
-  width:100%;
   background:linear-gradient(right top,#00c0a1, #00c06f);
   background-size:100% 100%;
   color:#fff;
-  position: relative;
-  padding-top:1rem;
-  padding-bottom: 10px;
+  // position: relative;
+  padding:10px 0;
   img{
     width:4rem;
     border-radius:50%;
@@ -239,14 +237,14 @@ export default {
     font-size: 1.2rem;
   }
   .bottomnav{
-    position: absolute;
-    bottom:0;
-    width:100%;
-    border-top:1px solid rgba(255, 255, 255, .3);;
-    vertical-align: bottom;
-    height:2.2rem;
-    line-height: 2.2rem;
-    font-size: 1.1em;
+    // position: absolute;
+    // bottom:0;
+    // width:100%;
+    border-top:1px solid rgba(255, 255, 255, .3);
+    margin-top:10px;
+    // vertical-align: bottom;
+    height:24px;
+    line-height: 32px;
     span:nth-child(1){
       float:left;
       width:50%;
