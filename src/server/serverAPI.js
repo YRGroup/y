@@ -11,8 +11,6 @@ API.getAllClassInfo = (id) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class?cid='+id).then((res)=>{
       resolve(res)
-    }).catch((err)=>{
-      reject(err)
     })
   })
 }
@@ -32,10 +30,6 @@ API.uploadImg = (files) => {
       console.log('所有图片上传成功')
       console.log(res)
       resolve(res.data.Content)    
-    }).catch((err)=>{
-      console.log('出现错误')
-      console.log(err)
-      reject(err)
     })
 
     // let allres=[]

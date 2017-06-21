@@ -37,20 +37,38 @@ import md5 from 'js-md5'
 
 import axios from 'axios'
 axios.defaults.withCredentials=true
-axios.interceptors.request.use(function (config) {    
+axios.interceptors.request.use( config => {    
     let now = new Date().getTime()
     let token = store.state.token
     let sigh = md5(token+now)
     config.headers.time = now
     config.headers.sign = sigh
-    console.log('right')
-    console.log(config.headers)
     return config
-}, function (err) {
+}, err => {
     console.log('error')
     console.log(err)
     return Promise.reject(err)
 });
+axios.interceptors.response.use(
+  response => {
+    console.log('axios to:'+response.config.url)
+    console.log(response)
+    return response
+  },
+  error => {
+    console.log('发生错误：')
+    console.log(error)
+    Vue.$vux.toast.show({
+      text: error.response.data.Message,
+      width:'20em',
+      type: 'warn'
+    })
+    if(error.response.status==401){
+      router.push('/login')
+    }
+    return Promise.reject(error)
+  }
+)
 Vue.prototype.$http = axios
 
 import  { ToastPlugin } from 'vux'

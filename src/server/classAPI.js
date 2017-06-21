@@ -7,15 +7,7 @@ import _APIurl from './config'
 
 // 获取班级信息
 API.getClassInfo = (classId) => {
-  return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/Class/GetInfo?cid='+classId).then((res)=>{
-      console.log('获取到的班级信息：')
-      console.log(res)
-      resolve(res.data.Content)
-    }).catch((err)=>{
-      reject(err)
-    })
-  })
+  return axios.get(_APIurl+'/api/Class/GetInfo?cid='+classId).then(res => res.data.Content)
 }
 // testing
 
@@ -32,8 +24,6 @@ API.getAllClassDynamic = (classId,typeId,count) => {
       console.log('获取到的班级动态：')
       console.log(res)
       resolve(res.data.Content)
-    }).catch((err)=>{
-      reject(err)
     })
   })
 }
@@ -51,8 +41,6 @@ API.getHomeworkList = (classId,count) => {
       console.log('获取班级作业列表：')
       console.log(res)
       resolve(res.data.Content)
-    }).catch((err)=>{
-      reject(err)
     })
   })
 }
@@ -65,8 +53,6 @@ API.addHomework = (data) => {
       console.log('添加新班级作业成功：')
       console.log(res)
       resolve(res.data.Content)
-    }).catch((err)=>{
-      reject(err)
     })
   })
 }
@@ -85,8 +71,6 @@ API.getClassDynamic = (classId,msgId) => {
       console.log('获取到的动态信息：')
       console.log(res)
       resolve(res.data.Content)
-    }).catch((err)=>{
-      reject(err)
     })
   })
 }
@@ -97,8 +81,6 @@ API.postNewClassDynamic = (classDynamicData) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Class/AddDynamic',classDynamicData).then((res)=>{
       resolve(res)
-    }).catch((err)=>{
-      reject(err)
     })
   })
 }
@@ -117,8 +99,6 @@ API.postNewComment = (replyData) => {
         error.msg = res.data.Msg
         reject(error)
       }
-    }).catch((err)=>{
-      reject(err)
     })
   })
 }
@@ -129,8 +109,6 @@ API.doLikeThisPost = (classDynamicId) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class/Zan?did='+classDynamicId).then((res)=>{
       resolve(res.data.Content)
-    }).catch((err)=>{
-      reject(err)
     })
   })
 }
@@ -144,8 +122,6 @@ API.getTeacherList = (classId) => {
       resolve(res.data.Content)
       console.log('获取到的教师列表：')
       console.log(res)
-    }).catch((err)=>{
-      reject(err)
     })
   })
 }
@@ -158,8 +134,6 @@ API.getStudentList = (classId) => {
       resolve(res.data.Content)
       console.log('获取到的学生列表信息：')
       console.log(res)
-    }).catch((err)=>{
-      reject(err)
     })
   })
 }
@@ -172,8 +146,6 @@ API.getParentList = (classId) => {
       console.log('获取到的家长列表信息：')
       console.log(res)
       resolve(res.data.Content)
-    }).catch((err)=>{
-      reject(err)
     })
   })
 }
@@ -192,10 +164,6 @@ API.addClassStudent = (data) => {
         console.log(res.data.Msg)
         reject(res)
       }
-    }).catch((err)=>{
-      console.log('添加班级学生失败：')
-      console.log(err)
-      reject(err)
     })
   })
 }
@@ -214,10 +182,6 @@ API.addClassTeacher = (data) => {
         console.log(res.data.Msg)
         reject(res.data.Msg)
       }
-    }).catch((err)=>{
-      console.log('添加班级教师失败：')
-      console.log(err)
-      reject(err)
     })
   })
 }
