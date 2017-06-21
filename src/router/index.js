@@ -34,6 +34,7 @@ import teacher from '@/view/teacher/main'
 import teacherprofile from '@/view/teacher/profile'
 import teacherfeed from '@/view/teacher/feed'
 import teacherwork from '@/view/teacher/work'
+import information from '@/view/teacher/information'
 
 // 学生
 import student from '@/view/student/main'
@@ -169,6 +170,11 @@ export default new Router({
                     component: teacherwork
                 }
             ]
+        },
+        {// 教师资料
+            path: '/teacher/:teacherId/information',
+            name: 'information',
+            component: information
         },
         {//学生
             path: '/student/:studentId',

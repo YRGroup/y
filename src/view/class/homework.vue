@@ -2,14 +2,14 @@
   <div class="work">
 
     <div class="addbtn">
-      <x-button @click.native="newHomework=true">发布新作业</x-button>
+      <x-button @click.native="newHomework=true" type="primary" plain >发布新作业</x-button>
     </div>    
 
     <popup v-model="newHomework" height="310px" is-transparent>
       <div class="popup">
         <group>
-          <selector title="科目" :options="course_list" v-model="newHomeworkData.course_id"></selector>
-          <x-textarea title="作业内容" placeholder="在此输入作业内容" v-model="newHomeworkData.content"></x-textarea>
+          <selector title="学科" :options="course_list" v-model="newHomeworkData.course_id"></selector>
+          <x-textarea title="作业" placeholder="请输入作业内容" v-model="newHomeworkData.content"></x-textarea>
         </group>
         <div style="padding:20px 15px;">
           <x-button type="primary" @click.native="addHomework">发布</x-button>
