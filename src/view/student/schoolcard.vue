@@ -14,7 +14,7 @@
       </cell>
     </group>
 
-    <div class="noMsg" v-if="data.Log.length===0">当前没有消费记录</div>
+    <div class="noMsg" v-if="data.Log===0">当前没有消费记录</div>
 
   </div>
 </template>

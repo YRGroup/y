@@ -1,5 +1,26 @@
 <template>
   <div id="app">
+
+    <div v-transfer-dom>
+      <x-dialog v-model="show" class="dialog-demo">
+        <div class="img-box">
+          <img :src="popupimg" style="max-width:100%">
+        </div>
+        <div class="popupText">
+          <h3>关联孩子</h3>
+          <ul class="subcon">
+            <li><span>·</span>查看孩子班级动态</li>
+            <li><span>·</span>与老师实时沟通</li>
+            <li><span>·</span>查看孩子考试成绩</li>
+          </ul>
+          <div class="popbtn">关联孩子</div>
+        </div>
+        <div @click="show=false" class="popclose">
+          <span class="vux-close"><i class="iconfont">&#xe61a;</i></span>
+        </div>
+      </x-dialog>
+    </div>
+
     <x-header id="nav-top" :left-options="{backText: ''}" v-show="$store.state.showTopNav">
       {{web_title}}
       <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
@@ -34,17 +55,22 @@
 </template>
 
 <script>
-import { Tabbar, TabbarItem, XHeader,Loading   } from 'vux'
+import { Tabbar, TabbarItem, XHeader,Loading,XSwitch ,XDialog,TransferDomDirective as TransferDom  } from 'vux'
 import { mapState } from 'vuex'
 
 export default {
   name: 'app',
   components: {
-    Tabbar, TabbarItem, XHeader ,Loading 
+    Tabbar, TabbarItem, XHeader ,Loading ,XSwitch , XDialog 
+  },
+  directives: {
+    TransferDom
   },
   data(){
     return{
-      test0:'00'
+      test0:'00',
+      show: true,
+      popupimg:require('@/assets/popupbg.png'),
     }
   },
   methods:{
@@ -125,7 +151,7 @@ pre{
   max-width: @appwidth;
   position:fixed;
   top:0;
-  z-index:10000;
+  z-index:999;
 }
 #nav-bottom{
   max-width: @appwidth;
@@ -155,11 +181,11 @@ a{
 }
 @font-face {
   font-family: 'iconfont';  /* project id 291668 */
-  src: url('//at.alicdn.com/t/font_uqfkbrtjwsqyqfr.eot');
-  src: url('//at.alicdn.com/t/font_uqfkbrtjwsqyqfr.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_uqfkbrtjwsqyqfr.woff') format('woff'),
-  url('//at.alicdn.com/t/font_uqfkbrtjwsqyqfr.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_uqfkbrtjwsqyqfr.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.eot');
+  src: url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.svg#iconfont') format('svg');
 }
 .iconfont{
   font-family:"iconfont";
@@ -182,4 +208,99 @@ a{
 #app .weui-btn:after{
   border:none;
 }
+
+//弹窗样式
+.childPopup{
+  width: 100%;
+  height: 100%;
+  background: black;
+}
+
+//弹窗样式
+.dialog-demo {
+  position: relative;
+  .weui-dialog{
+    border-radius: 8px;
+    padding-bottom: 8px;
+    overflow:visible;
+  }
+  .dialog-title {
+    line-height: 30px;
+    color: #666;
+  }
+  .img-box {
+    border-radius: 8px 8px 0 0;
+    height: 84px;
+    overflow: hidden;
+    background: #00c06f;
+    padding:10px 0;
+    img{
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+  .popupText{
+    padding:10px 0;
+    h3{
+      font-size: 1.6em;
+      line-height: 1.6em;
+      font-weight: 400;
+    }
+    .subcon{
+      font-size: 1.2em;
+      color:@cc2;
+      li{
+        span{
+          position: relative;
+          margin-right:10px;
+          &:before{
+            content: "";
+            width: 4px;
+            height: 4px;
+            background: @cc6;
+            border-radius: 50%;
+            position: absolute;
+            top: 8px;
+            left: 0;
+          }
+        }
+      }
+    }
+    .popbtn{
+      margin:10px 2rem;
+      padding:10px 0;
+      font-size:1rem;
+      color:#fff;
+      border-radius: 50px;
+      background:linear-gradient(right top,#00c0a1, #00c06f);
+    }
+
+  }
+  .popclose{
+    position: absolute;
+    top: -46px;
+    right:0;
+    font-size:1.6rem;
+    color:#fff;
+    z-index: 9999;
+    opacity: .6;
+    span{
+      &:before{
+        content: "";
+        position: absolute;
+        width: 1px;
+        height: 18px;
+        background: #fff;
+        right: 12px;
+        bottom: -4px;
+
+      }
+    }
+  }
+  // .vux-close {
+  //   margin-top: 8px;
+  //   margin-bottom: 8px;
+  // }
+}
+
 </style>

@@ -125,15 +125,17 @@ export default {
           // console.log(res)
           if(res.data.Status==1){
             this.$vux.toast.show({
-              type: "success",
-              text: '获取手机验证码成功，请注意查收短信'
+              type: "text",
+              text: '获取手机验证码成功，请注意查收短信',
+              width:'20em'
             })
             this.countdown = 60
             this.timer()
           }else{
             this.$vux.toast.show({
-              type: "cancel",
-              text: '图片验证码错误'
+              type: "text",
+              text: '图片验证码错误',
+              width:'20em'
             })
           }
         })    
@@ -150,25 +152,25 @@ export default {
       console.log(this.data)
       if(!this.$refs.mobilephone.valid|!this.imgcheck|!this.smscheck){
         this.$vux.toast.show({
-          type: "cancel",
+          type: "text",
           text: '表单信息不完整',
           width:'20em'
         })
       }else if (this.data.password!= this.password2) {
         this.$vux.toast.show({
-          type: "cancel",
+          type: "text",
           text: '两次输入的密码不一致',
           width:'20em'
         })
       }else if (this.data.password.length<6) {
         this.$vux.toast.show({
-          type: "cancel",
+          type: "cantextcel",
           text: '密码太短了',
           width:'20em'
         })
       }else if(this.smscheck.length<5){
         this.$vux.toast.show({
-          type: "cancel",
+          type: "text",
           text: '短信验证码错误,测试使用大于5位数就行了',
           width:'20em'
         })
@@ -190,7 +192,7 @@ export default {
               role:res.Role
             })
             this.$vux.toast.show({
-              type: "success",
+              type: "text",
               text: '注册成功！',
               width:'20em'
             })

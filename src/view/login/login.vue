@@ -48,7 +48,7 @@ export default {
         logData.password=this.pw
         this.$API.login(logData).then(res=>{
           this.$vux.toast.show({
-            type:"success",
+            type:"text",
             text: res.TrueName+'登录成功',
             width:"20em"
           })
@@ -63,14 +63,14 @@ export default {
           this.$router.push('/main')
         }).catch(err=>{
           this.$vux.toast.show({
-            type:"warn",
+            type:"text",
             text: err,
             width:"20em"
           })
         })   
       }else{
         this.$vux.toast.show({
-          type:"cancel",
+          type:"text",
           text: '表单信息不完整',
           width:"20em"
         })

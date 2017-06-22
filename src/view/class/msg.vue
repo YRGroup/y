@@ -30,7 +30,7 @@
   
     <popup v-model="showpopup" height="180px" is-transparent>
       <div style="width: 95%;background-color:#fff;height:160px;margin:0 auto;border-radius:5px;padding-top:10px;">
-        <group :title="'回复 '+data.auther+' 的内容'">
+        <group :title="'回复 '+data.auther">
           <x-input v-model="replymsg" placeholder="在此输入内容内容" @keyup.enter.native="addreply"></x-input>
         </group>
         <div style="padding:20px 15px;">
