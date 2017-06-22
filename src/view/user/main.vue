@@ -19,18 +19,18 @@
     </div>
 
     <group>
-      <cell title="我的账号" :value="data.Mobilephone">
-        <i slot="icon" class="iconfont">&#xe693;</i>
+      <cell title="绑定孩子"  is-link @click.native="addStudentPopup=true"
+      v-if="$store.state.role=='家长'">
+        <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>
-      <cell title="切换当前学生" :value="$store.state.currentStudent.TrueName" 
+      <cell title="切换孩子" :value="$store.state.currentStudent.TrueName" v-show="$store.state.Nickname != null" 
       is-link @click.native="myStudentPopup=true" v-if="$store.state.role=='家长'">
         <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>
-      <cell title="完善资料"  is-link @click.native="$router.push('/edit')">
-        <i slot="icon" class="iconfont">&#xe60b;</i>
+      <cell title="我的账号" :value="data.Mobilephone">
+        <i slot="icon" class="iconfont">&#xe693;</i>
       </cell>
-      <cell title="添加学生绑定"  is-link @click.native="addStudentPopup=true"
-      v-if="$store.state.role=='家长'">
+      <cell title="完善资料"  is-link @click.native="$router.push('/edit')">
         <i slot="icon" class="iconfont">&#xe60b;</i>
       </cell>
       <cell title="修改密码"  is-link @click.native="$router.push('/user/editcode')">
@@ -46,7 +46,7 @@
 
     <popup v-model="myStudentPopup" is-transparent>
       <div class="popup">
-        <group title="切换学生">
+        <group title="切换孩子">
           <cell :title="i.TrueName" is-link v-for="i in allStudentData" :key="i.StudentID"
           @click.native="$store.commit('changeCurrentStudent',i),myStudentPopup=false">
             <i slot="icon" class="iconfont">&#xe719;</i>
@@ -57,13 +57,13 @@
 
     <popup v-model="addStudentPopup" is-transparent>
       <div class="popup">
-        <group title="添加学生">
-          <x-input title="学生ID" v-model="addStudentData.student_meid" 
-          text-align="right" placeholder="请在此填上学生ID"></x-input>
-          <selector title="title" :options="parentTypeList" v-model="addStudentData.type"></selector>
+        <group title="绑定孩子">
+          <x-input title="孩子ID" v-model="addStudentData.student_meid" 
+          text-align="right" placeholder="请在此填上孩子ID"></x-input>
+          <selector title="关系" :options="parentTypeList" v-model="addStudentData.type"></selector>
         </group>
-        <group class="btn">
-          <x-button type="primary" @click.native="addStudent">提交修改</x-button>
+        <group class="btn" style="margin:0 20px">
+          <x-button type="primary" @click.native="addStudent">确定绑定</x-button>
         </group>
       </div>
     </popup>
@@ -179,7 +179,7 @@ export default {
       }).catch(err=>{
         console.log(err)
         this.$vux.toast.show({
-          type:"cancel",
+          type:"text",
           text: "您还未登录",
           width:"20em"
         })
@@ -189,14 +189,14 @@ export default {
     addStudent(){
       this.$API.addStudent(this.addStudentData).then((res)=>{
         this.$vux.toast.show({
-          type: "success",
+          type: "text",
           width: "20em",
           text: '修改成功'
         })
         this.addStudentPopup=false
       }).catch((err)=>{
         this.$vux.toast.show({
-          type: "warn",
+          type: "text",
           width: "20em",
           text: '修改失败'
         })
