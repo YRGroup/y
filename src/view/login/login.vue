@@ -57,7 +57,7 @@ export default {
             id:res.Meid,
             role:res.Role
           })
-          if(res.ExtendInfo.Classes[0]){
+          if(res.ExtendInfo.Classes){
             this.$store.state.currentClassId=res.ExtendInfo.Classes[0].ClassID
           }
           this.$router.push('/main')
