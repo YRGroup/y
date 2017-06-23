@@ -127,12 +127,15 @@ export default {
     submitChange(){
       if(this.$store.state.role=='家长'){
         let editData={}
+        editData.meid=this.$store.state.currentUserId        
+        editData.TrueName=this.data.TrueName        
         this.$API.editParentInfo(editData).then((res)=>{
           this.$vux.toast.show({
             type: "success",
             width: "20em",
             text: '修改家长资料成功'
           })
+          this.$router.push('/user')
         }).catch((err)=>{
           this.$vux.toast.show({
             type: "warn",
@@ -152,6 +155,7 @@ export default {
             width: "20em",
             text: '修改老师资料成功'
           })
+          this.$router.push('/user')          
         }).catch((err)=>{
           this.$vux.toast.show({
             type: "warn",

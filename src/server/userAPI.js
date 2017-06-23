@@ -13,17 +13,18 @@ API.AUTH_SIGN
 API.login = (logData) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/User/LoginByPhone',logData).then((res)=>{
-      console.log('登陆信息：')
-      console.log(res)
+      // console.log('登陆信息：')
+      // console.log(res)
       let token = res.data.Content.Token
       // localStorage.setItem('TOKEN', token)
       store.commit('setToken', token)
-
-      if(res.data.Msg==='OK'){
-        resolve(res.data.Content)
-      }else{
-        reject(res.data.Msg)
-      }
+      resolve(res.data.Content)
+      
+      // if(res.data.Msg==='OK'){
+      //   resolve(res.data.Content)
+      // }else{
+      //   reject(res.data.Msg)
+      // }
     }).catch((err)=>{
       console.log(err)
       reject(err)
