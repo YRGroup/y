@@ -65,6 +65,7 @@ import parentcenter from '@/view/user/parent'
 import studentcenter from '@/view/user/student'
 import teachercenter from '@/view/user/teacher'
 import editcode from '@/view/user/editcode'
+import linkchild from '@/view/user/linkchild'
 
 Vue.use(Router)
 
@@ -305,6 +306,11 @@ export default new Router({
             path: '/user/editcode',
             name: 'editcode',
             component: editcode
+        },
+        {
+            path: '/user/linkchild',
+            name: 'linkchild',
+            component: linkchild
         },
     ],
     scrollBehavior (to, from, savedPosition) {

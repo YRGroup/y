@@ -43,8 +43,6 @@ axios.interceptors.request.use(function (config) {
     let sigh = md5(token+now)
     config.headers.time = now
     config.headers.sign = sigh
-    console.log('right')
-    console.log(config.headers)
     return config
 }, function (err) {
     console.log('error')
