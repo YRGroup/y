@@ -58,15 +58,16 @@ export default {
           this.$vux.toast.show({
             type: "text",
             width: "20em",
-            text: '添加学生成功'
+            text: '添加孩子成功'
           })
         }).catch((err) => {
           this.$vux.toast.show({
             type: "text",
             width: "20em",
-            text: '添加学生失败'
+            text: '添加孩子失败'
           })
         })
+        this.$router.push('/user')
       }else{
         this.$vux.toast.show({
             type: "text",
@@ -74,7 +75,7 @@ export default {
             text: '数据不能为空!'
           })
       }
-      this.$router.push('/user')
+      
     },
   },
   created() {

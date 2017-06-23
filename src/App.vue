@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <div v-transfer-dom v-show="">
+    <div v-transfer-dom>
       <x-dialog v-model="show" class="dialog-demo">
         <div class="img-box">
           <img :src="popupimg" style="max-width:100%">
