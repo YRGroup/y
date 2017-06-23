@@ -88,15 +88,12 @@ export default {
       this.$API.getHomeworkList(this.$store.state.classId).then(res=>{
         this.homework = res
         this.boxwid = res.length * 100 +'px'
-      }).catch(err=>{
-        console.log(err)
       })
     },
     addHomework(){
       if(this.newHomeworkData.course_id&&this.newHomeworkData.content){
         this.newHomeworkData.class_id=this.$store.state.classId
         this.newHomeworkData.title=''
-        console.log(this.newHomeworkData)
         this.$API.addHomework(this.newHomeworkData).then(res=>{
           this.$vux.toast.show({
             type:"success",
@@ -104,8 +101,6 @@ export default {
           })
           this.newHomework=false
           this.getHomeWork()
-        }).catch(err=>{
-          console.log(err)
         })
       }else{
         this.$vux.toast.show({

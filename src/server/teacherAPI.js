@@ -9,8 +9,6 @@ import _APIurl from './config'
 API.getTeacherInfo = (teacherId) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Teacher/GetInfo?meid='+teacherId).then((res)=>{
-      console.log('获取到的教师信息：')
-      console.log(res)
       resolve(res.data.Content)
     }).catch((err)=>{
       reject(err)
@@ -23,8 +21,6 @@ API.getTeacherInfo = (teacherId) => {
 API.getAllTeacherDynamic = (teacherId) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Teacher/GetDynamicList?meid='+teacherId).then((res)=>{
-      console.log('获取到的教师动态列表信息：')
-      console.log(res)
       resolve(res.data.Content)
     }).catch((err)=>{
       reject(err)

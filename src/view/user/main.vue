@@ -140,8 +140,6 @@ export default {
           })
           this.$store.commit('logout')
           this.$router.push('/login')
-        }).catch((err)=>{
-          console.log(err)
         })
       }
     },
@@ -155,8 +153,6 @@ export default {
     },
     getData(){
       this.$API.getCurrentUser().then(res=>{
-        console.log('获取到的用户信息：')
-        console.log(res)
         this.data = res   
         if(res.ExtendInfo.Students!=null){
           if(res.ExtendInfo.Students.length==0){
@@ -177,7 +173,6 @@ export default {
         }
         this.mobilePhone = res.Mobilephone
       }).catch(err=>{
-        console.log(err)
         this.$vux.toast.show({
           type:"text",
           text: "您还未登录",

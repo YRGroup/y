@@ -31,11 +31,7 @@ export default {
   methods:{
     getData(){
       this.$API.getTeacherInfo(this.$route.params.teacherId).then(res=>{
-        console.log('获取到的教师信息：')
-        console.log(res)
         this.data=res
-      }).catch(err=>{
-        console.log(err)
       })
     }
   },

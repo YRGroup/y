@@ -33,8 +33,6 @@ export default {
       this.$API.getStudentInfo(this.$route.params.studentId).then(res => {
         this.data = res
         this.parents = res.Parents
-      }).catch(err => {
-        console.log(err)
       })
     }
   },

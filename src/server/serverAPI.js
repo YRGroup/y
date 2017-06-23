@@ -27,8 +27,6 @@ API.uploadImg = (files) => {
       headers:{'Content-Type':'multipart/form-data'}
     }
     axios.post(_APIurl+'/api/Upload/ImageUpload',params,config).then((res)=>{
-      console.log('所有图片上传成功')
-      console.log(res)
       resolve(res.data.Content)    
     })
 

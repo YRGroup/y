@@ -25,13 +25,7 @@ export default {
   },
   methods:{
     newPost(){
-      onsole.log('本地数据：')
-      console.log(this.data)
       this.$API.newSchoolPost(this.data).then(res=>{
-        console.log('返回的数据：')
-        console.log(res)
-      }).catch((err)=>{
-        console.log(err)
       })
     }
   },

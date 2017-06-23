@@ -26,7 +26,6 @@ API.login = (logData) => {
       //   reject(res.data.Msg)
       // }
     }).catch((err)=>{
-      console.log(err)
       reject(err)
     })
   })
@@ -37,8 +36,6 @@ API.login = (logData) => {
 API.userReg = (regdata) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/User/RegisterByPhone',regdata).then((res)=>{
-      console.log('注册信息：')
-      console.log(res)
       resolve(res.data.Content)
     }).catch((err)=>{
       console.log(err)      
@@ -52,8 +49,6 @@ API.userReg = (regdata) => {
 API.changePassword = (data) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/User/ModifyPassword',data).then((res)=>{
-      console.log('修改密码的信息：')
-      console.log(res)
       resolve(res.data.Content)
     }).catch((err)=>{
       console.log(err)      
@@ -67,8 +62,6 @@ API.changePassword = (data) => {
 API.addStudent = (addStudentData) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Parent/BindStudent',addStudentData).then((res)=>{
-      console.log('添加学生后的信息：')
-      console.log(res)
       resolve(res)
     }).catch((err)=>{
       console.log(err)
@@ -82,8 +75,6 @@ API.addStudent = (addStudentData) => {
 API.editParentInfo = (editData) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Parent/ModifyInfo',editData).then((res)=>{
-      console.log('修改后的信息：')
-      console.log(res)
       resolve(res)
     }).catch((err)=>{
       console.log(err)
@@ -97,8 +88,6 @@ API.editParentInfo = (editData) => {
 API.editTeacherInfo = (editData) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Teacher/ModifyInfo',editData).then((res)=>{
-      console.log('修改后的信息：')
-      console.log(res)
       resolve(res)
     }).catch((err)=>{
       console.log(err)
@@ -132,8 +121,6 @@ API.getCurrentUser = () => {
 API.addStudent = (addStudentData) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Parent/BindStudent',addStudentData).then((res)=>{
-      console.log('添加学生后的信息：')
-      console.log(res)
       resolve(res)
     }).catch((err)=>{
       console.log(err)

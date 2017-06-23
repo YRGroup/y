@@ -71,12 +71,9 @@ export default {
     },
     getData() {
       this.$API.getClassDynamic(this.$route.params.classId, this.$route.params.msgId).then(res => {
-        console.log(this.data)
         this.data = res
         this.commentLength = res.comment.length
         this.commentId = res.id
-      }).catch(err => {
-        console.log(err)
       })
     },
     openreply() {
@@ -88,13 +85,8 @@ export default {
       replyData.content = this.replymsg
       if (replyData.content != '') {
         this.$API.postNewComment(replyData).then(res => {
-          console.log('添加评论成功！')
-          console.log(replyData)
           this.getData()
           this.showpopup = false
-        }).catch(err => {
-          console.log('Add new reply error!')
-          console.log(err)
         })
       } else {
         this.fun('评论内容不能为空！')

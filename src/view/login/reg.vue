@@ -122,7 +122,6 @@ export default {
         //   text: '获取手机验证码成功，请注意查收短信'
         // })
         this.$http.get('http://api.test.com/api/auth/CheckCaptcha?captcha='+this.imgcheck).then((res)=>{
-          // console.log(res)
           if(res.data.Status==1){
             this.$vux.toast.show({
               type: "text",
@@ -149,7 +148,6 @@ export default {
     },
     submit() {
       this.data.TrueName=this.data.phone
-      console.log(this.data)
       if(!this.$refs.mobilephone.valid|!this.imgcheck|!this.smscheck){
         this.$vux.toast.show({
           type: "text",
@@ -185,7 +183,6 @@ export default {
           logData.phone=this.data.phone
           logData.password=this.data.password
           this.$API.login(logData).then((res)=>{
-            console.log(res)
             this.$store.commit({
               type:'login',
               id:res.Meid,
@@ -197,11 +194,7 @@ export default {
               width:'20em'
             })
             this.$router.push('/main')
-          }).catch((err)=>{
-            console.log(err)
           })
-        }).catch((err)=>{
-          console.log(err)
         })
       }
     }
@@ -210,9 +203,6 @@ export default {
     this.$store.commit('showNav', false)
     this.$store.commit('changeTitle', '注册')
     // this.newimg()
-    console.log(md5(String(1)))
-    console.log(md5('1'))
-    console.log(md5(1))
   }
 }
 </script>

@@ -122,21 +122,13 @@ export default {
     },
     getData(){
       this.$API.getAllClassDynamic(this.$store.state.classId).then(res=>{
-        console.log('获取到的班级动态：')
-        console.log(res)
         this.list = res
-      }).catch(err=>{
-        console.log(err)
       })
     },
     getTeacherList(){
       this.$API.getTeacherList(this.$store.state.classId).then(res=>{
-        console.log('获取到的教师列表：')
-        console.log(res)
         this.teachers = res
         this.boxwid = res.length * 100 +'px'
-      }).catch(err=>{
-        console.log(err)
       })
     },
     doLike(id){
@@ -145,8 +137,6 @@ export default {
           type:"success",
           text: '点赞成功'
         })
-      }).catch(err=>{
-        console.log(err)
       })
     }
   },

@@ -34,11 +34,7 @@ export default {
   methods:{
     getHomeworkList(){
       this.$API.getHomeworkList(this.$store.state.classId).then(res=>{
-        console.log('获取到的教师发布的作业：')
-        console.log(res)
         this.data=res
-      }).catch(err=>{
-        console.log(err)
       })
     }
   },

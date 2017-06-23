@@ -132,37 +132,22 @@ export default {
       this.$API.getAllClassDynamic(this.$route.params.classId).then((res) => {
         this.list = res
         this.$vux.loading.hide()                
-      }).catch(err => {
-        console.log(err)
       })
     },
     getTeacherList() {
       this.$API.getTeacherList(this.$route.params.classId).then((res) => {
         this.teachers = res
         this.boxwid = res.length * 100 + 'px'
-        console.log(this.boxwid)
-        console.log(11111)
-        console.log(this.teachers)
-      }).catch(err => {
-        console.log(err)
       })
     },
     getNotice() {
       this.$API.getAllClassDynamic(this.$route.params.classId, 3, 1).then((res) => {
-        console.log('获取到的班级通知第一条：')
-        console.log(res)
         this.notice = res[0]
-      }).catch(err => {
-        console.log(err)
       })
     },
     getHomeWork() {
       this.$API.getHomeworkList(this.$route.params.classId,2).then((res) => {
-        console.log('获取班级作业前两条：')
-        console.log(res)
         this.homework = res
-      }).catch(err => {
-        console.log(err)
       })
     },
     doLike(id) {
@@ -171,8 +156,6 @@ export default {
           type: "success",
           text: '点赞成功'
         })
-      }).catch(err => {
-        console.log(err)
       })
     }
   },

@@ -59,8 +59,6 @@ export default {
       this.$API.getMsgInfo(this.$route.params.userId).then(res => {
         this.data = res.CL
         this.userImg = res.sendto_Headimgurl
-      }).catch(err => {
-        console.log(err)
       })
     },
     replyMsg(){
