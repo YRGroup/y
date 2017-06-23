@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <div v-transfer-dom>
+    <div v-transfer-dom v-show="">
       <x-dialog v-model="show" class="dialog-demo">
         <div class="img-box">
           <img :src="popupimg" style="max-width:100%">
@@ -13,7 +13,7 @@
             <li><span>·</span>与老师实时沟通</li>
             <li><span>·</span>查看孩子考试成绩</li>
           </ul>
-          <div class="popbtn">关联孩子</div>
+          <div class="popbtn" @click="$router.push('/user/linkchild'),show=false">关联孩子</div>
         </div>
         <div @click="show=false" class="popclose">
           <span class="vux-close"><i class="iconfont">&#xe61a;</i></span>
