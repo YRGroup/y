@@ -25,14 +25,8 @@ export default {
   },
   methods:{
     newPost(){
-      console.log('本地数据：')
-      console.log(this.data)
       this.$http.post('http://192.168.3.195:3000/school/new',this.data).then((res)=>{
-        console.log('返回的数据：')
-        console.log(res)
         this.$vux.toast.show('发布成功')
-      }).catch((err)=>{
-        console.log(err)
       })
     }
   },

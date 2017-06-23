@@ -64,15 +64,11 @@ export default {
     getScoreData(){
       this.$API.getExamScore(this.$route.params.studentId,this.$route.params.examId).then(res=>{
         this.score=res
-      }).catch(err=>{
-        console.log(err)
       })
     },
     getExamList(){
       this.$API.getExamList(this.$route.params.studentId).then(res=>{
         this.exam=res
-      }).catch(err=>{
-        console.log(err)
       })
     }
   },

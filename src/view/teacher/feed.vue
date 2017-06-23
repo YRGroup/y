@@ -64,17 +64,11 @@ export default {
           type:"success",
           text: '点赞成功'
         })
-      }).catch(err=>{
-        console.log(err)
       })
     },
     getData(){
       this.$API.getAllTeacherDynamic(this.$route.params.teacherId).then(res=>{
-        console.log('获取到的所有教师动态：')
-        console.log(res)
         this.data=res
-      }).catch(err=>{
-        console.log(err)
       })
     }
   },

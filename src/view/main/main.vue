@@ -125,7 +125,6 @@ export default {
     getnews(){
       this.$http.get('http://192.168.3.195:3000/school/post').then((res)=>{
         this.list = res.data
-        console.log(this.list)
       })
     },
     mytest(){

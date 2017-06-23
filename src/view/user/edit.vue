@@ -93,8 +93,6 @@ export default {
   methods:{
     getData(){
       this.$API.getCurrentUser().then(res=>{
-        console.log('获取到的用户信息：')
-        console.log(res)
         this.data = res
         if(this.data.ExtendInfo.Students.length==0){
           this.noStudent = true
@@ -105,8 +103,6 @@ export default {
             this.allStudentData.push(res.ExtendInfo.Students[i])
           }
         }
-      }).catch(err=>{
-        console.log(err)
       })
     },
     addStudent(){

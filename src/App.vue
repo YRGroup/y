@@ -75,16 +75,16 @@ export default {
   },
   methods:{
     showRouterInfo(){
-      console.log('当前路由信息：')
-      console.log(this.$route.params)
-      console.log('当前VueX信息：')
-      console.log(this.$store.state)
-      console.log('当前localStorage信息：')      
-      console.log(localStorage)
-      console.log('当前cookie信息：')      
-      console.log(document.cookie)
-      console.log('当前API信息：')      
-      console.log(this.$API)
+      // console.log('当前路由信息：')
+      // console.log(this.$route.params)
+      // console.log('当前VueX信息：')
+      // console.log(this.$store.state)
+      // console.log('当前localStorage信息：')      
+      // console.log(localStorage)
+      // console.log('当前cookie信息：')      
+      // console.log(document.cookie)
+      // console.log('当前API信息：')      
+      // console.log(this.$API)
 
       window.scrollTo(0,0);
     }

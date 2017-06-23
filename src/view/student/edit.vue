@@ -43,8 +43,6 @@ export default {
         this.nation=res.user.Nation
         this.address=res.user.Address
         this.parentphone=res.user.Mobilephone
-      }).catch(err=>{
-        console.log(err)
       })
     },
     editData(){
@@ -62,8 +60,6 @@ export default {
             type:"success",
             text: '修改成功'
           })
-        }).catch(err=>{
-          console.log(err)
         })
       }else{
         this.$vux.toast.show({

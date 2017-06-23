@@ -14,8 +14,6 @@ API.getMsgList = (day,count) => {
         count:count||0
       }
     }).then((res)=>{
-      console.log('获取到的用户站内消息列表：')
-      console.log(res)
       resolve(res.data.Content)
     }).catch((err)=>{
       reject(err)
@@ -55,8 +53,6 @@ API.getMsgInfo = (userId) => {
         replyData.push(thisreply)
       }, this);
       resData.CL=replyData
-      console.log('获取到的用户站内消息列表：')
-      console.log(resData)
       resolve(resData)
     }).catch((err)=>{
       reject(err)
@@ -69,8 +65,6 @@ API.getMsgInfo = (userId) => {
 API.replyMsg = (msgdata) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Chat/AddChat',msgdata).then((res)=>{
-      console.log('回复消息成功：')
-      console.log(res)
       resolve(res.data.Content)
     }).catch((err)=>{
       reject(err)

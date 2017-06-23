@@ -9,8 +9,6 @@ import _APIurl from './config'
 API.getStudentInfo = (studentId) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Student/GetInfo?meid='+studentId).then((res)=>{
-      console.log('获取到的学生信息：')
-      console.log(res)
       resolve(res.data.Content)
     }).catch((err)=>{
       reject(err)
@@ -24,8 +22,6 @@ API.editStudentInfo = (data) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Student/ModifyInfo',data).then((res)=>{
       if(res.data.Msg!='ok'){
-        console.log('修改的学生信息：')
-        console.log(res)
         resolve(res.data.Msg)
       }else{
         reject(res.data.Msg)
@@ -45,8 +41,6 @@ API.getExamList = (userId) => {
         meid:userId
       }
     }).then((res)=>{
-      console.log('获取到的一卡通消费记录：')
-      console.log(res)
       resolve(res.data.Content)
     }).catch((err)=>{
       reject(err)
@@ -64,8 +58,6 @@ API.getExamScore = (userId,examid) => {
         examid:examid||0
       }
     }).then((res)=>{
-      console.log('获取到的当前考试成绩单信息：')
-      console.log(res)
       resolve(res.data.Content[0])
     }).catch((err)=>{
       reject(err)
@@ -82,8 +74,6 @@ API.getExamList = (userId) => {
         meid:userId
       }
     }).then((res)=>{
-      console.log('获取到的考试列表信息：')
-      console.log(res)
       resolve(res.data.Content)
     }).catch((err)=>{
       reject(err)

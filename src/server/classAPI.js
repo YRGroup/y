@@ -21,8 +21,6 @@ API.getAllClassDynamic = (classId,typeId,count) => {
         count:count||0
       }
   }).then((res)=>{
-      console.log('获取到的班级动态：')
-      console.log(res)
       resolve(res.data.Content)
     })
   })
@@ -38,8 +36,6 @@ API.getHomeworkList = (classId,count) => {
         count:count||0
       }
   }).then((res)=>{
-      console.log('获取班级作业列表：')
-      console.log(res)
       resolve(res.data.Content)
     })
   })
@@ -50,8 +46,6 @@ API.getHomeworkList = (classId,count) => {
 API.addHomework = (data) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Class/AddHomework',data).then((res)=>{
-      console.log('添加新班级作业成功：')
-      console.log(res)
       resolve(res.data.Content)
     })
   })
@@ -68,8 +62,6 @@ API.getClassDynamic = (classId,msgId) => {
         did:msgId
       }
     }).then((res)=>{
-      console.log('获取到的动态信息：')
-      console.log(res)
       resolve(res.data.Content)
     })
   })
@@ -120,8 +112,6 @@ API.getTeacherList = (classId) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class/GetTeacherList?cid='+classId).then((res)=>{
       resolve(res.data.Content)
-      console.log('获取到的教师列表：')
-      console.log(res)
     })
   })
 }
@@ -132,8 +122,6 @@ API.getStudentList = (classId) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class/GetStudentList?cid='+classId).then((res)=>{
       resolve(res.data.Content)
-      console.log('获取到的学生列表信息：')
-      console.log(res)
     })
   })
 }
@@ -143,8 +131,6 @@ API.getStudentList = (classId) => {
 API.getParentList = (classId) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class/GetParentList?cid='+classId).then((res)=>{
-      console.log('获取到的家长列表信息：')
-      console.log(res)
       resolve(res.data.Content)
     })
   })
@@ -156,12 +142,8 @@ API.addClassStudent = (data) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Class/AddTeacher',data).then((res)=>{
       if(res.data.Status===1){
-        console.log('添加班级学生成功：')
-        console.log(res)
         resolve(res.data.Content)
       }else{
-        console.log('添加班级学生失败：')
-        console.log(res.data.Msg)
         reject(res)
       }
     })
@@ -174,12 +156,8 @@ API.addClassTeacher = (data) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Class/AddStudent',data).then((res)=>{
       if(res.data.Status===1){
-        console.log('添加班级教师成功：')
-        console.log(res)
         resolve(res.data.Content)
       }else{
-        console.log('添加班级教师失败：')
-        console.log(res.data.Msg)
         reject(res.data.Msg)
       }
     })

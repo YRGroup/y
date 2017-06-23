@@ -53,18 +53,13 @@ export default {
   methods:{
     getData(){
       this.$API.getAllClassDynamic(this.$store.state.classId,3).then(res=>{
-        console.log('获取到的班级通知：')
-        console.log(res)
         this.data = res
-      }).catch(err=>{
-        console.log(err)
       })
     },
     addNotice(){
       if(this.newNoticeData.content){
         this.newNoticeData.cid=this.$store.state.classId
         this.newNoticeData.type=3
-        console.log(this.newNoticeData)
         this.$API.postNewClassDynamic(this.newNoticeData).then(res=>{
           this.$vux.toast.show({
             type:"success",
@@ -72,8 +67,6 @@ export default {
           })
           this.newNotice=false
           this.getData()
-        }).catch(err=>{
-          console.log(err)
         })
       }else{
         this.$vux.toast.show({

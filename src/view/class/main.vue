@@ -44,8 +44,6 @@ export default {
         this.classInfo = res
         this.classInfo.teacherName = res.teacher.TrueName    
         this.classInfo.classlogo = require('@/assets/face/c.jpeg')         
-      }).catch(err=>{
-        console.log(err)
       })
     }
   },

@@ -55,8 +55,6 @@ export default {
           })
           this.$store.commit('logout')
           this.$router.push('/login')
-        }).catch((err)=>{
-          console.log(err)
         })
       }
     },

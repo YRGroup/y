@@ -44,8 +44,6 @@ export default {
     getData(){
       this.$API.getStudentInfo(this.$route.params.studentId).then(res=>{
         this.data=res
-      }).catch(err=>{
-        console.log(err)
       })
     }
   },

@@ -59,8 +59,6 @@ export default {
         this.fileList=res
         this.$vux.loading.hide()
       }).catch((err)=>{
-        console.log('err:')
-        console.log(err)
         this.$vux.loading.hide()
         
       })
@@ -76,14 +74,8 @@ export default {
       this.data.cid = this.$route.params.classId
       this.data['img_url_list'] = this.fileList.join(',')
       if(this.data.type!=null&&this.data.content!=undefined){
-        console.log('本地的数据：')
-        console.log(this.data)
         this.$API.postNewClassDynamic(this.data).then(res=>{
-          console.log('发布成功！')
-          console.log(res)
           this.$router.push('/main')
-        }).catch((err)=>{
-          console.log(err)
         })
       }else{
         this.$vux.toast.show({

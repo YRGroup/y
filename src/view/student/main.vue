@@ -39,8 +39,6 @@ export default {
         this.headimgurl = res.user.Headimgurl
         this.className = res.Class.Name
         this.studentName = res.user.TrueName
-      }).catch(err => {
-        console.log(err)
       })
     }
   },
