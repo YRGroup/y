@@ -1,7 +1,7 @@
 <template>
   <div class="content">
 
-    <div class="follow">
+    <div class="follow" v-if="followWeixin">
         <span class="tips"><i class="iconfont">&#xe620;</i></span>
         <!--<span class="text">您还没有关注公共账号！</span>-->
         <marquee class="text" direction="left" scrollamount="5">您还没有关注公共账号,关注后可收到学生在校动态！</marquee>
@@ -97,6 +97,7 @@ export default {
   },
   data () {
     return {
+      followWeixin:true,
       swiperdate:[
         { url: 'http://www.gy720.com/pano/view/6556',
           img: require('@/assets/img/s1.jpg'),
@@ -134,6 +135,13 @@ export default {
   created(){
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','校园动态')
+  },
+  mounted(){
+    if(this.$store.getters.isWeixin){
+      this.followWeixin=true
+    }else{
+      this.followWeixin=false
+    }
   }
 }
 </script>

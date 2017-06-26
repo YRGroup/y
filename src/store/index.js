@@ -17,7 +17,18 @@ const store = new Vuex.Store({
         currentStudentId:null||'z6vzso72',        
         currentStudent:{},   
 
-        token:null
+        token:null,
+
+    },
+    getters:{
+        isWeixin:function(){
+            let ua = navigator.userAgent.toLowerCase()
+            if(ua.match(/MicroMessenger/i)=="micromessenger") {
+                return true;
+            } else {
+                return false;
+            }
+        }
     },
     mutations: {
         login(state,payload) {

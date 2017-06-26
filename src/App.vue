@@ -122,6 +122,14 @@ export default {
     if(localStorage.hasLogin=='true'){
       this.$store.commit('login',localStorage.id)
       console.log('has login')
+      this.show=false
+    }else{
+      this.show=true   
+    }
+    if(this.$store.getters.isWeixin){
+      console.log('当前是微信环境')
+    }else{
+      console.log('当前不是微信环境')
     }
   }
 }
