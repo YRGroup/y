@@ -71,7 +71,7 @@ export default {
       }else{
         this.$vux.toast.show({
           type:"text",
-          text: '表单信息不完整',
+          text: '请输入用户名或密码',
           width:"20em"
         })
       }

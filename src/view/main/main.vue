@@ -5,7 +5,8 @@
         <span class="tips"><i class="iconfont">&#xe620;</i></span>
         <!--<span class="text">您还没有关注公共账号！</span>-->
         <marquee class="text" direction="left" scrollamount="5">您还没有关注公共账号,关注后可收到学生在校动态！</marquee>
-        <x-button class="right" mini type="primary" @click.native="fun('关注跳转')"><i class="iconfont">&#xe61f;</i>关注</x-button>
+        <!--<x-button class="right" mini type="primary" @click.native="fun('关注跳转')"></x-button>-->
+        <div class="followbtn"  @click="fun('关注跳转')"><i class="iconfont">&#xe61f;</i>关注</div>
     </div>
     
     <!--轮播图-->
@@ -199,10 +200,26 @@ export default {
     font-size: 1.2em;
     width: 70%;
   }
+  .followbtn{
+    position: absolute;
+    right:1em;
+    top:0.3em;
+    color:#fff;
+    background: #09bb07;
+    height: 25px;
+    line-height: 25px;
+    border-radius: 4px;
+    margin-top:1px;
+    padding:0 8px;
+    .iconfont{
+      margin-right:5px;
+    }
+  }
   .right{
     position: absolute;
     right:1em;
     top:0.3em;
+    color:#fff;
   }
   .weui-btn{
     padding:0 10px;

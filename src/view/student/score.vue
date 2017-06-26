@@ -33,8 +33,10 @@
         <div class="close" @click="showpopup=false">返回</div>
         <div class="content">
           <li class="card examItem" v-for="i in exam" @click="$router.push('/student/'+$store.state.studentId+'/score/'+i.ExamID),showpopup=false">
-            <div class="title">{{i.ExamName}} > </div>
-            <div class="time">{{i.Type}}</div>
+            <div class="left">
+              <div class="title">{{i.ExamName}} > </div>
+              <div class="time">{{i.Time}}</div>
+            </div>
             <div class="score">{{i.Score}}分</div>
           </li>
         </div>
@@ -183,6 +185,12 @@ export default {
     .examItem{
       padding:.8rem 1rem;
       text-align: left;
+      overflow: hidden;
+      .left{
+        width: 80%;
+        float: left;
+        overflow: hidden;
+      }
       .title{
         font-size: 1rem;
         line-height: 1.5rem;
@@ -198,7 +206,9 @@ export default {
         float: right;
         font-size: 1.1rem;
         color:@cc6;
-        margin-right:.5rem;
+        width: 15%;
+        text-align: right;
+        margin-top: 10px;
       }
     }
   }
