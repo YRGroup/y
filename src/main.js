@@ -29,6 +29,8 @@ Date.prototype.Format = function (fmt) { //author: meizz
     return fmt;
 }
 
+import _APIurl from '@/server/config'
+Vue.prototype.$URL = _APIurl
 
 import API from './server/API'
 Vue.prototype.$API = API

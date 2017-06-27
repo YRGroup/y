@@ -21,7 +21,7 @@
   -->
 
       <div class="teacherListBox">
-        <div class="box-item" v-for="item in teachers" @click="$router.push('/teacher/'+item.Meid)">
+        <div class="box-item" v-for="(item,index) in teachers" :key="index" @click="$router.push('/teacher/'+item.Meid)">
           <img :src="item.Headimgurl">
           <div class="name">{{ item.TrueName }}</div>
           <div class="job">{{ item.Sex }}</div>
@@ -38,7 +38,7 @@
         <span>班级作业</span>
       </div>
       <div class="content">
-        <li v-for="i in homework" @click="$router.push('/class/'+$store.state.classId+'/work')">
+        <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/'+$store.state.classId+'/work')">
           <div class="msg">
            【 {{ i.CourseName }}】：{{ i.Content }}
           </div>
@@ -63,8 +63,8 @@
       </div>
       <div slot="content" class="content">
         <div @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)" v-html="item.content"></div>
-        <div class="img">
-          <img @click="imgPopup(imgurl)" :src="'http://api.test.com'+imgurl" v-if="item.albums.length!=0" v-for="imgurl in item.albums">
+        <div class="img" v-if="item.albums.length!=0">
+          <img @click="imgPopup(imgurl)" :src="$URL+imgurl"  v-for="(imgurl,index) in item.albums" :key="index">
         </div>
       </div>
       <div slot="footer" class="footer">
@@ -125,7 +125,7 @@ export default {
       })
     },
     imgPopup(val){
-      this.popupImgUrl='http://api.test.com'+val
+      this.popupImgUrl=this.$URL+val
       this.showImgPopup=true
     },
     getAllClassDynamic() {
@@ -196,9 +196,6 @@ export default {
       width:3.6rem;
       border-radius:50%;
     }
-  }
-  .box-item:first-child {
-    // margin-left: 1rem;
   }
 }
 .header{

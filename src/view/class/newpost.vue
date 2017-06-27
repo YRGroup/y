@@ -16,7 +16,7 @@
           <div class="deleteImg">
             <span @click="deleteImg(index)">X</span>
           </div>
-          <img :src="'http://api.test.com'+i">
+          <img :src="$URL+i">
           <div class="imgName">{{i}}</div>          
         </div>
       </div>
