@@ -24,6 +24,7 @@
       <x-button plain @click.native="$router.push('/main')">进入主页</x-button>      
       <x-button plain @click.native="$router.push('/reg')">注册</x-button>
     </div>
+    
   </div>
 </template>
 
@@ -57,9 +58,9 @@ export default {
             id:res.Meid,
             role:res.Role
           })
-          if(res.ExtendInfo.Classes){
-            this.$store.state.currentClassId=res.ExtendInfo.Classes[0].ClassID
-          }
+          // if(res.Role=='老师'&&res.ExtendInfo.Classes){
+          //   this.$store.state.currentClassId=res.ExtendInfo.Classes[0].ClassID
+          // }
           this.$router.push('/main')
         }).catch(err=>{
           this.$vux.toast.show({

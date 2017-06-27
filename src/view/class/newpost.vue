@@ -5,14 +5,14 @@
       <!--<x-input title="作者：" placeholder="just for demo" v-model="data.auther" novalidate show-clear placeholder-align="right"></x-input>-->
       <selector title="类别：" placeholder="请选择类别" direction="right" v-model="data.type"  :options="categoryList"></selector>
       
-    <vue-html5-editor :content="data.content" @change="updateData" :auto-height="true" :height="500"></vue-html5-editor>
+    <vue-html5-editor class="needsclick" :content="data.content" @change="updateData" :auto-height="true" :height="500"></vue-html5-editor>
       
       <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
           <input type="file" accept="image/jpeg,image/png,image/gif" multiple="multiple" id="imgFiles" @change="addImg">
           点击这里上传图片
         </a>
-        <div class="imgPreview" v-for="(i,index) in fileList">
+        <div class="imgPreview" v-for="(i,index) in fileList" :key="index">
           <div class="deleteImg">
             <span @click="deleteImg(index)">X</span>
           </div>
