@@ -44,9 +44,9 @@ const store = new Vuex.Store({
             state.currentUserId = null
             state.role = 'guest'
 
-            localStorage.setItem('hasLogin', false)
-            localStorage.setItem('id', null)
-            localStorage.setItem('role', 'guest')            
+            localStorage.removeItem('hasLogin')
+            localStorage.removeItem('id', null)
+            localStorage.removeItem('role', 'guest')            
         },
         changeRole(state,val){
             state.role=val.toString()

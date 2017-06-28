@@ -112,14 +112,14 @@ export default {
       return this.$store.state.showBottomNav ? '53px' : '0'
     },
     hasLogin(){
-      return this.$store.state.hasLogin
+      return localStorage.hasLogin
     },
     isLoading(){
       return this.$store.state.isLoading
     }
   },
   mounted(){
-    if(localStorage.hasStudent.length===0){
+    if(localStorage.hasStudent && localStorage.hasStudent.length===0){
       this.showAddStudent=true
     }else{
       this.showAddStudent=false   

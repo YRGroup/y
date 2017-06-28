@@ -206,6 +206,8 @@ export default {
     console.log(localStorage)
   },
   mounted(){
+  },
+  computed(){
   }
 }
 </script>
