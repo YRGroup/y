@@ -57,7 +57,6 @@
 <script>
 import { Tabbar, TabbarItem, XHeader,Loading,XSwitch ,XDialog,TransferDomDirective as TransferDom  } from 'vux'
 import { mapState } from 'vuex'
-
 export default {
   name: 'app',
   components: {
@@ -85,7 +84,6 @@ export default {
       // console.log(document.cookie)
       // console.log('当前API信息：')      
       // console.log(this.$API)
-
       window.scrollTo(0,0);
     }
   },
@@ -112,7 +110,7 @@ export default {
       return this.$store.state.showBottomNav ? '53px' : '0'
     },
     hasLogin(){
-      return localStorage.hasLogin
+      return this.$store.state.hasLogin
     },
     isLoading(){
       return this.$store.state.isLoading
@@ -137,7 +135,6 @@ export default {
 <style lang="less">
 @import '~vux/src/styles/reset.less';
 @import './style/card.less';
-
 body {
   max-width: @appwidth;
   margin:0 auto;
@@ -165,7 +162,6 @@ pre{
   position:fixed;
   bottom:0;
 }
-
 ::-webkit-input-placeholder { 
 color: @cc4; 
 } 
@@ -177,7 +173,6 @@ li{
 a{
   color:inherit;
 }
-
 // 切换动画
 .slide-fade-enter-active {
   transition: all .3s ease;
@@ -204,7 +199,6 @@ a{
 .nav_icon{
   line-height: 27px;
 }
-
 #app .weui-bar__item_on .nav_icon,#app .weui-bar__item_on .navtext{
   color: @cc6;
 }
@@ -215,14 +209,12 @@ a{
 #app .weui-btn:after{
   border:none;
 }
-
 //弹窗样式
 .childPopup{
   width: 100%;
   height: 100%;
   background: black;
 }
-
 //弹窗样式
 .dialog-demo {
   position: relative;
@@ -281,7 +273,6 @@ a{
       border-radius: 50px;
       background:linear-gradient(right top,#00c0a1, #00c06f);
     }
-
   }
   .popclose{
     position: absolute;
@@ -300,7 +291,6 @@ a{
         background: #fff;
         right: 12px;
         bottom: -4px;
-
       }
     }
   }
@@ -309,5 +299,4 @@ a{
   //   margin-bottom: 8px;
   // }
 }
-
 </style>
