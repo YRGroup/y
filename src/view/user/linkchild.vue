@@ -2,7 +2,7 @@
   <div class="hello">
   
     <group>
-      <x-input title="孩子ID" v-model.trim="addStudentData.student_meid" text-align="right" placeholder="请在此填上孩子ID"></x-input>
+      <x-input title="孩子学号" v-model.trim="addStudentData.student_meid" text-align="right" placeholder="请在此填上孩子学号"></x-input>
       <selector title="关系" :options="parentTypeList" v-model="addStudentData.type"></selector>
     </group>
     <group class="btn" style="margin:0 20px">

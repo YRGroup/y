@@ -24,7 +24,7 @@
         <div class="box-item" v-for="item in teachers" @click="$router.push('/teacher/'+item.Meid)">
           <img :src="item.Headimgurl">
           <div class="name">{{ item.TrueName }}</div>
-          <div class="job">{{ item.Sex }}</div>
+          <div class="job">{{ item.Course }}</div>
         </div>
       </div>
 

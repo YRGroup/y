@@ -18,7 +18,7 @@
       <div class="slide" :class="showContent1?'animate':null">
         <cell class="item" is-link v-for="(i,index) in student" 
         :title="i.TrueName" :link="'/student/'+i.Meid"  :key="index">
-          <img class="cellicon" slot="icon" :src="i.userImg">
+          <img class="cellicon" slot="icon" :src="i.Headimgurl">
         </cell>
       </div>
   
@@ -32,7 +32,7 @@
       <div class="slide" :class="showContent2?'animate':null">
         <cell class="item" is-link v-for="(i,index) in parent" 
         :link="'/student/'+i.StudentMeid+'/parent'" 
-        :title="i.ParentTrueName  +'  - '+ i.StudentTrueName+'的家长'" :key="index">
+        :title="i.StudentTrueName+'的家长'" :key="index">
           <img class="cellicon" slot="icon" :src="i.ParentHeadimgurl">
         </cell>
       </div>
@@ -46,7 +46,7 @@
       </cell>
       <div class="slide" :class="showContent3?'animate':null">
         <cell class="item" is-link v-for="(i,index) in teacher" 
-        :link="'/teacher/'+i.Meid" :title="i.TrueName" :inline-desc="i.SelfDiscription" :key="index">
+        :link="'/teacher/'+i.Meid" :title="i.TrueName + '（' + i.Course + '）'" :inline-desc="i.SelfDiscription" :key="index">
           <img class="cellicon" slot="icon" :src="i.Headimgurl">
         </cell>
       </div>
@@ -148,6 +148,11 @@ export default {
     getMsgList() {
       this.$API.getMsgList().then(res => {
         this.msgdata = res
+        let data = this.msgdata
+        for(var i = 0; i < data.length; i++){
+          let time = new Date(data[i].LastTime)
+          data[i].LastTime = time.Format('MM-dd')
+        }
       })
     }
   },

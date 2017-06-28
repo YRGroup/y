@@ -202,15 +202,11 @@ export default {
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','个人中心')
     this.getData()
+    let userRole = localStorage.getItem('role')
+    // console.log(111111)
+    // console.log(userRole)
   },
   mounted(){
-    // if(this.$store.state.hasLogin===false){
-    //   this.$vux.toast.show({
-    //     type:"cancel",
-    //     text: "当前未登录"
-    //   })
-    //   // this.$router.push('/login')
-    // }
   }
 }
 </script>

@@ -36,6 +36,7 @@ export default {
     getExamList(){
       this.$API.getExamList(this.$route.params.studentId,this.$route.params.examId).then(res=>{
         this.data=res
+        
       })
     },
   },

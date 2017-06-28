@@ -68,8 +68,9 @@ export default {
       if(this.msg!=''){
         this.$API.replyMsg(msgdata).then(res=>{
           this.$vux.toast.show({
-            type:"success",
-            text: '发送消息成功'
+            type:"text",
+            text: '发送成功',
+            width:'20em'
           })
           this.msg=''
           this.getMsgInfo()
@@ -77,8 +78,9 @@ export default {
         })
       }else{
         this.$vux.toast.show({
-          type:"warn",
-          text: '消息不能为空'
+          type:"text",
+          text: '消息不能为空',
+          width:'20em'
         })
       }
     }
@@ -125,7 +127,7 @@ export default {
   padding: 10px;
   font-size: 1.2em;
   position: relative; 
-  margin: 10px 0; 
+  // margin-bottom: 10px; 
   .picinfo {
     position: absolute;
     left: 20px;
@@ -144,9 +146,14 @@ export default {
     box-shadow: 0 0 3px rgba(0, 0, 0, .1);
   }
 }
-
+.weui-loadmore{
+  margin:20px auto 0;
+}
 .time {
   text-align: center;
+  color:@cc3;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
 }
 
 .right {

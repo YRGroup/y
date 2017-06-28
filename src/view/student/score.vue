@@ -78,8 +78,8 @@ export default {
     this.getScoreData()
     if(this.exam.length===0){
       this.$vux.toast.show({
-        type: "warn",
-        text: '没有查询到考试信息',
+        type: "text",
+        text: '暂无考试信息',
         width:'20em'
       })
     }

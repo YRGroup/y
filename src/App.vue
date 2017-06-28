@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <div v-transfer-dom>
+    <div v-transfer-dom v-show="hasLogin">
       <x-dialog v-model="show" class="dialog-demo">
         <div class="img-box">
           <img :src="popupimg" style="max-width:100%">
@@ -47,7 +47,7 @@
       </tabbar-item>
       <tabbar-item :link="hasLogin?'/user':'/login'">
         <i slot="icon" class="iconfont nav_icon">&#xe719;</i>
-        <span slot="label" class="navtext">{{hasLogin?'用户':'未登陆'}}</span>
+        <span slot="label" class="navtext">{{hasLogin?'用户':'未登录'}}</span>
       </tabbar-item>
     </tabbar>
 
