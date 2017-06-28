@@ -81,7 +81,6 @@
         </router-link>
       </flexbox-item>
     </flexbox>
-    <br />
 
     <div class="newsCard"></div>
 

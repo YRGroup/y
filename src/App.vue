@@ -119,10 +119,10 @@ export default {
     }
   },
   mounted(){
-    if(localStorage.hasStudent && localStorage.hasStudent.length===0){
-      this.showAddStudent=true
+    if(localStorage.hasStudent){
+      this.showAddStudent=false
     }else{
-      this.showAddStudent=false   
+      this.showAddStudent=true 
     }
     if(localStorage.hasLogin){
       let payload = {}
