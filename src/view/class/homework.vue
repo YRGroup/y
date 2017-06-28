@@ -18,7 +18,7 @@
       </div>
     </popup>
 
-      <div class="workcard" v-for="i in homework">
+      <div class="workcard" v-for="(i,index) in homework" :key="index">
         <div class="header">
           <span class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName }}</span>
           <span class="auther">{{ i.AutherName }}</span>
@@ -26,10 +26,8 @@
         <div class="content">{{ i.Content }}</div>
         <div class="footer">{{ i.CreateTime }}</div>
       </div>
+      
     </div>
-    
-
-  </di>
 </template>
 
 <script>
