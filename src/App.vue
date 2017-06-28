@@ -119,10 +119,16 @@ export default {
     }
   },
   mounted(){
-    if(localStorage.hasStudent.length===0){
+    if(localStorage.hasStudent && localStorage.hasStudent.length===0){
       this.showAddStudent=true
     }else{
       this.showAddStudent=false   
+    }
+    if(localStorage.hasLogin){
+      let payload = {}
+      payload.id = localStorage.id
+      payload.role = localStorage.role
+      this.$store.commit('login',payload)
     }
   }
 }

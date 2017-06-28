@@ -57,8 +57,10 @@ export default {
             id:res.Meid,
             role:res.Role,
           })
-          // if(res.Role=='老师'&&res.ExtendInfo.Classes){
-          //   this.$store.state.currentClassId=res.ExtendInfo.Classes[0].ClassID
+          // if(res.Role=='老师'){
+          //   if(res.ExtendInfo.Classes){
+          //     this.$store.state.currentClassId=res.ExtendInfo.Classes[0].ClassID
+          //   }
           // }
           if(res.Role=='家长'){
              localStorage.setItem('hasStudent', res.ExtendInfo.Students)
