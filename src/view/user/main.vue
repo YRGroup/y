@@ -23,7 +23,7 @@
       v-if="$store.state.role=='家长'">
         <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>
-      <cell title="切换孩子" :value="$store.state.currentStudent.TrueName" v-show="$store.state.Nickname != null" 
+      <cell title="切换孩子" :value="$store.state.currentStudent.TrueName" 
       is-link @click.native="myStudentPopup=true" v-if="$store.state.role=='家长'">
         <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>

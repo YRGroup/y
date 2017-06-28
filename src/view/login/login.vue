@@ -48,23 +48,35 @@ export default {
         logData.phone=this.tel
         logData.password=this.pw
         this.$API.login(logData).then(res=>{
-          this.$vux.toast.show({
-            type:"text",
-            text: res.TrueName+'登录成功',
-            width:"20em"
-          })
+          // this.$vux.toast.show({
+          //   type:"text",
+          //   text: res.TrueName+'登录成功',
+          //   width:"20em"
+          // })
           this.$store.commit({
             type:'login',
             id:res.Meid,
-            role:res.Role
+            role:res.Role,
           })
           // if(res.Role=='老师'&&res.ExtendInfo.Classes){
           //   this.$store.state.currentClassId=res.ExtendInfo.Classes[0].ClassID
           // }
+          if(res.Role=='家长'){
+             localStorage.setItem('hasStudent', res.ExtendInfo.Students)
+          }
           if(res.ExistWeixinOpenid==0 && this.$store.getters.isWeixin){
-            let currentUrl = window.location.href
-            window.location.href = this.$URL+'/api/OAuth2Redirect/index?refUrl='+currentUrl
+            this.$vux.toast.show({
+              type:"text",
+              text: '跳转到微信授权页面',
+              width:"20em"
+            })
+            window.location.href = this.$URL+'/api/OAuth2Redirect/index?refUrl='+window.location.host+'/%23/main'
           }else{
+            this.$vux.toast.show({
+              type:"text",
+              text: '跳转到主页',
+              width:"20em"
+            })
             this.$router.push('/main')
           }
         }).catch(err=>{

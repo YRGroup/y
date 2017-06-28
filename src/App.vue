@@ -2,7 +2,7 @@
   <div id="app">
 
     <div v-transfer-dom>
-      <x-dialog v-model="show" class="dialog-demo">
+      <x-dialog v-model="showAddStudent" class="dialog-demo">
         <div class="img-box">
           <img :src="popupimg" style="max-width:100%">
         </div>
@@ -13,9 +13,9 @@
             <li><span>·</span>与老师实时沟通</li>
             <li><span>·</span>查看孩子考试成绩</li>
           </ul>
-          <div class="popbtn" @click="$router.push('/user/linkchild'),show=false">关联孩子</div>
+          <div class="popbtn" @click="$router.push('/user/linkchild'),showAddStudent=false">关联孩子</div>
         </div>
-        <div @click="show=false" class="popclose">
+        <div @click="showAddStudent=false" class="popclose">
           <span class="vux-close"><i class="iconfont">&#xe61a;</i></span>
         </div>
       </x-dialog>
@@ -69,7 +69,7 @@ export default {
   data(){
     return{
       test0:'00',
-      show: true,
+      showAddStudent: true,
       popupimg:require('@/assets/popupbg.png'),
     }
   },
@@ -119,12 +119,10 @@ export default {
     }
   },
   mounted(){
-    if(localStorage.hasLogin=='true'){
-      this.$store.commit('login',localStorage.id)
-      console.log('has login')
-      this.show=false
+    if(localStorage.hasStudent.length===0){
+      this.showAddStudent=true
     }else{
-      this.show=true   
+      this.showAddStudent=false   
     }
     if(this.$store.getters.isWeixin){
       console.log('当前是微信环境')

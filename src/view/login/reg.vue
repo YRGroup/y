@@ -202,7 +202,7 @@ export default {
   created() {
     this.$store.commit('showNav', false)
     this.$store.commit('changeTitle', '注册')
-    // this.newimg()
+    this.newimg()
   }
 }
 </script>
