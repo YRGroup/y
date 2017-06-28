@@ -202,9 +202,8 @@ export default {
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','个人中心')
     this.getData()
-    let userRole = localStorage.getItem('role')
-    // console.log(111111)
-    // console.log(userRole)
+    console.log(11111)
+    console.log(localStorage)
   },
   mounted(){
   }
