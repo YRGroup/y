@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <div v-transfer-dom v-show="hasLogin">
+    <div v-transfer-dom v-show="showAddStudent">
       <x-dialog v-model="showAddStudent" class="dialog-demo">
         <div class="img-box">
           <img :src="popupimg" style="max-width:100%">
@@ -47,7 +47,7 @@
       </tabbar-item>
       <tabbar-item :link="hasLogin?'/user':'/login'">
         <i slot="icon" class="iconfont nav_icon">&#xe719;</i>
-        <span slot="label" class="navtext">{{hasLogin?'用户':'未登录'}}</span>
+        <span slot="label" class="navtext">{{hasLogin?'我的':'未登录'}}</span>
       </tabbar-item>
     </tabbar>
 
@@ -180,6 +180,11 @@ a{
 .slide-fade-enter {
   transform: translateX(100vw);
   opacity: 0;
+}
+//基本信息里的头像
+.headImg{
+  height:2.4rem;
+  border-radius: 50%;
 }
 @font-face {
   font-family: 'iconfont';  /* project id 291668 */

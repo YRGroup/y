@@ -48,8 +48,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.headImg{
-  height:3rem;
-  border-radius: 50%;
-}
+
 </style>
