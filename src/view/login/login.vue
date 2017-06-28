@@ -24,7 +24,7 @@
       <x-button plain @click.native="$router.push('/main')">进入主页</x-button>      
       <x-button plain @click.native="$router.push('/reg')">注册</x-button>
     </div>
-    
+
   </div>
 </template>
 
@@ -61,7 +61,12 @@ export default {
           // if(res.Role=='老师'&&res.ExtendInfo.Classes){
           //   this.$store.state.currentClassId=res.ExtendInfo.Classes[0].ClassID
           // }
-          this.$router.push('/main')
+          if(res.ExistWeixinOpenid==0 && this.$store.getters.isWeixin){
+            let currentUrl = window.location.href
+            window.location.href = this.$URL+'/api/OAuth2Redirect/index?refUrl='+currentUrl
+          }else{
+            this.$router.push('/main')
+          }
         }).catch(err=>{
           this.$vux.toast.show({
             type:"text",
