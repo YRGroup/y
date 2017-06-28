@@ -124,6 +124,12 @@ export default {
     }else{
       this.showAddStudent=false   
     }
+    if(localStorage.hasLogin){
+      let payload = {}
+      payload.id = localStorage.id
+      payload.role = localStorage.role
+      this.$store.commit('login',payload)
+    }
   }
 }
 </script>

@@ -27,7 +27,7 @@ const store = new Vuex.Store({
             } else {
                 return false;
             }
-        }
+        },
     },
     mutations: {
         login(state,payload) {
@@ -45,8 +45,8 @@ const store = new Vuex.Store({
             state.role = 'guest'
 
             localStorage.removeItem('hasLogin')
-            localStorage.removeItem('id', null)
-            localStorage.removeItem('role', 'guest')            
+            localStorage.removeItem('id')
+            localStorage.removeItem('role')            
         },
         changeRole(state,val){
             state.role=val.toString()
