@@ -28,8 +28,6 @@ const store = new Vuex.Store({
             localStorage.setItem('hasLogin', true)
             localStorage.setItem('id', payload.id)
             localStorage.setItem('role', payload.role)
-            console.log(localStorage)
-            console.log(1111)
         },
         logout(state) {
             state.hasLogin = false
