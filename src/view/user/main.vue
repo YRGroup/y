@@ -165,6 +165,7 @@ export default {
             this.allStudentData.push(noStudentDate)
           }else{
             let num = res.ExtendInfo.Students.length
+            this.allStudentData = []
             for(let i=0;i<num;i++){
               this.allStudentData.push(res.ExtendInfo.Students[i])
             }
@@ -182,28 +183,38 @@ export default {
       })
     },
     addStudent(){
-      this.$API.addStudent(this.addStudentData).then((res)=>{
-        this.$vux.toast.show({
-          type: "text",
-          width: "20em",
-          text: '修改成功'
+      let newChild = this.addStudentData
+      if(newChild.student_meid && newChild.type){
+        this.$API.addStudent(this.addStudentData).then((res)=>{
+          this.$vux.toast.show({
+            type: "text",
+            width: "20em",
+            text: '绑定成功'
+          })
+          this.getData()
+          this.addStudentPopup=false
+        }).catch((err)=>{
+          this.$vux.toast.show({
+            type: "text",
+            width: "20em",
+            text: '绑定失败'
+          })
         })
-        this.addStudentPopup=false
-      }).catch((err)=>{
+        newChild.student_meid = ''
+        newChild.type = ''
+      }else{
         this.$vux.toast.show({
-          type: "text",
-          width: "20em",
-          text: '修改失败'
-        })
-      })
+            type: "text",
+            width: "20em",
+            text: '请完善数据'
+          })
+      }
     }
   },
   created(){
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','个人中心')
     this.getData()
-    console.log(11111)
-    console.log(localStorage)
   },
   mounted(){
   },

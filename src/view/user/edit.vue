@@ -34,8 +34,9 @@
         text-align="right" placeholder="请在此填上新内容"></cell>
       <cell title="家庭住址" v-model="i.Add"
         text-align="right" placeholder="请在此填上新内容"></cell>
-      <cell title="头像" v-model="i.Headimgurl"
-        text-align="right" placeholder="请在此填上新内容"></cell>
+      <cell title="头像" text-align="right" placeholder="请在此填上新内容">
+        <img class="headImg" :src="i.Headimgurl" slot="default">  
+      </cell>
     </group>
 
     <!--<group title="当前没有学生" class="btn" v-if="noStudent">
