@@ -117,12 +117,12 @@ export default {
     }
   },
   mounted(){
-    if(localStorage.hasStudent){
+    if(localStorage.hasStudent || localStorage.role!='家长'){
       this.showAddStudent=false
     }else{
       this.showAddStudent=true 
     }
-    if(localStorage.hasLogin){
+    if(localStorage.hasLogin && !this.$store.state.hasLogin){
       let payload = {}
       payload.id = localStorage.id
       payload.role = localStorage.role
