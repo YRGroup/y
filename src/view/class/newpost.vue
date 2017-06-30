@@ -16,7 +16,7 @@
           <div class="deleteImg">
             <span @click="deleteImg(index)">X</span>
           </div>
-          <img :src="$URL+i">
+          <img :src="$store.state.ApiUrl+i">
           <div class="imgName">{{i}}</div>          
         </div>
       </div>

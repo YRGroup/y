@@ -16,6 +16,16 @@ API.getAllClassInfo = (id) => {
 }
 // not OK
 
+// 获取Api地址
+API.getApiUrl = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get('http://testapi.zzflgs.cn/api/config/GetApiUrl',{params:para}).then((res)=>{
+      resolve(res.data.Content.ApiUrl)
+    })
+  })
+}
+// not OK
+
 // 上传图片
 API.uploadImg = (files) => {
   return new Promise((resolve, reject) => {

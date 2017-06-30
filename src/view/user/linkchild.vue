@@ -60,6 +60,7 @@ export default {
             width: "20em",
             text: '添加孩子成功'
           })
+          this.$store.state.hasNoStudent = false
         }).catch((err) => {
           this.$vux.toast.show({
             type: "text",

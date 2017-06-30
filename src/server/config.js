@@ -1,4 +1,6 @@
+import Vue from 'vue'
+
 // API根目录
-const _APIurl = 'http://testapi.zzflgs.cn'
+var _APIurl = sessionStorage.ApiUrl
 
 export default _APIurl

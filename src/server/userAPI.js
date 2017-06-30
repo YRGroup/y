@@ -4,27 +4,15 @@ import axios from 'axios'
 
 
 import _APIurl from './config'
-import md5 from 'js-md5'
-import store from '@/store'
-
-API.AUTH_SIGN
+// import store from '@/store'
 
 // 登陆
 API.login = (logData) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/User/LoginByPhone',logData).then((res)=>{
-      // console.log('登陆信息：')
-      // console.log(res)
-      let token = res.data.Content.Token
-      // localStorage.setItem('TOKEN', token)
-      store.commit('setToken', token)
+      // let token = res.data.Content.Token
+      // store.commit('setToken', token)
       resolve(res.data.Content)
-      
-      // if(res.data.Msg==='OK'){
-      //   resolve(res.data.Content)
-      // }else{
-      //   reject(res.data.Msg)
-      // }
     }).catch((err)=>{
       reject(err)
     })

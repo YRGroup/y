@@ -77,7 +77,7 @@ export default {
       password2:'',
       smscheck: '',
       imgcheck: '',
-      imgCheckUrl:this.$URL+'/api/auth/Captcha',
+      imgCheckUrl:this.$store.state.ApiUrl+'/api/auth/Captcha',
       checknum: '',
       rolecheck: [
         {key:1,value:'学生'},
@@ -98,8 +98,10 @@ export default {
   methods: {
     newimg() {
       this.imgCheckUrl = null      
-      this.$http.get(this.$URL+'/api/auth/Captcha').then((res)=>{
-        this.imgCheckUrl=this.$URL+'/api/auth/Captcha'
+      this.$http.get(this.$store.state.ApiUrl+'/api/auth/Captcha').then((res)=>{
+        this.imgCheckUrl=this.$store.state.ApiUrl+'/api/auth/Captcha'
+      }).catch(err=>{
+        console.log(err)
       })
     },
     sms() {
@@ -121,7 +123,7 @@ export default {
         //   type: "success",
         //   text: '获取手机验证码成功，请注意查收短信'
         // })
-        this.$http.get(this.$URL+'/api/auth/CheckCaptcha?captcha='+this.imgcheck).then((res)=>{
+        this.$http.get(this.$store.state.ApiUrl+'/api/auth/CheckCaptcha?captcha='+this.imgcheck).then((res)=>{
           if(res.data.Status==1){
             this.$vux.toast.show({
               type: "text",

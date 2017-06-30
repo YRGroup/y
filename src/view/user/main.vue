@@ -105,7 +105,10 @@ export default {
         { key: 3, value: '爷爷' },
         { key: 4, value: '奶奶' }
       ],
-      addStudentData:{},
+      addStudentData:{
+        'student_meid':'',
+        'type':'',
+      },
       allStudentData:[],
       userface: require('@/assets/face/bw.jpg')
     }
@@ -183,8 +186,7 @@ export default {
       })
     },
     addStudent(){
-      let newChild = this.addStudentData
-      if(newChild.student_meid && newChild.type){
+      if(this.addStudentData.student_meid!='' && this.addStudentData.type!=''){
         this.$API.addStudent(this.addStudentData).then((res)=>{
           this.$vux.toast.show({
             type: "text",
@@ -200,8 +202,6 @@ export default {
             text: '绑定失败'
           })
         })
-        newChild.student_meid = ''
-        newChild.type = ''
       }else{
         this.$vux.toast.show({
             type: "text",

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <div v-transfer-dom v-show="showAddStudent">
+    <!--<div v-transfer-dom v-show="showAddStudent">
       <x-dialog v-model="showAddStudent" class="dialog-demo">
         <div class="img-box">
           <img :src="popupimg" style="max-width:100%">
@@ -19,7 +19,7 @@
           <span class="vux-close"><i class="iconfont">&#xe61a;</i></span>
         </div>
       </x-dialog>
-    </div>
+    </div>-->
 
     <x-header id="nav-top" :left-options="{backText: ''}" v-show="$store.state.showTopNav">
       {{web_title}}
@@ -37,11 +37,11 @@
         <i slot="icon" class="iconfont nav_icon">&#xe666;</i>
         <span slot="label" class="navtext">主页</span>
       </tabbar-item>
-      <tabbar-item show-dot :link="'/class/'+$store.state.currentClassId">
+      <tabbar-item :show-dot="$store.state.hasNewPost" :link="'/class/'+$store.state.currentClassId">
         <i slot="icon" class="iconfont nav_icon">&#xe672;</i>
         <span slot="label" class="navtext">班级</span>
       </tabbar-item>
-      <tabbar-item badge="2" link="/contact">
+      <tabbar-item :badge="($store.state.hasNewMsg==0)?null:$store.state.hasNewMsg" link="/contact">
         <i slot="icon" class="iconfont nav_icon">&#xe629;</i>
         <span slot="label" class="navtext">通讯录</span>
       </tabbar-item>
@@ -74,21 +74,8 @@ export default {
   },
   methods:{
     showRouterInfo(){
-      // console.log('当前路由信息：')
-      // console.log(this.$route.params)
-      // console.log('当前VueX信息：')
-      // console.log(this.$store.state)
-      // console.log('当前localStorage信息：')      
-      // console.log(localStorage)
-      // console.log('当前cookie信息：')      
-      // console.log(document.cookie)
-      // console.log('当前API信息：')      
-      // console.log(this.$API)
       window.scrollTo(0,0);
     }
-  },
-  created(){
-    this.showRouterInfo()
   },
   watch:{
     web_title:(val)=>{
@@ -116,17 +103,26 @@ export default {
       return this.$store.state.isLoading
     }
   },
-  mounted(){
-    if(localStorage.hasStudent || localStorage.role!='家长'){
-      this.showAddStudent=false
-    }else{
-      this.showAddStudent=true 
-    }
+  created(){
+    this.showRouterInfo()
     if(localStorage.hasLogin && !this.$store.state.hasLogin){
       let payload = {}
-      payload.id = localStorage.id
-      payload.role = localStorage.role
-      this.$store.commit('login',payload)
+      payload.Meid = localStorage.id
+      payload.Role = localStorage.role
+      payload.mock = true
+      let user = JSON.parse(localStorage.user)
+      this.$store.commit('login',user)
+    }
+  },
+  mounted(){
+
+  },
+  beforeCreate(){
+    if(this.$store.state.ApiUrl==''){
+      let payload ={
+        // id:1
+      }
+      this.$store.dispatch('setApiUrl',payload)
     }
   }
 }

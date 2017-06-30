@@ -1,36 +1,42 @@
 <template>
   <div class="hello">
+    
+    <has-no-student v-if="$store.state.hasNoStudent">
+    </has-no-student>
 
+    <div v-else>
+      <div class="class-header">
+        <img :src="classInfo.classlogo||'/static/img/c.b22e462.jpeg'" @click="$router.push('/class/'+$store.state.classId)">
+        <span class="name">{{ classInfo.name }}</span>
+        <span class="teacher">班主任：{{ classInfo.teacherName||'未指定' }}</span>
+        <span class="count">人数：{{ classInfo.student_count }}</span>
+        <div class="addbtn1" @click="$router.push('/class/'+$route.params.classId+'/new')"><i class="iconfont">&#xe606;</i>发布</div>
+        <div class="addbtn2" @click="$router.push('/class/'+$route.params.classId+'/manage')"><i class="iconfont">&#xe832;</i>管理</div>
+      </div>
 
-    <div class="class-header">
-      <img :src="classInfo.classlogo||'/static/img/c.b22e462.jpeg'" @click="$router.push('/class/'+$store.state.classId)">
-      <span class="name">{{ classInfo.name }}</span>
-      <span class="teacher">班主任：{{ classInfo.teacherName||'未指定' }}</span>
-      <span class="count">人数：{{ classInfo.student_count }}</span>
-      <div class="addbtn1" @click="$router.push('/class/'+$route.params.classId+'/new')"><i class="iconfont">&#xe606;</i>发布</div>
-      <div class="addbtn2" @click="$router.push('/class/'+$route.params.classId+'/manage')"><i class="iconfont">&#xe832;</i>管理</div>
+      <transition name="slide-fade">
+        <router-view></router-view>
+      </transition>
     </div>
 
-    <transition name="slide-fade">
-      <router-view></router-view>
-    </transition>
+    
 
   </div>
 </template>
 
 <script>
 import { Popup, Group, XTextarea , XButton } from 'vux'
+import hasNoStudent from '@/components/hasNoStudent'
 
 export default {
   components: {
-    Popup,
-    Group,
-    XTextarea ,
-    XButton
+    Popup,Group,XTextarea ,XButton,
+    hasNoStudent,
   },
   data () {
     return {
-      classInfo:{}
+      classInfo:{},
+      showAddStudent:false,
     }
   },
   computed:{
@@ -51,6 +57,13 @@ export default {
     this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','我的班级')
     this.getClassInfo()
+  },
+  mounted(){
+    if(this.$store.state.hasLogin && this.$store.state.hasNoStudent){
+      this.showAddStudent=true
+    }else{
+      this.showAddStudent=false 
+    }
   }
 }
 </script>

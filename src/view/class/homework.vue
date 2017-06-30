@@ -26,7 +26,7 @@
         <div class="content">{{ i.Content }}</div>
         <div class="footer">{{ i.CreateTime }}</div>
       </div>
-      
+
     </div>
 </template>
 
@@ -83,14 +83,14 @@ export default {
       })
     },
     getHomeWork(){
-      this.$API.getHomeworkList(this.$store.state.classId).then(res=>{
+      this.$API.getHomeworkList(this.$route.params.classId).then(res=>{
         this.homework = res
         this.boxwid = res.length * 100 +'px'
       })
     },
     addHomework(){
       if(this.newHomeworkData.course_id&&this.newHomeworkData.content){
-        this.newHomeworkData.class_id=this.$store.state.classId
+        this.newHomeworkData.class_id = this.$route.params.classId
         this.newHomeworkData.title=''
         this.$API.addHomework(this.newHomeworkData).then(res=>{
           this.$vux.toast.show({

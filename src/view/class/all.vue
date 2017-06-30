@@ -5,7 +5,7 @@
   教师端显示
   -->
     <div class="notice" v-if="notice.length!=0">
-      <div class="icon" @click="$router.push('/class/'+$store.state.classId+'/notice')">
+      <div class="icon" @click="$router.push('/class/'+$route.params.classId+'/notice')">
         <span>通知</span>
       </div>
       <div class="title">{{notice.content}}</div>
@@ -38,14 +38,14 @@
         <span>班级作业</span>
       </div>
       <div class="content">
-        <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/'+$store.state.classId+'/work')">
+        <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/'+$route.params.classId+'/work')">
           <div class="msg">
            【 {{ i.CourseName }}】：{{ i.Content }}
           </div>
           <div class="date">{{ i.CreateTime }}</div>
         </li>
       </div>
-      <div class="link" @click="$router.push('/class/'+$store.state.classId+'/work')">
+      <div class="link" @click="$router.push('/class/'+$route.params.classId+'/work')">
         <span>更多</span>
       </div>
     </div>
@@ -64,7 +64,7 @@
       <div slot="content" class="content">
         <div @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)" v-html="item.content"></div>
         <div class="img" v-if="item.albums.length!=0">
-          <img @click="imgPopup(imgurl)" :src="$URL+imgurl"  v-for="(imgurl,index) in item.albums" :key="index">
+          <img @click="imgPopup(imgurl)" :src="$store.state.ApiUrl+imgurl"  v-for="(imgurl,index) in item.albums" :key="index">
         </div>
       </div>
       <div slot="footer" class="footer">
@@ -79,7 +79,7 @@
             <span>{{ comment.content }}</span>
           </li>
           <!--<div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>-->
-          <div class="more" @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)">
+          <div class="more" @click="$router.push('/class/'+$route.params.classId+'/msg/'+item.id)">
             查看详情
           </div>
         </div>
@@ -125,7 +125,7 @@ export default {
       })
     },
     imgPopup(val){
-      this.popupImgUrl=this.$URL+val
+      this.popupImgUrl=this.$store.state.ApiUrl+val
       this.showImgPopup=true
     },
     getAllClassDynamic() {
