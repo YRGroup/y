@@ -1,37 +1,37 @@
 <template>
   <div id="app">
-
+  
     <!--<div v-transfer-dom v-show="showAddStudent">
-      <x-dialog v-model="showAddStudent" class="dialog-demo">
-        <div class="img-box">
-          <img :src="popupimg" style="max-width:100%">
-        </div>
-        <div class="popupText">
-          <h3>关联孩子</h3>
-          <ul class="subcon">
-            <li><span>·</span>查看孩子班级动态</li>
-            <li><span>·</span>与老师实时沟通</li>
-            <li><span>·</span>查看孩子考试成绩</li>
-          </ul>
-          <div class="popbtn" @click="$router.push('/user/linkchild'),showAddStudent=false">关联孩子</div>
-        </div>
-        <div @click="showAddStudent=false" class="popclose">
-          <span class="vux-close"><i class="iconfont">&#xe61a;</i></span>
-        </div>
-      </x-dialog>
-    </div>-->
-
+            <x-dialog v-model="showAddStudent" class="dialog-demo">
+              <div class="img-box">
+                <img :src="popupimg" style="max-width:100%">
+              </div>
+              <div class="popupText">
+                <h3>关联孩子</h3>
+                <ul class="subcon">
+                  <li><span>·</span>查看孩子班级动态</li>
+                  <li><span>·</span>与老师实时沟通</li>
+                  <li><span>·</span>查看孩子考试成绩</li>
+                </ul>
+                <div class="popbtn" @click="$router.push('/user/linkchild'),showAddStudent=false">关联孩子</div>
+              </div>
+              <div @click="showAddStudent=false" class="popclose">
+                <span class="vux-close"><i class="iconfont">&#xe61a;</i></span>
+              </div>
+            </x-dialog>
+          </div>-->
+  
     <x-header id="nav-top" :left-options="{backText: ''}" v-show="$store.state.showTopNav">
       {{web_title}}
       <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
     </x-header>
-
+  
     <loading v-model="isLoading"></loading>
-
+  
     <transition name='slide-fade'>
       <router-view id="inview" :style="{marginTop:ptop,marginBottom:pdown}"></router-view>
     </transition>
-
+  
     <tabbar id="nav-bottom" v-show="$store.state.showBottomNav">
       <tabbar-item selected link="/main">
         <i slot="icon" class="iconfont nav_icon">&#xe666;</i>
@@ -50,79 +50,79 @@
         <span slot="label" class="navtext">{{hasLogin?'我的':'未登录'}}</span>
       </tabbar-item>
     </tabbar>
-
+  
   </div>
 </template>
 
 <script>
-import { Tabbar, TabbarItem, XHeader,Loading,XSwitch ,XDialog,TransferDomDirective as TransferDom  } from 'vux'
+import { Tabbar, TabbarItem, XHeader, Loading, XSwitch, XDialog, TransferDomDirective as TransferDom } from 'vux'
 import { mapState } from 'vuex'
 export default {
   name: 'app',
   components: {
-    Tabbar, TabbarItem, XHeader ,Loading ,XSwitch , XDialog 
+    Tabbar, TabbarItem, XHeader, Loading, XSwitch, XDialog
   },
   directives: {
     TransferDom
   },
-  data(){
-    return{
-      test0:'00',
+  data() {
+    return {
+      test0: '00',
       showAddStudent: true,
-      popupimg:require('@/assets/popupbg.png'),
+      popupimg: require('@/assets/popupbg.png'),
     }
   },
-  methods:{
-    showRouterInfo(){
-      window.scrollTo(0,0);
+  methods: {
+    showRouterInfo() {
+      window.scrollTo(0, 0);
     }
   },
-  watch:{
-    web_title:(val)=>{
-      document.title = val+' - 育人教育'
+  watch: {
+    web_title: (val) => {
+      document.title = val + ' - 育人教育'
     },
     "$route": "showRouterInfo"
   },
-  computed:{
-    web_title () {
+  computed: {
+    web_title() {
       return this.$store.state.title
     },
-    shownav(){
+    shownav() {
       return this.$store.state.isNav
     },
-    ptop (){
+    ptop() {
       return this.$store.state.showTopNav ? '46px' : '0'
     },
-    pdown (){
+    pdown() {
       return this.$store.state.showBottomNav ? '53px' : '0'
     },
-    hasLogin(){
+    hasLogin() {
       return this.$store.state.hasLogin
     },
-    isLoading(){
+    isLoading() {
       return this.$store.state.isLoading
     }
   },
-  created(){
+  created() {
     this.showRouterInfo()
-    if(localStorage.hasLogin && !this.$store.state.hasLogin){
-      let payload = {}
-      payload.Meid = localStorage.id
-      payload.Role = localStorage.role
-      payload.mock = true
-      let user = JSON.parse(localStorage.user)
-      this.$store.commit('login',user)
-    }
-  },
-  mounted(){
 
   },
-  beforeCreate(){
-    if(this.$store.state.ApiUrl==''){
-      let payload ={
+  mounted() {
+    if (localStorage.hasLogin && !this.$store.state.hasLogin) {
+      let logPayload = {}
+      logPayload.Meid = localStorage.id
+      logPayload.Role = localStorage.role
+      logPayload.mock = true
+      // let user = JSON.parse(localStorage.user)
+      this.$store.commit('login', logPayload)
+    }
+  },
+  beforeCreate() {
+    if (this.$store.state.ApiUrl == '') {
+      let payload = {
         // id:1
       }
-      this.$store.dispatch('setApiUrl',payload)
+      this.$store.dispatch('setApiUrl', payload)
     }
   }
 }
@@ -133,96 +133,129 @@ export default {
 @import './style/card.less';
 body {
   max-width: @appwidth;
-  margin:0 auto;
-  font-size:12px;
-  background:@c1;
+  margin: 0 auto;
+  padding: 0;
+  font-size: 12px;
+  background: @c1;
   overflow-x: hidden;
-  color: @cc1;
+  color: @cc1; // height:100%;
 }
-pre{
+
+html {
+  padding: 0;
+  margin: 0;
+}
+
+#app {
+  height: 100%;
+  padding: 0;
+}
+.vux-popup-mask{
+  cursor: default;
+}
+
+pre {
   font-family: -apple-system-font, "Helvetica Neue", sans-serif;
 }
-#inview{
+
+#inview {
   position: relative;
-  top:0;
+  top: 0;
 }
-#nav-top{
-  width:100%;
+
+#nav-top {
+  width: 100%;
   max-width: @appwidth;
-  position:fixed;
-  top:0;
-  z-index:999;
+  position: fixed;
+  top: 0;
+  z-index: 999;
 }
-#nav-bottom{
+
+#nav-bottom {
   max-width: @appwidth;
-  position:fixed;
-  bottom:0;
+  position: fixed;
+  bottom: 0;
 }
-::-webkit-input-placeholder { 
-color: @cc4; 
-} 
-li{
-  list-style:none;
-  padding:0;
-  margin:0;
+
+::-webkit-input-placeholder {
+  color: @cc4;
 }
-a{
-  color:inherit;
+
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
+
+a {
+  color: inherit;
+}
+
 // 切换动画
 .slide-fade-enter-active {
   transition: all .3s ease;
 }
+
 .slide-fade-enter {
   transform: translateX(100vw);
   opacity: 0;
 }
+
 //基本信息里的头像
-.headImg{
-  height:2.4rem;
+.headImg {
+  height: 2.4rem;
   border-radius: 50%;
 }
+
 @font-face {
-  font-family: 'iconfont';  /* project id 291668 */
+  font-family: 'iconfont';
+  /* project id 291668 */
   src: url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.eot');
   src: url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.eot?#iefix') format('embedded-opentype'),
   url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.woff') format('woff'),
   url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.ttf') format('truetype'),
   url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.svg#iconfont') format('svg');
 }
-.iconfont{
-  font-family:"iconfont";
-  font-style:normal;
-  // -webkit-font-smoothing: antialiased;
+
+.iconfont {
+  font-family: "iconfont";
+  font-style: normal; // -webkit-font-smoothing: antialiased;
   // -webkit-text-stroke-width: 0.2px;
   // -moz-osx-font-smoothing: grayscale;
 }
-.nav_icon{
+
+.nav_icon {
   line-height: 27px;
 }
-#app .weui-bar__item_on .nav_icon,#app .weui-bar__item_on .navtext{
+
+#app .weui-bar__item_on .nav_icon,
+#app .weui-bar__item_on .navtext {
   color: @cc6;
 }
-.card{
+
+.card {
   background: #fff;
-  margin-top:10px;
+  margin-top: 10px;
 }
-#app .weui-btn:after{
-  border:none;
+
+#app .weui-btn:after {
+  border: none;
 }
+
 //弹窗样式
-.childPopup{
+.childPopup {
   width: 100%;
   height: 100%;
   background: black;
 }
+
 //弹窗样式
 .dialog-demo {
   position: relative;
-  .weui-dialog{
+  .weui-dialog {
     border-radius: 8px;
     padding-bottom: 8px;
-    overflow:visible;
+    overflow: visible;
   }
   .dialog-title {
     line-height: 30px;
@@ -233,27 +266,27 @@ a{
     height: 84px;
     overflow: hidden;
     background: #00c06f;
-    padding:10px 0;
-    img{
+    padding: 10px 0;
+    img {
       max-width: 100%;
       max-height: 100%;
     }
   }
-  .popupText{
-    padding:10px 0;
-    h3{
+  .popupText {
+    padding: 10px 0;
+    h3 {
       font-size: 1.6em;
       line-height: 1.6em;
       font-weight: 400;
     }
-    .subcon{
+    .subcon {
       font-size: 1.2em;
-      color:@cc2;
-      li{
-        span{
+      color: @cc2;
+      li {
+        span {
           position: relative;
-          margin-right:10px;
-          &:before{
+          margin-right: 10px;
+          &:before {
             content: "";
             width: 4px;
             height: 4px;
@@ -266,25 +299,25 @@ a{
         }
       }
     }
-    .popbtn{
-      margin:10px 2rem;
-      padding:10px 0;
-      font-size:1rem;
-      color:#fff;
+    .popbtn {
+      margin: 10px 2rem;
+      padding: 10px 0;
+      font-size: 1rem;
+      color: #fff;
       border-radius: 50px;
-      background:linear-gradient(right top,#00c0a1, #00c06f);
+      background: linear-gradient(right top, #00c0a1, #00c06f);
     }
   }
-  .popclose{
+  .popclose {
     position: absolute;
     top: -46px;
-    right:0;
-    font-size:1.6rem;
-    color:#fff;
+    right: 0;
+    font-size: 1.6rem;
+    color: #fff;
     z-index: 9999;
     opacity: .6;
-    span{
-      &:before{
+    span {
+      &:before {
         content: "";
         position: absolute;
         width: 1px;
@@ -294,8 +327,7 @@ a{
         bottom: -4px;
       }
     }
-  }
-  // .vux-close {
+  } // .vux-close {
   //   margin-top: 8px;
   //   margin-bottom: 8px;
   // }

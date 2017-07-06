@@ -103,7 +103,6 @@ export default {
   margin: 0 auto;
   padding-top: 8em;
   .logo {
-    // margin:10em auto 0 auto;
     img {
       width: 12em;
     }
@@ -150,7 +149,7 @@ export default {
   margin: 0 auto;
   text-align: center;
   .weui-btn {
-    display: inline-block; // margin:0 auto;
+    display: inline-block;
     margin: 1em 1em 0;
     width: 40%;
     color: @cc6;

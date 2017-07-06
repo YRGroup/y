@@ -114,13 +114,6 @@ export default {
     }
   },
   methods:{
-    fun(msg){
-      this.$vux.toast.show({
-        type:"text",
-        width:"20em",
-        text: msg
-      })
-    },
     changePassword(){
       if(!this.changePasswordData.oldpwd|!this.changePasswordData.newpwd|!this.changePasswordData.newpwd2){
         this.$vux.toast.show({

@@ -1,222 +1,238 @@
 <template>
   <div class="register">
-    <div class="header">
-      <span class="left" @click="$router.go(-1)">
-        <i class="iconfont">&#xe600;</i>
-      </span>
-      <span>教师注册 - 智慧校园</span>
+  
+    <div class="space">
+      <img :src="logo">
     </div>
-
-    <div v-show="step1">
-      <group title="身份选择" >
-        <radio :options="rolecheck" v-model="data.role"></radio>
-      </group>
-      <group class="regBtn">
-        <x-button type="primary" @click.native="step1=false">下一步</x-button>
-      </group>
-    </div>
-    
-    <div v-show="!step1">
-      <group class="item">
-        <x-input class="itemList" placeholder="请输入手机号" :show-clear="false"  
-        required is-type="china-mobile" ref="mobilephone" keyboard="number" v-model="data.phone"
-        >
-        </x-input>
-      </group>
-      <group class="item">
-        <x-input class="itemList" placeholder="请输入验证码" :show-clear="false" 
-        required v-model="imgcheck" 
-        >
-          <img slot="right" :src="imgCheckUrl" @click="newimg">
-        </x-input>
-      </group>
-
-      <group class="item">
-        <x-input class="itemList" placeholder="请输入短信验证码" :show-clear="false" 
-        required v-model="smscheck" 
-        >
-          <x-button slot="right" type="primary" @click.native="sms" mini 
-          :disabled="disabled || countdown > 0">{{ smsbtntext }}</x-button>
-        </x-input>
-      </group>
-
-      <group class="item">
-        <x-input class="itemList" placeholder="请设置密码（8-20位字符）" :show-clear="false" 
-        required type="password" keyboard="number" v-model="data.password"
-        >
-        </x-input>
-      </group>
-
-      <group class="item">
-        <x-input class="itemList" placeholder="请重复输入密码" :show-clear="false" 
-        required type="password" keyboard="number" v-model="password2"
-        >
-        </x-input>
-      </group>
-
-      <group class="regBtn" :class="(!data.phone|!imgcheck|!smscheck|!data.password|!password2)?'hidden':null">
-        <x-button type="primary" @click.native="submit">注册</x-button>
+  
+    <div class="roleChoice" v-show="step==1&&step<5">
+      <p class="title">老师向左、家长向右</p>
+      <div class="checker">
+        <div class="check">
+          <img :src="check1" @click="data.role='老师'" :class="(data.role=='老师')?'active':null">
+        </div>
+        <div class="check">
+          <img :src="check2" @click="data.role='家长'" :class="(data.role=='家长')?'active':null">
+        </div>
+      </div>
+      <group class="regBtn" :class="(!data.role)?'hidden':null">
+        <x-button type="primary" @click.native="step=2" :disabled="data.role==''" :text="(!data.role)?'请先选择身份':'下一步'"></x-button>
       </group>
     </div>
-    
+  
+    <group class="item" v-show="step>=2&&step<5">
+      <x-input class="itemList" title="手机号" placeholder="请输入手机号" :show-clear="false" required is-type="china-mobile" ref="mobilephone" keyboard="number" v-model="data.phone" @on-change="verifyTel" @on-blur="verifyTel">
+      </x-input>
+    </group>
+  
+    <group class="item" v-show="step>=3&&step<5">
+      <x-input class="itemList" title="密码" placeholder="请设置密码（6-16位字符）" :show-clear="false" required type="password" keyboard="number" v-model="data.password" @on-change="verifyPw" @on-blur="verifyPw" @keyup.enter.native="submit">
+      </x-input>
+    </group>
+  
+    <group v-show="step>=4&&step<5" class="regBtn" :class="(!data.phone|!data.password)?'hidden':null">
+      <x-button type="primary" @click.native="submit">注册</x-button>
+    </group>
+  
+    <div class="endReg" v-show="step==5">
+      <div class="successInfo">
+        <p class="title">您的登陆账号：</p>
+        <p class="content">{{data.phone}}</p>
+      </div>
+      <div class="btn">
+        <x-button type="primary" @click.native="enter">进入主页</x-button>
+        <x-button type="warn" @click.native="editMore">完善资料</x-button>
+      </div>
+    </div>
+  
+    <div class="moreReg" v-show="step==6">
+      <group>
+        <x-input title="姓名" placeholder="请输入您的真实姓名" v-model="moreData.TrueName"></x-input>
+        <div class="checker">
+          <checker v-model="moreData.Sex" default-item-class="checker-item" selected-item-class="checker-selected">
+            <checker-item v-for="i in ['男','女']" :key="i" :value="i">{{i}}</checker-item>
+          </checker>
+        </div>
+        <div class="face">
+          <div class="headImg">
+            <a href="javascript:;" class="a-upload">
+              <input type="file" ref="headImg" accept="image/jpeg,image/png" @change="addImg"> 
+              <span v-show="!headImg">选择头像</span>
+              <span v-show="headImg">修改头像</span>
+            </a>
+          </div>
+          <div class="preview">
+            <img :src="headImg">
+          </div>
+        </div>
+      </group>
+  
+      <group title="添加学生" titleColor="#fff">
+        <x-input title="姓名" v-model="moreData.TrueName" placeholder="学生姓名"></x-input>
+        <x-input title="学号" v-model="moreData.TrueName" placeholder="学生学号"></x-input>
+      </group>
+  
+      <group>
+        <x-button type="primary" @click.native="submitMore">提交</x-button>
+      </group>
+    </div>
+  
   </div>
 </template>
 
 <script>
-import { XButton, XInput, Group, Cell,Radio } from 'vux'
-
-import md5 from 'js-md5'
+import { XButton, XInput, Group, Radio, Checker, CheckerItem } from 'vux'
 
 export default {
   components: {
-    XButton, XInput, Group, Cell,Radio
+    XButton, XInput, Group, Radio, Checker, CheckerItem
   },
   data() {
     return {
-      data:{},
-      password2:'',
-      smscheck: '',
-      imgcheck: '',
-      imgCheckUrl:this.$store.state.ApiUrl+'/api/auth/Captcha',
-      checknum: '',
+      logo: require('@/assets/logo/logo.png'),
+      check1: require("@/assets/face/bw.jpg"),
+      check2: require("@/assets/face/tc.png"),
+      data: {
+        role: '', phone: '', password: ''
+      },
       rolecheck: [
-        {key:1,value:'学生'},
-        {key:2,value:'家长'},
-        {key:3,value:'老师'}
+        { key: 1, value: '学生' },
+        { key: 2, value: '家长' },
+        { key: 3, value: '老师' }
       ],
-      step1:true,
-      disabled: '',
-      countdown: 0,
-      index:0
+      step: 6,
+      moreData: {},
+      headImg: '',
     }
   },
   computed: {
-    smsbtntext: function () {
-      return this.countdown > 0 ? this.countdown + 's 后重新获取' : '获取验证码';
-    }
+
   },
   methods: {
-    newimg() {
-      this.imgCheckUrl = null      
-      this.$http.get(this.$store.state.ApiUrl+'/api/auth/Captcha').then((res)=>{
-        this.imgCheckUrl=this.$store.state.ApiUrl+'/api/auth/Captcha'
-      }).catch(err=>{
-        console.log(err)
-      })
-    },
-    sms() {
-      if (this.tel == "" || this.$refs.mobilephone.valid == false) {
-        this.$vux.toast.show(
-          {
-          type: "cancel",
-          text: '请输入正确手机号'
-        })
-      } else if (this.imgcheck==''){
-        this.$vux.toast.show(
-          {
-          type: "cancel",
-          text: '请输入图片验证码'
-        })
+    verifyTel() {
+      if (this.$refs.mobilephone.valid) {
+        if (this.step < 3) {
+          this.step = 3
+        }
       } else {
-        // this.$vux.toast.show(
-        //   {
-        //   type: "success",
-        //   text: '获取手机验证码成功，请注意查收短信'
-        // })
-        this.$http.get(this.$store.state.ApiUrl+'/api/auth/CheckCaptcha?captcha='+this.imgcheck).then((res)=>{
-          if(res.data.Status==1){
-            this.$vux.toast.show({
-              type: "text",
-              text: '获取手机验证码成功，请注意查收短信',
-              width:'20em'
-            })
-            this.countdown = 60
-            this.timer()
-          }else{
-            this.$vux.toast.show({
-              type: "text",
-              text: '图片验证码错误',
-              width:'20em'
-            })
-          }
-        })    
-      } 
+        this.step = 2
+      }
     },
-    timer: function () {
-      if (this.countdown > 0) {
-        this.countdown--;
-        setTimeout(this.timer, 1000);
+    verifyPw() {
+      if (this.data.password.length > 5) {
+        if (this.step < 4) {
+          this.step = 4
+        }
+      } else {
+        this.step = 3
       }
     },
     submit() {
-      this.data.TrueName=this.data.phone
-      if(!this.$refs.mobilephone.valid|!this.imgcheck|!this.smscheck){
+      if (!this.$refs.mobilephone.valid) {
         this.$vux.toast.show({
           type: "text",
-          text: '请完善信息',
-          width:'20em'
+          text: '手机号格式不正确',
+          width: '20em'
         })
-      }else if (this.data.password!= this.password2) {
-        this.$vux.toast.show({
-          type: "text",
-          text: '两次输入的密码不一致',
-          width:'20em'
-        })
-      }else if (this.data.password.length<6) {
+      } else if (this.data.password.length < 6) {
         this.$vux.toast.show({
           type: "cantextcel",
-          text: '密码太短了',
-          width:'20em'
+          text: '密码不能少于6位数',
+          width: '20em'
         })
-      }else if(this.smscheck.length<5){
-        this.$vux.toast.show({
-          type: "text",
-          text: '短信验证码错误,测试使用大于5位数就行了',
-          width:'20em'
-        })
-      }else{
-        this.$API.userReg(this.data).then(res=>{
+      } else {
+        this.$API.userReg(this.data).then(res => {
           this.$vux.toast.show({
             type: "success",
-            text: '提交成功',
-            width:'20em'
+            text: '注册成功',
+            width: '20em',
+            time: '1000'
           })
-          let logData={}
-          logData.phone=this.data.phone
-          logData.password=this.data.password
-          this.$API.login(logData).then((res)=>{
-            this.$store.commit({
-              type:'login',
-              id:res.Meid,
-              role:res.Role
-            })
+          this.login()
+          this.step = 5
+        })
+      }
+    },
+    submitMore() {
+      this.moreData.Headimgurl = this.headImg
+      if (this.moreData.TrueName && this.moreData.Sex) {
+        if (this.moreData.Role == '家长') {
+          this.$API.editParentInfo(this.moreData).then((res) => {
             this.$vux.toast.show({
-              type: "text",
-              text: '注册成功！',
-              width:'20em'
+              type: "success",
+              width: "20em",
+              text: '添加资料成功'
             })
             this.$router.push('/main')
           })
-        })
+        } else if (this.moreData.Role == '老师') {
+          this.$API.editTeacherInfo(this.moreData).then((res) => {
+            this.$vux.toast.show({
+              type: "success",
+              width: "20em",
+              text: '添加资料成功'
+            })
+            this.$router.push('/user')
+          })
+        }
       }
-    }
+    },
+    enter() {
+      this.$router.push('/main')
+    },
+    login() {
+      let logData = {}
+      logData.phone = this.data.phone
+      logData.password = this.data.password
+      this.$store.dispatch('login', logData).then(res => {
+        this.moreData.Meid = res.Meid
+        this.moreData.Sex = res.Sex
+        this.moreData.TrueName = res.TrueName
+        this.moreData.Headimgurl = res.Headimgurl
+        this.moreData.Role = res.Role
+      })
+    },
+    editMore() {
+      this.step = 6
+    },
+    addImg() {
+      let imgFile = this.$refs.headImg.files[0]
+      this.$vux.loading.show({
+        text: 'Loading'
+      })
+      let imgPostData = []
+      imgPostData[0] = imgFile
+      this.$API.uploadImg(imgPostData).then((res) => {
+        this.headImg = this.$store.state.ApiUrl + res[0]
+        this.$vux.loading.hide()
+      }).catch((err) => {
+        this.$vux.loading.hide()
+      })
+    },
   },
   created() {
     this.$store.commit('showNav', false)
     this.$store.commit('changeTitle', '注册')
-    this.newimg()
+  },
+  mounted() {
   }
 }
 </script>
 
 <style lang="less" scoped>
 .register {
-  padding-top: 5em;
-  ;
-  margin-top: -10em;
+  padding: 0 2em;
+  height: 100vh;
+  background-image: url('../../assets/img/bg1.jpg');
+  background-position: center;
+  .space {
+    text-align: center;
+    padding-top: 20px;
+    img {
+      height: 150px;
+    }
+  }
   .item {
-    padding: 0 20px;
-    margin-top: -0.6em;
     .weui-cells {
       margin-top: 0;
     }
@@ -231,40 +247,176 @@ export default {
       border: 1px solid red;
     }
   }
-  .header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    max-width: @appwidth;
-    height: 3.8em;
-    line-height: 3.8em;
-    display: block;
-    background: @cc6;
+}
+
+.roleChoice {
+  width: 100%;
+  .title {
+    color: @c6;
+    font-size: 1.5rem;
     text-align: center;
-    .left {
-      position: absolute;
-      left: 0;
+  }
+  .checker {
+    text-align: center;
+    .check {
       display: inline-block;
-      width: 2.2em;
-    }
-    span {
-      font-size: 18px;
-      color: #fff;
+      width: 40%;
+      img {
+        width: 70%;
+        max-height: 120px;
+        border-radius: 50%;
+        margin: 20px;
+        border: 3px solid @c4;
+      }
+      .active {
+        border: 3px solid @c6;
+      }
     }
   }
 }
 
-.loginIcon {
-  margin-right: 8px;
-  color: @cc3;
+.endReg {
+  .successInfo {
+    padding: 2rem;
+    background: @c1;
+    text-align: center;
+    border-radius: 10px;
+    .title {
+      font-size: 1.5rem;
+      line-height: 2.5rem;
+    }
+    .content {
+      margin: 1rem 0;
+      line-height: 2rem;
+      background: @c2;
+    }
+  }
+  .btn {
+    padding: 2rem;
+  }
 }
-.regBtn{
-  padding:0 20px;
-  .weui-btn{
+
+.moreReg {
+  .checker {
+    padding: 1rem;
+    text-align: center;
+    border-top:1px solid @c2;
+    border-bottom:1px solid @c2;
+    .checker-item {
+      cursor: pointer;
+      background: @c4;
+      color: #fff;
+      margin: 0 1rem;
+      padding: 0 2rem;
+    }
+    .checker-selected {
+      background: @c6;
+    }
+  }
+  .face {
+    text-align: center;
+    .headImg {
+      padding: 0px;
+      text-align: center;
+      width:40%;
+      display: inline-block;
+      height:70px;
+      line-height: 90px;
+      .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        input {
+          position: absolute;
+          font-size: 100px;
+          right: 0;
+          top: 0;
+          opacity: 0;
+          filter: alpha(opacity=0);
+          cursor: pointer
+        }
+        &:hover {
+          color: #444;
+          background: #eee;
+          border-color: #ccc;
+          text-decoration: none
+        }
+      }
+    }
+    .preview {
+        vertical-align: top;
+      display: inline-block;
+      text-align: center;
+      height:70px;
+      width:40%;
+      img {
+        height: 70px;
+      }
+    }
+  }
+}
+
+.regBtn {
+  padding: 0 20px;
+  .weui-btn {
     background: linear-gradient(right top, #00c0a1, #00c06f);
   }
 }
-.hidden{
+
+.headImg {
+  padding: 30px;
+  text-align: center;
+  .a-upload {
+    padding: 4px 10px;
+    height: 20px;
+    line-height: 20px;
+    position: relative;
+    cursor: pointer;
+    color: #888;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+    input {
+      position: absolute;
+      font-size: 100px;
+      right: 0;
+      top: 0;
+      opacity: 0;
+      filter: alpha(opacity=0);
+      cursor: pointer
+    }
+    &:hover {
+      color: #444;
+      background: #eee;
+      border-color: #ccc;
+      text-decoration: none
+    }
+  }
+}
+
+.preview {
+  text-align: center;
+  img {
+    height: 200px;
+  }
+}
+
+
+.dev {
+  color: #fff;
+}
+
+.hidden {
   opacity: 0.5;
 }
 </style>

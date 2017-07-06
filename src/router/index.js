@@ -252,7 +252,7 @@ export default new Router({
             path: '/reg',
             name: 'reg',
             component: reg,
-        },        
+        },  
         {
             path: '/login',
             name: 'login',

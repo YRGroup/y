@@ -1,6 +1,3 @@
-import Vue from 'vue'
-
-// API根目录
-var _APIurl = sessionStorage.ApiUrl
+var _APIurl = 'http://api.test.com'
 
 export default _APIurl
