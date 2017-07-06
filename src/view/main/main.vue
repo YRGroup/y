@@ -133,7 +133,6 @@ export default {
     }
   },
   created(){
-    this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','校园动态')
   },
   mounted(){

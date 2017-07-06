@@ -6,7 +6,6 @@ import API from '@/server/API'
 
 const store = new Vuex.Store({
   state: {
-    showTopNav: true,
     showBottomNav: true,
 
     title: '育人教育',
@@ -35,6 +34,14 @@ const store = new Vuex.Store({
         return true;
       } else {
         return false;
+      }
+    },
+    showTopNav:()=>{
+      let ua = navigator.userAgent.toLowerCase()
+      if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        return false;
+      } else {
+        return true;
       }
     },
   },
@@ -69,8 +76,6 @@ const store = new Vuex.Store({
         state.hasNewPost = true
       }
 
-
-
       localStorage.setItem('hasLogin', true)
       localStorage.setItem('id', val.Meid)
       localStorage.setItem('role', val.Role)
@@ -90,10 +95,6 @@ const store = new Vuex.Store({
     },
     getClassInfo(state, val) {
       state.classInfo = val
-    },
-    showNav(state, val) {
-      state.showTopNav = val
-      state.showBottomNav = val
     },
     changeTitle(state, val) {
       state.title = val.toString()
@@ -133,6 +134,8 @@ const store = new Vuex.Store({
           commit('setToken', res.Token)
           commit('login', res)
           resolve(res)
+        }).catch(err=>{
+          reject(err)
         })
       })
     },

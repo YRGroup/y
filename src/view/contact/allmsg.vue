@@ -86,7 +86,6 @@ export default {
     }
   },
   created() {
-    this.$store.commit('showNav', true)
     this.$store.commit('changeTitle', '消息中心')
     this.getMsgInfo()
     window.scrollTo(0,10000)                  

@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
 
-    <group :title="i.ParentType" v-for="i in parents">
+    <group :title="i.ParentType" v-for="i in parents" :key="i.ParentPhone">
       <cell title="姓名" :value="i.ParentTrueName"></cell>
       <cell title="身份" :value="i.ParentType"></cell>
       <cell title="电话" :value="i.ParentPhone"></cell>
@@ -37,7 +37,6 @@ export default {
     }
   },
   created(){
-    this.$store.commit('showNav', true)
     this.$store.commit('changeTitle', '学生家长')
     this.getData()
   },

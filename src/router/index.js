@@ -4,6 +4,7 @@ import Router from 'vue-router'
 // 临时页面
 import dev from '@/components/dev'
 // 主页
+import home from '@/view/main'
 import main from '@/view/main/main'
 
 // 功能模块
@@ -71,249 +72,255 @@ Vue.use(Router)
 
 
 export default new Router({
-    // 历史记录模式，需要服务器配置支持
-    // mode: 'history',
-    routes: [
-        {//测试主页
-            path: '/',
-            name: 'dev',
-            component: dev  
-        },
-        {//主页
-            path: '/main',
-            name: 'main',
-            component: main
-        },
-        {//扩展模块
-            path: '/addon',
-            component: addon,
-            children:[
-                {
-                    path: 'kechengbiao',
-                    name: 'kechengbiao',
-                    component: kechengbiao
-                },
-                {
-                    path: 'reader',
-                    name: 'reader',
-                    component: reader
-                },
-                {
-                    path: 'idol',
-                    name: 'idol',
-                    component: idol
-                },
-                {
-                    path: 'interview',
-                    name: 'interview',
-                    component: interview
-                },
-            ]
-        },
-        {//班级
-            path: '/class/:classId/',
-            component: classmain,
-            children: [
-                {
-                    path: '',
-                    component: classMainPage
-                },
-                {
-                    path: 'work',
-                    component: homework
-                },
-                // {
-                //     path: 'msg/:msgId',
-                //     component: classmsg
-                // },
-                {
-                    path: 'kcb',
-                    component: kcb
-                },  
-                {
-                    path: 'new',
-                    component: newClassPost
-                },   
-                {
-                    path: 'notice',
-                    component: notice
-                },  
-                {
-                    path: 'manage',
-                    component: manage
-                },      
-            ]
-        },
-        {//班级动态详情
-            path: '/class/:classId/msg/:msgId',
-            name: 'classmsg',
-            component: classmsg
-        },
-        {//教师
-            path: '/teacher/:teacherId',
-            component: teacher,
-            children: [
-                {
-                    path: '',
-                    name: 'teacher',
-                    component: teacherprofile
-                },
-                {
-                    path: 'profile',
-                    component: teacherprofile
-                },
-                {
-                    path: 'feed',
-                    component: teacherfeed
-                },
-                {
-                    path: 'work',
-                    component: teacherwork
-                }
-            ]
-        },
-        {// 教师资料
-            path: '/teacher/:teacherId/information',
-            name: 'information',
-            component: information
-        },
-        {//学生
-            path: '/student/:studentId',
-            component: student,
-            children:[
-                {
-                    path: '',
-                    component: studentMainPage
-                },
-                {
-                    path: 'feed',
-                    component: studentfeed
-                },
-                {
-                    path: 'schoolcard',
-                    component: schoolcard
-                },
-                {
-                    path: 'timeline',
-                    component: timeline
-                },
-                {
-                    path: 'edit',
-                    component: studentedit
-                },
-                {
-                    path: 'parent',
-                    component: studentparent
-                }
-            ]
-        },
-        {// 学生成绩
-            path: '/student/:studentId/profile',
-            name: 'studentprofile',
-            component: studentprofile
-        },
-        {// 学生成绩报告
-            path: '/student/:studentId/score/:examId',
-            name: 'score',
-            component: score
-        },
-        {// 学生编辑信息
-            path: '/student/:studentId/edit',
-            name: 'studentedit',
-            component: studentedit
-        },
-        {//学校
-            path: '/school',
-            component: school,
-            children: [
-                {
-                    path: '',
-                    component: allSchoolPost
-                },
-                {
-                    path: 'new',
-                    name: 'newSchoolPost',
-                    component: newSchoolPost
-                },
-                {
-                    path: 'all',
-                    name: 'allSchoolPost',
-                    component: allSchoolPost
-                },
-                {
-                    path: 'news',
-                    name: 'news',
-                    component: news
-                }
-            ]
-        },
-        // 注册 登陆
-        {
-            path: '/reg',
-            name: 'reg',
-            component: reg,
-        },  
-        {
-            path: '/login',
-            name: 'login',
-            component: login
-        },   
+  // 历史记录模式，需要服务器配置支持
+  // mode: 'history',
+  routes: [
 
+    {
+      path: '/',
+      component: home,
+      children: [{ //测试主页
+          path: '/',
+          name: 'mainpage',
+          component: main
+        },
+        { //主页
+          path: '/main',
+          name: 'main',
+          component: main
+        },
+        { //扩展模块
+          path: '/addon',
+          component: addon,
+          children: [{
+              path: 'kechengbiao',
+              name: 'kechengbiao',
+              component: kechengbiao
+            },
+            {
+              path: 'reader',
+              name: 'reader',
+              component: reader
+            },
+            {
+              path: 'idol',
+              name: 'idol',
+              component: idol
+            },
+            {
+              path: 'interview',
+              name: 'interview',
+              component: interview
+            },
+          ]
+        },
+        { //班级
+          path: '/class/:classId/',
+          component: classmain,
+          children: [{
+              path: '',
+              component: classMainPage
+            },
+            {
+              path: 'work',
+              component: homework
+            },
+            // {
+            //     path: 'msg/:msgId',
+            //     component: classmsg
+            // },
+            {
+              path: 'kcb',
+              component: kcb
+            },
+            {
+              path: 'new',
+              component: newClassPost
+            },
+            {
+              path: 'notice',
+              component: notice
+            },
+            {
+              path: 'manage',
+              component: manage
+            },
+          ]
+        },
+        { //班级动态详情
+          path: '/class/:classId/msg/:msgId',
+          name: 'classmsg',
+          component: classmsg
+        },
+        { //教师
+          path: '/teacher/:teacherId',
+          component: teacher,
+          children: [{
+              path: '',
+              name: 'teacher',
+              component: teacherprofile
+            },
+            {
+              path: 'profile',
+              component: teacherprofile
+            },
+            {
+              path: 'feed',
+              component: teacherfeed
+            },
+            {
+              path: 'work',
+              component: teacherwork
+            }
+          ]
+        },
+        { // 教师资料
+          path: '/teacher/:teacherId/information',
+          name: 'information',
+          component: information
+        },
+        { //学生
+          path: '/student/:studentId',
+          component: student,
+          children: [{
+              path: '',
+              component: studentMainPage
+            },
+            {
+              path: 'feed',
+              component: studentfeed
+            },
+            {
+              path: 'schoolcard',
+              component: schoolcard
+            },
+            {
+              path: 'timeline',
+              component: timeline
+            },
+            {
+              path: 'edit',
+              component: studentedit
+            },
+            {
+              path: 'parent',
+              component: studentparent
+            }
+          ]
+        },
+        { // 学生成绩
+          path: '/student/:studentId/profile',
+          name: 'studentprofile',
+          component: studentprofile
+        },
+        { // 学生成绩报告
+          path: '/student/:studentId/score/:examId',
+          name: 'score',
+          component: score
+        },
+        { // 学生编辑信息
+          path: '/student/:studentId/edit',
+          name: 'studentedit',
+          component: studentedit
+        },
+        { //学校
+          path: '/school',
+          component: school,
+          children: [{
+              path: '',
+              component: allSchoolPost
+            },
+            {
+              path: 'new',
+              name: 'newSchoolPost',
+              component: newSchoolPost
+            },
+            {
+              path: 'all',
+              name: 'allSchoolPost',
+              component: allSchoolPost
+            },
+            {
+              path: 'news',
+              name: 'news',
+              component: news
+            }
+          ]
+        },
         // 通讯录
         {
-            path: '/contact',
-            name: 'contact',
-            component: contact
+          path: '/contact',
+          name: 'contact',
+          component: contact
         },
         {
-            path: '/msg/:userId',
-            name: 'msg',
-            component: msg
+          path: '/msg/:userId',
+          name: 'msg',
+          component: msg
         },
         {
-            path: '/mymsg',
-            name: 'mymsg',
-            component: mymsg
+          path: '/mymsg',
+          name: 'mymsg',
+          component: mymsg
         },
 
         // 用户
         {
-            path: '/user',
-            name: 'user',
-            component: user
+          path: '/user',
+          name: 'user',
+          component: user
         },
         {
-            path: '/edit',
-            name: 'edit',
-            component: edit
+          path: '/edit',
+          name: 'edit',
+          component: edit
         },
         {
-            path: '/parentcenter',
-            name: 'parentcenter',
-            component: parentcenter
+          path: '/parentcenter',
+          name: 'parentcenter',
+          component: parentcenter
         },
         {
-            path: '/studentcenter',
-            name: 'studentcenter',
-            component: studentcenter
+          path: '/studentcenter',
+          name: 'studentcenter',
+          component: studentcenter
         },
         {
-            path: '/teachercenter',
-            name: 'teachercenter',
-            component: teachercenter
+          path: '/teachercenter',
+          name: 'teachercenter',
+          component: teachercenter
         },
         {
-            path: '/user/editcode',
-            name: 'editcode',
-            component: editcode
+          path: '/user/editcode',
+          name: 'editcode',
+          component: editcode
         },
         {
-            path: '/user/linkchild',
-            name: 'linkchild',
-            component: linkchild
+          path: '/user/linkchild',
+          name: 'linkchild',
+          component: linkchild
         },
-    ],
-    scrollBehavior (to, from, savedPosition) {
-        return { x: 0, y: 0 }
+      ]
+    },
+
+    // 注册 登陆
+    {
+      path: '/reg',
+      name: 'reg',
+      component: reg,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
+    },
+
+
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    return {
+      x: 0,
+      y: 0
     }
+  }
 })

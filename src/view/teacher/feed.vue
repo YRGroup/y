@@ -73,7 +73,6 @@ export default {
     }
   },
   created(){
-    this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','教师动态')
     this.getData()
   },

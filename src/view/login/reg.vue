@@ -100,7 +100,7 @@ export default {
         { key: 2, value: '家长' },
         { key: 3, value: '老师' }
       ],
-      step: 6,
+      step: 1,
       moreData: {},
       headImg: '',
     }
@@ -211,7 +211,6 @@ export default {
     },
   },
   created() {
-    this.$store.commit('showNav', false)
     this.$store.commit('changeTitle', '注册')
   },
   mounted() {

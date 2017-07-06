@@ -41,7 +41,6 @@ export default {
     },
   },
   created(){
-    this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','一卡通消费记录')
     this.getExamList()
   },

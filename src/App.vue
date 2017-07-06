@@ -1,76 +1,21 @@
 <template>
-  <div id="app">
-  
-    <!--<div v-transfer-dom v-show="showAddStudent">
-            <x-dialog v-model="showAddStudent" class="dialog-demo">
-              <div class="img-box">
-                <img :src="popupimg" style="max-width:100%">
-              </div>
-              <div class="popupText">
-                <h3>关联孩子</h3>
-                <ul class="subcon">
-                  <li><span>·</span>查看孩子班级动态</li>
-                  <li><span>·</span>与老师实时沟通</li>
-                  <li><span>·</span>查看孩子考试成绩</li>
-                </ul>
-                <div class="popbtn" @click="$router.push('/user/linkchild'),showAddStudent=false">关联孩子</div>
-              </div>
-              <div @click="showAddStudent=false" class="popclose">
-                <span class="vux-close"><i class="iconfont">&#xe61a;</i></span>
-              </div>
-            </x-dialog>
-          </div>-->
-  
-    <x-header id="nav-top" :left-options="{backText: ''}" v-show="$store.state.showTopNav">
-      {{web_title}}
-      <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
-    </x-header>
+  <div>
   
     <loading v-model="isLoading"></loading>
   
     <transition name='slide-fade'>
-      <router-view id="inview" :style="{marginTop:ptop,marginBottom:pdown}"></router-view>
+      <router-view></router-view>
     </transition>
-  
-    <tabbar id="nav-bottom" v-show="$store.state.showBottomNav">
-      <tabbar-item selected link="/main">
-        <i slot="icon" class="iconfont nav_icon">&#xe666;</i>
-        <span slot="label" class="navtext">主页</span>
-      </tabbar-item>
-      <tabbar-item :show-dot="$store.state.hasNewPost" :link="'/class/'+$store.state.currentClassId">
-        <i slot="icon" class="iconfont nav_icon">&#xe672;</i>
-        <span slot="label" class="navtext">班级</span>
-      </tabbar-item>
-      <tabbar-item :badge="($store.state.hasNewMsg==0)?null:$store.state.hasNewMsg" link="/contact">
-        <i slot="icon" class="iconfont nav_icon">&#xe629;</i>
-        <span slot="label" class="navtext">通讯录</span>
-      </tabbar-item>
-      <tabbar-item :link="hasLogin?'/user':'/login'">
-        <i slot="icon" class="iconfont nav_icon">&#xe719;</i>
-        <span slot="label" class="navtext">{{hasLogin?'我的':'未登录'}}</span>
-      </tabbar-item>
-    </tabbar>
   
   </div>
 </template>
 
 <script>
-import { Tabbar, TabbarItem, XHeader, Loading, XSwitch, XDialog, TransferDomDirective as TransferDom } from 'vux'
-import { mapState } from 'vuex'
+import { Loading } from 'vux'
+
 export default {
-  name: 'app',
   components: {
-    Tabbar, TabbarItem, XHeader, Loading, XSwitch, XDialog
-  },
-  directives: {
-    TransferDom
-  },
-  data() {
-    return {
-      test0: '00',
-      showAddStudent: true,
-      popupimg: require('@/assets/popupbg.png'),
-    }
+    Loading
   },
   methods: {
     showRouterInfo() {
@@ -87,15 +32,6 @@ export default {
     web_title() {
       return this.$store.state.title
     },
-    shownav() {
-      return this.$store.state.isNav
-    },
-    ptop() {
-      return this.$store.state.showTopNav ? '46px' : '0'
-    },
-    pdown() {
-      return this.$store.state.showBottomNav ? '53px' : '0'
-    },
     hasLogin() {
       return this.$store.state.hasLogin
     },
@@ -105,7 +41,6 @@ export default {
   },
   created() {
     this.showRouterInfo()
-
   },
   mounted() {
     if (localStorage.hasLogin && !this.$store.state.hasLogin) {
@@ -138,7 +73,7 @@ body {
   font-size: 12px;
   background: @c1;
   overflow-x: hidden;
-  color: @cc1; // height:100%;
+  color: @cc1;
 }
 
 html {
@@ -156,25 +91,6 @@ html {
 
 pre {
   font-family: -apple-system-font, "Helvetica Neue", sans-serif;
-}
-
-#inview {
-  position: relative;
-  top: 0;
-}
-
-#nav-top {
-  width: 100%;
-  max-width: @appwidth;
-  position: fixed;
-  top: 0;
-  z-index: 999;
-}
-
-#nav-bottom {
-  max-width: @appwidth;
-  position: fixed;
-  bottom: 0;
 }
 
 ::-webkit-input-placeholder {
@@ -228,18 +144,9 @@ a {
   line-height: 27px;
 }
 
-#app .weui-bar__item_on .nav_icon,
-#app .weui-bar__item_on .navtext {
-  color: @cc6;
-}
-
 .card {
   background: #fff;
   margin-top: 10px;
-}
-
-#app .weui-btn:after {
-  border: none;
 }
 
 //弹窗样式
@@ -327,9 +234,6 @@ a {
         bottom: -4px;
       }
     }
-  } // .vux-close {
-  //   margin-top: 8px;
-  //   margin-bottom: 8px;
-  // }
+  } 
 }
 </style>

@@ -54,7 +54,6 @@ export default {
     }
   },
   created(){
-    this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','我的班级')
     this.getClassInfo()
   },

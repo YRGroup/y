@@ -132,22 +132,50 @@ export default {
       this.$API.getAllClassDynamic(this.$route.params.classId).then((res) => {
         this.list = res
         this.$vux.loading.hide()                
+      }).catch(err=>{
+        this.$vux.toast.show({
+          type: "warn",
+          width: "20em",
+          text: err.msg
+        })
+        this.$vux.loading.hide()                
       })
     },
     getTeacherList() {
       this.$API.getTeacherList(this.$route.params.classId).then((res) => {
         this.teachers = res
         this.boxwid = res.length * 100 + 'px'
+      }).catch(err=>{
+        this.$vux.toast.show({
+          type: "warn",
+          width: "20em",
+          text: err.msg
+        })
+        this.$vux.loading.hide()                
       })
     },
     getNotice() {
       this.$API.getAllClassDynamic(this.$route.params.classId, 3, 1).then((res) => {
         this.notice = res[0]
+      }).catch(err=>{
+        this.$vux.toast.show({
+          type: "warn",
+          width: "20em",
+          text: err.msg
+        })
+        this.$vux.loading.hide()                
       })
     },
     getHomeWork() {
       this.$API.getHomeworkList(this.$route.params.classId,2).then((res) => {
         this.homework = res
+      }).catch(err=>{
+        this.$vux.toast.show({
+          type: "warn",
+          width: "20em",
+          text: err.msg
+        })
+        this.$vux.loading.hide()                
       })
     },
     doLike(id) {
@@ -163,7 +191,6 @@ export default {
     this.$vux.loading.show({
       text: 'Loading'
     })
-    this.$store.commit('showNav', true)
     this.$store.commit('changeTitle', '班级动态')
     this.getAllClassDynamic()
     this.getTeacherList()

@@ -68,6 +68,12 @@ export default {
             })
             this.$router.push('/main')
           }
+        }).catch(err=>{
+          this.$vux.toast.show({
+            type: "warn",
+            text: err.msg,
+            width: "20em"
+          })
         })
       } else {
         this.$vux.toast.show({
@@ -86,7 +92,6 @@ export default {
     }
   },
   created() {
-    this.$store.commit('showNav', false)
     this.$store.commit('changeTitle', '登录智慧校园')
   },
   mounted() {

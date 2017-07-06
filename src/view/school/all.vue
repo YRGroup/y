@@ -141,7 +141,6 @@ export default {
     }
   },
   created(){
-    this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','班级动态')
     this.getData()
     this.getTeacherList()

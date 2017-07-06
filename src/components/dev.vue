@@ -35,7 +35,6 @@ export default {
     }
   },
   created() {
-    this.$store.commit('showNav', true)
     this.$store.commit('changeTitle', 'dev index')
   }
 }

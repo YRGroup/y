@@ -17,7 +17,7 @@
         </div> 
       </div>
       <ul class="subject">
-        <li v-for="list in score.ScoreInfo">
+        <li v-for="(list,index) in score.ScoreInfo" :key="index">
           <span class="title">{{list.CourseName}}</span>
           <span class="score">{{list.Score}}</span>
           <span class="fullScore">/{{list.FullScore}}</span>
@@ -32,7 +32,7 @@
       <popup v-model="showpopup" height="100%" class="popup">
         <div class="close" @click="showpopup=false">返回</div>
         <div class="content">
-          <li class="card examItem" v-for="i in exam" @click="$router.push('/student/'+$store.state.studentId+'/score/'+i.ExamID),showpopup=false">
+          <li class="card examItem" v-for="(i,index) in exam" :key="index" @click="$router.push('/student/'+$store.state.studentId+'/score/'+i.ExamID),showpopup=false">
             <div class="left">
               <div class="title">{{i.ExamName}} > </div>
               <div class="time">{{i.Time}}</div>
@@ -73,7 +73,6 @@ export default {
     }
   },
   created(){
-    this.$store.commit('showNav',true)
     this.$store.commit('changeTitle','成绩报告')
     this.getScoreData()
     if(this.exam.length===0){

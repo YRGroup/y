@@ -95,7 +95,6 @@ export default {
     }
   },
   created() {
-    this.$store.commit('showNav', true)
     this.$store.commit('changeTitle', '动态详情')
     this.getData()
   },
