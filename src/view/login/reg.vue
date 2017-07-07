@@ -9,10 +9,10 @@
       <p class="title">老师向左、家长向右</p>
       <div class="checker">
         <div class="check">
-          <img :src="check1" @click="data.role='老师'" :class="(data.role=='老师')?'active':null">
+          <img :src="check1" @click="data.role='3'" :class="(data.role=='3')?'active':null">
         </div>
         <div class="check">
-          <img :src="check2" @click="data.role='家长'" :class="(data.role=='家长')?'active':null">
+          <img :src="check2" @click="data.role='2'" :class="(data.role=='2')?'active':null">
         </div>
       </div>
       <group class="regBtn" :class="(!data.role)?'hidden':null">
@@ -130,14 +130,14 @@ export default {
     submit() {
       if (!this.$refs.mobilephone.valid) {
         this.$vux.toast.show({
-          type: "text",
+          type: "warn",
           text: '手机号格式不正确',
           width: '20em'
         })
-      } else if (this.data.password.length < 6) {
+      } else if (this.data.password.length > 16) {
         this.$vux.toast.show({
-          type: "cantextcel",
-          text: '密码不能少于6位数',
+          type: "warn",
+          text: '密码不能大于16位',
           width: '20em'
         })
       } else {
@@ -150,6 +150,12 @@ export default {
           })
           this.login()
           this.step = 5
+        }).catch(err=>{
+          this.$vux.toast.show({
+            type: "warn",
+            text: err.msg,
+            width: '20em'
+          })
         })
       }
     },
@@ -203,7 +209,7 @@ export default {
       let imgPostData = []
       imgPostData[0] = imgFile
       this.$API.uploadImg(imgPostData).then((res) => {
-        this.headImg = this.$store.state.ApiUrl + res[0]
+        this.headImg = res[0]
         this.$vux.loading.hide()
       }).catch((err) => {
         this.$vux.loading.hide()

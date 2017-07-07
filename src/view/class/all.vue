@@ -64,7 +64,7 @@
       <div slot="content" class="content">
         <div @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)" v-html="item.content"></div>
         <div class="img" v-if="item.albums.length!=0">
-          <img @click="imgPopup(imgurl)" :src="$store.state.ApiUrl+imgurl"  v-for="(imgurl,index) in item.albums" :key="index">
+          <img @click="imgPopup(imgurl)" :src="imgurl"  v-for="(imgurl,index) in item.albums" :key="index">
         </div>
       </div>
       <div slot="footer" class="footer">
@@ -125,7 +125,7 @@ export default {
       })
     },
     imgPopup(val){
-      this.popupImgUrl=this.$store.state.ApiUrl+val
+      this.popupImgUrl=val
       this.showImgPopup=true
     },
     getAllClassDynamic() {
