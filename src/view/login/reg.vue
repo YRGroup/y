@@ -48,11 +48,6 @@
     <div class="moreReg" v-show="step==6">
       <group>
         <x-input title="姓名" placeholder="请输入您的真实姓名" v-model="moreData.TrueName"></x-input>
-        <div class="checker">
-          <checker v-model="moreData.Sex" default-item-class="checker-item" selected-item-class="checker-selected">
-            <checker-item v-for="i in ['男','女']" :key="i" :value="i">{{i}}</checker-item>
-          </checker>
-        </div>
         <div class="face">
           <div class="headImg">
             <a href="javascript:;" class="a-upload">
@@ -68,8 +63,13 @@
       </group>
   
       <group title="添加学生" titleColor="#fff">
-        <x-input title="姓名" v-model="moreData.TrueName" placeholder="学生姓名"></x-input>
-        <x-input title="学号" v-model="moreData.TrueName" placeholder="学生学号"></x-input>
+        <x-input title="姓名" v-model="addStudentData.truename" placeholder="学生姓名"></x-input>
+        <x-input title="学号" v-model="addStudentData.student_id" placeholder="学生学号"></x-input>
+        <div class="checker">
+          <checker v-model="addStudentData.type" default-item-class="checker-item" selected-item-class="checker-selected">
+            <checker-item v-for="(i,index) in parentType" :key="index" :value="i.key">{{i.value}}</checker-item>
+          </checker>
+        </div>
       </group>
   
       <group>
@@ -100,8 +100,13 @@ export default {
         { key: 2, value: '家长' },
         { key: 3, value: '老师' }
       ],
+      parentType:[
+        { key: 1, value: '爸爸' },
+        { key: 2, value: '妈妈' },
+      ],
       step: 1,
       moreData: {},
+      addStudentData:{},
       headImg: '',
     }
   },
@@ -161,15 +166,23 @@ export default {
     },
     submitMore() {
       this.moreData.Headimgurl = this.headImg
-      if (this.moreData.TrueName && this.moreData.Sex) {
+      if (!this.moreData.TrueName){
+        this.$vux.toast.show({
+          type: "warn",
+          width: "20em",
+          text: '姓名不能为空'
+        })
+      }else {
         if (this.moreData.Role == '家长') {
           this.$API.editParentInfo(this.moreData).then((res) => {
-            this.$vux.toast.show({
-              type: "success",
-              width: "20em",
-              text: '添加资料成功'
+            this.$API.addStudent(this.addStudentData).then(res=>{
+              this.$vux.toast.show({
+                type: "success",
+                width: "20em",
+                text: '添加资料成功'
+              })
+              this.$router.push('/main')
             })
-            this.$router.push('/main')
           })
         } else if (this.moreData.Role == '老师') {
           this.$API.editTeacherInfo(this.moreData).then((res) => {
@@ -228,7 +241,8 @@ export default {
 .register {
   padding: 0 2em;
   height: 100vh;
-  background-image: url('../../assets/img/bg1.jpg');
+  // background-image: url('../../assets/img/bg1.jpg');
+  background: @c3;
   background-position: center;
   .space {
     text-align: center;
@@ -312,7 +326,7 @@ export default {
       background: @c4;
       color: #fff;
       margin: 0 1rem;
-      padding: 0 2rem;
+      padding: 0 1rem;
     }
     .checker-selected {
       background: @c6;
@@ -320,6 +334,7 @@ export default {
   }
   .face {
     text-align: center;
+    border-top:1px solid @c2;
     .headImg {
       padding: 0px;
       text-align: center;

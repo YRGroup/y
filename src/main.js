@@ -111,12 +111,12 @@ let options = {
         upload: {
             url: null,
             headers: {},
-            params: {},
+            params:{},
             fieldName: {}
         },
         compress: {
-            width: 800,
-            height: 800,
+            width: 350,
+            height: 350,
             quality: 80
         },
         uploadHandler(responseText){
@@ -184,6 +184,7 @@ let options = {
         "link",
         "unlink",
         "tabulation",
+        "image",
         "hr",
         "eraser",
         "undo"

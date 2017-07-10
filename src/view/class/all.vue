@@ -168,7 +168,9 @@ export default {
     },
     getHomeWork() {
       this.$API.getHomeworkList(this.$route.params.classId,2).then((res) => {
-        this.homework = res
+        this.homework = res.forEach(function(element) {
+          element.
+        }, this);
       }).catch(err=>{
         this.$vux.toast.show({
           type: "warn",

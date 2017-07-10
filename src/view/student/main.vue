@@ -5,7 +5,7 @@
         <img :src="headimgurl" @click="$router.push('/student/'+$route.params.studentId)">
       </div>
       <div class="nameInfo">
-        <p class="stuname">{{ studentName }}</p>
+        <p class="stuname">学生：{{ studentName }}</p>
         <p class="clname">{{ className }}</p>
       </div>
       <div class="msgbtn" @click="$router.push('/msg/'+$route.params.studentId)"><i class="iconfont">&#xe606;</i>发消息</div>

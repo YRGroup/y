@@ -1,15 +1,31 @@
 <template>
   <div class="work">
 
-      <div class="workcard">
+    <div class="addbtn">
+      <x-button @click.native="$router.push('/class/'+$route.params.classId+'/newhomework')" type="primary" plain >发布新作业</x-button>
+    </div>    
+
+    <popup v-model="newHomework" height="310px" is-transparent>
+      <div class="popup">
+        <group>
+          <selector title="学科" :options="course_list" v-model="newHomeworkData.course_id"></selector>
+          <x-textarea title="作业" placeholder="请输入作业内容" v-model="newHomeworkData.content"></x-textarea>
+        </group>
+        <div style="padding:20px 15px;">
+          <x-button type="primary" @click.native="addHomework">发布</x-button>
+          <x-button @click.native="newHomework = false">取消</x-button>
+        </div>
+      </div>
+    </popup>
+
+      <div class="workcard" v-for="(i,index) in homework" :key="index">
         <div class="header">
-          <span class="category" :style="{background:colors[homework.CourseName]}">{{ homework.CourseName }}</span>
-          <span class="auther">{{ homework.AutherName }}</span>
+          <span class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName }}</span>
+          <span class="auther">{{ i.AutherName }}</span>
         </div>
-        <div class="content">
-          <div v-html="homework.Content"></div>
+        <div class="content" v-html="i.Content" @click="$router.push('/class/'+$route.params.classId+'/homework/'+i.HID)">
         </div>
-        <div class="footer">{{ homework.CreateTime }}</div>
+        <div class="footer">{{ i.CreateTime }}</div>
       </div>
 
     </div>
@@ -56,7 +72,7 @@ export default {
         '美术':'#1abc9c',
         '体育':'#2ecc71'
       },
-      homework:{}
+      homework:[]
     }
   },
   methods:{
@@ -68,8 +84,9 @@ export default {
       })
     },
     getHomeWork(){
-      this.$API.getHomework(this.$route.params.homeworkId).then(res=>{
+      this.$API.getHomeworkList(this.$route.params.classId).then(res=>{
         this.homework = res
+        this.boxwid = res.length * 100 +'px'
       })
     },
     addHomework(){

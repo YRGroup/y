@@ -15,7 +15,7 @@
 
         <div class="slide" :class="showContent1?'animate':null">
           <cell class="item" is-link v-for="(i,index) in student" 
-          :title="i.TrueName" :link="'/student/'+i.Meid"  :key="index">
+          :title="i.TrueName " :inline-desc="i.StudentID" :link="'/student/'+i.Meid"  :key="index">
             <img class="cellicon" slot="icon" :src="i.Headimgurl">
           </cell>
         </div>
@@ -30,7 +30,7 @@
         <div class="slide" :class="showContent2?'animate':null">
           <cell class="item" is-link v-for="(i,index) in parent" 
           :link="'/student/'+i.StudentMeid+'/parent'" 
-          :title="i.StudentTrueName+'的家长'" :key="index">
+          :title="i.StudentTrueName+'的家长 '" :inline-desc="i.ParentPhone" :key="index">
             <img class="cellicon" slot="icon" :src="i.ParentHeadimgurl">
           </cell>
         </div>
@@ -44,7 +44,7 @@
         </cell>
         <div class="slide" :class="showContent3?'animate':null">
           <cell class="item" is-link v-for="(i,index) in teacher" 
-          :link="'/teacher/'+i.Meid" :title="i.TrueName + '（' + i.Course + '）'" :inline-desc="i.SelfDiscription" :key="index">
+          :link="'/teacher/'+i.Meid" :title="i.TrueName + '（' + i.Course + '）'" :inline-desc="i.Mobilephone" :key="index">
             <img class="cellicon" slot="icon" :src="i.Headimgurl">
           </cell>
         </div>

@@ -1,11 +1,11 @@
 <template>
   <div class="hello">
   
-    <group title="发布新的班级动态" labelWidth="6em">
+    <group title="发布新的班级作业" labelWidth="6em">
       <!--<x-input title="作者：" placeholder="just for demo" v-model="data.auther" novalidate show-clear placeholder-align="right"></x-input>-->
-      <selector title="类别：" placeholder="请选择类别" direction="right" v-model="data.type" :options="categoryList"></selector>
+      <selector title="科目：" placeholder="请选择类别" direction="right" v-model="newHomeworkData.course_name" :options="courseList"></selector>
   
-      <vue-html5-editor class="needsclick" :content="data.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor>
+      <vue-html5-editor class="needsclick" :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor>
   
       <!--<div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
@@ -24,7 +24,7 @@
     </group>
   
     <div style="padding:2rem;">
-      <x-button @click.native="addNewPost" type="primary">确认发布</x-button>
+      <x-button @click.native="addHomework" type="primary">确认发布</x-button>
     </div>
   
   </div>
@@ -39,18 +39,26 @@ export default {
   },
   data() {
     return {
-      data: {
-        type: 1,
-        content: '',
-        'img_url_list': '',
-      },
+      newHomeworkData: { },
       fileList: [],
-      categoryList: [{ key: '1', value: '班级动态' }, { key: '2', value: '班级新闻' }, { key: '3', value: '班级通知' }, { key: '4', value: '班级作业' }]
+      courseList: [
+        {key:'语文',value:'语文'},
+        {key:'数学',value:'数学'},
+        {key:'英语',value:'英语'},
+        {key:'物理',value:'物理'},
+        {key:'化学',value:'化学'},
+        {key:'历史',value:'历史'},
+        {key:'政治',value:'政治'},
+        {key:'地理',value:'地理'},
+        {key:'音乐',value:'音乐'},
+        {key:'美术',value:'美术'},
+        {key:'体育',value:'体育'}
+      ],
     }
   },
   methods: {
     updateData: function (data) {
-      this.data.content = data
+      this.newHomeworkData.content = data
     },
     addImg() {
       if (this.fileList.length < 9) {
@@ -81,20 +89,25 @@ export default {
         }
       }
     },
-    addNewPost() {
-      this.data.cid = this.$route.params.classId
-      this.data['img_url_list'] = this.fileList.join(',')
-      if (this.data.type != null && this.data.content != '') {
-        this.$API.postNewClassDynamic(this.data).then(res => {
+    addHomework(){
+      if(this.newHomeworkData.course_name&&this.newHomeworkData.content){
+        this.newHomeworkData.class_id = this.$route.params.classId
+        this.newHomeworkData.title=''
+        this.$API.addHomework(this.newHomeworkData).then(res=>{
           this.$vux.toast.show({
-            type: "success",
+            type:"success",
             text: "发布成功"
           })
           this.$router.push('/class/'+this.$route.params.classId)
+        }).catch(err=>{
+          this.$vux.toast.show({
+            type:"warn",
+            text: err.msg
+          })
         })
-      } else {
+      }else{
         this.$vux.toast.show({
-          type: "warn",
+          type:"warn",
           text: "数据不完整"
         })
       }

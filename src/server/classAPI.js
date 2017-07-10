@@ -42,6 +42,20 @@ API.getHomeworkList = (classId,count) => {
 }
 // testing
 
+// 获取单条班级作业
+API.getHomework = (hid) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/Class/GetHomework',{
+      params:{
+        hid:hid,
+      }
+  }).then((res)=>{
+      resolve(res.data.Content)
+    })
+  })
+}
+// testing
+
 // 发布新班级作业
 API.addHomework = (data) => {
   return new Promise((resolve, reject) => {

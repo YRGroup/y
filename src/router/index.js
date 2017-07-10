@@ -26,6 +26,8 @@ import classMainPage from '@/view/class/all'
 import classmsg from '@/view/class/msg'
 import notice from '@/view/class/notice'
 import homework from '@/view/class/homework'
+import homeworkList from '@/view/class/homeworkList'
+import newHomework from '@/view/class/newhomework'
 import kcb from '@/view/class/kcb'
 import newClassPost from '@/view/class/newpost'
 import manage from '@/view/class/manage'
@@ -123,6 +125,10 @@ export default new Router({
             },
             {
               path: 'work',
+              component: homeworkList
+            },
+            {
+              path: 'homework/:homeworkId',
               component: homework
             },
             // {
@@ -136,6 +142,10 @@ export default new Router({
             {
               path: 'new',
               component: newClassPost
+            },
+            {
+              path: 'newhomework',
+              component: newHomework
             },
             {
               path: 'notice',

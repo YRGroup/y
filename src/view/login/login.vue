@@ -24,12 +24,9 @@
     </br>
     <div style="padding:0 20px" class="loginBtn">
       <x-button type="primary" @click.native="login">登录</x-button>
+      <div class="regBtn" @click="$router.push('/reg')">还没有帐号？点击注册</div>
     </div>
-  
-    <div class="parentReg">
-      <x-button plain @click.native="$router.push('/main')">进入主页</x-button>
-      <x-button plain @click.native="$router.push('/reg')">注册</x-button>
-    </div>
+
   </div>
 </template>
 
@@ -147,18 +144,9 @@ export default {
   color: @cc3;
 }
 
-.parentReg {
-  position: absolute;
-  bottom: 1rem;
-  width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  .weui-btn {
-    display: inline-block;
-    margin: 1em 1em 0;
-    width: 40%;
-    color: @cc6;
-    border: 1px solid @cc6;
-  }
+.regBtn{
+  line-height: 30px;
+  color:@c4;
 }
+
 </style>
