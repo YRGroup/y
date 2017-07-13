@@ -2,7 +2,7 @@
   <div class="work">
 
     <div class="addbtn">
-      <x-button @click.native="$router.push('/class/'+$route.params.classId+'/newhomework')" type="primary" plain >发布新作业</x-button>
+      <x-button class="" mini @click.native="$router.push('/class/'+$route.params.classId+'/newhomework')" type="primary" plain >发布新作业</x-button>
     </div>    
 
     <popup v-model="newHomework" height="310px" is-transparent>
@@ -22,10 +22,11 @@
         <div class="header">
           <span class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName }}</span>
           <span class="auther">{{ i.AutherName }}</span>
+          <span class="time">{{ i.CreateTime }}</span>
         </div>
         <div class="content" v-html="i.Content" @click="$router.push('/class/'+$route.params.classId+'/homework/'+i.HID)">
         </div>
-        <div class="footer">{{ i.CreateTime }}</div>
+        <!-- <div class="footer">{{ i.CreateTime }}</div> -->
       </div>
 
     </div>
@@ -118,7 +119,9 @@ export default {
 
 <style lang="less" scoped>
 .addbtn{
-  padding:1rem;
+  padding:0.8rem;
+  margin:0 auto;
+  text-align: center;
 }
 .workcard{
   background: #fff;
@@ -133,9 +136,15 @@ export default {
       border-radius: 5px;
     }
     .auther{
-      float:right;
+      // float:right;
       padding-right:1rem;
       color:@cc2;
+      font-size: 1.2em;
+      margin:3px 0 0 10px;
+    }
+    .time{
+      float: right;
+      color: @cc3;
     }
   }
   .content{
