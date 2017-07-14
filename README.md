@@ -1,11 +1,39 @@
 # Project-Y
 
-前端代码库
+latest update by Quincy  
+2017-07-14 17:43:18
 
-> nullcss，Quincy
 
-latest update by Quincy
-2017-07-11 17:34:02
+推荐使用[nginx](http://nginx.org/)反向代理  
+
+Win hosts配置项：
+```
+127.0.0.1   www.test.com
+```
+
+nginx.conf配置项：  
+```
+server {
+    listen  80;
+    server_name  www.test.com;
+    location / {
+        proxy_pass   http://127.0.0.1:8001;
+    }
+}
+```
+
+
+## github集合
+- [pc端](https://github.com/YRGroup/y-pc)
+- [移动端](https://github.com/YRGroup/y)
+- [管理后台](https://github.com/YRGroup/y-admin)
+
+
+## demo
+- [pc端](http://testwebsite.zzflgs.cn/web)
+- [移动端](http://testwebsite.zzflgs.cn/m)
+- [管理后台](http://testwebsite.zzflgs.cn/admin)
+
 
 ## Build Setup
 
@@ -16,12 +44,13 @@ npm install --registry=https://registry.npm.taobao.org
 # 开发模式 localhost:8001
 npm run dev
 
-# 使用forever的开发模式
+# 推荐使用forever
 npm run start
 
 # 打包项目
 npm run build
 ```
+
 
 |  目录          | 说明          | 备注  |
 | ------------- |:-------------:| -----:|
