@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    
+  
     <group>
       <cell title="一卡通当前余额：" :value="data.Blance+'元'">
       </cell>
@@ -31,7 +31,7 @@ export default {
   components: {
     Group,Cell,LoadMore,XButton
   },
-  data () {
+  data() {
     return {
       data:{
         Blance:0,
@@ -61,14 +61,14 @@ export default {
     this.$store.commit('changeTitle','一卡通消费记录')
     this.getData()
   },
-  mounted(){
+  mounted() {
 
   }
 }
 </script>
 
 <style lang="less" scoped>
-.noMsg{
+.noMsg {
   text-align: center;
   line-height: 150px;
 }

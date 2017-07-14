@@ -1,29 +1,34 @@
 <template>
   <div>
-    <div class="header">
-      <div class="stuImg">
-        <img :src="headimgurl" @click="$router.push('/student/'+$route.params.studentId)">
+    <has-no-student v-if="$store.state.hasNoStudent"></has-no-student>
+    
+    <div v-else>
+      <div class="header">
+        <div class="stuImg">
+          <img :src="headimgurl" @click="$router.push('/student/'+$route.params.studentId)">
+        </div>
+        <div class="nameInfo">
+          <p class="stuname">学生：{{ studentName }}</p>
+          <p class="clname">{{ className }}</p>
+        </div>
+        <div class="msgbtn" @click="$router.push('/msg/'+$route.params.studentId)">
+          <i class="iconfont">&#xe606;</i>发消息</div>
       </div>
-      <div class="nameInfo">
-        <p class="stuname">学生：{{ studentName }}</p>
-        <p class="clname">{{ className }}</p>
-      </div>
-      <div class="msgbtn" @click="$router.push('/msg/'+$route.params.studentId)"><i class="iconfont">&#xe606;</i>发消息</div>
+  
+      <transition name="slide-fade">
+        <router-view></router-view>
+      </transition>
     </div>
-  
-    <transition name="slide-fade">
-      <router-view></router-view>
-    </transition>
-  
   </div>
 </template>
 
 <script>
 import { Tab, TabItem } from 'vux'
+import hasNoStudent from '@/components/hasNoStudent'
 
 export default {
   components: {
-    Tab, TabItem
+    Tab, TabItem, hasNoStudent
   },
   data() {
     return {
@@ -57,11 +62,11 @@ export default {
   color: #fff; // text-align: center;
   background: linear-gradient(right top, #00c0a1, #00c06f); // background-size:100% 100%;
   overflow: hidden;
-  padding:10px;
+  padding: 10px;
   position: relative;
   .stuImg {
     float: left;
-    margin-left:1rem;
+    margin-left: 1rem;
     img {
       width: 3.4rem;
       border-radius: 50%;
@@ -70,11 +75,11 @@ export default {
   }
   .nameInfo {
     float: left;
-    margin:10px 0 0 10px;
-    .stuname{
+    margin: 10px 0 0 10px;
+    .stuname {
       font-size: 1.4em;
     }
-    .clname{
+    .clname {
       opacity: 0.8
     }
   }
@@ -95,9 +100,9 @@ export default {
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.3);
     border-radius: 20px 0 0 20px;
-    .iconfont{
+    .iconfont {
       font-size: 1.3em;
-      margin:0 5px 0 5px;
+      margin: 0 5px 0 5px;
       position: relative;
       top: 2px;
     }
