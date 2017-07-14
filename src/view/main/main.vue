@@ -45,7 +45,7 @@
         </router-link>
       </flexbox-item>-->
       <flexbox-item :span="4">
-        <router-link :to="'/student/'+$store.state.currentStudentId+'/schoolcard'">
+        <router-link :to="'/addon/schoolcard'">
           <div style="background:#fbc700"><i class="iconfont">&#xe602;</i></div>
           <span>一卡通</span>
         </router-link>

@@ -66,7 +66,7 @@ const store = new Vuex.Store({
         }
       }
 
-      if (val.Role == '教师' && !val.mock) {
+      if (val.Role == '老师' && !val.mock) {
         if (val.ExtendInfo.Classes.length != 0) {
           state.currentClassId = val.ExtendInfo.Classes[0].ClassID
         }

@@ -17,11 +17,14 @@
 
     <popup v-model="showAddTeacher" is-transparent>
       <div class="popup">
-        <group title="添加班级教师" >
-          <x-input title="教师ID:" v-model="newClassTeacherID" placeholder="在此输入ID"></x-input>
+        <group :title="'添加 '+data.name+' 的教师'" >
+          <x-input title="姓名:" v-model="newClassTeacher.TrueName" placeholder="在此输入姓名"></x-input>
+          <selector title="科目：" placeholder="请选择科目" direction="right" v-model="newClassTeacher.course_name" :options="courseList"></selector>
+          <x-input title="手机号:" v-model="newClassTeacher.phone" placeholder="在此输入手机号"></x-input>
+          <x-input title="密码" v-model="newClassTeacher.password" placeholder="在此输入密码"></x-input>
         </group>
         <div style="padding:20px 15px;">
-          <x-button type="primary" @click.native="addClassTeacher">发布</x-button>
+          <x-button type="primary" @click.native="addClassTeacher">确认添加</x-button>
           <x-button  @click.native="showAddTeacher=false">取消</x-button>
         </div>
       </div>
@@ -43,17 +46,36 @@
 </template>
 
 <script>
-import { Group,Cell,XInput,XButton,Popup } from 'vux'
+import { Group,Cell,XInput,XButton,Popup,Selector } from 'vux'
 
 export default {
   name: 'hello',
   components:{
-    Group,Cell,XInput,XButton,Popup
+    Group,Cell,XInput,XButton,Popup,Selector
   },
   data () {
     return {
       showAddTeacher:false,
-      newClassTeacherID:'',
+      newClassTeacher:{
+        TrueName:'',
+        phone:'',
+        password:'',
+        course_name:'',
+        role:'3'
+      },
+      courseList: [
+        {key:'语文',value:'语文'},
+        {key:'数学',value:'数学'},
+        {key:'英语',value:'英语'},
+        {key:'物理',value:'物理'},
+        {key:'化学',value:'化学'},
+        {key:'历史',value:'历史'},
+        {key:'政治',value:'政治'},
+        {key:'地理',value:'地理'},
+        {key:'音乐',value:'音乐'},
+        {key:'美术',value:'美术'},
+        {key:'体育',value:'体育'}
+      ],
       showAddStudent:false,
       newClassStudentID:'',
       data:{}
@@ -68,21 +90,24 @@ export default {
     addClassTeacher(){
       let data ={}
       data.cid=this.$route.params.classId
-      data.meid=this.newClassTeacherID
-      this.$API.addClassTeacher(data).then((res)=>{
-        this.showAddTeacher=false
-        this.$vux.toast.show({
-          type:'success',
-          width:'20em',
-          text:'添加成功'
-        })
-      }).catch((err)=>{
-        this.$vux.toast.show({
-          type:'warn',
-          width:'20em',
-          text:'添加失败,'+err
+      this.$API.userReg(this.newClassTeacher).then(res=>{
+        data.meid = res.Meid
+        this.$API.addClassTeacher(data).then((res)=>{
+          this.showAddTeacher=false
+          this.$vux.toast.show({
+            type:'success',
+            width:'20em',
+            text:'添加成功'
+          })
+        }).catch((err)=>{
+          this.$vux.toast.show({
+            type:'warn',
+            width:'20em',
+            text:'添加失败,'+err
+          })
         })
       })
+
     },
     addClassStudent(){
       let data ={}

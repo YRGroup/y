@@ -2,24 +2,24 @@
   <div class="hello">
   
     <group title="发布新的班级作业" labelWidth="6em">
-      <!--<x-input title="作者：" placeholder="just for demo" v-model="data.auther" novalidate show-clear placeholder-align="right"></x-input>-->
       <selector title="科目：" placeholder="请选择类别" direction="right" v-model="newHomeworkData.course_name" :options="courseList"></selector>
-  
+      <x-input title="标题：" placeholder="请输入标题" v-model="newHomeworkData.title" show-clear></x-input>
+      
       <vue-html5-editor class="needsclick" :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor>
   
-      <!--<div class="file" style="text-align:center">
+      <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
           <input type="file" accept="image/jpeg,image/png" multiple="multiple" id="imgFiles" @change="addImg"> 点击这里上传图片
         </a>
-        <div class="imgPreviewContainer">
+        <!--<div class="imgPreviewContainer">
           <div class="imgPreview" v-for="(i,index) in fileList" :key="index">
             <div class="deleteImg">
               <span @click="deleteImg(index)">X</span>
             </div>
             <img :src="i">
           </div>
-        </div>
-      </div>-->
+        </div>-->
+      </div>
   
     </group>
   
@@ -69,6 +69,7 @@ export default {
         this.$API.uploadImg(imgFiles).then((res) => {
           res.forEach((val) => {
             this.fileList.push(val)
+            this.newHomeworkData.content += '<img style="max-width:100%;" src='+ val +'>'
           })
           this.$vux.loading.hide()
         }).catch((err) => {
@@ -92,7 +93,6 @@ export default {
     addHomework(){
       if(this.newHomeworkData.course_name&&this.newHomeworkData.content){
         this.newHomeworkData.class_id = this.$route.params.classId
-        this.newHomeworkData.title=''
         this.$API.addHomework(this.newHomeworkData).then(res=>{
           this.$vux.toast.show({
             type:"success",
@@ -124,6 +124,9 @@ export default {
 <style lang="less" scoped>
 @import 'https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css';
 
+.contentImg{
+  
+}
 .file {
   text-align: center;
   border-top: 1px solid @cc4;

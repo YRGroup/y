@@ -40,7 +40,7 @@
       <div class="content">
         <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/'+$route.params.classId+'/work')">
           <div class="msg">
-           【 {{ i.CourseName }}】：{{ i.Content }}
+           【 {{ i.CourseName }}】：{{ i.Title }}
           </div>
           <div class="date">{{ i.CreateTime }}</div>
         </li>
@@ -168,9 +168,7 @@ export default {
     },
     getHomeWork() {
       this.$API.getHomeworkList(this.$route.params.classId,2).then((res) => {
-        this.homework = res.forEach(function(element) {
-          element.
-        }, this);
+        this.homework = res
       }).catch(err=>{
         this.$vux.toast.show({
           type: "warn",

@@ -77,11 +77,9 @@ API.uploadImg = (files) => {
 // testing
 
 // 空API模板
-API.default = (id) => {
+API.getCardInfo = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/Class/GetDynamic?cid='+id).then((res)=>{
-      console.log('测试：')
-      console.log(this)
+    axios.get(_APIurl+'/api/user/GetFinanceLog',{params:para}).then((res)=>{
       resolve(res.data.Content)
     }).catch((err)=>{
       console.log('获取信息失败：')

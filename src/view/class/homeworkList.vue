@@ -23,6 +23,7 @@
           <span class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName }}</span>
           <span class="auther">{{ i.AutherName }}</span>
         </div>
+        <div class="title">{{i.Title}}</div>
         <div class="content" v-html="i.Content" @click="$router.push('/class/'+$route.params.classId+'/homework/'+i.HID)">
         </div>
         <div class="footer">{{ i.CreateTime }}</div>
@@ -137,6 +138,10 @@ export default {
       padding-right:1rem;
       color:@cc2;
     }
+  }
+  .title{
+    text-align:center;
+    font-size:1.5rem;
   }
   .content{
     margin:1rem 0;

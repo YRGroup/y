@@ -63,7 +63,7 @@ export default {
     }else{
       this.showAddStudent=false 
     }
-  }
+  },
 }
 </script>
 

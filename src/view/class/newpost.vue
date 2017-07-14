@@ -7,7 +7,7 @@
   
       <vue-html5-editor class="needsclick" :content="data.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor>
   
-      <!--<div class="file" style="text-align:center">
+      <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
           <input type="file" accept="image/jpeg,image/png" multiple="multiple" id="imgFiles" @change="addImg"> 点击这里上传图片
         </a>
@@ -19,7 +19,7 @@
             <img :src="i">
           </div>
         </div>
-      </div>-->
+      </div>
   
     </group>
   

@@ -13,6 +13,7 @@ import kechengbiao from '@/view/addon/kechengbiao'
 import reader from '@/view/addon/reader'
 import idol from '@/view/addon/idol'
 import interview from '@/view/addon/interview'
+import schoolcard from '@/view/addon/schoolcard'
 
 // 学校
 import news from '@/view/school/news'
@@ -44,7 +45,6 @@ import student from '@/view/student/main'
 import studentMainPage from '@/view/student/all'
 import score from '@/view/student/score'
 import studentfeed from '@/view/student/feed'
-import schoolcard from '@/view/student/schoolcard'
 import timeline from '@/view/student/timeline'
 import studentedit from '@/view/student/edit'
 import studentprofile from '@/view/student/profile'
@@ -113,6 +113,11 @@ export default new Router({
               path: 'interview',
               name: 'interview',
               component: interview
+            },
+            {
+              path: 'schoolcard',
+              name: 'schoolcard',
+              component: schoolcard
             },
           ]
         },
@@ -200,10 +205,7 @@ export default new Router({
               path: 'feed',
               component: studentfeed
             },
-            {
-              path: 'schoolcard',
-              component: schoolcard
-            },
+            
             {
               path: 'timeline',
               component: timeline

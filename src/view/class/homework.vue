@@ -6,6 +6,7 @@
           <span class="category" :style="{background:colors[homework.CourseName]}">{{ homework.CourseName }}</span>
           <span class="auther">{{ homework.AutherName }}</span>
         </div>
+        <div class="title">{{homework.Title}}</div>
         <div class="content">
           <div v-html="homework.Content"></div>
         </div>
@@ -120,6 +121,10 @@ export default {
       padding-right:1rem;
       color:@cc2;
     }
+  }
+  .title{
+    text-align:center;
+    font-size:1.5rem;
   }
   .content{
     margin:1rem 0;

@@ -3,7 +3,6 @@
   
     <x-header id="nav-top" :left-options="{backText: ''}" v-show="!$store.getters.isWeixin">
       {{web_title}}
-      <i class="fa fa-bars" slot="right" @click="$router.push('/')"></i>
     </x-header>
   
     <transition name='slide-fade'>
