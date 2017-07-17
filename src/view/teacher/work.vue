@@ -1,45 +1,63 @@
 <template>
   <div class="work" style="margin-top:10px">
 
-    <div class="feed" v-for="i in data" v-if="data!=[]"
-    @click="fun('打开 '+i.title+' '+i.class+' 的作业页面')">
-      <card class="card">
-        <!--<div class="header" slot="header">{{i.Title}}</div>-->
-        <div class="content" slot="content">{{ i.Content }}</div>
+    <div class="feed"  v-if="data.length">
+      <card class="card" v-for="(i,index) in data" :key="index">
+        <div class="header" slot="header">{{i.Title}}</div>
+        <div class="content" slot="content" v-html="i.Content"></div>
         <div class="footer" slot="footer">{{ i.CreateTime }}</div>
       </card>
+      <divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>
+      <divider v-show="noMoreData">没有更多数据</divider>
     </div>
 
-    <div class="hasNoData" v-if="data.length===0">
+    <div class="hasNoData" v-else>
       <icon type="safe_warn" is-msg></icon>
       <p>当前教师还没有发布过的作业</p>
     </div>
-    
+
 
   </div>
 </template>
 
 <script>
-import { Card,Icon } from 'vux'
+import { Card,Icon,Divider } from 'vux'
 
 export default {
   components: {
-    Card,Icon
+    Card,Icon,Divider
   },
   data () {
     return {
-      data:[]
+      data:[],
+      pageSize:10,
+      currentPage:1,
+      noMoreData:false,
     }
   },
   methods:{
-    getHomeworkList(){
-      this.$API.getHomeworkList(this.$store.state.classId).then(res=>{
-        this.data=res
+    getData(){
+      let para ={}
+      para.meid = this.$store.state.currentUserId
+      para.currentPage = this.currentPage
+      para.pagesize = this.pageSize
+      this.$API.getAllTeacherHomework(para).then(res=>{
+        if(res.length){
+          res.forEach((element)=>{
+            this.data.push(element)
+          })
+        }else{
+          this.noMoreData = true
+        }
       })
+    },
+    loadMore(){
+      this.currentPage++
+      this.getData()
     }
   },
   created(){
-    this.getHomeworkList()
+    this.getData()
   },
   mounted(){
 
@@ -62,6 +80,7 @@ export default {
   margin:1em;
   text-align:left;
   .header{
+    text-align:center;
     border-bottom: 1px solid @cc4;
   }
   .content{

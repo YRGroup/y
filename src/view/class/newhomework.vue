@@ -2,24 +2,24 @@
   <div class="hello">
   
     <group title="发布新的班级作业" labelWidth="6em">
-      <selector title="科目：" placeholder="请选择类别" direction="right" v-model="newHomeworkData.course_name" :options="courseList"></selector>
+      <x-input title="科目："  v-model="course" :disabled="true"></x-input>
       <x-input title="标题：" placeholder="请输入标题" v-model="newHomeworkData.title" show-clear></x-input>
       
       <vue-html5-editor class="needsclick" :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor>
   
-      <div class="file" style="text-align:center">
+      <!--<div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
           <input type="file" accept="image/jpeg,image/png" multiple="multiple" id="imgFiles" @change="addImg"> 点击这里上传图片
         </a>
-        <!--<div class="imgPreviewContainer">
+        <div class="imgPreviewContainer">
           <div class="imgPreview" v-for="(i,index) in fileList" :key="index">
             <div class="deleteImg">
               <span @click="deleteImg(index)">X</span>
             </div>
             <img :src="i">
           </div>
-        </div>-->
-      </div>
+        </div>
+      </div>-->
   
     </group>
   
@@ -54,6 +54,13 @@ export default {
         {key:'美术',value:'美术'},
         {key:'体育',value:'体育'}
       ],
+    }
+  },
+  computed:{
+    course:function(){
+      if(this.$store.state.currentUser.ExtendInfo.Course){
+        return this.$store.state.currentUser.ExtendInfo.Course
+      }
     }
   },
   methods: {
@@ -91,6 +98,7 @@ export default {
       }
     },
     addHomework(){
+      this.newHomeworkData.course_name = this.course
       if(this.newHomeworkData.course_name&&this.newHomeworkData.content){
         this.newHomeworkData.class_id = this.$route.params.classId
         this.$API.addHomework(this.newHomeworkData).then(res=>{

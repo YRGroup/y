@@ -30,11 +30,14 @@
         <!-- <div class="footer">{{ i.CreateTime }}</div> -->
       </div>
 
+      <divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>
+      <divider v-show="noMoreData">没有更多数据</divider>
+
     </div>
 </template>
 
 <script>
-import { Popup, Group, XTextarea , XButton, Selector } from 'vux'
+import { Popup, Group, XTextarea , XButton, Selector,Divider } from 'vux'
 
 export default {
   components: {
@@ -42,7 +45,7 @@ export default {
     Group,
     XTextarea ,
     Selector,
-    XButton
+    XButton,Divider
   },
   data () {
     return {
@@ -74,7 +77,10 @@ export default {
         '美术':'#1abc9c',
         '体育':'#2ecc71'
       },
-      homework:[]
+      homework:[],
+      pageSize:10,
+      currentPage:1,
+      noMoreData:false,
     }
   },
   methods:{
@@ -86,10 +92,24 @@ export default {
       })
     },
     getHomeWork(){
-      this.$API.getHomeworkList(this.$route.params.classId).then(res=>{
-        this.homework = res
+      let para = {}
+      para.cid = this.$route.params.classId
+      para.pagesize = this.pageSize
+      para.currentPage = this.currentPage
+      this.$API.getHomeworkList(para).then(res=>{
+        if(res.length){
+          res.forEach((element)=>{
+            this.homework.push(element)
+          })
+        }else{
+          this.noMoreData = true
+        }
         this.boxwid = res.length * 100 +'px'
       })
+    },
+    loadMore(){
+      this.currentPage++
+      this.getHomeWork()
     },
     addHomework(){
       if(this.newHomeworkData.course_name&&this.newHomeworkData.content){

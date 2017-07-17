@@ -48,6 +48,7 @@ const store = new Vuex.Store({
   mutations: {
     login(state, val) {
       state.hasLogin = true
+      state.currentUser = val
       state.currentUserId = val.Meid
       state.role = val.Role
       if(!val.mock){

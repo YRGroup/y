@@ -86,6 +86,9 @@
       </div>
     </card>
 
+    <divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>
+    <divider v-show="noMoreData">没有更多数据</divider>
+
     <popup v-model="showImgPopup" is-transparent>
       <div class="popup" @click="showImgPopup=false">
         <img :src="popupImgUrl" >
@@ -96,11 +99,11 @@
 </template>
 
 <script>
-import { Flexbox, FlexboxItem, Card, Popup,Tab, TabItem } from 'vux'
+import { Flexbox, FlexboxItem, Card, Popup,Tab, TabItem,Divider } from 'vux'
 
 export default {
   components: {
-    Flexbox, FlexboxItem, Card,Popup, Tab, TabItem
+    Flexbox, FlexboxItem, Card,Popup, Tab, TabItem,Divider
   },
   data() {
     return {
@@ -111,10 +114,10 @@ export default {
       notice: [],
       homework: [],
       list: [],
+      pageSize:10,
+      currentPage:1,
+      noMoreData:false,
     }
-  },
-  computed: {
-    
   },
   methods: {
     fun(msg) {
@@ -129,8 +132,19 @@ export default {
       this.showImgPopup=true
     },
     getAllClassDynamic() {
-      this.$API.getAllClassDynamic(this.$route.params.classId).then((res) => {
-        this.list = res
+      let para = {}
+      para.cid = this.$route.params.classId
+      para.type = 1
+      para.pagesize = this.pageSize
+      para.currentPage = this.currentPage
+      this.$API.getAllClassDynamic(para).then((res) => {
+        if(res.length){
+          res.forEach((element)=>{
+            this.list.push(element)
+          })
+        }else{
+          this.noMoreData = true
+        }
         this.$vux.loading.hide()                
       }).catch(err=>{
         this.$vux.toast.show({
@@ -140,6 +154,10 @@ export default {
         })
         this.$vux.loading.hide()                
       })
+    },
+    loadMore(){
+      this.currentPage++
+      this.getAllClassDynamic()
     },
     getTeacherList() {
       this.$API.getTeacherList(this.$route.params.classId).then((res) => {
@@ -155,7 +173,12 @@ export default {
       })
     },
     getNotice() {
-      this.$API.getAllClassDynamic(this.$route.params.classId, 3, 1).then((res) => {
+      let para = {}
+      para.cid = this.$route.params.classId
+      para.type = 3
+      para.pagesize = 1
+      para.currentPage = 1
+      this.$API.getAllClassDynamic(para).then((res) => {
         this.notice = res[0]
       }).catch(err=>{
         this.$vux.toast.show({
@@ -167,7 +190,11 @@ export default {
       })
     },
     getHomeWork() {
-      this.$API.getHomeworkList(this.$route.params.classId,2).then((res) => {
+      let para = {}
+      para.cid = this.$route.params.classId
+      para.pagesize = 2
+      para.currentPage = 1
+      this.$API.getHomeworkList(para).then((res) => {
         this.homework = res
       }).catch(err=>{
         this.$vux.toast.show({
