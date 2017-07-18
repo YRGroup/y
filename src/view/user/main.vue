@@ -8,7 +8,7 @@
         <img :src="data.Headimgurl">
         <p class="usename">{{data.TrueName}}
           <small v-if="$store.state.role=='家长'">{{$store.state.currentStudent.TrueName}}的家长</small>
-          <small v-if="$store.state.role=='老师'">{{data.ExtendInfo.Course}}</small>
+          <small v-if="$store.state.role=='老师'">{{$store.state.currentUser.ExtendInfo.Course}}</small>
         </p>
         <p>{{$store.state.currentStudent.SchoolName||'郑州航空港区育人国际学校'}}</p>
         <p class="bottomnav" v-if="$store.state.role=='家长'">

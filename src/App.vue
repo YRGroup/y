@@ -44,12 +44,8 @@ export default {
   },
   mounted() {
     if (localStorage.hasLogin && !this.$store.state.hasLogin) {
-      let logPayload = {}
-      logPayload.Meid = localStorage.id
-      logPayload.Role = localStorage.role
-      logPayload.mock = true
-      // let user = JSON.parse(localStorage.user)
-      this.$store.commit('login', logPayload)
+      let user = JSON.parse(localStorage.user)
+      this.$store.commit('login', user)
     }
   },
   beforeCreate() {

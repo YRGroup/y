@@ -7,7 +7,7 @@
       
       <vue-html5-editor class="needsclick" :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor>
   
-      <!--<div class="file" style="text-align:center">
+      <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
           <input type="file" accept="image/jpeg,image/png" multiple="multiple" id="imgFiles" @change="addImg"> 点击这里上传图片
         </a>
@@ -18,8 +18,8 @@
             </div>
             <img :src="i">
           </div>
-        </div>
-      </div>-->
+        </div> 
+      </div>
   
     </group>
   
@@ -132,9 +132,6 @@ export default {
 <style lang="less" scoped>
 @import 'https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css';
 
-.contentImg{
-  
-}
 .file {
   text-align: center;
   border-top: 1px solid @cc4;
