@@ -1,37 +1,36 @@
 <template>
   <div class="profile">
     <group label-width="13em" label-align="left" class="itemlist">
-      <cell title="职称：" value="高级教师" value-align="right"></cell>
-      <cell title="教龄：" value="5年" value-align="right"></cell>
-      <div class="more" @click="$router.push('/teacher/'+$route.params.teacherId+'/information')">更多基本资料</div>
-      <!--<cell value-align="left" value="查看更多" is-link></cell>-->
+      <cell title="手机号：" :value="data.Mobilephone" value-align="right"></cell>
+      <cell title="姓名：" :value="data.TrueName" value-align="right"></cell>
+      <cell title="职称：" :value="data.Title" value-align="right"></cell>
+      <cell title="性别：" :value="data.Sex" value-align="right"></cell>
+      <cell title="教龄：" :value="data.SchoolAge" value-align="right"></cell>
+      <!-- <cell title="身份证：" :value="data.IDCard" value-align="right"></cell> -->
+      <cell title="学科：" :value="data.Course" value-align="right"></cell>
+      <!-- <div class="more" @click="$router.push('/teacher/'+$route.params.teacherId+'/information')">更多基本资料</div> -->
     </group>
     <group label-width="13em" label-align="left" class="itemlist">
       <cell title="授课班级" class="title">
-        <!--<i slot="icon" class="fa fa-user">&nbsp&nbsp</i>-->
         <i class="iconfont" slot="icon">&#xe614;</i>
       </cell>
-      <cell title="三年二班" value="班主任、语文" value-align="right"></cell>
-      <cell title="三年六班" value="语文" value-align="right"></cell>
+      <cell :title="i.ClassName" :value="i.CourseName" value-align="right" v-for="(i,index) in data.Classes" :key="index"></cell>
     </group>
     <group label-width="13em" label-align="left" class="itemlist">
       <cell title="教学经历" class="title">
-        <!--<i slot="icon" class="fa fa-user">&nbsp&nbsp</i>-->
         <i class="iconfont" slot="icon">&#xe603;</i>
       </cell>
-      <cell title="郑州航空港区育人国际学校" value="2016-2017" value-align="right"></cell>
-      <cell title="郑州航空港区育人高级中学" value="2013-2015" value-align="right"></cell>
+      <cell :title="i.SchoolName" :value="i.StartTime" value-align="right" v-for="(i,index) in data.TeachExperience" :key="index"></cell>
     </group>
 
     <group label-width="13em" label-align="left" class="itemlist">
       <cell title="个人荣誉" class="title">
-        <!--<i slot="icon" class="fa fa-user">&nbsp&nbsp</i>-->
         <i class="iconfont" slot="icon">&#xe671;</i>
       </cell>
       <scroller lock-y scrollbar-x>
       <div class="box" :style="{ width: boxwid}">
-        <div class="box-item" v-for="(item,index) in cup">
-          <img :src="item.img" @click="showimg(index)">
+        <div class="box-item" v-for="(i,index) in data.PersonalHonor" :key="index">
+          <img :src="i.ImgPath" @click="showimg(i.ImgPath)" >
         </div>
       </div>
     </scroller>
@@ -58,30 +57,31 @@ export default {
     return {
       showdialog:false,
       showimgurl:'',
-      cup:[
-        {
-          'img':'https://modao.cc/uploads3/images/907/9073944/raw_1493192454.png'
-        },
-        {
-          'img':'https://modao.cc/uploads3/images/907/9074147/raw_1493192685.png'
-        },
-        {
-          'img':'https://modao.cc/uploads3/images/907/9074115/raw_1493192640.png'
-        }
-      ]
+      data:{},
     }
+  },
+  computed:{
+    boxwid(){
+      if(this.data.PersonalHonor.length){
+        return this.data.PersonalHonor.length * 100 +'px'
+      }else{
+        return '100%'
+      }
+    },
   },
   methods:{
-    fun(val){
-
-    },
-    showimg(n){
-      this.showimgurl = this.cup[n].img
+    showimg(val){
+      this.showimgurl = val
       this.showdialog = true
-    }
+    },
+    getData(){
+      this.$API.getTeacherInfo(this.$route.params.teacherId).then(res=>{
+        this.data = res
+      })
+    },
   },
   created(){
-    this.boxwid = this.cup.length * 100 +'px'
+    this.getData()
   },
   mounted(){
 
@@ -107,6 +107,7 @@ export default {
   display:inline-block;
   margin-left: 1em;
   img{
+    vertical-align: top;
     width:4em;
     margin:0 1em;
     // border-radius:50%;

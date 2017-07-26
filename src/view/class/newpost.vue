@@ -2,10 +2,9 @@
   <div class="hello">
   
     <group title="发布新的班级动态" labelWidth="6em">
-      <!--<x-input title="作者：" placeholder="just for demo" v-model="data.auther" novalidate show-clear placeholder-align="right"></x-input>-->
       <selector title="类别：" placeholder="请选择类别" direction="right" v-model="data.type" :options="categoryList"></selector>
-  
-      <vue-html5-editor class="needsclick" :content="data.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor>
+
+      <x-textarea title="内容" v-model="data.content" placeholder="请在此输入内容" autosize></x-textarea>
   
       <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
@@ -49,9 +48,6 @@ export default {
     }
   },
   methods: {
-    updateData: function (data) {
-      this.data.content = data
-    },
     addImg() {
       if (this.fileList.length < 9) {
         let imgFiles = document.getElementById('imgFiles').files

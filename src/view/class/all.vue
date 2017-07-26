@@ -37,12 +37,19 @@
       <div class="icon">
         <span>班级作业</span>
       </div>
-      <div class="content">
+      <div class="content" v-if="homework.length">
         <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/'+$route.params.classId+'/work')">
           <div class="msg">
-           【 {{ i.CourseName }}】：{{ i.Title }}
+           【 {{ i.CourseName }}】：{{ i.Title || '班级作业' }}
           </div>
           <div class="date">{{ i.CreateTime }}</div>
+        </li>
+      </div>
+      <div class="content" v-else>
+        <li>
+          <div class="msg">
+            班级暂时没有作业
+          </div>
         </li>
       </div>
       <div class="link" @click="$router.push('/class/'+$route.params.classId+'/work')">
@@ -62,7 +69,7 @@
         <span class="tips">{{ item.category }}</span>
       </div>
       <div slot="content" class="content">
-        <div @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)" v-html="item.content"></div>
+        <div @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)">{{item.content}}</div>
         <div class="img" v-if="item.albums.length!=0">
           <img @click="imgPopup(imgurl)" :src="imgurl"  v-for="(imgurl,index) in item.albums" :key="index">
         </div>

@@ -78,7 +78,7 @@ html {
 }
 
 #app {
-  height: 100%;
+  min-height: 100vh;
   padding: 0;
 }
 .vux-popup-mask{

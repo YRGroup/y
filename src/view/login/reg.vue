@@ -20,15 +20,27 @@
       </group>
     </div>
   
-    <group class="item" v-show="step>=2&&step<5">
-      <x-input class="itemList" title="手机号" placeholder="请输入手机号" :show-clear="false" required is-type="china-mobile" ref="mobilephone" keyboard="number" v-model="data.phone" @on-change="verifyTel" @on-blur="verifyTel">
-      </x-input>
-    </group>
-  
-    <group class="item" v-show="step>=3&&step<5">
-      <x-input class="itemList" title="密码" placeholder="请设置密码（6-16位字符）" :show-clear="false" required type="password" keyboard="number" v-model="data.password" @on-change="verifyPw" @on-blur="verifyPw" @keyup.enter.native="submit">
-      </x-input>
-    </group>
+    <div v-show="step>=2&&step<5">
+      <group class="item">
+        <x-input class="itemList" title="手机号" placeholder="请输入手机号" :show-clear="true" required is-type="china-mobile" ref="mobilephone" keyboard="number" v-model="data.phone" @on-change="verifyTel">
+        </x-input>
+      </group>
+      <div style="padding:2rem;" v-show="!hasGetSms">
+        <x-button type="primary" @click.native="getSms">获取验证码</x-button>
+      </div>
+    </div>
+
+    <div v-show="step>=3&&step<5">
+      <group class="item">
+        <x-input class="itemList" title="验证码" placeholder="请输入短信验证码" :show-clear="false" required keyboard="number" v-model="data.code" >
+        </x-input>
+        <x-input class="itemList" title="密码" placeholder="请设置密码（6-16位字符）" :show-clear="false" required type="password" keyboard="number" v-model="data.password" @keyup.enter.native="submit">
+        </x-input>
+      </group>
+      <div style="padding:2rem;">
+        <x-button type="primary" @click.native="submit">注册</x-button>
+      </div>
+    </div>
   
     <group v-show="step>=4&&step<5" class="regBtn" :class="(!data.phone|!data.password)?'hidden':null">
       <x-button type="primary" @click.native="submit">注册</x-button>
@@ -51,7 +63,7 @@
         <div class="face">
           <div class="headImg">
             <a href="javascript:;" class="a-upload">
-              <input type="file" ref="headImg" accept="image/jpeg,image/png" @change="addImg"> 
+              <input type="file" ref="headImg" accept="image/jpeg,image/png" @change="addImg">
               <span v-show="!headImg">选择头像</span>
               <span v-show="headImg">修改头像</span>
             </a>
@@ -100,13 +112,14 @@ export default {
         { key: 2, value: '家长' },
         { key: 3, value: '老师' }
       ],
-      parentType:[
+      parentType: [
         { key: 1, value: '爸爸' },
         { key: 2, value: '妈妈' },
       ],
       step: 1,
+      hasGetSms: false,
       moreData: {},
-      addStudentData:{},
+      addStudentData: {},
       headImg: '',
     }
   },
@@ -115,12 +128,10 @@ export default {
   },
   methods: {
     verifyTel() {
-      if (this.$refs.mobilephone.valid) {
-        if (this.step < 3) {
-          this.step = 3
-        }
-      } else {
-        this.step = 2
+      if (!this.$refs.mobilephone.valid) {
+        this.hasGetSms=false
+        this.step=2
+      }else{
       }
     },
     verifyPw() {
@@ -130,6 +141,32 @@ export default {
         }
       } else {
         this.step = 3
+      }
+    },
+    getSms() {
+      if(this.$refs.mobilephone.valid){
+        this.$API.getRegSms(this.data.phone).then(res => {
+          this.$vux.toast.show({
+            type: "success",
+            text: '获取验证码成功，请查收短信',
+            width: '20em',
+            time: '1000'
+          })
+          this.step=3
+          this.hasGetSms = true
+        }).catch(err => {
+          this.$vux.toast.show({
+            type: "warn",
+            text: err.msg,
+            width: '20em'
+          })
+        })
+      }else{
+        this.$vux.toast.show({
+          type: "warn",
+          text: '手机号格式不正确',
+          width: '20em'
+        })
       }
     },
     submit() {
@@ -155,7 +192,7 @@ export default {
           })
           this.login()
           this.step = 5
-        }).catch(err=>{
+        }).catch(err => {
           this.$vux.toast.show({
             type: "warn",
             text: err.msg,
@@ -166,16 +203,16 @@ export default {
     },
     submitMore() {
       this.moreData.Headimgurl = this.headImg
-      if (!this.moreData.TrueName){
+      if (!this.moreData.TrueName) {
         this.$vux.toast.show({
           type: "warn",
           width: "20em",
           text: '姓名不能为空'
         })
-      }else {
+      } else {
         if (this.moreData.Role == '家长') {
           this.$API.editParentInfo(this.moreData).then((res) => {
-            this.$API.addStudent(this.addStudentData).then(res=>{
+            this.$API.addStudent(this.addStudentData).then(res => {
               this.$vux.toast.show({
                 type: "success",
                 width: "20em",
@@ -240,8 +277,7 @@ export default {
 <style lang="less" scoped>
 .register {
   padding: 0 2em;
-  height: 100vh;
-  // background-image: url('../../assets/img/bg1.jpg');
+  height: 100vh; // background-image: url('../../assets/img/bg1.jpg');
   background: @c3;
   background-position: center;
   .space {
@@ -310,17 +346,18 @@ export default {
       background: @c2;
     }
   }
-  .btn {
-    padding: 2rem;
-  }
+}
+
+.btn {
+  padding: 2rem;
 }
 
 .moreReg {
   .checker {
     padding: 1rem;
     text-align: center;
-    border-top:1px solid @c2;
-    border-bottom:1px solid @c2;
+    border-top: 1px solid @c2;
+    border-bottom: 1px solid @c2;
     .checker-item {
       cursor: pointer;
       background: @c4;
@@ -334,13 +371,13 @@ export default {
   }
   .face {
     text-align: center;
-    border-top:1px solid @c2;
+    border-top: 1px solid @c2;
     .headImg {
       padding: 0px;
       text-align: center;
-      width:40%;
+      width: 40%;
       display: inline-block;
-      height:70px;
+      height: 70px;
       line-height: 90px;
       .a-upload {
         padding: 4px 10px;
@@ -372,11 +409,11 @@ export default {
       }
     }
     .preview {
-        vertical-align: top;
+      vertical-align: top;
       display: inline-block;
       text-align: center;
-      height:70px;
-      width:40%;
+      height: 70px;
+      width: 40%;
       img {
         height: 70px;
       }

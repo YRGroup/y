@@ -14,8 +14,8 @@ const store = new Vuex.Store({
     role: null || 'guest',
 
     currentUserId: null,
-    currentClassId: null || 19,
-    currentStudentId: null || 'z6vzso72',
+    currentClassId: null,
+    currentStudentId: null,
     currentStudent: {},
 
     token: null,

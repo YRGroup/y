@@ -53,7 +53,7 @@
     
       </br>
       <ul class="msglist">
-        <li @click="$router.push('/msg/'+item.FromMeid)" v-for="item in msgdata">
+        <li @click="$router.push('/msg/'+item.FromMeid)" v-for="(item,index) in msgdata" :key="index">
           <img :src="item.ToHeadImg">
           <span class="usename">{{ item.ToName }}</span>
           <span class="info">{{ item.Content }}</span>
@@ -86,32 +86,6 @@ export default {
       student: [],
       parent: [],
       teacher: [],
-      msg: [
-        {
-          'name': '李老师',
-          'img': require('@/assets/face/dk.png'),
-          'class': '数学',
-          'msg': '今天的作业完成了没有？',
-          'date': '4-26',
-          'num': '4'
-        },
-        {
-          'name': '周老师',
-          'img': require('@/assets/face/jay.jpg'),
-          'class': '数学',
-          'msg': '春季运动会报名方法',
-          'date': '4-26',
-          'num': '2'
-        },
-        {
-          'name': '鹿老师',
-          'img': require('@/assets/face/lh.jpg'),
-          'class': '数学',
-          'msg': '家长请多关注一下孩子的情感状态',
-          'date': '4-26',
-          'num': '7'
-        }
-      ]
     }
   },
   methods: {
@@ -273,9 +247,6 @@ export default {
   max-height: 9999px;
   transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
   transition-delay: 0s;
-  .weui-cell_access {
-    // background: #f5f5f5;
-  }
 }
 .noMsg{
   text-align: center;
