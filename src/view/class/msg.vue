@@ -9,7 +9,7 @@
         <span class="tips">{{ data.category }}</span>
       </div>
       <div slot="content" class="content">
-        <pre v-html="data.content"></pre>
+        <pre>{{data.content}}</pre>
       </div>
     </card>
   

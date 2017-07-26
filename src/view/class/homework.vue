@@ -8,7 +8,7 @@
         </div>
         <div class="title">{{homework.Title}}</div>
         <div class="content">
-          <div v-html="homework.Content"></div>
+          <div>{{homework.Content}}</div>
         </div>
         <div class="footer">{{ homework.CreateTime }}</div>
       </div>

@@ -25,7 +25,8 @@
           <span class="time">{{ i.CreateTime }}</span>
         </div>
         <div class="title">{{i.Title}}</div>
-        <div class="content" v-html="i.Content" @click="$router.push('/class/'+$route.params.classId+'/homework/'+i.HID)">
+        <div class="content" @click="$router.push('/class/'+$route.params.classId+'/homework/'+i.HID)">
+          {{i.Content}}
         </div>
         <!-- <div class="footer">{{ i.CreateTime }}</div> -->
       </div>

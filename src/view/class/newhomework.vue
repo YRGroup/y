@@ -5,8 +5,9 @@
       <x-input title="科目："  v-model="course" :disabled="true"></x-input>
       <x-input title="标题：" placeholder="请输入标题" v-model="newHomeworkData.title" show-clear></x-input>
       
-      <vue-html5-editor class="needsclick" :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor>
-  
+      <!-- <vue-html5-editor class="needsclick" :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor> -->
+      <x-textarea title="内容" v-model="newHomeworkData.content" placeholder="请在此输入内容" autosize></x-textarea>
+
       <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
           <input type="file" accept="image/jpeg,image/png" multiple="multiple" id="imgFiles" @change="addImg"> 点击这里上传图片
@@ -76,7 +77,6 @@ export default {
         this.$API.uploadImg(imgFiles).then((res) => {
           res.forEach((val) => {
             this.fileList.push(val)
-            this.newHomeworkData.content += '<img style="max-width:100%;" src='+ val +'>'
           })
           this.$vux.loading.hide()
         }).catch((err) => {
@@ -99,6 +99,7 @@ export default {
     },
     addHomework(){
       this.newHomeworkData.course_name = this.course
+      this.newHomeworkData['img_url_list'] = this.fileList.join(',')
       if(this.newHomeworkData.course_name&&this.newHomeworkData.content){
         this.newHomeworkData.class_id = this.$route.params.classId
         this.$API.addHomework(this.newHomeworkData).then(res=>{
