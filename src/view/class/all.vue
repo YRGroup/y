@@ -23,8 +23,8 @@
       <div class="teacherListBox">
         <div class="box-item" v-for="(item,index) in teachers" :key="index" @click="$router.push('/teacher/'+item.Meid)">
           <img :src="item.Headimgurl">
-          <div class="name">{{ item.TrueName }}</div>
-          <div class="job">{{ item.Course }}</div>
+          <div class="name">{{ item.TrueName ||'未指定' }}</div>
+          <div class="job">{{ item.Course ||'未指定' }}</div>
         </div>
       </div>
 
@@ -152,14 +152,12 @@ export default {
         }else{
           this.noMoreData = true
         }
-        this.$vux.loading.hide()                
       }).catch(err=>{
         this.$vux.toast.show({
           type: "warn",
           width: "20em",
           text: err.msg
         })
-        this.$vux.loading.hide()                
       })
     },
     loadMore(){
@@ -176,7 +174,6 @@ export default {
           width: "20em",
           text: err.msg
         })
-        this.$vux.loading.hide()                
       })
     },
     getNotice() {
@@ -193,7 +190,6 @@ export default {
           width: "20em",
           text: err.msg
         })
-        this.$vux.loading.hide()                
       })
     },
     getHomeWork() {
@@ -209,7 +205,6 @@ export default {
           width: "20em",
           text: err.msg
         })
-        this.$vux.loading.hide()                
       })
     },
     doLike(id) {
@@ -222,14 +217,17 @@ export default {
     }
   },
   created() {
-    this.$vux.loading.show({
-      text: 'Loading'
-    })
     this.$store.commit('changeTitle', '班级动态')
     this.getAllClassDynamic()
-    this.getTeacherList()
-    this.getNotice()
-    this.getHomeWork()
+    if(!this.teachers.length){
+      this.getTeacherList()
+    }
+    if(!this.notice.length){
+      this.getNotice()
+    }
+    if(!this.homework.length){
+      this.getHomeWork()
+    }
   }
 }
 </script>

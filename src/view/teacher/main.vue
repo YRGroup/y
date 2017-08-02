@@ -8,6 +8,7 @@
         <div>{{ data.Course }}</div>
       </div>
       <div class="msgbtn" @click="$router.push('/msg/'+data.Meid)">发消息</div>
+      <a class="telbtn" :href="'tel:'+data.Mobilephone">打电话</a>
     </div>
     <tab class="tabmeun">
       <tab-item selected @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/profile')">主页</tab-item>
@@ -86,6 +87,14 @@ export default {
     position: absolute;
     right:5px;
     top:1rem;
+    padding:5px 1rem;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.3);
+  }
+  .telbtn{
+    position: absolute;
+    right:5px;
+    top:3.5rem;
     padding:5px 1rem;
     border-radius: 10px;
     background: rgba(255,255,255,0.3);

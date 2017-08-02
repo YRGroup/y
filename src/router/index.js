@@ -253,7 +253,7 @@ export default new Router({
               component: allSchoolPost
             },
             {
-              path: 'news',
+              path: '/news/:newsId',
               name: 'news',
               component: news
             }

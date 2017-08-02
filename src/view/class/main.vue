@@ -19,8 +19,6 @@
       </transition>
     </div>
 
-    
-
   </div>
 </template>
 
@@ -30,7 +28,7 @@ import hasNoStudent from '@/components/hasNoStudent'
 
 export default {
   components: {
-    Popup,Group,XTextarea ,XButton,
+    Popup,Group,XTextarea,XButton,
     hasNoStudent,
   },
   data () {
@@ -63,7 +61,7 @@ export default {
     }else{
       this.showAddStudent=false 
     }
-  },
+  }
 }
 </script>
 

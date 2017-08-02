@@ -14,18 +14,18 @@
 
     <!--功能导航-->
     <flexbox wrap="wrap" :gutter="0">
-      <!--<flexbox-item :span="4">
-        <router-link :to="'/class/'+$store.state.classId+'/notice'">
+      <flexbox-item :span="4">
+        <router-link to="/school">
           <div style="background:#fe970f"><i class="iconfont">&#xe649;</i></div>
-          <span>通知</span>
+          <span>新闻</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="4">
+      <!-- <flexbox-item :span="4">
         <router-link :to="'/class/'+$store.state.classId">
           <div style="background:#8f59ff"><i class="iconfont">&#xe672;</i></div>
           <span>班级</span>
         </router-link>
-      </flexbox-item>-->
+      </flexbox-item> -->
       <flexbox-item :span="4">
         <router-link :to="'/class/'+$store.state.currentClassId+'/work'">
           <div style="background:#28cb60"><i class="iconfont">&#xe668;</i></div>
@@ -33,7 +33,7 @@
         </router-link>
       </flexbox-item>
       <flexbox-item :span="4">
-        <router-link :to="'/student/'+$store.state.currentStudentId+'/score/1'">
+        <router-link :to="'/student/'+$store.state.currentStudentId+'/score/0'">
           <div style="background:#0ab9f7"><i class="iconfont">&#xe601;</i></div>
           <span>成绩报告</span>
         </router-link>

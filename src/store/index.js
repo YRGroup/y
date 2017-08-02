@@ -56,6 +56,7 @@ const store = new Vuex.Store({
         if (val.ExtendInfo.Students.length != 0) {
           state.hasNoStudent = false
           state.currentClassId = val.ExtendInfo.Students[0].ClassID
+          state.currentStudentId = val.ExtendInfo.Students[0].Meid
         } else {
           state.hasNoStudent = true
         }
