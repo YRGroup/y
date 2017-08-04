@@ -53,9 +53,9 @@
     
       </br>
       <ul class="msglist">
-        <li @click="$router.push('/msg/'+item.FromMeid)" v-for="(item,index) in msgdata" :key="index">
-          <img :src="item.ToHeadImg">
-          <span class="usename">{{ item.ToName }}</span>
+        <li @click="$router.push('/msg/'+item.Meid)" v-for="(item,index) in msgdata" :key="index">
+          <img :src="item.HeadImg">
+          <span class="usename">{{ item.Name }}</span>
           <span class="info">{{ item.Content }}</span>
           <span class="time">{{ item.LastTime }}</span>
           <span class="num">{{ item.UnReadCount }}</span>
