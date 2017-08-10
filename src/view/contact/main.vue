@@ -54,8 +54,8 @@
       </br>
       <ul class="msglist">
         <li @click="$router.push('/msg/'+item.FromMeid)" v-for="item in msgdata">
-          <img :src="item.ToHeadImg">
-          <span class="usename">{{ item.ToName }}</span>
+          <img :src="item.HeadImg">
+          <span class="usename">{{ item.Name }}</span>
           <span class="info">{{ item.Content }}</span>
           <span class="time">{{ item.LastTime }}</span>
           <span class="num">{{ item.UnReadCount }}</span>
@@ -149,6 +149,8 @@ export default {
           let time = new Date(data[i].LastTime)
           data[i].LastTime = time.Format('MM-dd')
         }
+      console.log(22222)
+      console.log(this.msgdata)
       })
     }
   },

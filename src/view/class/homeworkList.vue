@@ -48,6 +48,8 @@ export default {
     return {
       newHomework:false,
       newHomeworkData:{},
+      currentPage: 1,
+      pageSize: 10,
       course_list:[
         {key:'1',value:'语文'},
         {key:'2',value:'数学'},
@@ -86,9 +88,19 @@ export default {
       })
     },
     getHomeWork(){
-      this.$API.getHomeworkList(this.$route.params.classId).then(res=>{
-        this.homework = res
-        this.boxwid = res.length * 100 +'px'
+      let para = {}
+      para.cid = this.$store.state.currentClassId
+      para.currentPage = this.currentPage
+      para.pagesize = this.pageSize
+
+      this.$API.getHomeworkList(para).then(res=>{
+        if (res.length) {
+          res.forEach((element) => {
+            this.homework.push(element)
+          })
+        } else {
+          this.noMoreData = true
+        }
       })
     },
     addHomework(){

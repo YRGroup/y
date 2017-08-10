@@ -10,7 +10,7 @@
     </transition>
   
     <tabbar id="nav-bottom" v-show="$store.state.showBottomNav">
-      <tabbar-item selected link="/main">
+      <tabbar-item selected link="/">
         <i slot="icon" class="iconfont nav_icon">&#xe666;</i>
         <span slot="label" class="navtext">主页</span>
       </tabbar-item>

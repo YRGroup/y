@@ -124,13 +124,12 @@ a {
 }
 
 @font-face {
-  font-family: 'iconfont';
-  /* project id 291668 */
-  src: url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.eot');
-  src: url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.woff') format('woff'),
-  url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_jm9s5g13udfv42t9.svg#iconfont') format('svg');
+  font-family: 'iconfont';  /* project id 291668 */
+  src: url('//at.alicdn.com/t/font_o28nhydk0yynwmi.eot');
+  src: url('//at.alicdn.com/t/font_o28nhydk0yynwmi.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_o28nhydk0yynwmi.woff') format('woff'),
+  url('//at.alicdn.com/t/font_o28nhydk0yynwmi.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_o28nhydk0yynwmi.svg#iconfont') format('svg');
 }
 
 .iconfont {

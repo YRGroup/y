@@ -96,11 +96,11 @@
 </template>
 
 <script>
-import { Flexbox, FlexboxItem, Card, Popup,Tab, TabItem } from 'vux'
+import { Flexbox, FlexboxItem, Card, Popup } from 'vux'
 
 export default {
   components: {
-    Flexbox, FlexboxItem, Card,Popup, Tab, TabItem
+    Flexbox, FlexboxItem, Card,Popup
   },
   data() {
     return {
@@ -111,6 +111,8 @@ export default {
       notice: [],
       homework: [],
       list: [],
+      currentPage: 1,
+      pageSize: 10
     }
   },
   computed: {
@@ -129,7 +131,12 @@ export default {
       this.showImgPopup=true
     },
     getAllClassDynamic() {
-      this.$API.getAllClassDynamic(this.$route.params.classId).then((res) => {
+      let para = {}
+      para.cid = this.$route.params.classId
+      para.currentPage = this.currentPage
+      para.pagesize = this.pageSize
+      para.type = 1
+      this.$API.getAllClassDynamic(para).then((res) => {
         this.list = res
         this.$vux.loading.hide()                
       }).catch(err=>{
