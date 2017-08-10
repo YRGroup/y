@@ -58,7 +58,7 @@
           <span class="usename">{{ item.Name }}</span>
           <span class="info">{{ item.Content }}</span>
           <span class="time">{{ item.LastTime }}</span>
-          <span class="num">{{ item.UnReadCount }}</span>
+          <span class="num" v-show="item.UnReadCount">{{ item.UnReadCount }}</span>
         </li>
       </ul>
 
@@ -123,8 +123,6 @@ export default {
           let time = new Date(data[i].LastTime)
           data[i].LastTime = time.Format('MM-dd')
         }
-      console.log(22222)
-      console.log(this.msgdata)
       })
     }
   },
