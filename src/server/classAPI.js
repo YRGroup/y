@@ -9,7 +9,6 @@ import _APIurl from './config'
 API.getClassInfo = (classId) => {
   return axios.get(_APIurl+'/api/Class/GetInfo?cid='+classId).then(res => res.data.Content)
 }
-// testing
 
 // 获取班级动态列表
 API.getAllClassDynamic = (para) => {
@@ -19,19 +18,15 @@ API.getAllClassDynamic = (para) => {
     })
   })
 }
-// testing
 
 // 获取班级作业列表
 API.getHomeworkList = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/Class/GetHomeworkList',{
-      params:para
-  }).then((res)=>{
+    axios.get(_APIurl+'/api/Class/GetHomeworkList',{params:para}).then((res)=>{
       resolve(res.data.Content)
     })
   })
 }
-// testing
 
 // 获取单条班级作业
 API.getHomework = (hid) => {
@@ -45,7 +40,6 @@ API.getHomework = (hid) => {
     })
   })
 }
-// testing
 
 // 发布新班级作业
 API.addHomework = (data) => {
@@ -55,8 +49,6 @@ API.addHomework = (data) => {
     })
   })
 }
-// testing
-
 
 // 获取单条班级动态
 API.getClassDynamic = (classId,msgId) => {
@@ -71,7 +63,6 @@ API.getClassDynamic = (classId,msgId) => {
     })
   })
 }
-// testing
 
 // 添加班级动态
 API.postNewClassDynamic = (classDynamicData) => {
@@ -81,8 +72,6 @@ API.postNewClassDynamic = (classDynamicData) => {
     })
   })
 }
-// testing
-
 
 // 添加班级动态评论
 API.postNewComment = (replyData) => {
@@ -99,7 +88,6 @@ API.postNewComment = (replyData) => {
     })
   })
 }
-// testing
 
 // 点赞班级动态
 API.doLikeThisPost = (classDynamicId) => {
@@ -109,8 +97,15 @@ API.doLikeThisPost = (classDynamicId) => {
     })
   })
 }
-// testing
 
+// 获取班级点赞列表
+API.postLikedList = (classDynamicId) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/Class/GetZan?did='+classDynamicId).then((res)=>{
+      resolve(res.data.Content)
+    })
+  })
+}
 
 // 获取班级的教师列表
 API.getTeacherList = (classId) => {
@@ -120,7 +115,6 @@ API.getTeacherList = (classId) => {
     })
   })
 }
-// testing
 
 // 获取班级的学生列表
 API.getStudentList = (classId) => {
@@ -130,7 +124,6 @@ API.getStudentList = (classId) => {
     })
   })
 }
-// testing
 
 // 获取班级的家长列表
 API.getParentList = (classId) => {
@@ -140,7 +133,6 @@ API.getParentList = (classId) => {
     })
   })
 }
-// testing
 
 // 添加班级学生
 API.addClassStudent = (data) => {
@@ -154,12 +146,11 @@ API.addClassStudent = (data) => {
     })
   })
 }
-// testing
 
 // 添加班级老师
 API.addClassTeacher = (data) => {
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/Class/AddTeacher',data).then((res)=>{
+    axios.post(_APIurl+'/api/Class/AddStudent',data).then((res)=>{
       if(res.data.Status===1){
         resolve(res.data.Content)
       }else{
@@ -168,6 +159,5 @@ API.addClassTeacher = (data) => {
     })
   })
 }
-// testing
 
 export default API

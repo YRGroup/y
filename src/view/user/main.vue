@@ -8,7 +8,7 @@
         <img :src="data.Headimgurl">
         <p class="usename">{{data.TrueName}}
           <small v-if="$store.state.role=='家长'">{{$store.state.currentStudent.TrueName}}的家长</small>
-          <small v-if="$store.state.role=='老师'">{{data.ExtendInfo.Course}}</small>
+          <small v-if="$store.state.role=='老师'">{{$store.state.currentUser.ExtendInfo.Course}}</small>
         </p>
         <p>{{$store.state.currentStudent.SchoolName||'郑州航空港区育人国际学校'}}</p>
         <p class="bottomnav" v-if="$store.state.role=='家长'">
@@ -22,10 +22,10 @@
       </div>
   
       <group>
-        <cell title="绑定孩子" is-link @click.native="addStudentPopup=true" v-if="$store.state.role=='家长'">
+        <cell title="绑定学生" is-link @click.native="addStudentPopup=true" v-if="$store.state.role=='家长'">
           <i slot="icon" class="iconfont">&#xe719;</i>
         </cell>
-        <cell title="切换孩子" :value="$store.state.currentStudent.TrueName" is-link @click.native="myStudentPopup=true" v-if="$store.state.role=='家长'">
+        <cell title="切换学生" :value="$store.state.currentStudent.TrueName" is-link @click.native="myStudentPopup=true" v-if="$store.state.role=='家长'">
           <i slot="icon" class="iconfont">&#xe719;</i>
         </cell>
         <cell title="我的账号" :value="data.Mobilephone">
@@ -47,7 +47,7 @@
   
       <popup v-model="myStudentPopup" is-transparent>
         <div class="popup">
-          <group title="切换孩子">
+          <group title="切换学生">
             <cell :title="i.TrueName" is-link v-for="i in allStudentData" :key="i.StudentID" @click.native="$store.commit('changeCurrentStudent',i),myStudentPopup=false">
               <i slot="icon" class="iconfont">&#xe719;</i>
             </cell>
@@ -57,8 +57,9 @@
   
       <popup v-model="addStudentPopup" is-transparent>
         <div class="popup">
-          <group title="绑定孩子">
-            <x-input title="孩子ID" v-model="addStudentData.student_meid" text-align="right" placeholder="请在此填上孩子ID"></x-input>
+          <group title="绑定学生">
+            <x-input title="姓名" v-model="addStudentData.truename" text-align="right" placeholder="请在此填上学生的真实姓名"></x-input>
+            <x-input title="学号" v-model="addStudentData.student_id" text-align="right" placeholder="请在此填上学生的学号"></x-input>
             <selector title="关系" :options="parentTypeList" v-model="addStudentData.type"></selector>
           </group>
           <group class="btn" style="margin:0 20px">
@@ -108,8 +109,9 @@ export default {
         { key: 4, value: '奶奶' }
       ],
       addStudentData: {
-        'student_meid': '',
-        'type': '',
+        truename: '',
+        student_id: '',
+        type: 0,
       },
       allStudentData: [],
       userface: require('@/assets/face/bw.jpg')
@@ -181,7 +183,7 @@ export default {
       })
     },
     addStudent() {
-      if (this.addStudentData.student_meid != '' && this.addStudentData.type != '') {
+      if (this.addStudentData.truename && this.addStudentData['student_id']) {
         this.$API.addStudent(this.addStudentData).then((res) => {
           this.$vux.toast.show({
             type: "text",
@@ -212,8 +214,6 @@ export default {
   },
   mounted() {
   },
-  computed() {
-  }
 }
 </script>
 

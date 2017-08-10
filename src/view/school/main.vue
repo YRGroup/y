@@ -1,13 +1,13 @@
 <template>
   <div class="hello">
     
-    <div class="school-header">
+    <!-- <div class="school-header">
       <img :src="data.logo">
       <span class="name">{{ data.name }}</span>
       <span class="chairman">校长：{{ data.chairman }}</span>
       <span class="count">人数：{{ data.count }}人</span>
-      <!--<div class="addbtn" @click="$router.push('/school/new')">添加动态</div>-->
-    </div>
+      <div class="addbtn" @click="$router.push('/school/new')">添加动态</div>
+    </div> -->
 
     <transition name="slide-fade">
       <router-view></router-view>

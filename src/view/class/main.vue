@@ -19,8 +19,6 @@
       </transition>
     </div>
 
-    
-
   </div>
 </template>
 
@@ -30,7 +28,7 @@ import hasNoStudent from '@/components/hasNoStudent'
 
 export default {
   components: {
-    Popup,Group,XTextarea ,XButton,
+    Popup,Group,XTextarea,XButton,
     hasNoStudent,
   },
   data () {
@@ -58,12 +56,12 @@ export default {
     this.getClassInfo()
   },
   mounted(){
-    if(this.$store.state.hasLogin && this.$store.state.hasNoStudent){
+    if(this.$store.state.hasLogin && this.$store.state.hasNoStudent && this.$store.state.role =='家长'){
       this.showAddStudent=true
     }else{
       this.showAddStudent=false 
     }
-  },
+  }
 }
 </script>
 

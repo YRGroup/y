@@ -1,184 +1,142 @@
 <template>
   <div>
-
+  
     <card>
       <div slot="header" class="header">
-        <img :src="data.img" @click="fun('打开 '+data.name+' 的个人页面')">
-        <span class="name">{{ data.name }}</span>
-        <span class="date">{{ data.date }}</span>
-      </div> 
+        <span class="title">{{ data.Title }}</span>
+      </div>
       <div slot="content" class="content">
-        <p>{{ data.content }}</p>
+        <div class="time">{{ data.AddTime }}</div>
+        <p v-html="data.content"></p>
       </div>
     </card>
-
+  
     <div class="comment-header">
-      <span>全部评论（{{data.comment.length }}）</span>
+      <span>全部评论（{{data.Comments.length }}）</span>
+      <x-button type="primary" class="btn" @click.native="showpopup=true">回复</x-button>
     </div>
-    <card class="comment" v-for="comment in data.comment" :key="comment.name">
-      <div slot="header" class="header">
-        <img :src="comment.img" @click="fun('打开 '+comment.name+' 的个人页面')">
-        <span  @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.name }}</span>
-        <span>{{ comment.date }}</span>
-        <span  @click="reply(comment.name)"> 回复 </span>
-      </div> 
-      <div slot="content" class="content">
-        <div>{{comment.content }}</div>
-      </div>
-    </card> 
-
-    <popup v-model="showpopup" height="270px" is-transparent>
-      <div style="width: 95%;background-color:#fff;height:250px;margin:0 auto;border-radius:5px;padding-top:10px;">
+    <div class="comment" v-for="comment in data.Comments" :key="comment.name">
+      <div class="name">{{ comment.UserName }}：</div>
+      <div class="content">{{comment.Content }}</div>
+    </div>
+  
+    <popup v-model="showpopup" height="220px" is-transparent>
+      <div style="width: 95%;background-color:#fff;height:150px;margin:0 auto;border-radius:5px;padding-top:10px;">
         <group>
-          <x-input v-model="replymsg" :placeholder="'回复 '+commentid+' 的内容'"></x-input>
+          <x-input v-model="commentData.Content" :placeholder="'评论的内容'"></x-input>
         </group>
         <div style="padding:20px 15px;">
-        <x-button type="primary">发表回复</x-button>
-        <x-button @click.native="showpopup = false">取消回复</x-button>
-        <x-button @click.native="showemotion = true">表情</x-button>
+          <x-button type="primary" @click.native="submitReply">发表评论</x-button>
         </div>
       </div>
-    </popup>    
-
+    </popup>
+  
   </div>
 </template>
 
 <script>
-import { Card,Popup,Group,XInput,XButton } from 'vux'
+import { Card, Popup, Group, XInput, XButton } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Card,Popup,Group,XInput,XButton
+    Card, Popup, Group, XInput, XButton
   },
-  data () {
+  data() {
     return {
-      showpopup:false,
-      commentid:'0',
-      replymsg:'',
-      data:{
-          'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-          'name':'张丽丽的家长',
-          'date':'2017-4-25',
-          'content':'『育人朗读者』是由育人教育集团宣传部推出，每周为大家推选出一本书，并择选出书中的优秀章节，由朗读者为大家领读。。。',
-          'read':'40',
-          'liked':'3',
-          'comment':[
-            {
-              'name':'李大明的家长',
-              'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-              'date':'2017-4-25',
-              'content':"祝育人教育集团越来越好!"
-            },
-            {
-              'name':'小李',
-              'img':'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-              'date':'2017-4-25',
-              'content':'这一期，我们大家带来的这是《人间喜剧》。'
-            }
-          ]
-        },
-      msg: 'Welcome to Your Vue.js App'
+      showpopup: false,
+      commentData: {
+        Content: ''
+      },
+      data: {
+        Comments: []
+      },
     }
   },
-  methods:{
-    fun(msg){
-      this.$vux.toast.show({
-        type:"text",
-        width:"20em",
-        text: msg
+  methods: {
+    getData() {
+      let para = {
+        articleid: this.$route.params.newsId
+      }
+      this.$API.getNewsInfo(para).then(res => {
+        this.data = res
       })
     },
-    reply(id){
-      this.commentid = id
+    reply() {
       this.showpopup = true
+    },
+    submitReply() {
+      this.commentData.ArticleID = this.data.ID
+      if (this.commentData.Content == '') {
+        this.$vux.toast.show({
+          type: "warn",
+          text: '内容不能为空',
+          width: "20em"
+        })
+      } else {
+        this.$API.addNewsComment(this.commentData).then(res => {
+          this.$vux.toast.show({
+            type: "success",
+            text: '添加评论成功',
+            width: "20em"
+          })
+          this.commentData.Content = ''
+          this.showpopup = false
+          this.getData()
+        })
+      }
     }
   },
-  created(){
-    this.$store.commit('changeTitle','动态详情')
+  created() {
+    this.getData()
+    this.$store.commit('changeTitle', '新闻详情')
   },
-  mounted(){
+  mounted() {
 
   }
 }
 </script>
 
 <style lang="less" scoped>
-.weui-panel{
-  position:relative;
-  margin-top:0;
-  margin-bottom:1em;
-  .header{
-    width:100%;
-    padding:1em;
-    font-size:1.2em;
-    img{
-      width:4em;
-      margin-right:1em;
-    }
-    span:nth-child(2){ 
-      position:absolute;
-      top:1.5em;
-    }
-    span:nth-child(3){
-      position:absolute;
-      top:3em;
-      color:@c4;
-    }
-  }
-  .content{
-    padding-left:1em;
-    padding-right:1em;
-    line-height:2em;
-    margin-bottom:1em;
-    font-size:1.2em;
+.header {
+  text-align: center;
+  .title {
+    font-size: 1.5rem;
+    line-height: 50px;
   }
 }
 
-.comment{
-  position:relative;
-  margin:0;
-  .header{
-    width:100%;
-    padding:1em;
-    font-size:1.2em;
-    img{
-      width:3em;
-      margin-right:1em;
-      border-radius: 50%;
-    }
-    span:nth-child(2){ 
-      position:absolute;
-      color:@c5;
-      top:1em;
-    }
-    span:nth-child(3){
-      position:absolute;
-      top:2.5em;
-      color:@c4;
-    }
-    span:nth-child(4){
-      position:absolute;
-      top:2rem;
-      right:1.5rem;
-      border:none;
-      color:@c5;
-      padding:0 1em;
-    }
-  }
-  .content{
-    padding-left:2em;
-    padding-right:2em;
-    line-height:2em;
-    margin-bottom:1em;
-    font-size:1.2em;
+.time {
+  text-align: right;
+  color: @c4;
+}
+
+.content {
+  line-height: 2em;
+  text-indent: 2em;
+  text-align: left;
+}
+
+.comment-header {
+  line-height: 2rem;
+  background: #fff;
+  padding: 1rem;
+  font-size: 1.3rem;
+  border-bottom: 1px solid @c2;
+  .btn {
+    width: 80px;
+    float: right;
   }
 }
-.comment-header{
-  height:3em;
-  font-size: 1.3em;
+
+.comment {
   background: #fff;
-  line-height: 3em;
-  padding-left:2em;
+  padding: .5rem;
+  padding-left: 2rem;
+  border-bottom: 1px dotted @c2;
+  .name,
+  .content {
+    display: inline-block;
+  }
 }
 </style>

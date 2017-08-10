@@ -39,47 +39,47 @@ API.uploadImg = (files) => {
     axios.post(_APIurl+'/api/Upload/ImageUpload',params,config).then((res)=>{
       resolve(res.data.Content)    
     })
-
-    // let allres=[]
-    // for(let i=0;i<files.length;i++){
-    //   let params = new FormData()
-    //   params.append('file',files[i])
-    //   let config={
-    //     headers:{'Content-Type':'multipart/form-data'}
-    //   }
-    //   axios.post(_APIurl+'/api/Upload/ImageUpload',params,config).then((res)=>{
-    //     if(res.data.Status==1){
-    //       allres.push(res.data.Content.imgUrl)
-    //       if(allres.length===files.length){
-    //         console.log('所有图片上传成功')
-    //         console.log(allres)
-    //         resolve(allres)    
-    //       }
-    //     }else{
-    //       // console.log(res.data.Msg)
-    //       allres.push(res.data.Msg)
-    //       console.log('出现错误')
-    //       console.log(allres)
-    //       reject(allres) 
-    //       // if(allres.length===files.length){
-    //       //   console.log('出现错误')
-    //       //   console.log(allres)
-    //       //   reject(allres)    
-    //       // }
-    //     }
-    //   }).catch((err)=>{
-    //     console.log(err)
-    //   })
-    // }
-
   })
 }
-// testing
 
-// 空API模板
-API.getCardInfo = (para) => {
+// 注册时获取短信验证码
+API.getRegSms = (tel) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/user/GetFinanceLog',{params:para}).then((res)=>{
+    axios.get(_APIurl+'/api/user/SendRegSMS?phone='+tel).then((res)=>{
+      if(res.data.Status==1){
+        resolve(res.data.Content)
+      }else{
+        reject(res.data.Msg)
+      }
+    }).catch((err)=>{
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+
+// 修改密码时获取短信验证码
+API.getSms = () => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/user/SendModifyPasswordSMS').then((res)=>{
+      if(res.data.Status==1){
+        resolve(res.data.Content)
+      }else{
+        reject(res.data.Msg)
+      }
+    }).catch((err)=>{
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+
+// 根据短信验证码修改密码
+API.editPWBySms = (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/user/ModifyPassword',data).then((res)=>{
       resolve(res.data.Content)
     }).catch((err)=>{
       console.log('获取信息失败：')
@@ -88,7 +88,58 @@ API.getCardInfo = (para) => {
     })
   })
 }
-// testing
+
+// 班主任删除动态
+API.deletePost = (params) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/Class/DeleteDynamic',params).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+
+// 获取校园新闻
+API.getNewsList = params => { 
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+`/api/School/GetArticleList`,{params: params }).then(res => {
+     resolve(res.data.Content)
+    }).catch((err)=>{
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+
+// 获取单条新闻
+API.getNewsInfo = params => { 
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+`/api/School/GetArticle`,{params: params }).then(res => {
+     resolve(res.data.Content)
+    }).catch((err)=>{
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+
+// 添加新闻评论
+API.addNewsComment = (params) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/School/AddArticleComment',params).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
 
 // 空API模板
 API.test = () => {

@@ -14,8 +14,8 @@ const store = new Vuex.Store({
     role: null || 'guest',
 
     currentUserId: null,
-    currentClassId: null || 19,
-    currentStudentId: null || 'z6vzso72',
+    currentClassId: null,
+    currentStudentId: null,
     currentStudent: {},
 
     token: null,
@@ -48,25 +48,21 @@ const store = new Vuex.Store({
   mutations: {
     login(state, val) {
       state.hasLogin = true
+      state.currentUser = val
       state.currentUserId = val.Meid
       state.role = val.Role
-      if(!val.mock){
-        state.currentUser = val
-        state.hasNewMsg = val.UnReadMsgCount.toString()
-      }else{
 
-      }
-
-      if (val.Role == '家长' && !val.mock) {
+      if (val.Role == '家长') {
         if (val.ExtendInfo.Students.length != 0) {
           state.hasNoStudent = false
           state.currentClassId = val.ExtendInfo.Students[0].ClassID
+          state.currentStudentId = val.ExtendInfo.Students[0].Meid
         } else {
           state.hasNoStudent = true
         }
       }
 
-      if (val.Role == '老师' && !val.mock) {
+      if (val.Role == '老师') {
         if (val.ExtendInfo.Classes.length != 0) {
           state.currentClassId = val.ExtendInfo.Classes[0].ClassID
         }

@@ -26,7 +26,7 @@
       <x-button type="primary" @click.native="login">登录</x-button>
       <div class="regBtn" @click="$router.push('/reg')">还没有帐号？点击注册</div>
     </div>
-
+  
   </div>
 </template>
 
@@ -44,13 +44,21 @@ export default {
     }
   },
   methods: {
+    getCookie(name) {
+      var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if (arr = document.cookie.match(reg))
+        return unescape(arr[2]);
+      else
+        return null;
+    },
     login() {
       if (this.tel != '' | this.pw != '') {
         let logData = {}
         logData.phone = this.tel
         logData.password = this.pw
         this.$store.dispatch('login', logData).then(res => {
-          if (res.ExistWeixinOpenid == 0 && this.$store.getters.isWeixin) {
+          // if (res.ExistWeixinOpenid == 0 && this.$store.getters.isWeixin) {
+          if (!this.getCookie('WeixinOpenid') && this.$store.getters.isWeixin) {
             this.$vux.toast.show({
               type: "text",
               text: '跳转到微信授权页面',
@@ -65,7 +73,7 @@ export default {
             })
             this.$router.push('/main')
           }
-        }).catch(err=>{
+        }).catch(err => {
           this.$vux.toast.show({
             type: "warn",
             text: err.msg,
@@ -92,7 +100,7 @@ export default {
     this.$store.commit('changeTitle', '登录智慧校园')
   },
   mounted() {
-
+    
   }
 }
 </script>
@@ -144,9 +152,8 @@ export default {
   color: @cc3;
 }
 
-.regBtn{
+.regBtn {
   line-height: 30px;
-  color:@c4;
+  color: @c4;
 }
-
 </style>

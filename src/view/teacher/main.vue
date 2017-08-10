@@ -4,10 +4,11 @@
     <div class="teacher-header">
       <img :src="data.Headimgurl" >
       <div class="nameInfo">
-        <span>{{ data.TrueName }}</span>
-        <span>{{ data.Course }}</span>
+        <div class="name">{{ data.TrueName }}</div>
+        <div>{{ data.Course }}</div>
       </div>
       <div class="msgbtn" @click="$router.push('/msg/'+data.Meid)">发消息</div>
+      <a class="telbtn" :href="'tel:'+data.Mobilephone">打电话</a>
     </div>
     <tab class="tabmeun">
       <tab-item selected @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/profile')">主页</tab-item>
@@ -32,7 +33,6 @@ export default {
   data () {
     return {
       data:{},
-      msg: 'Welcome to Your Vue.js App'
     }
   },
   methods:{
@@ -54,12 +54,10 @@ export default {
 
 <style lang="less" scoped>
 .teacher-header{
-  width:100%;
   color:#fff;
-  text-align: center;
   background:linear-gradient(right top,#00c0a1, #00c06f);
   background-size:100% 100%;
-  padding:10px 0;
+  padding:10px 50px;
   img{
     width:4rem;
     border-radius:50%;
@@ -67,6 +65,12 @@ export default {
   }
   .nameInfo{
     font-size: 1.2em;
+    display:inline-block;
+    vertical-align: top;
+    padding:1rem;
+    .name{
+      font-size: 1.3rem;
+    }
   }
   .tabmeun{
     margin-bottom: 100px;
@@ -83,6 +87,14 @@ export default {
     position: absolute;
     right:5px;
     top:1rem;
+    padding:5px 1rem;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.3);
+  }
+  .telbtn{
+    position: absolute;
+    right:5px;
+    top:3.5rem;
     padding:5px 1rem;
     border-radius: 10px;
     background: rgba(255,255,255,0.3);

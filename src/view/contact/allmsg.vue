@@ -6,7 +6,7 @@
     ></load-more>
 
     <ul>
-      <li class="item" :class="(item.SendTo===$route.params.userId)?'right':null" v-for="item in data">
+      <li class="item" :class="(item.SendTo===$route.params.userId)?'right':null" v-for="(item,index) in data" :key="index">
         <div class="time"><span>{{item.CreateTime}}</span></div>
         <img class="picinfo" :src="userImg">
         <span class="content">{{item.Content}}</span>

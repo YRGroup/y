@@ -32,8 +32,7 @@
         查看历次成绩 >>>
       </div>
   
-      <popup v-model="showpopup" height="100%" class="popup">
-        <div class="close" @click="showpopup=false">返回</div>
+      <popup v-model="showpopup" width class="popup">
         <div class="content">
           <li class="card examItem" v-for="(i,index) in exam" :key="index" @click="$router.push('/student/'+$store.state.studentId+'/score/'+i.ExamID),showpopup=false">
             <div class="left">

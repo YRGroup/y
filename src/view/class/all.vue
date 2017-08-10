@@ -23,8 +23,8 @@
       <div class="teacherListBox">
         <div class="box-item" v-for="(item,index) in teachers" :key="index" @click="$router.push('/teacher/'+item.Meid)">
           <img :src="item.Headimgurl">
-          <div class="name">{{ item.TrueName }}</div>
-          <div class="job">{{ item.Course }}</div>
+          <div class="name">{{ item.TrueName ||'未指定' }}</div>
+          <div class="job">{{ item.Course ||'未指定' }}</div>
         </div>
       </div>
 
@@ -37,12 +37,19 @@
       <div class="icon">
         <span>班级作业</span>
       </div>
-      <div class="content">
+      <div class="content" v-if="homework.length">
         <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/'+$route.params.classId+'/work')">
           <div class="msg">
-           【 {{ i.CourseName }}】：{{ i.Title }}
+           【 {{ i.CourseName }}】：{{ i.Title || '班级作业' }}
           </div>
           <div class="date">{{ i.CreateTime }}</div>
+        </li>
+      </div>
+      <div class="content" v-else>
+        <li>
+          <div class="msg">
+            班级暂时没有作业
+          </div>
         </li>
       </div>
       <div class="link" @click="$router.push('/class/'+$route.params.classId+'/work')">
@@ -62,7 +69,7 @@
         <span class="tips">{{ item.category }}</span>
       </div>
       <div slot="content" class="content">
-        <div @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)" v-html="item.content"></div>
+        <div @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)">{{item.content}}</div>
         <div class="img" v-if="item.albums.length!=0">
           <img @click="imgPopup(imgurl)" :src="imgurl"  v-for="(imgurl,index) in item.albums" :key="index">
         </div>
@@ -86,6 +93,9 @@
       </div>
     </card>
 
+    <divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>
+    <divider v-show="noMoreData">没有更多数据</divider>
+
     <popup v-model="showImgPopup" is-transparent>
       <div class="popup" @click="showImgPopup=false">
         <img :src="popupImgUrl" >
@@ -96,11 +106,11 @@
 </template>
 
 <script>
-import { Flexbox, FlexboxItem, Card, Popup } from 'vux'
+import { Flexbox, FlexboxItem, Card, Popup,Tab, TabItem,Divider } from 'vux'
 
 export default {
   components: {
-    Flexbox, FlexboxItem, Card,Popup
+    Flexbox, FlexboxItem, Card,Popup, Tab, TabItem,Divider
   },
   data() {
     return {
@@ -111,12 +121,10 @@ export default {
       notice: [],
       homework: [],
       list: [],
-      currentPage: 1,
-      pageSize: 10
+      pageSize:10,
+      currentPage:1,
+      noMoreData:false,
     }
-  },
-  computed: {
-    
   },
   methods: {
     fun(msg) {
@@ -133,20 +141,28 @@ export default {
     getAllClassDynamic() {
       let para = {}
       para.cid = this.$route.params.classId
-      para.currentPage = this.currentPage
-      para.pagesize = this.pageSize
       para.type = 1
+      para.pagesize = this.pageSize
+      para.currentPage = this.currentPage
       this.$API.getAllClassDynamic(para).then((res) => {
-        this.list = res
-        this.$vux.loading.hide()                
+        if(res.length){
+          res.forEach((element)=>{
+            this.list.push(element)
+          })
+        }else{
+          this.noMoreData = true
+        }
       }).catch(err=>{
         this.$vux.toast.show({
           type: "warn",
           width: "20em",
           text: err.msg
         })
-        this.$vux.loading.hide()                
       })
+    },
+    loadMore(){
+      this.currentPage++
+      this.getAllClassDynamic()
     },
     getTeacherList() {
       this.$API.getTeacherList(this.$route.params.classId).then((res) => {
@@ -158,11 +174,15 @@ export default {
           width: "20em",
           text: err.msg
         })
-        this.$vux.loading.hide()                
       })
     },
     getNotice() {
-      this.$API.getAllClassDynamic(this.$route.params.classId, 3, 1).then((res) => {
+      let para = {}
+      para.cid = this.$route.params.classId
+      para.type = 3
+      para.pagesize = 1
+      para.currentPage = 1
+      this.$API.getAllClassDynamic(para).then((res) => {
         this.notice = res[0]
       }).catch(err=>{
         this.$vux.toast.show({
@@ -170,11 +190,14 @@ export default {
           width: "20em",
           text: err.msg
         })
-        this.$vux.loading.hide()                
       })
     },
     getHomeWork() {
-      this.$API.getHomeworkList(this.$route.params.classId,2).then((res) => {
+      let para = {}
+      para.cid = this.$route.params.classId
+      para.pagesize = 2
+      para.currentPage = 1
+      this.$API.getHomeworkList(para).then((res) => {
         this.homework = res
       }).catch(err=>{
         this.$vux.toast.show({
@@ -182,7 +205,6 @@ export default {
           width: "20em",
           text: err.msg
         })
-        this.$vux.loading.hide()                
       })
     },
     doLike(id) {
@@ -195,14 +217,17 @@ export default {
     }
   },
   created() {
-    this.$vux.loading.show({
-      text: 'Loading'
-    })
     this.$store.commit('changeTitle', '班级动态')
     this.getAllClassDynamic()
-    this.getTeacherList()
-    this.getNotice()
-    this.getHomeWork()
+    if(!this.teachers.length){
+      this.getTeacherList()
+    }
+    if(!this.notice.length){
+      this.getNotice()
+    }
+    if(!this.homework.length){
+      this.getHomeWork()
+    }
   }
 }
 </script>

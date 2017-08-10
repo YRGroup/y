@@ -33,7 +33,7 @@ import hasNoStudent from '@/components/hasNoStudent'
 export default {
   name: 'hello',
   components: {
-    Group, Cell, LoadMore, XButton ,hasNoStudent
+    Group, Cell, LoadMore, XButton, hasNoStudent
   },
   data() {
     return {
@@ -49,8 +49,10 @@ export default {
       let para = {}
       para.currentPage = this.currentPage
       para.pagesize = 10
-      this.$API.getCardInfo(para).then(res => {
-        this.data.Blance = res.Blance
+      this.$API.getCardList(para).then(res => {
+        if (this.data.Blance == 0) {
+          this.data.Blance = res.Blance
+        }
         res.Log.forEach((val) => {
           this.data.Log.push(val)
         });
