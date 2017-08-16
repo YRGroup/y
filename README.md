@@ -1,26 +1,5 @@
 # Project-Y
 
-latest update by Quincy  
-2017-07-14 17:43:18
-
-
-推荐使用[nginx](http://nginx.org/)反向代理  
-
-Win hosts配置项：
-```
-127.0.0.1   www.test.com
-```
-
-nginx.conf配置项：  
-```
-server {
-    listen  80;
-    server_name  www.test.com;
-    location / {
-        proxy_pass   http://127.0.0.1:8001;
-    }
-}
-```
 
 
 ## github集合
