@@ -67,11 +67,11 @@ export default {
       msgdata.content = this.msg
       if(this.msg!=''){
         this.$API.replyMsg(msgdata).then(res=>{
-          this.$vux.toast.show({
-            type:"text",
-            text: '发送成功',
-            width:'20em'
-          })
+          // this.$vux.toast.show({
+          //   type:"text",
+          //   text: '发送成功',
+          //   width:'20em'
+          // })
           this.msg=''
           this.getMsgInfo()
           window.scrollTo(0,10000)              

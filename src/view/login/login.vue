@@ -13,7 +13,7 @@
       <x-input title="手机号：" placeholder="学号/手机号" keyboard="number" v-model="tel">
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe618;</i>
-        </span>
+        </span> 
       </x-input>
       <x-input title="密码：" placeholder="密码" type="password" v-model="pw" @keyup.native.enter="login">
         <span slot="label" class="loginIcon">

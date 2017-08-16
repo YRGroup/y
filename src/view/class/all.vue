@@ -23,8 +23,8 @@
       <div class="teacherListBox">
         <div class="box-item" v-for="(item,index) in teachers" :key="index" @click="$router.push('/teacher/'+item.Meid)">
           <img :src="item.Headimgurl">
-          <div class="name">{{ item.TrueName ||'未指定' }}</div>
-          <div class="job">{{ item.Course ||'未指定' }}</div>
+          <div class="name">{{ item.TrueName ||'&nbsp;' }}</div>
+          <div class="job">{{ item.Course ||'&nbsp;' }}</div>
         </div>
       </div>
 

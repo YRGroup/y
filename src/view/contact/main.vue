@@ -1,56 +1,48 @@
 <template>
   <div class="hello">
-
+  
     <has-no-student v-if="$store.state.hasNoStudent">
     </has-no-student>
-
+  
     <div v-else>
       <group class="link">
         <cell class="itemlist" :title="'学生 （'+student.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'" @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null">
-          
+  
           <span slot="icon" class="roleheader bgcolor1">
             <i class="iconfont">&#xe607;</i>
           </span>
         </cell>
-
+  
         <div class="slide" :class="showContent1?'animate':null">
-          <cell class="item" is-link v-for="(i,index) in student" 
-          :title="i.TrueName " :inline-desc="i.StudentID" :link="'/student/'+i.Meid"  :key="index">
+          <cell class="item" is-link v-for="(i,index) in student" :title="i.TrueName " :inline-desc="i.StudentID" :link="'/student/'+i.Meid" :key="index">
             <img class="cellicon" slot="icon" :src="i.Headimgurl">
           </cell>
         </div>
-    
-        <cell class="itemlist" :title="'家长 （'+parent.length+ ' )'" is-link 
-        :border-intent="false" :arrow-direction="showContent2 ? 'up' : 'down'" 
-        @click.native="showContent2 = !showContent2" :class="showContent2?'activenav':null">
+  
+        <cell class="itemlist" :title="'家长 （'+parent.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent2 ? 'up' : 'down'" @click.native="showContent2 = !showContent2" :class="showContent2?'activenav':null">
           <span slot="icon" class="roleheader bgcolor2">
             <i class="iconfont">&#xe609;</i>
           </span>
         </cell>
         <div class="slide" :class="showContent2?'animate':null">
-          <cell class="item" is-link v-for="(i,index) in parent" 
-          :link="'/student/'+i.StudentMeid+'/parent'" 
-          :title="i.StudentTrueName+'的家长 '" :inline-desc="i.ParentPhone" :key="index">
+          <cell class="item" is-link v-for="(i,index) in parent" :link="'/student/'+i.StudentMeid+'/parent'" :title="i.ParentTrueName+' '+i.StudentTrueName+'的'+ formatterParentType(i.ParentType)" :inline-desc="i.ParentPhone" :key="index">
             <img class="cellicon" slot="icon" :src="i.ParentHeadimgurl">
           </cell>
         </div>
-    
-        <cell  class="itemlist" :title="'老师 （'+teacher.length+ ' )'" is-link 
-        :border-intent="false" :arrow-direction="showContent3 ? 'up' : 'down'" 
-        @click.native="showContent3 = !showContent3" :class="showContent3?'activenav':null">
+  
+        <cell class="itemlist" :title="'老师 （'+teacher.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent3 ? 'up' : 'down'" @click.native="showContent3 = !showContent3" :class="showContent3?'activenav':null">
           <span slot="icon" class="roleheader bgcolor3">
             <i class="iconfont">&#xe605;</i>
           </span>
         </cell>
         <div class="slide" :class="showContent3?'animate':null">
-          <cell class="item" is-link v-for="(i,index) in teacher" 
-          :link="'/teacher/'+i.Meid" :title="i.TrueName + '（' + i.Course + '）'" :inline-desc="i.Mobilephone" :key="index">
+          <cell class="item" is-link v-for="(i,index) in teacher" :link="'/teacher/'+i.Meid" :title="i.TrueName + (i.Course?'（' + i.Course + '）':'')" :inline-desc="i.Mobilephone" :key="index">
             <img class="cellicon" slot="icon" :src="i.Headimgurl">
           </cell>
         </div>
-    
+  
       </group>
-    
+  
       </br>
       <ul class="msglist">
         <li @click="$router.push('/msg/'+item.Meid)" v-for="(item,index) in msgdata" :key="index">
@@ -61,7 +53,7 @@
           <span class="num">{{ item.UnReadCount }}</span>
         </li>
       </ul>
-
+  
       <div class="noMsg" v-if="msgdata.length===0">当前没有消息</div>
     </div>
   </div>
@@ -74,7 +66,7 @@ import hasNoStudent from '@/components/hasNoStudent'
 export default {
   name: 'hello',
   components: {
-    Group,Cell,CellFormPreview,CellBox,Badge,
+    Group, Cell, CellFormPreview, CellBox, Badge,
     hasNoStudent,
   },
   data() {
@@ -119,11 +111,25 @@ export default {
       this.$API.getMsgList().then(res => {
         this.msgdata = res
         let data = this.msgdata
-        for(var i = 0; i < data.length; i++){
+        for (var i = 0; i < data.length; i++) {
           let time = new Date(data[i].LastTime)
           data[i].LastTime = time.Format('MM-dd')
         }
       })
+    },
+    formatterParentType(t) {
+      switch (t) {
+        case 1:
+          return '爸爸'
+        case 2:
+          return '妈妈'
+        case 3:
+          return '爷爷'
+        case 4:
+          return '奶奶'
+        case 5:
+          return '家长'
+      }
     }
   },
   created() {
@@ -200,9 +206,10 @@ export default {
 //   background: @cc6;
 //   color: #fff;
 // }
-.itemlist{
-  background:#f9f9f9;
+.itemlist {
+  background: #f9f9f9;
 }
+
 .cellicon {
   width: 2.4rem;
   border-radius: 50%;
@@ -233,13 +240,16 @@ export default {
     font-size: 1.6rem;
   }
 }
-.bgcolor1{
+
+.bgcolor1 {
   background: #f76a24;
 }
-.bgcolor2{
+
+.bgcolor2 {
   background: #16c2c2;
 }
-.bgcolor3{
+
+.bgcolor3 {
   background: #9266f9;
 }
 
@@ -248,7 +258,8 @@ export default {
   transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
   transition-delay: 0s;
 }
-.noMsg{
+
+.noMsg {
   text-align: center;
   line-height: 150px;
 }

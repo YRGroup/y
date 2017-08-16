@@ -1,11 +1,6 @@
 <template>
   <div class="hello">
   
-    <!--<div class="user-header">
-            <img :src="data.Headimgurl" >
-            <div class="btn">修改头像</div>
-          </div>-->
-  
     <group>
       <cell title="手机号" v-model="data.Mobilephone" text-align="right" placeholder="请在此填上新内容"></cell>
       <x-input title="姓名" v-model="data.TrueName" text-align="right" placeholder="请输入姓名"></x-input>
@@ -26,11 +21,15 @@
   
     <div v-if="$store.state.role=='老师'">
       <group title="教师资料：">
+        <x-input title="民族" v-model="data.Volk" text-align="right"></x-input>
+        <x-input title="政治面貌" v-model="data.PoliticalStatus" text-align="right"></x-input>
+        <x-input title="教龄" v-model="data.SchoolAge" text-align="right"></x-input>
+        <x-input title="职称" v-model="data.Title" text-align="right"></x-input>
         <cell title="当前学科" v-model="data.Course"></cell>
         <selector title="修改学科" v-model="data.Course" :options="courseList" text-align="right"></selector>
       </group>
   
-      <group :title="'教学经历'+index+'：'" v-for="(i,index) in data.TeachExperience" :key="index">
+      <group :title="'教学经历'+(index+1)+'：'" v-for="(i,index) in data.TeachExperience" :key="index">
         <x-input title="任职学校" v-model="i.SchoolName"></x-input>
         <cell title="执教时间">{{i.StartTime}} - {{i.EndTime}}</cell>
         <datetime v-model="i.StartTime" title="选择开始时间"></datetime>
@@ -42,7 +41,7 @@
         <x-button @click.native="data.TeachExperience.push({})">添加教学经历</x-button>
       </div>
 
-      <group :title="'个人荣誉'+index+'：'" v-for="(i,index) in data.PersonalHonor" :key="index">
+      <group :title="'个人荣誉'+(index+1)+'：'" v-for="(i,index) in data.PersonalHonor" :key="index">
         <cell title="图片">
           <img :src="i.ImgPath">
         </cell>
@@ -73,11 +72,6 @@
         </cell>
       </group>
     </div>
-  
-    <!--<group title="当前没有学生" class="btn" v-if="noStudent">
-          <group class="btn" v-if="noStudent">
-            <x-button type="default" @click.native="addStudentPopup=true">添加学生</x-button>
-          </group>-->
   
     <popup v-model="addStudentPopup" is-transparent>
       <div class="popup">
