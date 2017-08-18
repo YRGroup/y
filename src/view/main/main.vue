@@ -120,7 +120,7 @@
             <div class="cardtitle">
               {{i.Title}}
             </div>
-            <div class="content">{{i.Describtion}}</div>
+            <!-- <div class="content">{{i.Describtion}}</div> -->
             <div class="cardfooter">
               <span class="time"><i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
             </div>
@@ -139,7 +139,7 @@
             <div class="cardtitle">
               <a @click="$router.push('/news?id='+i.ID)">{{i.Title}}</a>
             </div>
-            <div class="content">{{i.Describtion}}</div>
+            <!-- <div class="content">{{i.Describtion}}</div> -->
             <div class="cardfooter">
               <span class="time"><i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
             </div>
@@ -249,9 +249,10 @@ export default {
   text-align: center; // padding:1em 0;
   background-color: white;
   height: 100%;
+  padding-bottom: 0.5em;
   .vux-flexbox-item {
     cursor: pointer;
-    margin: 0.5em 0;
+    // margin: 0.5em 0;
     div {
       border-radius: 50%;
       margin: 1em auto 0 auto;
@@ -328,16 +329,18 @@ export default {
   background: #fff;
   .card {
     margin:0 10px;
-    padding:15px 15px 10px 130px;;
+    padding:15px 15px 15px 130px;;
     border-bottom: 1px dashed @cc4;
     overflow: hidden;
     position: relative;
+    height: 72px;
     // min-height: 80px;
     .img {
       position: absolute;
       top: 15px;
       left: 0;
       width: 120px;
+      height: 72px;
       display: inline-block;
       img {
         width: 100%;
@@ -348,23 +351,25 @@ export default {
       display: inline-block;
       .cardtitle {
         font-size: 14px;
-        height: 1.4em;
+        height: 3em;
         overflow: hidden;
-        font-weight: 600;
+        line-height: 20px;
         cursor: pointer;
       }
       .content {
         margin-top: 5px;
-        height: 2.8em;
+        height: 1.4em;
         line-height: 1.4em;
         color: #666;
         overflow: hidden;
+        margin-bottom: 5px;
         a {
           color: red;
           margin-left: 5px;
         }
       }
       .cardfooter {
+        margin-top: 10px;
         color: @cc3;
         font-size: 12px;
         .iconfont {

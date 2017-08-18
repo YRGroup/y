@@ -18,7 +18,7 @@
       <div slot="header" class="header">
         <span class="headTextImg">{{i.UserName.substr(0,1)}}</span>
          <!-- <img :src="i.Headimgurl" @click="fun('打开 '+i.UserName+' 的个人页面')">  -->
-        <span class="usename" @click="fun('打开 '+i.UserName+' 的个人页面')">{{ i.UserName }}</span>
+        <span class="usename">{{ i.UserName }}</span>
         <span class="time">{{ i.AddTime }}</span>
       </div>
       <div slot="content" class="content">
@@ -175,15 +175,6 @@ export default {
 }
 .newcontent{
   overflow: hidden;
-  ql-align-center{
-
-    img{
-      max-width: 120px;
-    }
-  }
-  pre p{
-    text-indent :2em;
-  }
 }
 .cardcont .vux-card-content{
   padding-left: 120px;
