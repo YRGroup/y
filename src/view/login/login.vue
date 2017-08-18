@@ -10,12 +10,17 @@
       <img src="../../assets/logo.png">
     </div>
     <group>
-      <x-input title="手机号：" placeholder="学号/手机号" keyboard="number" v-model="tel">
+      <x-input title="手机号：" placeholder="学号/手机号" keyboard="number" v-model="tel" @on-blur="verifyAccount">
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe618;</i>
-        </span> 
+        </span>
       </x-input>
-      <x-input title="密码：" placeholder="密码" type="password" v-model="pw" @keyup.native.enter="login">
+      <x-input title="密码：" placeholder="密码" type="password" v-model="pw" @keyup.native.enter="login" v-show="step==1">
+        <span slot="label" class="loginIcon">
+          <i class="iconfont">&#xe6ec;</i>
+        </span>
+      </x-input>
+      <x-input title="短信验证码：" placeholder="短信验证码" type="text" v-model="sms" @keyup.native.enter="login" v-show="step>=2">
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe6ec;</i>
         </span>
@@ -23,7 +28,12 @@
     </group>
     </br>
     <div style="padding:0 20px" class="loginBtn">
-      <x-button type="primary" @click.native="login">登录</x-button>
+      <x-button type="primary" @click.native="verifyAccount" v-show="step==0">下一步</x-button>
+      <x-button type="primary" @click.native="getSms" v-show="step>=2" :disabled="getsmsCount!=0">
+        <span v-show="step==2">获取短信验证码</span>
+        <span v-show="step==3">{{getsmsCount!=0?(getsmsCount+'s后重新获取短信验证码'):'重新获取短信验证码'}}</span>
+      </x-button>
+      <x-button type="primary" @click.native="login" v-show="step==1 || step==3">登录</x-button>
       <div class="regBtn" @click="$router.push('/reg')">还没有帐号？点击注册</div>
     </div>
   
@@ -40,7 +50,10 @@ export default {
   data() {
     return {
       tel: '',
-      pw: ''
+      pw: '',
+      sms: '',
+      getsmsCount: 0,
+      step: 2
     }
   },
   methods: {
@@ -51,27 +64,58 @@ export default {
       else
         return null;
     },
-    login() {
-      if (this.tel != '' | this.pw != '') {
-        let logData = {}
-        logData.phone = this.tel
-        logData.password = this.pw
-        this.$store.dispatch('login', logData).then(res => {
-          // if (res.ExistWeixinOpenid == 0 && this.$store.getters.isWeixin) {
-          if (!this.getCookie('WeixinOpenid') && this.$store.getters.isWeixin) {
-            this.$vux.toast.show({
-              type: "text",
-              text: '跳转到微信授权页面',
-              width: "20em"
-            })
-            window.location.href = this.$store.state.ApiUrl + '/api/OAuth2Redirect/index?refUrl=' + window.location.host + '/%23/main'
+    count() {
+      if (this.getsmsCount > 0) {
+        this.getsmsCount--
+      }
+    },
+    startCount() {
+      setInterval(
+        this.count
+        , 1000)
+    },
+    getSms() {
+      if (this.tel == '' || this.tel.length != 11) {
+        this.$vux.toast.show({
+          type: "warn",
+          text: '请输入正确手机号',
+          width: "20em"
+        })
+      } else {
+        this.$API.getLoginSms(this.tel).then(() => {
+          this.getsmsCount = 180
+          this.step = 3
+          this.startCount()
+        }).catch(err => {
+          this.$vux.toast.show({
+            type: "warn",
+            text: err.msg,
+            width: "20em"
+          })
+        })
+      }
+    },
+    verifyAccount() {
+      if (this.tel == '') {
+        this.$vux.toast.show({
+          type: "warn",
+          text: '请输入正确的手机号/学号',
+          width: "20em"
+        })
+      } else if (this.tel != '' && this.tel.length == 11) {
+        let para = { phone: this.tel }
+        this.$API.verifyAccount(para).then(res => {
+          if (res.Msg == "normal") {
+            this.step = 1
+          } else if (res.Msg == "unActived") {
+            this.step = 2
           } else {
             this.$vux.toast.show({
-              type: "text",
-              text: '跳转到主页',
+              type: "warn",
+              text: '手机号未注册',
               width: "20em"
             })
-            this.$router.push('/main')
+            this.$router.push('/reg?tel=' + this.tel)
           }
         }).catch(err => {
           this.$vux.toast.show({
@@ -80,27 +124,84 @@ export default {
             width: "20em"
           })
         })
+      }else{
+        this.step=1
+      }
+    },
+    phoneLogin() {
+      let loginData = {
+        phone: this.tel,
+        password: this.pw
+      }
+      this.$API.login(loginData).then(res => this.loginOK(res)).catch(err => {
+        this.$vux.toast.show({
+          type: "warn",
+          text: err.msg,
+          width: "20em"
+        })
+      })
+    },
+    studentLogin() {
+      let loginData = {
+        studentid: this.tel,
+        password: this.pw
+      }
+      this.$API.studentLogin(loginData).then(res => this.loginOK(res)).catch(err => {
+        this.$vux.toast.show({
+          type: "warn",
+          text: err.msg,
+          width: "20em"
+        })
+      })
+    },
+    smsLogin() {
+      let loginData = {
+        phone: this.tel,
+        code: this.sms
+      }
+      this.$API.loginBySms(loginData).then(res => this.loginOK(res)).catch(err => {
+        this.$vux.toast.show({
+          type: "warn",
+          text: err.msg,
+          width: "20em"
+        })
+      })
+    },
+    loginOK(val) {
+      this.$store.commit('login', val)
+      localStorage.setItem('user', JSON.stringify(val))
+      this.commit('setToken', val.Token)
+      if (!this.getCookie('WeixinOpenid') && this.$store.getters.isWeixin) {
+        this.$vux.toast.show({
+          type: "text",
+          text: '跳转到微信授权页面',
+          width: "20em"
+        })
+        window.location.href = this.$store.state.ApiUrl + '/api/OAuth2Redirect/index?refUrl=' + window.location.host + '/%23/main'
       } else {
         this.$vux.toast.show({
           type: "text",
-          text: '请输入用户名或密码',
+          text: '跳转到主页',
           width: "20em"
         })
+        this.$router.push('/main')
       }
     },
-    fun(msg) {
-      this.$vux.toast.show({
-        type: "text",
-        width: "20em",
-        text: msg
-      })
-    }
+    login() {
+      if (this.tel.slice(0, 1) == 1 && this.step==1) {
+        this.phoneLogin()
+      }else if (this.tel.slice(0, 1) == 1 && this.step>=2) {
+        this.smsLogin()
+      } else if(this.tel.slice(0, 1) == 8){
+        this.studentLogin()
+      }
+    },
   },
   created() {
     this.$store.commit('changeTitle', '登录智慧校园')
   },
   mounted() {
-    
+
   }
 }
 </script>

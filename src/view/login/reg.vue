@@ -268,6 +268,9 @@ export default {
   },
   created() {
     this.$store.commit('changeTitle', '注册')
+    if(this.$route.query.tel){
+      this.data.phone=this.$route.query.tel
+    }
   },
   mounted() {
   }
