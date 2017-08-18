@@ -25,8 +25,11 @@
         <x-input class="itemList" title="手机号" placeholder="请输入手机号" :show-clear="true" required is-type="china-mobile" ref="mobilephone" keyboard="number" v-model="data.phone" @on-change="verifyTel">
         </x-input>
       </group>
-      <div style="padding:2rem;" v-show="!hasGetSms">
-        <x-button type="primary" @click.native="getSms">获取验证码</x-button>
+      <div style="padding:2rem;">
+        <x-button type="primary" @click.native="getSms" :disabled="getsmsCount!=0">
+          <span v-show="step==2">获取短信验证码</span>
+          <span v-show="step==3">{{getsmsCount!=0?(getsmsCount+'s后重新获取短信验证码'):'重新获取短信验证码'}}</span>
+        </x-button>
       </div>
     </div>
 
@@ -117,6 +120,7 @@ export default {
         { key: 2, value: '妈妈' },
       ],
       step: 2,
+      getsmsCount: 0,
       hasGetSms: false,
       moreData: {},
       addStudentData: {},
@@ -143,6 +147,16 @@ export default {
         this.step = 3
       }
     },
+    count() {
+      if (this.getsmsCount > 0) {
+        this.getsmsCount--
+      }
+    },
+    startCount() {
+      setInterval(
+        this.count
+        , 1000)
+    },
     getSms() {
       if(this.$refs.mobilephone.valid){
         this.$API.getRegSms(this.data.phone).then(res => {
@@ -152,6 +166,8 @@ export default {
             width: '20em',
             time: '1000'
           })
+          this.getsmsCount = 180
+          this.startCount()
           this.step=3
           this.hasGetSms = true
         }).catch(err => {
