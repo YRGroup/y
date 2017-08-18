@@ -53,7 +53,7 @@ export default {
       pw: '',
       sms: '',
       getsmsCount: 0,
-      step: 2
+      step: 0
     }
   },
   methods: {
