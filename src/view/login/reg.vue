@@ -105,7 +105,7 @@ export default {
       check1: require("@/assets/face/bw.jpg"),
       check2: require("@/assets/face/tc.png"),
       data: {
-        role: '', phone: '', password: ''
+        role: '2', phone: '', password: ''
       },
       rolecheck: [
         { key: 1, value: '学生' },
@@ -116,7 +116,7 @@ export default {
         { key: 1, value: '爸爸' },
         { key: 2, value: '妈妈' },
       ],
-      step: 1,
+      step: 2,
       hasGetSms: false,
       moreData: {},
       addStudentData: {},
