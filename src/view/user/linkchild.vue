@@ -45,8 +45,7 @@ export default {
             width: "20em",
             text: '绑定成功'
           })
-          this.getData()
-          this.addStudentPopup = false
+          this.$router.push('/class')
         }).catch((err) => {
           this.$vux.toast.show({
             type: "text",
@@ -65,7 +64,6 @@ export default {
   },
   created() {
     this.$store.commit('changeTitle', '绑定孩子')
-    this.getData()
   },
   mounted() {
 

@@ -85,16 +85,26 @@
         </div>
       </div>
     </div>
+
+    <x-dialog v-model="showWX" class="dialog-demo">
+        <div class="img-box">
+          <img :src="publicImg" style="max-width:100%">
+        </div>
+        <div @click="showWX=false">
+          <span class="vux-close"></span>
+        </div>
+      </x-dialog>
+
   </div>
 </template>
 
 <script>
-import { Swiper, Flexbox, FlexboxItem, XButton, Popup } from 'vux'
+import { Swiper, Flexbox, FlexboxItem, XButton, Popup,XDialog  } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Swiper, Flexbox, FlexboxItem, XButton, Popup
+    Swiper, Flexbox, FlexboxItem, XButton, Popup,XDialog 
   },
   data() {
     return {
@@ -120,6 +130,7 @@ export default {
       currentPage: 1,
       newsList: [],
       publicImg: require('@/assets/publicImg.png'),
+      showWX:false
     }
   },
   methods: {

@@ -136,7 +136,7 @@ export default {
         phone: this.tel,
         password: this.pw
       }
-      this.$API.login(loginData).then(res => this.loginOK(res)).catch(err => {
+      this.$API.login(loginData).then(res => {this.loginOK(res)}).catch(err => {
         this.$vux.toast.show({
           type: "warn",
           text: err.msg,
@@ -149,7 +149,7 @@ export default {
         studentid: this.tel,
         password: this.pw
       }
-      this.$API.studentLogin(loginData).then(res => this.loginOK(res)).catch(err => {
+      this.$API.studentLogin(loginData).then(res => {this.loginOK(res)}).catch(err => {
         this.$vux.toast.show({
           type: "warn",
           text: err.msg,
@@ -162,7 +162,7 @@ export default {
         phone: this.tel,
         code: this.sms
       }
-      this.$API.loginBySms(loginData).then(res => this.loginOK(res)).catch(err => {
+      this.$API.loginBySms(loginData).then(res => {this.loginOK(res)}).catch(err => {
         this.$vux.toast.show({
           type: "warn",
           text: err.msg,
@@ -173,7 +173,7 @@ export default {
     loginOK(val) {
       this.$store.commit('login', val)
       localStorage.setItem('user', JSON.stringify(val))
-      this.commit('setToken', val.Token)
+      this.$store.commit('setToken', val.Token)
       if (!this.getCookie('WeixinOpenid') && this.$store.getters.isWeixin) {
         this.$vux.toast.show({
           type: "text",
@@ -182,12 +182,12 @@ export default {
         })
         window.location.href = this.$store.state.ApiUrl + '/api/OAuth2Redirect/index?refUrl=' + window.location.host + '/%23/'
       } else {
+        this.$router.push('/')
         this.$vux.toast.show({
           type: "text",
           text: '跳转到主页',
           width: "20em"
         })
-        this.$router.push('/')
       }
     },
     login() {
