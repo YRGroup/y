@@ -114,7 +114,7 @@
         <p>关注公众号，获取更多信息</p>
       </div>
       <div class="img-box">
-        <img :src="publicImg" style="max-width:100%">
+        <img :src="QRcodeIMG" style="max-width:100%">
       </div>
     </x-dialog>
   </div>
@@ -154,7 +154,9 @@ export default {
       page: 1,
       publicImg: require('@/assets/publicImg.png'),
       tabindex: '1',
-      showWX: false
+      currentPage:1,
+      QRcodeIMG:'',
+      showWX: true
     }
   },
   methods: {
@@ -216,6 +218,9 @@ export default {
         this.data = res
       })
     },
+    getWXQRcode(){
+      this.QRcodeIMG = this.$API.getWXQRcode()
+    },
     changeNum1() {
       this.tabindex = '1'
     },
@@ -229,6 +234,7 @@ export default {
     this.getSwiper()
     this.getNewsList()
     this.getData()
+    this.getWXQRcode()
   },
   mounted() {
     if (this.$store.getters.isWeixin) {
