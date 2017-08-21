@@ -7,6 +7,7 @@ import dev from '@/components/dev'
 import home from '@/view/main'
 import main from '@/view/main/main'
 import mainnew from '@/view/main/news'
+import doc from '@/view/main/doc'
 
 // 功能模块
 import addon from '@/view/addon/default'
@@ -95,6 +96,10 @@ export default new Router({
             path: '/mainnew',
             name: 'mainnew',
             component: mainnew
+          },{
+            path: '/doc',
+            name: 'doc',
+            component: doc
           }
         ]
         },
