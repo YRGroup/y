@@ -7,7 +7,7 @@
           <i class="iconfont">&#xe620;</i>
         </span>
         <marquee class="text" direction="left" scrollamount="5">您还没有关注公共账号,关注后可收到学生在校动态！</marquee>
-        <div class="followbtn" @click="fun('关注跳转')">
+        <div class="followbtn" @click="showWX=true">
           <i class="iconfont">&#xe61f;</i>关注</div>
       </div>
   
@@ -85,26 +85,30 @@
         </div>
       </div>
     </div>
-
-    <x-dialog v-model="showWX" class="dialog-demo">
-        <div class="img-box">
-          <img :src="publicImg" style="max-width:100%">
-        </div>
-        <div @click="showWX=false">
-          <span class="vux-close"></span>
-        </div>
-      </x-dialog>
-
+  
+    <x-dialog v-model="showWX" class="wxDialog">
+      <div class="close" @click="showWX=false">
+        <span>X</span>
+      </div>
+      <div>
+        <p class="main">长按识别二维码</p>
+        <p>关注公众号，获取更多信息</p>
+      </div>
+      <div class="img-box">
+        <img :src="publicImg" style="max-width:100%">
+      </div>
+    </x-dialog>
+  
   </div>
 </template>
 
 <script>
-import { Swiper, Flexbox, FlexboxItem, XButton, Popup,XDialog  } from 'vux'
+import { Swiper, Flexbox, FlexboxItem, XButton, Popup, XDialog } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Swiper, Flexbox, FlexboxItem, XButton, Popup,XDialog 
+    Swiper, Flexbox, FlexboxItem, XButton, Popup, XDialog
   },
   data() {
     return {
@@ -130,7 +134,7 @@ export default {
       currentPage: 1,
       newsList: [],
       publicImg: require('@/assets/publicImg.png'),
-      showWX:false
+      showWX: true
     }
   },
   methods: {
@@ -323,6 +327,25 @@ export default {
         margin-right: 5px;
       }
     }
+  }
+}
+
+.wxDialog {
+  line-height: 2rem;
+  position: relative;
+  .close {
+    position: absolute;
+    right:1rem;
+    top:.5rem;
+    cursor: pointer;
+    &:hover{
+      color:red;
+    }
+  }
+  .main{
+    color:@cc7;
+    font-size: 1.5rem;
+    line-height: 3rem;
   }
 }
 </style>
