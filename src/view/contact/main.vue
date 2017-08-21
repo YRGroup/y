@@ -50,7 +50,7 @@
           <span class="usename">{{ item.Name }}</span>
           <span class="info">{{ item.Content }}</span>
           <span class="time">{{ item.LastTime }}</span>
-          <span class="num">{{ item.UnReadCount }}</span>
+          <span class="num" v-show="item.UnReadCount">{{ item.UnReadCount }}</span>
         </li>
       </ul>
   

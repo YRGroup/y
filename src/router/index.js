@@ -6,6 +6,7 @@ import dev from '@/components/dev'
 // 主页
 import home from '@/view/main'
 import main from '@/view/main/main'
+import mainnew from '@/view/main/news'
 
 // 功能模块
 import addon from '@/view/addon/default'
@@ -81,16 +82,23 @@ export default new Router({
     {
       path: '/',
       component: home,
-      children: [{ //测试主页
-          path: '/',
-          name: 'mainpage',
-          component: main
-        },
+      children: [
         { //主页
-          path: '/main',
+          path: '/',
           name: 'main',
-          component: main
+          component: home,
+          children: [{
+            path: '',
+            name: 'main',
+            component: main,
+          },{
+            path: '/mainnew',
+            name: 'mainnew',
+            component: mainnew
+          }
+        ]
         },
+
         { //扩展模块
           path: '/addon',
           component: addon,
@@ -226,7 +234,7 @@ export default new Router({
           component: studentprofile
         },
         { // 学生成绩报告
-          path: '/student/:studentId/score/:examId',
+          path: '/student/:currentStudentId/score/:examId',
           name: 'score',
           component: score
         },

@@ -1,89 +1,108 @@
 <template>
-  <div>
-    <div class="content">
+  <div class="content">
   
-      <div class="follow" v-if="followWeixin">
-        <span class="tips">
-          <i class="iconfont">&#xe620;</i>
-        </span>
-        <marquee class="text" direction="left" scrollamount="5">您还没有关注公共账号,关注后可收到学生在校动态！</marquee>
-        <div class="followbtn" @click="showWX=true">
-          <i class="iconfont">&#xe61f;</i>关注</div>
-      </div>
-  
-      <!--轮播图-->
-      <swiper loop auto :list="swiperdate"></swiper>
-  
-      <!--功能导航-->
-      <flexbox wrap="wrap" :gutter="0">
-        <flexbox-item :span="4">
-          <router-link to="/school">
-            <div style="background:#fe970f">
-              <i class="iconfont">&#xe649;</i>
-            </div>
-            <span>新闻</span>
-          </router-link>
-        </flexbox-item>
-        <flexbox-item :span="4">
-          <router-link :to="'/class/'+$store.state.currentClassId+'/work'">
-            <div style="background:#28cb60">
-              <i class="iconfont">&#xe668;</i>
-            </div>
-            <span>作业</span>
-          </router-link>
-        </flexbox-item>
-        <flexbox-item :span="4">
-          <router-link :to="'/student/'+$store.state.currentStudentId+'/score/0'">
-            <div style="background:#0ab9f7">
-              <i class="iconfont">&#xe601;</i>
-            </div>
-            <span>成绩报告</span>
-          </router-link>
-        </flexbox-item>
-        <flexbox-item :span="4">
-          <router-link :to="'/addon/schoolcard'">
-            <div style="background:#fbc700">
-              <i class="iconfont">&#xe602;</i>
-            </div>
-            <span>一卡通</span>
-          </router-link>
-        </flexbox-item>
-        <flexbox-item :span="4">
-          <router-link to="/school">
-            <div style="background:#ff5498">
-              <i class="iconfont">&#xe604;</i>
-            </div>
-            <span>资料库</span>
-          </router-link>
-        </flexbox-item>
-        <flexbox-item :span="4">
-          <router-link to="/school">
-            <div style="background:#8dc62c">
-              <i class="iconfont">&#xe737;</i>
-            </div>
-            <span>校园新闻</span>
-          </router-link>
-        </flexbox-item>
-      </flexbox>
-  
+    <div class="follow" v-if="followWeixin">
+      <span class="tips">
+        <i class="iconfont">&#xe620;</i>
+      </span>
+      <marquee class="text" direction="left" scrollamount="5">您还没有关注公共账号,关注后可收到学生在校动态！</marquee>
+      <div class="followbtn" @click="showWX=true">
+        <i class="iconfont">&#xe61f;</i>关注</div>
     </div>
-    <div class="newsCard" v-for="(i,index) in newsList" :key="index">
-      <div class="img" v-if="i.ImgUrl">
-        <img :src="i.ImgUrl">
-      </div>
-      <div class="img" v-else>
-        <img :src="publicImg">
-      </div>
-      <div class="cardCon">
-        <div class="cardtitle" @click="$router.push('/news/'+i.ID)">
-          {{i.Title}}
+  
+    <!--轮播图-->
+    <swiper loop auto :list="swiperdate"></swiper>
+  
+    <!--功能导航-->
+    <flexbox wrap="wrap" :gutter="0">
+      <flexbox-item :span="3">
+        <router-link :to="'/class/'+$store.state.currentClassId+'/work'">
+          <div style="background:#28cb60">
+            <i class="iconfont">&#xe668;</i>
+          </div>
+          <span>作业</span>
+        </router-link>
+      </flexbox-item>
+      <flexbox-item :span="3">
+        <router-link :to="'/student/'+$store.state.currentStudentId+'/score/1'">
+          <div style="background:#0ab9f7">
+            <i class="iconfont">&#xe601;</i>
+          </div>
+          <span>成绩报告</span>
+        </router-link>
+      </flexbox-item>
+      <flexbox-item :span="3">
+        <router-link :to="'/addon/schoolcard'">
+          <div style="background:#fbc700">
+            <i class="iconfont">&#xe602;</i>
+          </div>
+          <span>一卡通</span>
+        </router-link>
+      </flexbox-item>
+      <flexbox-item :span="3">
+        <router-link to="/main">
+          <div style="background:#ff5498">
+            <i class="iconfont">&#xe604;</i>
+          </div>
+          <span>资料库</span>
+        </router-link>
+      </flexbox-item>
+      <flexbox-item :span="3">
+        <router-link to="/school">
+          <div style="background:#8dc62c">
+            <i class="iconfont">&#xe737;</i>
+          </div>
+          <span>校园新闻</span>
+        </router-link>
+      </flexbox-item>
+    </flexbox>
+  
+    <div class="newsCard">
+      <tab :line-width="2">
+        <tab-item selected @on-item-click="handleSwitchTab">校园动态</tab-item>
+        <tab-item @on-item-click="handleSwitchTab">资料库</tab-item>
+      </tab>
+      <div v-if="tabindex == '1'">
+        <div class="card" v-for="(i,index) in data" :key="index" @click="$router.push('/mainnew?id='+i.ID)">
+          <div class="img" v-if="i.ImgUrl">
+            <img :src="i.ImgUrl">
+          </div>
+          <div class="img" v-else>
+            <img :src="publicImg">
+          </div>
+          <div class="cardCon">
+            <div class="cardtitle">
+              {{i.Title}}
+            </div>
+            <!-- <div class="content">{{i.Describtion}}</div> -->
+            <div class="cardfooter">
+              <span class="time">
+                <i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
+            </div>
+          </div>
         </div>
-        <div class="content">{{i.Describtion}}</div>
-        <div class="cardfooter">
-          <span class="time">
-            <i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
+      </div>
+      <div v-if="tabindex == '2'">
+        <div class="card" v-for="(i,index) in data" :key="index">
+          <div class="img" v-if="i.ImgUrl">
+            <img :src="i.ImgUrl">
+          </div>
+          <div class="img" v-else>
+            <img :src="publicImg">
+          </div>
+          <div class="cardCon">
+            <div class="cardtitle">
+              <a @click="$router.push('/news?id='+i.ID)">{{i.Title}}</a>
+            </div>
+            <!-- <div class="content">{{i.Describtion}}</div> -->
+            <div class="cardfooter">
+              <span class="time">
+                <i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
+            </div>
+          </div>
         </div>
       </div>
+  
     </div>
   
     <x-dialog v-model="showWX" class="wxDialog">
@@ -98,17 +117,16 @@
         <img :src="publicImg" style="max-width:100%">
       </div>
     </x-dialog>
-  
   </div>
 </template>
 
 <script>
-import { Swiper, Flexbox, FlexboxItem, XButton, Popup, XDialog } from 'vux'
+import { Swiper, Flexbox, FlexboxItem, XButton, Popup, Tab, TabItem, XDialog } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Swiper, Flexbox, FlexboxItem, XButton, Popup, XDialog
+    Swiper, Flexbox, FlexboxItem, XButton, Popup, Tab, TabItem, XDialog
   },
   data() {
     return {
@@ -131,10 +149,12 @@ export default {
           title: '郑州外国语女子中学'
         }
       ],
-      currentPage: 1,
-      newsList: [],
+      activeName: '1',
+      data: [],
+      page: 1,
       publicImg: require('@/assets/publicImg.png'),
-      showWX: true
+      tabindex: '1',
+      showWX: false
     }
   },
   methods: {
@@ -143,7 +163,7 @@ export default {
         type: "text",
         width: "20em",
         text: msg,
-        show: true
+        show: true,
       })
     },
     getNewsList() {
@@ -177,14 +197,38 @@ export default {
         }
       })
     },
-    mytest() {
-      this.$router.push('/msg')
+    handleSwitchTab() {
+      if (this.tabindex == "1") {
+        this.tabindex = '2'
+      } else {
+        this.tabindex = '1'
+      }
+      this.getData()
+    },
+    getData() {
+      let para = {
+        category: this.tabindex,
+        currentPage: this.page,
+        pagesize: 10,
+        showDelete: false,
+      }
+      this.$API.getNewsList(para).then(res => {
+        this.data = res
+      })
+    },
+    changeNum1() {
+      this.tabindex = '1'
+    },
+    changeNum2() {
+      this.activeName = '2'
+      this.tabindex = '2'
     }
   },
   created() {
     this.$store.commit('changeTitle', '校园动态')
     this.getSwiper()
     this.getNewsList()
+    this.getData()
   },
   mounted() {
     if (this.$store.getters.isWeixin) {
@@ -215,17 +259,38 @@ export default {
       width: 6em;
       height: 6em;
       line-height: 6em;
-      color: white;
-      svg {
-        margin-top: .2em;
-      }
-      i {
-        font-size: 3em;
-        text-shadow: 2px 2px 1px rgba(0, 0, 0, .1);
+      .iconfont {
+        color: #fff;
+        font-size: 2.2rem;
       }
     }
-    span {
-      line-height: 2em;
+
+    .vux-flexbox {
+      text-align: center;
+      background-color: white;
+      height: 100%;
+      padding-bottom: 0.5em;
+      .vux-flexbox-item {
+        cursor: pointer;
+        div {
+          border-radius: 50%;
+          margin: 1em auto 0 auto;
+          width: 4.6em;
+          height: 4.6em;
+          line-height: 4.6em;
+          color: white;
+          svg {
+            margin-top: .2em;
+          }
+          i {
+            font-size: 2.4em;
+            text-shadow: 2px 2px 1px rgba(0, 0, 0, .1);
+          }
+        }
+        span {
+          line-height: 2em;
+        }
+      }
     }
   }
 }
@@ -325,6 +390,60 @@ export default {
       .iconfont {
         font-size: 14px;
         margin-right: 5px;
+        margin-top: 15px;
+        background: #fff;
+        .card {
+          margin: 0 10px;
+          padding: 15px 15px 15px 130px;
+          ;
+          border-bottom: 1px dashed @cc4;
+          overflow: hidden;
+          position: relative;
+          height: 72px; // min-height: 80px;
+          .img {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 120px;
+            height: 72px;
+            display: inline-block;
+            img {
+              width: 100%;
+            }
+          }
+          .cardCon {
+            width: 100%;
+            display: inline-block;
+            .cardtitle {
+              font-size: 14px;
+              height: 3em;
+              overflow: hidden;
+              line-height: 20px;
+              cursor: pointer;
+            }
+            .content {
+              margin-top: 5px;
+              height: 1.4em;
+              line-height: 1.4em;
+              color: #666;
+              overflow: hidden;
+              margin-bottom: 5px;
+              a {
+                color: red;
+                margin-left: 5px;
+              }
+            }
+            .cardfooter {
+              margin-top: 10px;
+              color: @cc3;
+              font-size: 12px;
+              .iconfont {
+                font-size: 14px;
+                margin-right: 5px;
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -335,15 +454,15 @@ export default {
   position: relative;
   .close {
     position: absolute;
-    right:1rem;
-    top:.5rem;
+    right: 1rem;
+    top: .5rem;
     cursor: pointer;
-    &:hover{
-      color:red;
+    &:hover {
+      color: red;
     }
   }
-  .main{
-    color:@cc7;
+  .main {
+    color: @cc7;
     font-size: 1.5rem;
     line-height: 3rem;
   }
