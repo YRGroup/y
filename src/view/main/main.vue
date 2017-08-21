@@ -156,7 +156,7 @@ export default {
       tabindex: '1',
       currentPage:1,
       QRcodeIMG:'',
-      showWX: true
+      showWX: false
     }
   },
   methods: {
