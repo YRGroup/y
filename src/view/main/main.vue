@@ -15,7 +15,7 @@
   
     <!--功能导航-->
     <flexbox wrap="wrap" :gutter="0">
-      <flexbox-item :span="3">
+      <flexbox-item :span="4">
         <router-link :to="'/class/'+$store.state.currentClassId+'/work'">
           <div style="background:#28cb60">
             <i class="iconfont">&#xe668;</i>
@@ -23,7 +23,7 @@
           <span>作业</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="3">
+      <flexbox-item :span="4">
         <router-link :to="'/student/'+$store.state.currentStudentId+'/score/1'">
           <div style="background:#0ab9f7">
             <i class="iconfont">&#xe601;</i>
@@ -31,7 +31,7 @@
           <span>成绩报告</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="3">
+      <flexbox-item :span="4">
         <router-link :to="'/addon/schoolcard'">
           <div style="background:#fbc700">
             <i class="iconfont">&#xe602;</i>
@@ -39,7 +39,7 @@
           <span>一卡通</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="3">
+      <flexbox-item :span="4">
         <router-link to="/main">
           <div style="background:#ff5498">
             <i class="iconfont">&#xe604;</i>
@@ -47,7 +47,7 @@
           <span>资料库</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="3">
+      <flexbox-item :span="4">
         <router-link to="/school">
           <div style="background:#8dc62c">
             <i class="iconfont">&#xe737;</i>
@@ -242,7 +242,7 @@ export default {
 
 <style lang="less" scoped>
 .content {
-  background: #fff;
+  // background: #fff;
 }
 
 .vux-flexbox {
@@ -252,17 +252,24 @@ export default {
   height: 100%;
   .vux-flexbox-item {
     cursor: pointer;
-    margin: 0.5em 0;
+    // margin: 0.5em 0;
     div {
       border-radius: 50%;
       margin: 1em auto 0 auto;
-      width: 6em;
-      height: 6em;
-      line-height: 6em;
-      .iconfont {
-        color: #fff;
-        font-size: 2.2rem;
+      width: 4.6em;
+      height: 4.6em;
+      line-height: 4.6em;
+      color: white;
+      svg {
+        margin-top: .2em;
       }
+      i {
+        font-size: 2.4em;
+        text-shadow: 2px 2px 1px rgba(0, 0, 0, .1);
+      }
+    }
+    span {
+      line-height: 2em;
     }
 
     .vux-flexbox {
@@ -346,103 +353,56 @@ export default {
 }
 
 .newsCard {
-  margin: 1rem 0;
+  margin-top: 15px;
   background: #fff;
-  position: relative;
-  border-bottom: 1px solid @cc4;
-  .img {
-    height: 120px;
-    width: 120px;
-    display: inline-block;
-    margin-top: 1rem;
-    img {
-      width: 100%;
-    }
-  }
-  .cardCon {
-    width: calc(~"100% - 140px");
-    display: inline-block;
-    line-height: 2rem;
-    vertical-align: top;
-    margin-left: 15px;
-    .cardtitle {
-      font-size: 16px;
-      line-height: 32px;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .content {
-      margin-top: 8px;
-      line-height: 24px;
-      color: #666;
-      overflow: hidden;
-      a {
-        color: @cc7;
-        margin-left: 5px;
+  .card {
+    margin:0 10px;
+    padding:15px 15px 15px 130px;;
+    border-bottom: 1px dashed @cc4;
+    overflow: hidden;
+    position: relative;
+    height: 72px;
+    // min-height: 80px;
+    .img {
+      position: absolute;
+      top: 15px;
+      left: 0;
+      width: 120px;
+      height: 72px;
+      display: inline-block;
+      img {
+        width: 100%;
       }
     }
-    .cardfooter {
-      color: @cc4;
-      font-size: 12px;
-      .iconfont {
+    .cardCon {
+      width: 100%;
+      display: inline-block;
+      .cardtitle {
         font-size: 14px;
-        margin-right: 5px;
-        margin-top: 15px;
-        background: #fff;
-        .card {
-          margin: 0 10px;
-          padding: 15px 15px 15px 130px;
-          ;
-          border-bottom: 1px dashed @cc4;
-          overflow: hidden;
-          position: relative;
-          height: 72px; // min-height: 80px;
-          .img {
-            position: absolute;
-            top: 15px;
-            left: 0;
-            width: 120px;
-            height: 72px;
-            display: inline-block;
-            img {
-              width: 100%;
-            }
-          }
-          .cardCon {
-            width: 100%;
-            display: inline-block;
-            .cardtitle {
-              font-size: 14px;
-              height: 3em;
-              overflow: hidden;
-              line-height: 20px;
-              cursor: pointer;
-            }
-            .content {
-              margin-top: 5px;
-              height: 1.4em;
-              line-height: 1.4em;
-              color: #666;
-              overflow: hidden;
-              margin-bottom: 5px;
-              a {
-                color: red;
-                margin-left: 5px;
-              }
-            }
-            .cardfooter {
-              margin-top: 10px;
-              color: @cc3;
-              font-size: 12px;
-              .iconfont {
-                font-size: 14px;
-                margin-right: 5px;
-              }
-            }
-          }
+        height: 3em;
+        overflow: hidden;
+        line-height: 20px;
+        cursor: pointer;
+      }
+      .content {
+        margin-top: 5px;
+        height: 1.4em;
+        line-height: 1.4em;
+        color: #666;
+        overflow: hidden;
+        margin-bottom: 5px;
+        a {
+          color: red;
+          margin-left: 5px;
+        }
+      }
+      .cardfooter {
+        margin-top: 10px;
+        color: @cc3;
+        font-size: 12px;
+        .iconfont {
+          font-size: 14px;
+          margin-right: 5px;
         }
       }
     }

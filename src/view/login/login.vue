@@ -185,7 +185,7 @@ export default {
         this.$router.push('/')
         this.$vux.toast.show({
           type: "text",
-          text: '跳转到主页',
+          text: '登录成功',
           width: "20em"
         })
       }
