@@ -1,87 +1,82 @@
 <template>
   <div class="hello">
   
-    <has-no-student v-if="$store.state.hasNoStudent"></has-no-student>
-  
-    <div v-else>
-      <div class="user-header">
-        <img :src="data.Headimgurl">
-        <p class="usename">{{data.TrueName}}
-          <small v-if="$store.state.role=='家长'">{{$store.state.currentStudent.TrueName}}的家长</small>
-          <small v-if="$store.state.role=='老师'">{{$store.state.currentUser.ExtendInfo.Course}}</small>
-        </p>
-        <p>{{$store.state.currentStudent.SchoolName||'郑州航空港区育人国际学校'}}</p>
-        <p class="bottomnav" v-if="$store.state.role=='家长'">
-          <span>{{$store.state.currentStudent.ClassName}}</span>
-          <span>学号：{{$store.state.currentStudent.StudentID}}</span>
-        </p>
-        <p class="bottomnav" v-if="$store.state.role=='老师'">
-          <span @click="$router.push('/teacher/'+$store.state.currentUserId)">我的主页</span>
-          <span @click="$router.push('/class/'+data.ExtendInfo.Classes[0].ClassID)">我的班级</span>
-        </p>
-      </div>
-  
-      <group>
-        <cell title="绑定学生" is-link @click.native="addStudentPopup=true" v-if="$store.state.role=='家长'">
-          <i slot="icon" class="iconfont">&#xe719;</i>
-        </cell>
-        <cell title="切换学生" :value="$store.state.currentStudent.TrueName" is-link @click.native="myStudentPopup=true" v-if="$store.state.role=='家长'">
-          <i slot="icon" class="iconfont">&#xe719;</i>
-        </cell>
-        <cell title="我的账号" :value="data.Mobilephone">
-          <i slot="icon" class="iconfont">&#xe693;</i>
-        </cell>
-        <cell title="完善资料" is-link @click.native="$router.push('/edit')">
-          <i slot="icon" class="iconfont">&#xe60b;</i>
-        </cell>
-        <cell title="修改密码" is-link @click.native="$router.push('/user/editcode')">
-          <i slot="icon" class="iconfont">&#xe692;</i>
-        </cell>
-      </group>
-      <br>
-      <div class="exitbtn">
-        <a class="btn" @click="logout">退出登录</a>
-      </div>
-  
-      </br>
-  
-      <popup v-model="myStudentPopup" is-transparent>
-        <div class="popup">
-          <group title="切换学生">
-            <cell :title="i.TrueName" is-link v-for="i in allStudentData" :key="i.StudentID" @click.native="$store.commit('changeCurrentStudent',i),myStudentPopup=false">
-              <i slot="icon" class="iconfont">&#xe719;</i>
-            </cell>
-          </group>
-        </div>
-      </popup>
-  
-      <popup v-model="addStudentPopup" is-transparent>
-        <div class="popup">
-          <group title="绑定学生">
-            <x-input title="姓名" v-model="addStudentData.truename" text-align="right" placeholder="请在此填上学生的真实姓名"></x-input>
-            <x-input title="学号" v-model="addStudentData.student_id" text-align="right" placeholder="请在此填上学生的学号"></x-input>
-            <selector title="关系" :options="parentTypeList" v-model="addStudentData.type"></selector>
-          </group>
-          <group class="btn" style="margin:0 20px">
-            <x-button type="primary" @click.native="addStudent">确定绑定</x-button>
-          </group>
-        </div>
-      </popup>
-  
-      <popup v-model="changePasswordPopup" is-transparent>
-        <div class="popup">
-          <group title="修改密码">
-            <x-input title="以前的密码" v-model="changePasswordData.oldpwd" text-align="right" placeholder="请在此填上以前的密码"></x-input>
-            <x-input title="新密码" v-model="changePasswordData.newpwd" text-align="right" placeholder="请在此填上新密码"></x-input>
-            <x-input title="重复新密码" v-model="changePasswordData.newpwd2" text-align="right" placeholder="重复新密码"></x-input>
-          </group>
-          <group class="btn">
-            <x-button type="primary" @click.native="changePassword">提交修改</x-button>
-          </group>
-        </div>
-      </popup>
-  
+    <div class="user-header">
+      <img :src="data.Headimgurl">
+      <p class="usename">{{data.TrueName}}
+        <small v-if="$store.state.role=='家长'">{{$store.state.currentStudent.TrueName}}的家长</small>
+        <small v-if="$store.state.role=='老师'">{{$store.state.currentUser.ExtendInfo.Course}}</small>
+      </p>
+      <p>{{$store.state.currentStudent.SchoolName||'郑州航空港区育人国际学校'}}</p>
+      <p class="bottomnav" v-if="$store.state.role=='家长'">
+        <span>{{$store.state.currentStudent.ClassName}}</span>
+        <span>学号：{{$store.state.currentStudent.StudentID}}</span>
+      </p>
+      <p class="bottomnav" v-if="$store.state.role=='老师'">
+        <span @click="$router.push('/teacher/'+$store.state.currentUserId)">我的主页</span>
+        <span @click="$router.push('/class/'+data.ExtendInfo.Classes[0].ClassID)">我的班级</span>
+      </p>
     </div>
+  
+    <group>
+      <cell title="绑定学生" is-link @click.native="addStudentPopup=true" v-if="$store.state.role=='家长'">
+        <i slot="icon" class="iconfont">&#xe719;</i>
+      </cell>
+      <cell title="切换学生" :value="$store.state.currentStudent.TrueName" is-link @click.native="myStudentPopup=true" v-if="$store.state.role=='家长'">
+        <i slot="icon" class="iconfont">&#xe719;</i>
+      </cell>
+      <cell title="我的账号" :value="data.Mobilephone">
+        <i slot="icon" class="iconfont">&#xe693;</i>
+      </cell>
+      <cell title="完善资料" is-link @click.native="$router.push('/edit')">
+        <i slot="icon" class="iconfont">&#xe60b;</i>
+      </cell>
+      <cell title="修改密码" is-link @click.native="$router.push('/user/editcode')">
+        <i slot="icon" class="iconfont">&#xe692;</i>
+      </cell>
+    </group>
+    <br>
+    <div class="exitbtn">
+      <a class="btn" @click="logout">退出登录</a>
+    </div>
+  
+    </br>
+  
+    <popup v-model="myStudentPopup" is-transparent>
+      <div class="popup">
+        <group title="切换学生">
+          <cell :title="i.TrueName" is-link v-for="i in allStudentData" :key="i.StudentID" @click.native="$store.commit('changeCurrentStudent',i),myStudentPopup=false">
+            <i slot="icon" class="iconfont">&#xe719;</i>
+          </cell>
+        </group>
+      </div>
+    </popup>
+  
+    <popup v-model="addStudentPopup" is-transparent>
+      <div class="popup">
+        <group title="绑定学生">
+          <x-input title="姓名" v-model="addStudentData.truename" text-align="right" placeholder="请在此填上学生的真实姓名"></x-input>
+          <x-input title="学号" v-model="addStudentData.student_id" text-align="right" placeholder="请在此填上学生的学号"></x-input>
+          <selector title="关系" :options="parentTypeList" v-model="addStudentData.type"></selector>
+        </group>
+        <group class="btn" style="margin:0 20px">
+          <x-button type="primary" @click.native="addStudent">确定绑定</x-button>
+        </group>
+      </div>
+    </popup>
+  
+    <popup v-model="changePasswordPopup" is-transparent>
+      <div class="popup">
+        <group title="修改密码">
+          <x-input title="以前的密码" v-model="changePasswordData.oldpwd" text-align="right" placeholder="请在此填上以前的密码"></x-input>
+          <x-input title="新密码" v-model="changePasswordData.newpwd" text-align="right" placeholder="请在此填上新密码"></x-input>
+          <x-input title="重复新密码" v-model="changePasswordData.newpwd2" text-align="right" placeholder="重复新密码"></x-input>
+        </group>
+        <group class="btn">
+          <x-button type="primary" @click.native="changePassword">提交修改</x-button>
+        </group>
+      </div>
+    </popup>
   
   </div>
 </template>

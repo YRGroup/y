@@ -21,6 +21,11 @@ export default {
     showRouterInfo() {
       window.scrollTo(0, 0);
       if (!this.hasLogin && this.$route.path != '/') {
+        this.$vux.toast.show({
+          type: "warning",
+          width: "20em",
+          text: '您还没有登录'
+        })
         this.$router.push('/login')
       }
     }
