@@ -65,9 +65,9 @@ export default {
       tel: '',
       pw: '',
       sms: '',
-      unActived:false,
-      newPWd:'',
-      newPW2:'',
+      unActived: false,
+      newPWd: '',
+      newPW2: '',
       getsmsCount: 0,
       step: 0
     }
@@ -125,7 +125,7 @@ export default {
             this.step = 1
           } else if (res.Msg == "unActived") {
             this.step = 2
-            this.unActived=true
+            this.unActived = true
           } else {
             this.$vux.toast.show({
               type: "warn",
@@ -141,8 +141,14 @@ export default {
             width: "20em"
           })
         })
-      } else {
+      } else if (this.tel.length == 9 && this.tel.slice(0, 1) == 8) {
         this.step = 1
+      } else {
+        this.$vux.toast.show({
+          type: "warn",
+          text: '请检查账号',
+          width: "20em"
+        })
       }
     },
     phoneLogin() {
@@ -150,7 +156,7 @@ export default {
         phone: this.tel,
         password: this.pw
       }
-      this.$API.login(loginData).then(res => {this.loginOK(res)}).catch(err => {
+      this.$API.login(loginData).then(res => { this.loginOK(res) }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
           text: err.msg,
@@ -163,7 +169,7 @@ export default {
         studentid: this.tel,
         password: this.pw
       }
-      this.$API.studentLogin(loginData).then(res => {this.loginOK(res)}).catch(err => {
+      this.$API.studentLogin(loginData).then(res => { this.loginOK(res) }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
           text: err.msg,
@@ -175,18 +181,18 @@ export default {
       let loginData = {
         phone: this.tel,
         code: this.sms,
-        newPWd:this.newPWd
+        newPWd: this.newPWd
       }
-      if(this.unActived && this.newPWd!==this.newPW2){
+      if (this.unActived && this.newPWd !== this.newPW2) {
         this.$vux.toast.show({
           type: "warn",
           text: '两次输入的密码不一致',
           width: "20em"
         })
-        this.newPWd=''
-        this.newPW2=''
-      }else{
-        this.$API.loginBySms(loginData).then(res => {this.loginOK(res)}).catch(err => {
+        this.newPWd = ''
+        this.newPW2 = ''
+      } else {
+        this.$API.loginBySms(loginData).then(res => { this.loginOK(res) }).catch(err => {
           this.$vux.toast.show({
             type: "warn",
             text: err.msg,
