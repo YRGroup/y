@@ -154,14 +154,6 @@ API.addNewsComment = (params) => {
   })
 }
 
-// 空API模板
-API.test = () => {
-  return new Promise((resolve, reject) => {
-    console.log('测试：')
-    console.log(this)
-  })
-}
-
 // 获取校园新闻
 API.getNewsList = params => { 
   return new Promise((resolve, reject) => {
@@ -201,7 +193,18 @@ API.addNewsComment = (params) => {
   })
 }
 
+// 获取微信二维码
+API.getWXQRcode = () => {
+  return _APIurl+'/api/school/WeiXinQRCode'
+}
 
+// 空API模板
+API.test = () => {
+  return new Promise((resolve, reject) => {
+    console.log('测试：')
+    console.log(this)
+  })
+}
 // testing
 
 export default API
