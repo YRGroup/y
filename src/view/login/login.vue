@@ -180,14 +180,14 @@ export default {
           text: '跳转到微信授权页面',
           width: "20em"
         })
-        window.location.href = this.$store.state.ApiUrl + '/api/OAuth2Redirect/index?refUrl=' + window.location.host + '/%23/main'
+        window.location.href = this.$store.state.ApiUrl + '/api/OAuth2Redirect/index?refUrl=' + window.location.host + '/%23/'
       } else {
         this.$vux.toast.show({
           type: "text",
           text: '跳转到主页',
           width: "20em"
         })
-        this.$router.push('/main')
+        this.$router.push('/')
       }
     },
     login() {

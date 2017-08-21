@@ -234,7 +234,7 @@ export default {
                 width: "20em",
                 text: '添加资料成功'
               })
-              this.$router.push('/main')
+              this.$router.push('/')
             })
           })
         } else if (this.moreData.Role == '老师') {
@@ -250,7 +250,7 @@ export default {
       }
     },
     enter() {
-      this.$router.push('/main')
+      this.$router.push('/')
     },
     login() {
       let logData = {}

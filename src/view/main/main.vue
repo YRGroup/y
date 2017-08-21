@@ -49,7 +49,7 @@
           </router-link>
         </flexbox-item>
         <flexbox-item :span="4">
-          <router-link to="/main">
+          <router-link to="/school">
             <div style="background:#ff5498">
               <i class="iconfont">&#xe604;</i>
             </div>

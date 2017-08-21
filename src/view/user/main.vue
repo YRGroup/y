@@ -144,7 +144,7 @@ export default {
         type: "text",
         text: '退出成功'
       })
-      this.$router.push('/main')
+      this.$router.push('/')
     },
     getData() {
       this.$API.getCurrentUser().then(res => {
