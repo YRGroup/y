@@ -41,6 +41,9 @@ export default {
   },
   created() {
     this.showRouterInfo()
+    if(screen.width>=600){
+      window.location.href='http://jkyr.yearnedu.com/web/'
+    }
   },
   mounted() {
     if (localStorage.hasLogin && !this.$store.state.hasLogin) {
