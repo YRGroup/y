@@ -20,6 +20,9 @@ export default {
   methods: {
     showRouterInfo() {
       window.scrollTo(0, 0);
+      if (!this.hasLogin && this.$route.path != '/') {
+        this.$router.push('/login')
+      }
     }
   },
   watch: {
@@ -41,14 +44,13 @@ export default {
   },
   created() {
     this.showRouterInfo()
-    if(screen.width>=600){
-      window.location.href='/web/'
-    }
   },
   mounted() {
     if (localStorage.hasLogin && !this.$store.state.hasLogin) {
       let user = JSON.parse(localStorage.user)
       this.$store.commit('login', user)
+    } else if (!this.hasLogin && this.$route.path != '/') {
+      this.$router.push('/login')
     }
   },
   beforeCreate() {
@@ -56,7 +58,7 @@ export default {
       let payload = {
         // id:1
       }
-      this.$store.dispatch('setApiUrl', payload)
+      // this.$store.dispatch('setApiUrl', payload)
     }
   }
 }
@@ -84,7 +86,8 @@ html {
   min-height: 100vh;
   padding: 0;
 }
-.vux-popup-mask{
+
+.vux-popup-mask {
   cursor: default;
 }
 
@@ -233,6 +236,6 @@ a {
         bottom: -4px;
       }
     }
-  } 
+  }
 }
 </style>

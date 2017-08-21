@@ -28,6 +28,9 @@
     </group>
     </br>
     <div style="padding:0 20px" class="loginBtn">
+      <div class="item" v-show="step==1">
+        <div @click="step=2">忘记密码？使用短信验证码登陆</div>
+      </div>
       <x-button type="primary" @click.native="verifyAccount" v-show="step==0">下一步</x-button>
       <x-button type="primary" @click.native="getSms" v-show="step>=2" :disabled="getsmsCount!=0">
         <span v-show="step==2">获取短信验证码</span>
@@ -124,8 +127,8 @@ export default {
             width: "20em"
           })
         })
-      }else{
-        this.step=1
+      } else {
+        this.step = 1
       }
     },
     phoneLogin() {
@@ -188,11 +191,11 @@ export default {
       }
     },
     login() {
-      if (this.tel.slice(0, 1) == 1 && this.step==1) {
+      if (this.tel.slice(0, 1) == 1 && this.step == 1) {
         this.phoneLogin()
-      }else if (this.tel.slice(0, 1) == 1 && this.step>=2) {
+      } else if (this.tel.slice(0, 1) == 1 && this.step >= 2) {
         this.smsLogin()
-      } else if(this.tel.slice(0, 1) == 8){
+      } else if (this.tel.slice(0, 1) == 8) {
         this.studentLogin()
       }
     },

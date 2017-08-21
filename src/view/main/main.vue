@@ -274,7 +274,7 @@ export default {
     height: 120px;
     width: 120px;
     display: inline-block;
-    margin-top:1rem;
+    margin-top: 1rem;
     img {
       width: 100%;
     }
