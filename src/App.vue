@@ -20,13 +20,17 @@ export default {
   methods: {
     showRouterInfo() {
       window.scrollTo(0, 0);
-      if (!this.hasLogin && this.$route.path != '/') {
-        this.$vux.toast.show({
-          type: "warning",
-          width: "20em",
-          text: '您还没有登录'
-        })
-        this.$router.push('/login')
+      if (!this.hasLogin) {
+        if (this.$route.name == 'login' || this.$route.name == 'reg' || this.$route.name == 'main') {
+          null
+        } else {
+          this.$vux.toast.show({
+            type: "warn",
+            width: "20em",
+            text: '您还没有登录'
+          })
+          this.$router.push('/login')
+        }
       }
     }
   },
@@ -131,7 +135,8 @@ a {
 }
 
 @font-face {
-  font-family: 'iconfont';  /* project id 291668 */
+  font-family: 'iconfont';
+  /* project id 291668 */
   src: url('//at.alicdn.com/t/font_o28nhydk0yynwmi.eot');
   src: url('//at.alicdn.com/t/font_o28nhydk0yynwmi.eot?#iefix') format('embedded-opentype'),
   url('//at.alicdn.com/t/font_o28nhydk0yynwmi.woff') format('woff'),

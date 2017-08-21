@@ -20,7 +20,17 @@
           <i class="iconfont">&#xe6ec;</i>
         </span>
       </x-input>
-      <x-input title="短信验证码：" placeholder="短信验证码" type="text" v-model="sms" @keyup.native.enter="login" v-show="step>=2">
+      <x-input title="短信验证码：" placeholder="短信验证码" type="text" v-model="sms" v-show="step>=2">
+        <span slot="label" class="loginIcon">
+          <i class="iconfont">&#xe6ec;</i>
+        </span>
+      </x-input>
+      <x-input title="密码：" placeholder="请设置密码" type="text" v-model="newPWd" v-show="unActived">
+        <span slot="label" class="loginIcon">
+          <i class="iconfont">&#xe6ec;</i>
+        </span>
+      </x-input>
+      <x-input title="重复密码：" placeholder="请重复输入新密码" type="text" v-model="newPW2" v-show="unActived">
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe6ec;</i>
         </span>
@@ -55,6 +65,9 @@ export default {
       tel: '',
       pw: '',
       sms: '',
+      unActived:false,
+      newPWd:'',
+      newPW2:'',
       getsmsCount: 0,
       step: 0
     }
@@ -112,6 +125,7 @@ export default {
             this.step = 1
           } else if (res.Msg == "unActived") {
             this.step = 2
+            this.unActived=true
           } else {
             this.$vux.toast.show({
               type: "warn",
@@ -160,15 +174,26 @@ export default {
     smsLogin() {
       let loginData = {
         phone: this.tel,
-        code: this.sms
+        code: this.sms,
+        newPWd:this.newPWd
       }
-      this.$API.loginBySms(loginData).then(res => {this.loginOK(res)}).catch(err => {
+      if(this.unActived && this.newPWd!==this.newPW2){
         this.$vux.toast.show({
           type: "warn",
-          text: err.msg,
+          text: '两次输入的密码不一致',
           width: "20em"
         })
-      })
+        this.newPWd=''
+        this.newPW2=''
+      }else{
+        this.$API.loginBySms(loginData).then(res => {this.loginOK(res)}).catch(err => {
+          this.$vux.toast.show({
+            type: "warn",
+            text: err.msg,
+            width: "20em"
+          })
+        })
+      }
     },
     loginOK(val) {
       this.$store.commit('login', val)
