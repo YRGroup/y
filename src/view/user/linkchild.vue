@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     addStudent() {
-      if (this.addStudentData.truename && this.addStudentData['student_id']) {
+      if (this.addStudentData.truename && this.addStudentData['student_id'] && this.addStudentData.type != 0) {
         this.$API.addStudent(this.addStudentData).then((res) => {
           this.$vux.toast.show({
             type: "text",
@@ -51,7 +51,7 @@ export default {
           this.$vux.toast.show({
             type: "text",
             width: "20em",
-            text: '绑定失败'
+            text: err.msg
           })
         })
       } else {
