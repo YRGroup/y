@@ -37,6 +37,9 @@ export default {
     }
   },
   created() {
+    if (localStorage.user && !this.$store.state.hasLogin) {
+      this.$store.commit('login', JSON.parse(localStorage.user))
+    }
     if (!this.$store.state.hasLogin) {
       this.$store.dispatch('getCurrentUser')
     }

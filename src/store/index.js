@@ -71,7 +71,8 @@ const store = new Vuex.Store({
       if (val.HasNewUnReadDynamic == 1) {
         state.hasNewPost = true
       }
-
+      
+      localStorage.setItem('user', JSON.stringify(val))
       localStorage.setItem('hasLogin', true)
       localStorage.setItem('id', val.Meid)
       localStorage.setItem('role', val.Role)
@@ -132,7 +133,6 @@ const store = new Vuex.Store({
     }, payload) {
       return new Promise((resolve, reject) => {
         API.login(payload).then(res => {
-          // localStorage.setItem('user', JSON.stringify(res))
           commit('setToken', res.Token)
           commit('login', res)
           resolve(res)
