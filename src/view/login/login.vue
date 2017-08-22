@@ -170,6 +170,7 @@ export default {
     loginOK(val) {
       this.$store.commit('login', val)
       localStorage.setItem('user', JSON.stringify(val))
+      
       this.commit('setToken', val.Token)
       if (!this.getCookie('WeixinOpenid') && this.$store.getters.isWeixin) {
         // this.$vux.toast.show({

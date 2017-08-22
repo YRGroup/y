@@ -16,7 +16,7 @@
     <!--功能导航-->
     <flexbox wrap="wrap" :gutter="0">
       <flexbox-item :span="4">
-        <router-link :to="'/class/'+$store.state.currentClassId+'/work'">
+        <router-link :to="'/class/work'">
           <div style="background:#28cb60">
             <i class="iconfont">&#xe668;</i>
           </div>
@@ -130,6 +130,7 @@ export default {
   },
   data() {
     return {
+      followWeixin: true,
       swiperdate: [],
       mockSwiperdate: [
         {
@@ -156,15 +157,6 @@ export default {
       currentPage:1,
       QRcodeIMG:'',
       showWX: false
-    }
-  },
-  computed:{
-    followWeixin(){
-      if(this.$store.getters.isWeixin && this.$store.state.currentUser.ExistWeixinOpenid==0){
-        return true
-      }else{
-        return false
-      }
     }
   },
   methods: {
@@ -245,7 +237,11 @@ export default {
     this.getWXQRcode()
   },
   mounted() {
-
+    if (this.$store.getters.isWeixin) {
+      this.followWeixin = true
+    } else {
+      this.followWeixin = false
+    }
   }
 }
 </script>

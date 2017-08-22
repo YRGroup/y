@@ -4,8 +4,8 @@
     <q-btn class="primary" rounded @click.native="changeRole('teacher')">切换成教师端</q-btn>
     <q-btn class="primary" rounded @click.native="changeRole('parent')">切换成家长端</q-btn>
 
-    <q-btn class="success" rounded @click.native="$router.push('/class/'+$store.state.classId+'/new')">添加校园动态</q-btn>
-    <q-btn class="success" rounded @click.native="$router.push('/class/'+$store.state.classId+'/new')">添加班级动态</q-btn>
+    <q-btn class="success" rounded @click.native="$router.push('/class/new')">添加校园动态</q-btn>
+    <q-btn class="success" rounded @click.native="$router.push('/class/new')">添加班级动态</q-btn>
 
     <q-btn class="warning" rounded @click.native="$router.push('/login')">登陆</q-btn>
 
