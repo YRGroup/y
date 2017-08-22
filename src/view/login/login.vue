@@ -215,7 +215,6 @@ export default {
       } else {
         this.$router.push('/')
         this.$vux.toast.show({
-          type: "text",
           text: '登录成功',
           width: "20em"
         })
