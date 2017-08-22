@@ -85,6 +85,9 @@ const store = new Vuex.Store({
       state.hasNewPost = false
 
       localStorage.clear()
+      sessionStorage.clear()
+      document.cookie = "meid=aa;path=/;domain="+document.domain.match(/[^\.]+\.[^\.]+$/)[0]+";expires=" +new Date(2011,1,1).toGMTString()
+      document.cookie = "meid=aa;path=/;domain="+document.domain+";expires=" +new Date(2011,1,1).toGMTString()
     },
     changeRole(state, val) {
       state.role = val.toString()

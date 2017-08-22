@@ -130,7 +130,6 @@ export default {
   },
   data() {
     return {
-      followWeixin: true,
       swiperdate: [],
       mockSwiperdate: [
         {
@@ -157,6 +156,15 @@ export default {
       currentPage:1,
       QRcodeIMG:'',
       showWX: false
+    }
+  },
+  computed:{
+    followWeixin(){
+      if(this.$store.getters.isWeixin && this.$store.state.currentUser.ExistWeixinOpenid==0){
+        return true
+      }else{
+        return false
+      }
     }
   },
   methods: {
@@ -237,11 +245,7 @@ export default {
     this.getWXQRcode()
   },
   mounted() {
-    if (this.$store.getters.isWeixin) {
-      this.followWeixin = true
-    } else {
-      this.followWeixin = false
-    }
+
   }
 }
 </script>
