@@ -83,13 +83,13 @@ export default {
   },
   methods:{
     getData(){
-      this.$API.getClassInfo(this.$route.params.classId).then((res)=>{
+      this.$API.getClassInfo(this.$store.state.currentClassId).then((res)=>{
         this.data=res
       })
     },
     addClassTeacher(){
       let data ={}
-      data.cid=this.$route.params.classId
+      data.cid=this.$store.state.currentClassId
       this.$API.userReg(this.newClassTeacher).then(res=>{
         data.meid = res.Meid
         this.$API.addClassTeacher(data).then((res)=>{
@@ -111,7 +111,7 @@ export default {
     },
     addClassStudent(){
       let data ={}
-      data.cid=this.$route.params.classId
+      data.cid=this.$store.state.currentClassId
       data.meid=this.newClassStudentID
       this.$API.addClassStudent(data).then((res)=>{
         this.showAddStudent=false

@@ -70,7 +70,7 @@ export default {
       })
     },
     getData() {
-      this.$API.getClassDynamic(this.$route.params.classId, this.$route.params.msgId).then(res => {
+      this.$API.getClassDynamic(this.$store.state.currentClassId, this.$route.params.msgId).then(res => {
         this.data = res
         this.commentLength = res.comment.length
         this.commentId = res.id

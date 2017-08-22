@@ -20,17 +20,7 @@
           <i class="iconfont">&#xe6ec;</i>
         </span>
       </x-input>
-      <x-input title="短信验证码：" placeholder="短信验证码" type="text" v-model="sms" v-show="step>=2">
-        <span slot="label" class="loginIcon">
-          <i class="iconfont">&#xe6ec;</i>
-        </span>
-      </x-input>
-      <x-input title="密码：" placeholder="请设置密码" type="text" v-model="newPWd" v-show="unActived">
-        <span slot="label" class="loginIcon">
-          <i class="iconfont">&#xe6ec;</i>
-        </span>
-      </x-input>
-      <x-input title="重复密码：" placeholder="请重复输入新密码" type="text" v-model="newPW2" v-show="unActived">
+      <x-input title="短信验证码：" placeholder="短信验证码" type="text" v-model="sms" @keyup.native.enter="login" v-show="step>=2">
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe6ec;</i>
         </span>
@@ -38,16 +28,13 @@
     </group>
     </br>
     <div style="padding:0 20px" class="loginBtn">
-      <div class="item" v-show="step==1">
-        <div @click="step=2">忘记密码？使用短信验证码登陆</div>
-      </div>
       <x-button type="primary" @click.native="verifyAccount" v-show="step==0">下一步</x-button>
       <x-button type="primary" @click.native="getSms" v-show="step>=2" :disabled="getsmsCount!=0">
         <span v-show="step==2">获取短信验证码</span>
         <span v-show="step==3">{{getsmsCount!=0?(getsmsCount+'s后重新获取短信验证码'):'重新获取短信验证码'}}</span>
       </x-button>
       <x-button type="primary" @click.native="login" v-show="step==1 || step==3">登录</x-button>
-      <div class="regBtn" @click="$router.push('/reg')">还没有帐号？点击注册</div>
+      <div class="regBtn" @click="$router.push('/reg')">我是家长，还没有帐号？点击注册</div>
     </div>
   
   </div>
@@ -65,9 +52,6 @@ export default {
       tel: '',
       pw: '',
       sms: '',
-      unActived: false,
-      newPWd: '',
-      newPW2: '',
       getsmsCount: 0,
       step: 0
     }
@@ -125,7 +109,6 @@ export default {
             this.step = 1
           } else if (res.Msg == "unActived") {
             this.step = 2
-            this.unActived = true
           } else {
             this.$vux.toast.show({
               type: "warn",
@@ -141,14 +124,8 @@ export default {
             width: "20em"
           })
         })
-      } else if (this.tel.length == 9 && this.tel.slice(0, 1) == 8) {
-        this.step = 1
-      } else {
-        this.$vux.toast.show({
-          type: "warn",
-          text: '请检查账号',
-          width: "20em"
-        })
+      }else{
+        this.step=1
       }
     },
     phoneLogin() {
@@ -156,7 +133,7 @@ export default {
         phone: this.tel,
         password: this.pw
       }
-      this.$API.login(loginData).then(res => { this.loginOK(res) }).catch(err => {
+      this.$API.login(loginData).then(res => this.loginOK(res)).catch(err => {
         this.$vux.toast.show({
           type: "warn",
           text: err.msg,
@@ -169,7 +146,7 @@ export default {
         studentid: this.tel,
         password: this.pw
       }
-      this.$API.studentLogin(loginData).then(res => { this.loginOK(res) }).catch(err => {
+      this.$API.studentLogin(loginData).then(res => this.loginOK(res)).catch(err => {
         this.$vux.toast.show({
           type: "warn",
           text: err.msg,
@@ -180,52 +157,42 @@ export default {
     smsLogin() {
       let loginData = {
         phone: this.tel,
-        code: this.sms,
-        newPWd: this.newPWd
+        code: this.sms
       }
-      if (this.unActived && this.newPWd !== this.newPW2) {
+      this.$API.loginBySms(loginData).then(res => this.loginOK(res)).catch(err => {
         this.$vux.toast.show({
           type: "warn",
-          text: '两次输入的密码不一致',
+          text: err.msg,
           width: "20em"
         })
-        this.newPWd = ''
-        this.newPW2 = ''
-      } else {
-        this.$API.loginBySms(loginData).then(res => { this.loginOK(res) }).catch(err => {
-          this.$vux.toast.show({
-            type: "warn",
-            text: err.msg,
-            width: "20em"
-          })
-        })
-      }
+      })
     },
     loginOK(val) {
       this.$store.commit('login', val)
       localStorage.setItem('user', JSON.stringify(val))
-      this.$store.commit('setToken', val.Token)
+      this.commit('setToken', val.Token)
       if (!this.getCookie('WeixinOpenid') && this.$store.getters.isWeixin) {
+        // this.$vux.toast.show({
+        //   type: "text",
+        //   text: '跳转到微信授权页面',
+        //   width: "20em"
+        // })
+        window.location.href = this.$store.state.ApiUrl + '/api/OAuth2Redirect/index?refUrl=' + window.location.host + '/%23/main'
+      } else {
         this.$vux.toast.show({
           type: "text",
-          text: '跳转到微信授权页面',
+          text: '跳转到主页',
           width: "20em"
         })
-        window.location.href = this.$store.state.ApiUrl + '/api/OAuth2Redirect/index?refUrl=' + window.location.host + '/%23/'
-      } else {
-        this.$router.push('/')
-        this.$vux.toast.show({
-          text: '登录成功',
-          width: "20em"
-        })
+        this.$router.push('/main')
       }
     },
     login() {
-      if (this.tel.slice(0, 1) == 1 && this.step == 1) {
+      if (this.tel.slice(0, 1) == 1 && this.step==1) {
         this.phoneLogin()
-      } else if (this.tel.slice(0, 1) == 1 && this.step >= 2) {
+      }else if (this.tel.slice(0, 1) == 1 && this.step>=2) {
         this.smsLogin()
-      } else if (this.tel.slice(0, 1) == 8) {
+      } else if(this.tel.slice(0, 1) == 8){
         this.studentLogin()
       }
     },

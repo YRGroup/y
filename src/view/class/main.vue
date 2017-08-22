@@ -10,8 +10,8 @@
         <span class="name">{{ classInfo.name }}</span>
         <span class="teacher">班主任：{{ classInfo.teacherName||'未指定' }}</span>
         <span class="count">人数：{{ classInfo.student_count }}</span>
-        <div class="addbtn1" @click="$router.push('/class/'+$route.params.classId+'/new')"><i class="iconfont">&#xe606;</i>发布</div>
-        <div class="addbtn2" @click="$router.push('/class/'+$route.params.classId+'/manage')"><i class="iconfont">&#xe832;</i>管理</div>
+        <div class="addbtn1" @click="$router.push('/class/new')"><i class="iconfont">&#xe606;</i>发布</div>
+        <div class="addbtn2" @click="$router.push('/class/manage')"><i class="iconfont">&#xe832;</i>管理</div>
       </div>
 
       <transition name="slide-fade">
@@ -44,7 +44,7 @@ export default {
   },
   methods:{
     getClassInfo(){
-      this.$API.getClassInfo(this.$route.params.classId).then(res=>{
+      this.$API.getClassInfo(this.$store.state.currentClassId).then(res=>{
         this.classInfo = res
         this.classInfo.teacherName = res.teacher.TrueName    
         this.classInfo.classlogo = require('@/assets/face/c.jpeg')         

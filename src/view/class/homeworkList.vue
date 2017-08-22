@@ -26,7 +26,7 @@
       </div>
       <div class="title">{{i.Title}}</div>
       <div class="content">
-        <div @click="$router.push('/class/'+$route.params.classId+'/homework/'+i.HID)">{{i.Content}}</div>
+        <div @click="$router.push('/class/homework/'+i.HID)">{{i.Content}}</div>
         <div class="img" v-if="i.Albums">
           <img :src="imgurl" v-for="(imgurl,index) in i.Albums" :key="index">
         </div>
@@ -97,7 +97,7 @@ export default {
     },
     getHomeWork() {
       let para = {}
-      para.cid = this.$route.params.classId
+      para.cid = this.$store.state.currentClassId
       para.pagesize = this.pageSize
       para.currentPage = this.currentPage
       this.$API.getHomeworkList(para).then(res => {
@@ -117,7 +117,7 @@ export default {
     },
     addHomework() {
       if (this.newHomeworkData.course_name && this.newHomeworkData.content) {
-        this.newHomeworkData.class_id = this.$route.params.classId
+        this.newHomeworkData.class_id = this.$store.state.currentClassId
         this.newHomeworkData.title = ''
         this.$API.addHomework(this.newHomeworkData).then(res => {
           this.$vux.toast.show({

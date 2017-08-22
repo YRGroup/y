@@ -101,13 +101,13 @@ export default {
       this.newHomeworkData.course_name = this.course
       this.newHomeworkData['img_url_list'] = this.fileList.join(',')
       if(this.newHomeworkData.course_name&&this.newHomeworkData.content){
-        this.newHomeworkData.class_id = this.$route.params.classId
+        this.newHomeworkData.class_id = this.$store.state.currentClassId
         this.$API.addHomework(this.newHomeworkData).then(res=>{
           this.$vux.toast.show({
             type:"success",
             text: "发布成功"
           })
-          this.$router.push('/class/'+this.$route.params.classId)
+          this.$router.push('/class')
         }).catch(err=>{
           this.$vux.toast.show({
             type:"warn",

@@ -14,7 +14,7 @@
         <i slot="icon" class="iconfont nav_icon">&#xe666;</i>
         <span slot="label" class="navtext">主页</span>
       </tabbar-item>
-      <tabbar-item :show-dot="$store.state.hasNewPost" :link="'/class/'+$store.state.currentClassId">
+      <tabbar-item :show-dot="$store.state.hasNewPost" :link="'/class'">
         <i slot="icon" class="iconfont nav_icon">&#xe672;</i>
         <span slot="label" class="navtext">班级</span>
       </tabbar-item>

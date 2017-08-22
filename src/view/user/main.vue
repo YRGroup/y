@@ -14,7 +14,7 @@
       </p>
       <p class="bottomnav" v-if="$store.state.role=='老师'">
         <span @click="$router.push('/teacher/'+$store.state.currentUserId)">我的主页</span>
-        <span @click="$router.push('/class/'+data.ExtendInfo.Classes[0].ClassID)">我的班级</span>
+        <span @click="$router.push('/class')">我的班级</span>
       </p>
     </div>
   

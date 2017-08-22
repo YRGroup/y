@@ -38,7 +38,7 @@ export default {
   methods:{
     getData(){
       let para ={}
-      para.meid = this.$store.state.currentUserId
+      para.meid = this.$route.params.teacherId
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
       this.$API.getAllTeacherHomework(para).then(res=>{
