@@ -75,7 +75,7 @@ export default {
     },
     addHomework(){
       if(this.newHomeworkData.course_name&&this.newHomeworkData.content){
-        this.newHomeworkData.class_id = this.$route.params.classId
+        this.newHomeworkData.class_id = this.$store.state.currentClassId
         this.newHomeworkData.title=''
         this.$API.addHomework(this.newHomeworkData).then(res=>{
           this.$vux.toast.show({

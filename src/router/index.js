@@ -135,7 +135,7 @@ export default new Router({
           ]
         },
         { //班级
-          path: '/class/:classId/',
+          path: '/class',
           component: classmain,
           children: [{
               path: '',

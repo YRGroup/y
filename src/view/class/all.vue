@@ -5,7 +5,7 @@
   教师端显示
   -->
     <div class="notice" v-if="notice.length!=0">
-      <div class="icon" @click="$router.push('/class/'+$route.params.classId+'/notice')">
+      <div class="icon" @click="$router.push('/class/notice')">
         <span>通知</span>
       </div>
       <div class="title">{{notice.content}}</div>
@@ -38,7 +38,7 @@
         <span>班级作业</span>
       </div>
       <div class="content" v-if="homework.length">
-        <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/'+$route.params.classId+'/work')">
+        <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/work')">
           <div class="msg">
            【 {{ i.CourseName }}】：{{ i.Title || '班级作业' }}
           </div>
@@ -52,7 +52,7 @@
           </div>
         </li>
       </div>
-      <div class="link" @click="$router.push('/class/'+$route.params.classId+'/work')">
+      <div class="link" @click="$router.push('/class/work')">
         <span>更多</span>
       </div>
     </div>
@@ -69,7 +69,7 @@
         <span class="tips">{{ item.category }}</span>
       </div>
       <div slot="content" class="content">
-        <div @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)">{{item.content}}</div>
+        <div @click="$router.push('/class/msg/'+item.id)">{{item.content}}</div>
         <div class="img" v-if="item.albums.length!=0">
           <img @click="imgPopup(imgurl)" :src="imgurl"  v-for="(imgurl,index) in item.albums" :key="index">
         </div>
@@ -86,7 +86,7 @@
             <span>{{ comment.content }}</span>
           </li>
           <!--<div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>-->
-          <div class="more" @click="$router.push('/class/'+$route.params.classId+'/msg/'+item.id)">
+          <div class="more" @click="$router.push('/class/msg/'+item.id)">
             查看详情
           </div>
         </div>
@@ -140,7 +140,7 @@ export default {
     },
     getAllClassDynamic() {
       let para = {}
-      para.cid = this.$route.params.classId
+      para.cid = this.$store.state.currentClassId
       para.type = 1
       para.pagesize = this.pageSize
       para.currentPage = this.currentPage
@@ -165,7 +165,7 @@ export default {
       this.getAllClassDynamic()
     },
     getTeacherList() {
-      this.$API.getTeacherList(this.$route.params.classId).then((res) => {
+      this.$API.getTeacherList(this.$store.state.currentClassId).then((res) => {
         this.teachers = res
         this.boxwid = res.length * 100 + 'px'
       }).catch(err=>{
@@ -178,7 +178,7 @@ export default {
     },
     getNotice() {
       let para = {}
-      para.cid = this.$route.params.classId
+      para.cid = this.$store.state.currentClassId
       para.type = 3
       para.pagesize = 1
       para.currentPage = 1
@@ -194,7 +194,7 @@ export default {
     },
     getHomeWork() {
       let para = {}
-      para.cid = this.$route.params.classId
+      para.cid = this.$store.state.currentClassId
       para.pagesize = 2
       para.currentPage = 1
       this.$API.getHomeworkList(para).then((res) => {

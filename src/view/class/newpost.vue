@@ -78,7 +78,7 @@ export default {
       }
     },
     addNewPost() {
-      this.data.cid = this.$route.params.classId
+      this.data.cid = this.$store.state.currentClassId
       this.data['img_url_list'] = this.fileList.join(',')
       if (this.data.type != null && this.data.content != '') {
         this.$API.postNewClassDynamic(this.data).then(res => {
@@ -86,7 +86,7 @@ export default {
             type: "success",
             text: "发布成功"
           })
-          this.$router.push('/class/'+this.$route.params.classId)
+          this.$router.push('/class')
         })
       } else {
         this.$vux.toast.show({

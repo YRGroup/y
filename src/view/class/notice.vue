@@ -52,13 +52,13 @@ export default {
   },
   methods:{
     getData(){
-      this.$API.getAllClassDynamic(this.$route.params.classId,3).then(res=>{
+      this.$API.getAllClassDynamic(this.$store.state.currentClassId,3).then(res=>{
         this.data = res
       })
     },
     addNotice(){
       if(this.newNoticeData.content){
-        this.newNoticeData.cid = this.$route.params.classId
+        this.newNoticeData.cid = this.$store.state.currentClassId
         this.newNoticeData.type=3
         this.$API.postNewClassDynamic(this.newNoticeData).then(res=>{
           this.$vux.toast.show({
