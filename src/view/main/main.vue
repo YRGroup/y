@@ -16,7 +16,7 @@
     <!--功能导航-->
     <flexbox wrap="wrap" :gutter="0">
       <flexbox-item :span="4">
-        <router-link :to="'/class/'+$store.state.currentClassId+'/work'">
+        <router-link :to="'/class/work'">
           <div style="background:#28cb60">
             <i class="iconfont">&#xe668;</i>
           </div>
@@ -160,9 +160,9 @@ export default {
   },
   computed:{
     followWeixin(){
-      if(this.$store.getters.isWeixin && this.$store.state.currentUser.ExistWeixinOpenid==0){
+      if(this.$store.getters.isWeixin){
         return true
-      }else{
+      }else {
         return false
       }
     }
@@ -246,15 +246,11 @@ export default {
   },
   mounted() {
 
-  }
+}
 }
 </script>
 
 <style lang="less" scoped>
-.content {
-  // background: #fff;
-}
-
 .vux-flexbox {
   text-align: center;
   padding: 1em 0;

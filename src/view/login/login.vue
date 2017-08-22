@@ -10,7 +10,7 @@
       <img src="../../assets/logo.png">
     </div>
     <group>
-      <x-input title="手机号：" placeholder="学号/手机号" keyboard="number" v-model="tel" @on-blur="verifyAccount">
+      <x-input title="手机号：" placeholder="学号/手机号" keyboard="number" v-model="tel" @on-change="preVerify" @on-blur="verifyAccount">
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe618;</i>
         </span>
@@ -21,6 +21,11 @@
         </span>
       </x-input>
       <x-input title="短信验证码：" placeholder="短信验证码" type="text" v-model="sms" @keyup.native.enter="login" v-show="step>=2">
+        <span slot="label" class="loginIcon">
+          <i class="iconfont">&#xe6ec;</i>
+        </span>
+      </x-input>
+      <x-input title="密码：" placeholder="请设置初始密码" type="text" v-model="newPWd" v-show="unActived">
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe6ec;</i>
         </span>
@@ -52,6 +57,8 @@ export default {
       tel: '',
       pw: '',
       sms: '',
+      unActived: false,
+      newPWd: '',
       getsmsCount: 0,
       step: 0
     }
@@ -95,6 +102,11 @@ export default {
         })
       }
     },
+    preVerify() {
+      if (this.tel.length == 11) {
+        this.verifyAccount()
+      }
+    },
     verifyAccount() {
       if (this.tel == '') {
         this.$vux.toast.show({
@@ -109,6 +121,7 @@ export default {
             this.step = 1
           } else if (res.Msg == "unActived") {
             this.step = 2
+            this.unActived = true
           } else {
             this.$vux.toast.show({
               type: "warn",
@@ -124,8 +137,14 @@ export default {
             width: "20em"
           })
         })
-      }else{
-        this.step=1
+      } else if (this.tel.length == 9 && this.tel.slice(0, 1) == 8) {
+        this.step = 1
+      } else {
+        this.$vux.toast.show({
+          type: "warn",
+          text: '请检查账号',
+          width: "20em"
+        })
       }
     },
     phoneLogin() {
@@ -159,24 +178,26 @@ export default {
         phone: this.tel,
         code: this.sms
       }
-      this.$API.loginBySms(loginData).then(res => this.loginOK(res)).catch(err => {
+      if (this.unActived && this.newPWd.length < 6) {
         this.$vux.toast.show({
           type: "warn",
-          text: err.msg,
+          text: '密码不能小于6位',
           width: "20em"
         })
-      })
+      } else {
+        this.$API.loginBySms(loginData).then(res => this.loginOK(res)).catch(err => {
+          this.$vux.toast.show({
+            type: "warn",
+            text: err.msg,
+            width: "20em"
+          })
+        })
+      }
     },
     loginOK(val) {
       this.$store.commit('login', val)
-      localStorage.setItem('user', JSON.stringify(val))
-      this.commit('setToken', val.Token)
+      this.$store.commit('setToken', val.Token)
       if (!this.getCookie('WeixinOpenid') && this.$store.getters.isWeixin) {
-        // this.$vux.toast.show({
-        //   type: "text",
-        //   text: '跳转到微信授权页面',
-        //   width: "20em"
-        // })
         window.location.href = this.$store.state.ApiUrl + '/api/OAuth2Redirect/index?refUrl=' + window.location.host + '/%23/main'
       } else {
         this.$vux.toast.show({
@@ -184,15 +205,15 @@ export default {
           text: '跳转到主页',
           width: "20em"
         })
-        this.$router.push('/main')
+        this.$router.push('/')
       }
     },
     login() {
-      if (this.tel.slice(0, 1) == 1 && this.step==1) {
+      if (this.tel.slice(0, 1) == 1 && this.step == 1) {
         this.phoneLogin()
-      }else if (this.tel.slice(0, 1) == 1 && this.step>=2) {
+      } else if (this.tel.slice(0, 1) == 1 && this.step >= 2) {
         this.smsLogin()
-      } else if(this.tel.slice(0, 1) == 8){
+      } else if (this.tel.slice(0, 1) == 8) {
         this.studentLogin()
       }
     },
@@ -201,7 +222,9 @@ export default {
     this.$store.commit('changeTitle', '登录智慧校园')
   },
   mounted() {
-
+    this.$store.dispatch('getCurrentUser').then(() => {
+      this.$router.push('/')
+    })
   }
 }
 </script>

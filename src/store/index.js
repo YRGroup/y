@@ -36,7 +36,7 @@ const store = new Vuex.Store({
         return false;
       }
     },
-    showTopNav:()=>{
+    showTopNav: () => {
       let ua = navigator.userAgent.toLowerCase()
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
         return false;
@@ -86,8 +86,8 @@ const store = new Vuex.Store({
 
       localStorage.clear()
       sessionStorage.clear()
-      document.cookie = "meid=aa;path=/;domain="+document.domain.match(/[^\.]+\.[^\.]+$/)[0]+";expires=" +new Date(2011,1,1).toGMTString()
-      document.cookie = "meid=aa;path=/;domain="+document.domain+";expires=" +new Date(2011,1,1).toGMTString()
+      document.cookie = "meid=aa;path=/;domain=" + document.domain.match(/[^\.]+\.[^\.]+$/)[0] + ";expires=" + new Date(2011, 1, 1).toGMTString()
+      document.cookie = "meid=aa;path=/;domain=" + document.domain + ";expires=" + new Date(2011, 1, 1).toGMTString()
     },
     changeRole(state, val) {
       state.role = val.toString()
@@ -103,6 +103,9 @@ const store = new Vuex.Store({
     },
     setToken(state, val) {
       state.token = val
+      if(!localStorage.token){
+        localStorage.token = val
+      }
     },
     setApiUrl(state, val) {
       state.ApiUrl = val
@@ -129,11 +132,40 @@ const store = new Vuex.Store({
     }, payload) {
       return new Promise((resolve, reject) => {
         API.login(payload).then(res => {
-          localStorage.setItem('user', JSON.stringify(res))
+          // localStorage.setItem('user', JSON.stringify(res))
           commit('setToken', res.Token)
           commit('login', res)
           resolve(res)
-        }).catch(err=>{
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    logout({
+      getters,
+      commit,
+      state
+    }, payload) {
+      return new Promise((resolve, reject) => {
+        API.logout().then(() => {
+          commit('setToken', null)
+          commit('logout')
+        })
+      })
+    },
+    getCurrentUser({
+      getters,
+      commit,
+      state
+    }, payload) {
+      return new Promise((resolve, reject) => {
+        API.getCurrentUser().then(res => {
+          if(localStorage.token){
+            commit('setToken', localStorage.token)
+          }
+          commit('login', res)
+          resolve()
+        }).catch(err => {
           reject(err)
         })
       })
