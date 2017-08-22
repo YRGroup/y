@@ -77,7 +77,7 @@
       <div slot="footer" class="footer">
         <div class="footer-btn">
           <!--<i class="iconfont view" @click="$router.push('/class/msg')">&#xe60f;  </i>-->
-          <i class="iconfont lick" @click.once="doLike(item.ID),item.like++">&#xe646; {{ item.like }}</i>
+          <i class="iconfont lick" @click="doLike(item.ID),item.like++">&#xe646; {{ item.like }}</i>
           <i class="iconfont combtn">&#xe6c3; {{ item.read }}</i>
         </div>
         <div class="comment" v-if="item.comment.length !== 0">
@@ -208,6 +208,7 @@ export default {
       })
     },
     doLike(id) {
+      console.log('000000000')
       this.$API.doLikeThisPost(id).then((res) => {
         this.$vux.toast.show({
           type: "success",

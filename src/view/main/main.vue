@@ -160,9 +160,9 @@ export default {
   },
   computed:{
     followWeixin(){
-      if(this.$store.getters.isWeixin && this.$store.state.currentUser.ExistWeixinOpenid==0){
+      if(this.$store.getters.isWeixin){
         return true
-      }else{
+      }else {
         return false
       }
     }
