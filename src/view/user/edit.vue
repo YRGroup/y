@@ -9,7 +9,7 @@
         <checker-item value="男">男</checker-item>
         <checker-item value="女">女</checker-item>
       </checker>
-      <cell title="头像">
+      <cell title="头像" class="greatPic">
         <img :src="data.Headimgurl">
       </cell>
       <div class="file" style="text-align:center">

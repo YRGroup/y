@@ -1,10 +1,10 @@
 <template>
   <div class="hello">
   
-    <group title="发布新的班级动态" labelWidth="6em">
-      <selector title="类别：" placeholder="请选择类别" direction="right" v-model="data.type" :options="categoryList"></selector>
+    <group title="发布动态" labelWidth="6em">
+      <!-- <selector title="类别：" placeholder="请选择类别" direction="right" v-model="data.type" :options="categoryList"></selector> -->
 
-      <x-textarea title="内容" v-model="data.content" placeholder="请在此输入内容" autosize></x-textarea>
+      <x-textarea v-model="data.content" placeholder="请输入班级动态" autosize></x-textarea>
   
       <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">

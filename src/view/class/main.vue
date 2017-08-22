@@ -6,7 +6,7 @@
 
     <div v-else>
       <div class="class-header">
-        <img :src="classInfo.classlogo||'/static/img/c.b22e462.jpeg'" @click="$router.push('/class/'+$store.state.classId)">
+        <img :src="classInfo.classlogo||'/static/img/c.b22e462.jpeg'">
         <span class="name">{{ classInfo.name }}</span>
         <span class="teacher">班主任：{{ classInfo.teacherName||'未指定' }}</span>
         <span class="count">人数：{{ classInfo.student_count }}</span>
