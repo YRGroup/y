@@ -10,7 +10,7 @@
       <img src="../../assets/logo.png">
     </div>
     <group>
-      <x-input title="手机号：" placeholder="学号/手机号" keyboard="number" v-model="tel" @on-blur="verifyAccount">
+      <x-input title="手机号：" placeholder="学号/手机号" keyboard="number" v-model="tel" @on-change="preVerify" @on-blur="verifyAccount">
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe618;</i>
         </span>
@@ -25,7 +25,7 @@
           <i class="iconfont">&#xe6ec;</i>
         </span>
       </x-input>
-      <x-input title="密码：" placeholder="请设置密码" type="text" v-model="newPWd" v-show="unActived">
+      <x-input title="密码：" placeholder="请设置初始密码" type="text" v-model="newPWd" v-show="unActived">
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe6ec;</i>
         </span>
@@ -102,6 +102,11 @@ export default {
         })
       }
     },
+    preVerify() {
+      if (this.tel.length == 11) {
+        this.verifyAccount()
+      }
+    },
     verifyAccount() {
       if (this.tel == '') {
         this.$vux.toast.show({
@@ -132,8 +137,14 @@ export default {
             width: "20em"
           })
         })
-      } else {
+      } else if (this.tel.length == 9 && this.tel.slice(0, 1) == 8) {
         this.step = 1
+      } else {
+        this.$vux.toast.show({
+          type: "warn",
+          text: '请检查账号',
+          width: "20em"
+        })
       }
     },
     phoneLogin() {
@@ -211,7 +222,7 @@ export default {
     this.$store.commit('changeTitle', '登录智慧校园')
   },
   mounted() {
-    this.$store.dispatch('getCurrentUser').then(()=>{
+    this.$store.dispatch('getCurrentUser').then(() => {
       this.$router.push('/')
     })
   }
