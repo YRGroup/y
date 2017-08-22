@@ -103,6 +103,9 @@ const store = new Vuex.Store({
     },
     setToken(state, val) {
       state.token = val
+      if(!localStorage.token){
+        localStorage.token = val
+      }
     },
     setApiUrl(state, val) {
       state.ApiUrl = val
@@ -157,7 +160,9 @@ const store = new Vuex.Store({
     }, payload) {
       return new Promise((resolve, reject) => {
         API.getCurrentUser().then(res => {
-          commit('setToken', res.Token)
+          if(localStorage.token){
+            commit('setToken', localStorage.token)
+          }
           commit('login', res)
           resolve()
         }).catch(err => {
