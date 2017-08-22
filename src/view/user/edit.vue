@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-  
+
     <group>
       <cell title="手机号" v-model="data.Mobilephone" text-align="right" placeholder="请在此填上新内容"></cell>
       <x-input title="姓名" v-model="data.TrueName" text-align="right" placeholder="请输入姓名"></x-input>
@@ -10,15 +10,15 @@
         <checker-item value="女">女</checker-item>
       </checker>
       <cell title="头像">
-          <img :src="data.Headimgurl">
-        </cell>
-        <div class="file" style="text-align:center">
-          <a href="javascript:;" class="a-upload">
-            <input type="file" accept="image/jpeg,image/png" ref="headImg" @change="addHeadImg"> 选择新头像
-          </a>
-        </div>
+        <img :src="data.Headimgurl">
+      </cell>
+      <div class="file" style="text-align:center">
+        <a href="javascript:;" class="a-upload">
+          <input type="file" accept="image/jpeg,image/png" ref="headImg" @change="addHeadImg"> 选择新头像
+        </a>
+      </div>
     </group>
-  
+
     <div v-if="$store.state.role=='老师'">
       <group title="教师资料：">
         <x-input title="民族" v-model="data.Volk" text-align="right"></x-input>
@@ -26,9 +26,9 @@
         <x-input title="教龄" v-model="data.SchoolAge" text-align="right"></x-input>
         <x-input title="职称" v-model="data.Title" text-align="right"></x-input>
         <cell title="当前学科" v-model="data.Course"></cell>
-        <selector title="修改学科" v-model="data.Course" :options="courseList" text-align="right"></selector>
+        <!-- <selector title="修改学科" v-model="data.Course" :options="courseList" text-align="right"></selector> -->
       </group>
-  
+
       <group :title="'教学经历'+(index+1)+'：'" v-for="(i,index) in data.TeachExperience" :key="index">
         <x-input title="任职学校" v-model="i.SchoolName"></x-input>
         <cell title="执教时间">{{i.StartTime}} - {{i.EndTime}}</cell>
@@ -37,9 +37,7 @@
         <cell title="删除此条教学经历" is-link @click.native="data.TeachExperience.splice(index,1)"></cell>
       </group>
 
-      <div style="padding:5px 10px;">
-        <x-button @click.native="data.TeachExperience.push({})">添加教学经历</x-button>
-      </div>
+      
 
       <group :title="'个人荣誉'+(index+1)+'：'" v-for="(i,index) in data.PersonalHonor" :key="index">
         <cell title="图片">
@@ -54,12 +52,19 @@
         <cell title="删除此条教学经历" is-link @click.native="data.TeachExperience.splice(index,1)"></cell>
       </group>
 
-      <div style="padding:5px 10px;">
-        <x-button @click.native="data.PersonalHonor.push({})">添加个人荣誉</x-button>
-      </div>
+      <group class="btn">
+        <flexbox>
+          <flexbox-item>
+            <x-button plain type="primary" @click.native="data.PersonalHonor.push({})">添加个人荣誉</x-button>
+          </flexbox-item>
+          <flexbox-item>
+            <x-button plain type="primary" @click.native="data.TeachExperience.push({})">添加教学经历</x-button>
+          </flexbox-item>
+        </flexbox>
+      </group>
 
     </div>
-  
+
     <div v-if="!$store.state.hasNoStudent">
       <group title="学生资料：" v-for="(i,index) in allStudentData" :key="index">
         <cell title="姓名" v-model="i.TrueName" text-align="right" placeholder="请在此填上新内容"></cell>
@@ -72,7 +77,7 @@
         </cell>
       </group>
     </div>
-  
+
     <popup v-model="addStudentPopup" is-transparent>
       <div class="popup">
         <group title="添加学生">
@@ -84,21 +89,21 @@
         </group>
       </div>
     </popup>
-  
+
     <group class="btn">
       <x-button type="primary" @click.native="submitChange">保存</x-button>
     </group>
-  
+
   </div>
 </template>
 
 <script>
-import { Group, Cell, XButton, XInput, Popup, Selector, Checker, CheckerItem,Datetime } from 'vux'
+import { Group, Cell, XButton, XInput, Popup, Selector, Checker, CheckerItem, Datetime, Flexbox, FlexboxItem } from 'vux'
 
 export default {
   name: 'edit',
   components: {
-    Group, Cell, XButton, XInput, Popup, Selector, Checker, CheckerItem,Datetime
+    Group, Cell, XButton, XInput, Popup, Selector, Checker, CheckerItem, Datetime, Flexbox, FlexboxItem
   },
   data() {
     return {
@@ -144,16 +149,16 @@ export default {
       //   }
       // })
     },
-    addHeadImg(){
+    addHeadImg() {
       let files = this.$refs.headImg.files
-      this.$API.uploadImg(files).then(res=>{
-        this.data.Headimgurl = res[0]+'?x-oss-process=style/f300'
+      this.$API.uploadImg(files).then(res => {
+        this.data.Headimgurl = res[0] + '?x-oss-process=style/f300'
       })
     },
-    addImg(index){
-      let files = this.$refs['honor'+index][0].files
-      this.$API.uploadImg(files).then(res=>{
-        this.data.PersonalHonor[index].ImgPath = res[0]+'?x-oss-process=style/f300'
+    addImg(index) {
+      let files = this.$refs['honor' + index][0].files
+      this.$API.uploadImg(files).then(res => {
+        this.data.PersonalHonor[index].ImgPath = res[0] + '?x-oss-process=style/f300'
       })
     },
     addStudent() {
@@ -266,7 +271,7 @@ export default {
   .checker-item-selected {
     border: 1px solid @c6;
     background: @c6;
-    color:#fff;
+    color: #fff;
   }
 }
 
