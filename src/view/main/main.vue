@@ -130,7 +130,6 @@ export default {
   },
   data() {
     return {
-      followWeixin: true,
       swiperdate: [],
       mockSwiperdate: [
         {
@@ -246,20 +245,12 @@ export default {
     this.getWXQRcode()
   },
   mounted() {
-    if (this.$store.getters.isWeixin) {
-      this.followWeixin = true
-    } else {
-      this.followWeixin = false
-    }
-  }
+
+}
 }
 </script>
 
 <style lang="less" scoped>
-.content {
-  // background: #fff;
-}
-
 .vux-flexbox {
   text-align: center;
   padding: 1em 0;

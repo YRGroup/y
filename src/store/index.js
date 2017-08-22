@@ -155,9 +155,14 @@ const store = new Vuex.Store({
       commit,
       state
     }, payload) {
-      API.getCurrentUser().then(res => {
-        commit('setToken', res.Token)
-        commit('login', res)
+      return new Promise((resolve, reject) => {
+        API.getCurrentUser().then(res => {
+          commit('setToken', res.Token)
+          commit('login', res)
+          resolve()
+        }).catch(err => {
+          reject(err)
+        })
       })
     },
   },

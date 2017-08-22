@@ -289,6 +289,9 @@ export default {
     }
   },
   mounted() {
+    this.$store.dispatch('getCurrentUser').then(()=>{
+      this.$router.push('/')
+    })
   }
 }
 </script>

@@ -185,6 +185,7 @@ export default {
     },
     loginOK(val) {
       this.$store.commit('login', val)
+      this.$store.commit('setToken', val.Token)
       if (!this.getCookie('WeixinOpenid') && this.$store.getters.isWeixin) {
         window.location.href = this.$store.state.ApiUrl + '/api/OAuth2Redirect/index?refUrl=' + window.location.host + '/%23/main'
       } else {
@@ -210,7 +211,9 @@ export default {
     this.$store.commit('changeTitle', '登录智慧校园')
   },
   mounted() {
-
+    this.$store.dispatch('getCurrentUser').then(()=>{
+      this.$router.push('/')
+    })
   }
 }
 </script>
