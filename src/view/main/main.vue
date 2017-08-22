@@ -23,9 +23,9 @@
           <span>作业</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="4">
+      <flexbox-item :span="4" v-show="Role=='老师'">
         <router-link :to="'/student/'+$store.state.currentStudentId+'/score/1'">
-          <div style="background:#0ab9f7">
+          <div style="background:#fbc700">
             <i class="iconfont">&#xe601;</i>
           </div>
           <span>成绩报告</span>
@@ -33,20 +33,13 @@
       </flexbox-item>
       <flexbox-item :span="4">
         <router-link :to="'/addon/schoolcard'">
-          <div style="background:#fbc700">
+          <div style="background:#0ab9f7">
             <i class="iconfont">&#xe602;</i>
           </div>
           <span>一卡通</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="4">
-        <router-link to="/main">
-          <div style="background:#ff5498">
-            <i class="iconfont">&#xe604;</i>
-          </div>
-          <span>资料库</span>
-        </router-link>
-      </flexbox-item>
+      
       <flexbox-item :span="4">
         <router-link to="/school">
           <div style="background:#8dc62c">
@@ -54,6 +47,18 @@
           </div>
           <span>校园新闻</span>
         </router-link>
+      </flexbox-item>
+      <flexbox-item :span="4" @click.native="fun('开发中，敬请期待~')">
+          <div style="background:#ff5498">
+            <i class="iconfont">&#xe604;</i>
+          </div>
+          <span>课程表</span>
+      </flexbox-item>
+      <flexbox-item :span="4" @click.native="fun('开发中，敬请期待~')">
+          <div style="background:#ab79d9">
+            <i class="iconfont">&#xe604;</i>
+          </div>
+          <span>更多</span>
       </flexbox-item>
     </flexbox>
   
@@ -63,7 +68,8 @@
         <tab-item @on-item-click="handleSwitchTab">资料库</tab-item>
       </tab>
       <div v-if="tabindex == '1'">
-        <div class="card" v-for="(i,index) in data" :key="index" @click="$router.push('/mainnew?id='+i.ID)">
+        <no-data v-if="nodataImg"></no-data>
+        <div v-else class="card" v-for="(i,index) in data" :key="index" @click="$router.push('/mainnew?id='+i.ID)">
           <div class="img" v-if="i.ImgUrl">
             <img :src="i.ImgUrl">
           </div>
@@ -83,7 +89,8 @@
         </div>
       </div>
       <div v-if="tabindex == '2'">
-        <div class="card" v-for="(i,index) in data" :key="index">
+        <no-data v-if="nodataImg"></no-data>
+        <div v-else class="card" v-for="(i,index) in data" :key="index">
           <div class="img" v-if="i.ImgUrl">
             <img :src="i.ImgUrl">
           </div>
@@ -121,15 +128,17 @@
 </template>
 
 <script>
+import noData from '@/components/noData'
 import { Swiper, Flexbox, FlexboxItem, XButton, Popup, Tab, TabItem, XDialog } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Swiper, Flexbox, FlexboxItem, XButton, Popup, Tab, TabItem, XDialog
+    Swiper, Flexbox, FlexboxItem, XButton, Popup, Tab, TabItem, XDialog ,noData
   },
   data() {
     return {
+      nodataImg: false,
       swiperdate: [],
       mockSwiperdate: [
         {
@@ -184,6 +193,9 @@ export default {
       }
       this.$API.getNewsList(para).then(res => {
         this.newsList = res
+        if (this.data.length == 0 && this.page == 1) {
+          this.nodataImg = true
+        }
       })
     },
     getSwiper() {
