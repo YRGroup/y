@@ -176,7 +176,7 @@ export default new Router({
           ]
         },
         { //班级动态详情
-          path: '/class/:classId/msg/:msgId',
+          path: '/class/msg/:msgId',
           name: 'classmsg',
           component: classmsg
         },
