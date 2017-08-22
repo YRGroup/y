@@ -73,7 +73,7 @@ export default {
       this.$API.getClassDynamic(this.$store.state.currentClassId, this.$route.params.msgId).then(res => {
         this.data = res
         this.commentLength = res.comment.length
-        this.commentId = res.id
+        this.commentId = res.ID
       })
     },
     openreply() {
@@ -86,6 +86,7 @@ export default {
       if (replyData.content != '') {
         this.$API.postNewComment(replyData).then(res => {
           this.getData()
+          this.replymsg = ''
           this.showpopup = false
         })
       } else {
