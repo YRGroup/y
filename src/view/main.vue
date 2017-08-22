@@ -65,6 +65,7 @@ export default {
     web_title() {
       return this.$store.state.title
     },
+    
   },
   created() {
   },

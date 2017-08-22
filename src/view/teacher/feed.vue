@@ -29,7 +29,7 @@
               <span>{{ comment.content }}</span>
             </li>
             <div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>
-            <div class="more" @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.id)">
+            <div class="more" @click="$router.push('/class/msg/'+item.id)">
               查看更多
             </div>
           </div>
