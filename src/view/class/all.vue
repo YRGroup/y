@@ -69,7 +69,9 @@
         <span class="tips">{{ item.category }}</span>
       </div>
       <div slot="content" class="content">
+
         <div @click="$router.push('/class/msg/'+item.id)">{{item.content}}</div>
+
         <div class="img" v-if="item.albums.length!=0">
           <img @click="imgPopup(imgurl)" :src="imgurl"  v-for="(imgurl,index) in item.albums" :key="index">
         </div>
@@ -86,7 +88,9 @@
             <span>{{ comment.content }}</span>
           </li>
           <!--<div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>-->
+
           <div class="more" @click="$router.push('/class/msg/'+item.id)">
+
             查看详情
           </div>
         </div>
