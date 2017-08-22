@@ -139,7 +139,7 @@ export default {
       }
     },
     logout() {
-      this.$store.commit('logout')
+      this.$store.dispatch('logout')
       this.$vux.toast.show({
         type: "text",
         text: '退出成功'

@@ -18,27 +18,12 @@ export default {
     Loading
   },
   methods: {
-    showRouterInfo() {
-      window.scrollTo(0, 0);
-      if (!this.hasLogin) {
-        if (this.$route.name == 'login' || this.$route.name == 'reg' || this.$route.name == 'main') {
-          null
-        } else {
-          this.$vux.toast.show({
-            type: "warn",
-            width: "20em",
-            text: '您还没有登录'
-          })
-          this.$router.push('/login')
-        }
-      }
-    }
+
   },
   watch: {
     web_title: (val) => {
       document.title = val + ' - 育人教育'
     },
-    "$route": "showRouterInfo"
   },
   computed: {
     web_title() {
@@ -52,23 +37,12 @@ export default {
     }
   },
   created() {
-    this.showRouterInfo()
+    if (!this.$store.state.hasLogin) {
+      this.$store.dispatch('getCurrentUser')
+    }
   },
   mounted() {
-    if (localStorage.hasLogin && !this.$store.state.hasLogin) {
-      let user = JSON.parse(localStorage.user)
-      this.$store.commit('login', user)
-    } else if (!this.hasLogin && this.$route.path != '/') {
-      this.$router.push('/login')
-    }
-  },
-  beforeCreate() {
-    if (this.$store.state.ApiUrl == '') {
-      let payload = {
-        // id:1
-      }
-      // this.$store.dispatch('setApiUrl', payload)
-    }
+    
   }
 }
 </script>
