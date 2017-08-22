@@ -69,11 +69,7 @@
         <span class="tips">{{ item.category }}</span>
       </div>
       <div slot="content" class="content">
-<<<<<<< HEAD
         <div @click="$router.push('/class/msg/'+item.id)">{{item.content}}</div>
-=======
-        <div @click="$router.push('/class/'+$store.state.classId+'/msg/'+item.ID)">{{item.content}}</div>
->>>>>>> 17c6fb23c24ee7a1dc8631caa7687ca6a10f382e
         <div class="img" v-if="item.albums.length!=0">
           <img @click="imgPopup(imgurl)" :src="imgurl"  v-for="(imgurl,index) in item.albums" :key="index">
         </div>
@@ -90,11 +86,7 @@
             <span>{{ comment.content }}</span>
           </li>
           <!--<div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>-->
-<<<<<<< HEAD
           <div class="more" @click="$router.push('/class/msg/'+item.id)">
-=======
-          <div class="more" @click="$router.push('/class/'+$route.params.classId+'/msg/'+item.ID)">
->>>>>>> 17c6fb23c24ee7a1dc8631caa7687ca6a10f382e
             查看详情
           </div>
         </div>
@@ -216,8 +208,7 @@ export default {
       })
     },
     doLike(id) {
-      console.log('000000000')
-      this.$API.doLikeThisPost(id).then((res) => {
+      this.$API.doLikeThisPost(id).then(() => {
         this.$vux.toast.show({
           type: "success",
           width: "20em",
