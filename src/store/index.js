@@ -18,7 +18,6 @@ const store = new Vuex.Store({
     currentStudentId: null,
     currentStudent: {},
 
-    token: null,
     hasStudent: false,
     currentUser: null,
     hasNoStudent: false,
@@ -42,6 +41,11 @@ const store = new Vuex.Store({
         return false;
       } else {
         return true;
+      }
+    },
+    token: state => {
+      if (state.currentUser) {
+        return state.currentUser.Token
       }
     },
   },
@@ -71,7 +75,9 @@ const store = new Vuex.Store({
       if (val.HasNewUnReadDynamic == 1) {
         state.hasNewPost = true
       }
-
+      
+      localStorage.setItem('user', JSON.stringify(val))
+      localStorage.setItem('token', val.Token)
       localStorage.setItem('hasLogin', true)
       localStorage.setItem('id', val.Meid)
       localStorage.setItem('role', val.Role)
@@ -132,7 +138,6 @@ const store = new Vuex.Store({
     }, payload) {
       return new Promise((resolve, reject) => {
         API.login(payload).then(res => {
-          // localStorage.setItem('user', JSON.stringify(res))
           commit('setToken', res.Token)
           commit('login', res)
           resolve(res)

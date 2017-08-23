@@ -98,7 +98,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit('changeTitle', '校园动态')
+    this.$store.commit('changeTitle', '校园新闻')
     this.getData()
   },
   mounted() {
