@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
 
-    <group title="发布新的校园动态" labelWidth="6em">
+    <group title="发布新的校园新闻" labelWidth="6em">
       <x-input title="作者：" placeholder="just for demo" v-model="data.auther" novalidate show-clear placeholder-align="right"></x-input>
       <selector title="类别：" placeholder="请选择类别" direction="right" v-model="data.category"  :options="categoryList"></selector>
       <x-textarea title="内容：" v-model="data.content" placeholder="请输入内容" autosize></x-textarea>

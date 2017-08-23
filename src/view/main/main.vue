@@ -64,7 +64,7 @@
   
     <div class="newsCard">
       <tab :line-width="2">
-        <tab-item selected @on-item-click="handleSwitchTab">校园动态</tab-item>
+        <tab-item selected @on-item-click="handleSwitchTab">校园新闻</tab-item>
         <tab-item @on-item-click="handleSwitchTab">资料库</tab-item>
       </tab>
       <div v-if="tabindex == '1'">
@@ -250,7 +250,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit('changeTitle', '校园动态')
+    this.$store.commit('changeTitle', '校园新闻')
     this.getSwiper()
     this.getNewsList()
     this.getData()
