@@ -18,7 +18,6 @@ const store = new Vuex.Store({
     currentStudentId: null,
     currentStudent: {},
 
-    token: null,
     hasStudent: false,
     currentUser: null,
     hasNoStudent: false,
@@ -42,6 +41,11 @@ const store = new Vuex.Store({
         return false;
       } else {
         return true;
+      }
+    },
+    token: state => {
+      if (state.currentUser) {
+        return state.currentUser.Token
       }
     },
   },
@@ -73,6 +77,7 @@ const store = new Vuex.Store({
       }
       
       localStorage.setItem('user', JSON.stringify(val))
+      localStorage.setItem('token', val.Token)
       localStorage.setItem('hasLogin', true)
       localStorage.setItem('id', val.Meid)
       localStorage.setItem('role', val.Role)
