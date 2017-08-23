@@ -11,7 +11,7 @@
     </div>
   
     <!--轮播图-->
-    <swiper loop auto :list="swiperdate"></swiper>
+    <swiper loop auto :list="swiperdate" class="bannerPic"></swiper>
   
     <!--功能导航-->
     <flexbox wrap="wrap" :gutter="0">
@@ -23,7 +23,7 @@
           <span>作业</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="4" v-show="$store.getters.role=='老师'">
+      <flexbox-item :span="4" v-show="$store.state.role == '家长'">
         <router-link :to="'/student/'+$store.state.currentStudentId+'/score/1'">
           <div style="background:#fbc700">
             <i class="iconfont">&#xe601;</i>
@@ -228,6 +228,7 @@ export default {
       this.getData()
     },
     getData() {
+
       let para = {
         category: this.tabindex,
         currentPage: this.page,
@@ -443,6 +444,13 @@ export default {
     color: @cc7;
     font-size: 1.5rem;
     line-height: 3rem;
+  }
+}
+.bannerPic{
+  .vux-swiper{
+    img{
+      min-width: 50%;
+    }
   }
 }
 </style>
