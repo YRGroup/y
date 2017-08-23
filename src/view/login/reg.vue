@@ -118,6 +118,9 @@ export default {
       parentType: [
         { key: 1, value: '爸爸' },
         { key: 2, value: '妈妈' },
+        { key: 3, value: '爷爷' },
+        { key: 4, value: '奶奶' },
+        { key: 100, value: '家长' },
       ],
       step: 2,
       getsmsCount: 0,
@@ -289,9 +292,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('getCurrentUser').then(()=>{
-      this.$router.push('/')
-    })
+
   }
 }
 </script>

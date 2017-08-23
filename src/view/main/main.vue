@@ -23,7 +23,7 @@
           <span>作业</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="4" v-show="Role=='老师'">
+      <flexbox-item :span="4" v-show="$store.getters.role=='老师'">
         <router-link :to="'/student/'+$store.state.currentStudentId+'/score/1'">
           <div style="background:#fbc700">
             <i class="iconfont">&#xe601;</i>
