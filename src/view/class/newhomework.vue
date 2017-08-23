@@ -25,7 +25,7 @@
     </group>
   
     <div style="padding:2rem;">
-      <x-button @click.native="addHomework" type="primary">确认发布</x-button>
+      <x-button @click.native="addHomework" type="primary">发布</x-button>
     </div>
   
   </div>
@@ -40,7 +40,7 @@ export default {
   },
   data() {
     return {
-      newHomeworkData: { },
+      newHomeworkData: {},
       fileList: [],
       courseList: [
         {key:'语文',value:'语文'},
@@ -100,26 +100,61 @@ export default {
     addHomework(){
       this.newHomeworkData.course_name = this.course
       this.newHomeworkData['img_url_list'] = this.fileList.join(',')
-      if(this.newHomeworkData.course_name&&this.newHomeworkData.content){
+      
+      if(!this.newHomeworkData.title){
+        this.$vux.toast.show({
+          type:"warn",
+          width:'20em',
+          text: "请输入标题"
+        })
+      }else if(!this.newHomeworkData.content){
+        this.$vux.toast.show({
+          type:"warn",
+          width:'20em',
+          text: "请输入内容"
+        })
+      }else{
         this.newHomeworkData.class_id = this.$store.state.currentClassId
         this.$API.addHomework(this.newHomeworkData).then(res=>{
           this.$vux.toast.show({
             type:"success",
+            width:'20em',
             text: "发布成功"
           })
           this.$router.push('/class')
         }).catch(err=>{
           this.$vux.toast.show({
             type:"warn",
+            width:'20em',
             text: err.msg
           })
         })
-      }else{
-        this.$vux.toast.show({
-          type:"warn",
-          text: "数据不完整"
-        })
       }
+
+
+      // if(this.newHomeworkData.course_name&&this.newHomeworkData.content){
+      //   this.newHomeworkData.class_id = this.$store.state.currentClassId
+      //   this.$API.addHomework(this.newHomeworkData).then(res=>{
+      //     this.$vux.toast.show({
+      //       type:"success",
+      //       width:'20em',
+      //       text: "发布成功"
+      //     })
+      //     this.$router.push('/class')
+      //   }).catch(err=>{
+      //     this.$vux.toast.show({
+      //       type:"warn",
+      //       width:'20em',
+      //       text: err.msg
+      //     })
+      //   })
+      // }else{
+      //   this.$vux.toast.show({
+      //     type:"warn",
+      //     width:'20em',
+      //     text: "数据不完整"
+      //   })
+      // }
     }
   },
   created() {

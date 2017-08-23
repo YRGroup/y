@@ -43,6 +43,7 @@
         <span v-show="step==3">{{getsmsCount!=0?(getsmsCount+'s后重新获取短信验证码'):'重新获取短信验证码'}}</span>
       </x-button> -->
       <x-button type="primary" @click.native="login" v-show="step==1 || step==3">登录</x-button>
+
       <div class="regBtn" @click="$router.push('/reg')">我是家长，还没有帐号？点击注册</div>
     </div>
   
@@ -206,7 +207,7 @@ export default {
       } else {
         this.$vux.toast.show({
           type: "text",
-          text: '跳转到主页',
+          text: '登录成功',
           width: "20em"
         })
         this.$router.push('/')

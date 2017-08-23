@@ -2,7 +2,7 @@
   <div class="work">
   
     <div class="addbtn">
-      <x-button class="" mini @click.native="$router.push('/class/'+$route.params.classId+'/newhomework')" type="primary" plain>发布新作业</x-button>
+      <x-button class="" mini @click.native="$router.push('/class/newhomework')" type="primary" plain>发布新作业</x-button>
     </div>
   
     <popup v-model="newHomework" height="310px" is-transparent>
@@ -17,30 +17,34 @@
         </div>
       </div>
     </popup>
-  
-    <div class="workcard" v-for="(i,index) in homework" :key="index">
-      <div class="header">
-        <span class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName }}</span>
-        <span class="auther">{{ i.AutherName }}</span>
-        <span class="time">{{ i.CreateTime }}</span>
-      </div>
-      <div class="title">{{i.Title}}</div>
-      <div class="content">
-        <div @click="$router.push('/class/homework/'+i.HID)">{{i.Content}}</div>
-        <div class="img" v-if="i.Albums">
-          <img :src="imgurl" v-for="(imgurl,index) in i.Albums" :key="index">
+    <group v-if="nodataImg">
+      <no-data ></no-data>
+    </group>
+    <div v-else>
+      <div class="workcard" v-for="(i,index) in homework" :key="index">
+        <div class="header">
+          <span class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName }}</span>
+          <span class="auther">{{ i.AutherName }}</span>
+          <span class="time">{{ i.CreateTime }}</span>
         </div>
+        <div class="title">{{i.Title}}</div>
+        <div class="content">
+          <div @click="$router.push('/class/homework/'+i.HID)">{{i.Content}}</div>
+          <div class="img" v-if="i.Albums">
+            <img :src="imgurl" v-for="(imgurl,index) in i.Albums" :key="index">
+          </div>
+        </div>
+        <!-- <div class="footer">{{ i.CreateTime }}</div> -->
       </div>
-      <!-- <div class="footer">{{ i.CreateTime }}</div> -->
+      <divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>
+      <divider v-show="noMoreData"  class="noMoreData">没有更多数据</divider>
     </div>
-  
-    <divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>
-    <divider v-show="noMoreData">没有更多数据</divider>
   
   </div>
 </template>
 
 <script>
+import noData from '@/components/noData'
 import { Popup, Group, XTextarea, XButton, Selector, Divider } from 'vux'
 
 export default {
@@ -49,10 +53,11 @@ export default {
     Group,
     XTextarea,
     Selector,
-    XButton, Divider
+    XButton, Divider, noData
   },
   data() {
     return {
+      nodataImg: false,
       newHomework: false,
       newHomeworkData: {},
       course_list: [
@@ -105,7 +110,9 @@ export default {
           res.forEach((element) => {
             this.homework.push(element)
           })
-        } else {
+        }else if(!res.length && this.currentPage == 1){
+          this.nodataImg = true
+        }else if(!res.length && this.currentPage != 1) {
           this.noMoreData = true
         }
         this.boxwid = res.length * 100 + 'px'

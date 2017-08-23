@@ -63,7 +63,8 @@
   -->
     <card v-for="(item,index) in list" :key="index">
       <div slot="header" class="header">
-        <img :src="item.userImg" @click="$router.push('/teacher/'+item.auther_meid)">
+        <!-- <img :src="item.userImg" @click="$router.push('/teacher/'+item.auther_meid)"> -->
+        <img :src="item.userImg">
         <span class="usename">{{ item.auther }}</span>
         <span class="time">{{ item.date }}</span>
         <span class="tips">{{ item.category }}</span>
@@ -98,7 +99,7 @@
     </card>
 
     <divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>
-    <divider v-show="noMoreData">没有更多数据</divider>
+    <divider v-show="noMoreData" class="noMoreData">没有更多数据</divider>
 
     <popup v-model="showImgPopup" is-transparent>
       <div class="popup" @click="showImgPopup=false">
@@ -150,11 +151,17 @@ export default {
       para.currentPage = this.currentPage
       this.$API.getAllClassDynamic(para).then((res) => {
         if(res.length){
+          console.log(5454545454)
+          console.log(this.noMoreData)
+          console.log(res.length)
           res.forEach((element)=>{
             this.list.push(element)
           })
         }else{
           this.noMoreData = true
+          console.log(22222)
+          console.log(this.noMoreData)
+          console.log(res.length)
         }
       }).catch(err=>{
         this.$vux.toast.show({
@@ -230,15 +237,15 @@ export default {
   created() {
     this.$store.commit('changeTitle', '班级动态')
     this.getAllClassDynamic()
-    if(!this.teachers.length){
-      this.getTeacherList()
-    }
-    if(!this.notice.length){
-      this.getNotice()
-    }
-    if(!this.homework.length){
-      this.getHomeWork()
-    }
+    // if(!this.teachers.length){
+    //   this.getTeacherList()
+    // }
+    // if(!this.notice.length){
+    //   this.getNotice()
+    // }
+    // if(!this.homework.length){
+    //   this.getHomeWork()
+    // }
   }
 }
 </script>

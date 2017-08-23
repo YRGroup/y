@@ -3,7 +3,7 @@
   
     <card>
       <div slot="header" class="header cardcont">
-        <img :src="data.userImg" @click="fun('打开 '+data.auther+' 的个人页面')">
+        <img :src="data.userImg">
         <span class="usename">{{ data.auther }}</span>
         <span class="time">{{ data.date }}</span>
         <span class="tips">{{ data.category }}</span>

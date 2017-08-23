@@ -8,7 +8,7 @@
         <div class="footer" slot="footer">{{ i.CreateTime }}</div>
       </card>
       <divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>
-      <divider v-show="noMoreData">没有更多数据</divider>
+      <divider v-show="noMoreData"  class="noMoreData">没有更多数据</divider>
     </div>
 
     <div class="hasNoData" v-else>
