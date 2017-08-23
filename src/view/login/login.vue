@@ -24,6 +24,10 @@
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe6ec;</i>
         </span>
+        <x-button slot="right" type="primary" mini  @click.native="getSms" v-show="step>=2" :disabled="getsmsCount!=0">
+          <span v-show="step==2">获取验证码</span>
+          <span v-show="step==3">{{getsmsCount!=0?(getsmsCount+'s后重新获取'):'重新获取'}}</span>
+        </x-button>
       </x-input>
       <x-input title="密码：" placeholder="请设置初始密码" type="text" v-model="newPWd" v-show="unActived">
         <span slot="label" class="loginIcon">
@@ -34,10 +38,10 @@
     </br>
     <div style="padding:0 20px" class="loginBtn">
       <x-button type="primary" @click.native="verifyAccount" v-show="step==0">下一步</x-button>
-      <x-button type="primary" @click.native="getSms" v-show="step>=2" :disabled="getsmsCount!=0">
+      <!-- <x-button type="primary" @click.native="getSms" v-show="step>=2" :disabled="getsmsCount!=0">
         <span v-show="step==2">获取短信验证码</span>
         <span v-show="step==3">{{getsmsCount!=0?(getsmsCount+'s后重新获取短信验证码'):'重新获取短信验证码'}}</span>
-      </x-button>
+      </x-button> -->
       <x-button type="primary" @click.native="login" v-show="step==1 || step==3">登录</x-button>
       <div class="regBtn" @click="$router.push('/reg')">我是家长，还没有帐号？点击注册</div>
     </div>
