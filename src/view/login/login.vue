@@ -77,7 +77,7 @@ export default {
       if (arr = document.cookie.match(reg))
         return unescape(arr[2]);
       else
-        return null;
+        return false;
     },
     count() {
       if (this.getsmsCount > 0) {
@@ -205,7 +205,7 @@ export default {
     loginOK(val) {
       this.$store.commit('login', val)
       this.$store.commit('setToken', val.Token)
-      if (!this.getCookie('WeixinOpenid') && this.$store.getters.isWeixin) {
+      if (!val.IsSubscribe && this.$store.getters.isWeixin) {
         window.location.href = this.$store.state.ApiUrl + '/api/OAuth2Redirect/index?refUrl=' + window.location.host + '/%23/main'
       } else {
         this.$vux.toast.show({

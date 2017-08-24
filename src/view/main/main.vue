@@ -140,23 +140,23 @@ export default {
     return {
       nodataImg: false,
       swiperdate: [],
-      // mockSwiperdate: [
-      //   {
-      //     url: 'http://www.gy720.com/pano/view/6556',
-      //     img: require('@/assets/img/s1.jpg'),
-      //     title: '郑州航空港育人国际学校'
-      //   },
-      //   {
-      //     url: 'http://www.gy720.com/pano/view/6621',
-      //     img: require('@/assets/img/s2.jpg'),
-      //     title: '郑州航空港区育人高级中学'
-      //   },
-      //   {
-      //     url: 'http://www.gy720.com/pano/view/6614',
-      //     img: require('@/assets/img/s3.jpg'),
-      //     title: '郑州外国语女子中学'
-      //   }
-      // ],
+      mockSwiperdate: [
+        {
+          url: 'http://www.gy720.com/pano/view/6556',
+          img: require('@/assets/img/s1.jpg'),
+          title: '郑州航空港育人国际学校'
+        },
+        {
+          url: 'http://www.gy720.com/pano/view/6621',
+          img: require('@/assets/img/s2.jpg'),
+          title: '郑州航空港区育人高级中学'
+        },
+        {
+          url: 'http://www.gy720.com/pano/view/6614',
+          img: require('@/assets/img/s3.jpg'),
+          title: '郑州外国语女子中学'
+        }
+      ],
       activeName: '1',
       data: [],
       page: 1,

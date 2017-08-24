@@ -86,7 +86,6 @@ export default new Router({
       children: [
         { //主页
           path: '/',
-          name: 'main',
           component: home,
           children: [{
             path: '',
