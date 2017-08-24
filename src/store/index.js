@@ -67,8 +67,11 @@ const store = new Vuex.Store({
       }
 
       if (val.Role == '老师') {
-        if (val.ExtendInfo.Classes.length != 0) {
-          state.currentClassId = val.ExtendInfo.Classes[0].ClassID
+        console.log('000000000')
+        if(val.ExtendInfo){
+          if (val.ExtendInfo.Classes.length != 0) {
+            state.currentClassId = val.ExtendInfo.Classes[0].ClassID
+          }
         }
       }
 
@@ -106,6 +109,9 @@ const store = new Vuex.Store({
     },
     changeCurrentStudent(state, val) {
       state.currentStudent = val
+    },
+    changeCurrentClass(state, val) {
+      state.currentClassId = val
     },
     setToken(state, val) {
       state.token = val
