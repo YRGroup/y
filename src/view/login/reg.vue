@@ -237,6 +237,7 @@ export default {
                 width: "20em",
                 text: '添加资料成功'
               })
+              this.$store.dispatch('getCurrentUser')
               this.$router.push('/')
             })
           })
@@ -247,6 +248,7 @@ export default {
               width: "20em",
               text: '添加资料成功'
             })
+            this.$store.dispatch('getCurrentUser')
             this.$router.push('/user')
           })
         }
