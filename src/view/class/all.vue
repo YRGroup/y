@@ -151,17 +151,11 @@ export default {
       para.currentPage = this.currentPage
       this.$API.getAllClassDynamic(para).then((res) => {
         if(res.length){
-          console.log(5454545454)
-          console.log(this.noMoreData)
-          console.log(res.length)
           res.forEach((element)=>{
             this.list.push(element)
           })
         }else{
           this.noMoreData = true
-          console.log(22222)
-          console.log(this.noMoreData)
-          console.log(res.length)
         }
       }).catch(err=>{
         this.$vux.toast.show({
@@ -243,9 +237,9 @@ export default {
     // if(!this.notice.length){
     //   this.getNotice()
     // }
-    // if(!this.homework.length){
-    //   this.getHomeWork()
-    // }
+    if(!this.homework.length){
+      this.getHomeWork()
+    }
   }
 }
 </script>
