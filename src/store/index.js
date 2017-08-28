@@ -48,6 +48,25 @@ const store = new Vuex.Store({
         return state.currentUser.Token
       }
     },
+    hasNoSchoolCard: state => {
+      if (state.currentUser && state.currentUser.Role !== '家长') {
+        if (!state.currentUser.ExtendInfo.CampusCard) {
+          return true
+        } else {
+          return false
+        }
+      }
+      if (state.currentUser && state.currentUser.Role == '家长') {
+        let a = state.currentUser.ExtendInfo.Students.find(o => {
+          return o.Meid == state.currentStudentId
+        })
+        if (!a.CampusCard) {
+          return true
+        } else {
+          return false
+        }
+      }
+    },
   },
   mutations: {
     login(state, val) {
@@ -67,7 +86,7 @@ const store = new Vuex.Store({
       }
 
       if (val.Role == '老师') {
-        if(val.ExtendInfo){
+        if (val.ExtendInfo) {
           if (val.ExtendInfo.Classes.length != 0) {
             state.currentClassId = val.ExtendInfo.Classes[0].ClassID
           }
@@ -77,7 +96,7 @@ const store = new Vuex.Store({
       if (val.HasNewUnReadDynamic == 1) {
         state.hasNewPost = true
       }
-      
+
       localStorage.setItem('user', JSON.stringify(val))
       localStorage.setItem('token', val.Token)
       localStorage.setItem('hasLogin', true)
@@ -114,7 +133,7 @@ const store = new Vuex.Store({
     },
     setToken(state, val) {
       state.token = val
-      if(!localStorage.token){
+      if (!localStorage.token) {
         localStorage.token = val
       }
     },
@@ -170,7 +189,7 @@ const store = new Vuex.Store({
     }, payload) {
       return new Promise((resolve, reject) => {
         API.getCurrentUser().then(res => {
-          if(localStorage.token){
+          if (localStorage.token) {
             commit('setToken', localStorage.token)
           }
           commit('login', res)

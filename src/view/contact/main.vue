@@ -25,7 +25,7 @@
           </span>
         </cell>
         <div class="slide" :class="showContent2?'animate':null">
-          <cell class="item" is-link v-for="(i,index) in parent" :link="'/student/'+i.StudentMeid+'/parent'" :title="i.ParentTrueName+' '+i.StudentTrueName+'的'+ formatterParentType(i.ParentType)" :inline-desc="i.ParentPhone" :key="index">
+          <cell class="item" is-link v-for="(i,index) in parent" :link="'/student/'+i.StudentMeid+'/parent'" :title="i.ParentTrueName+'（'+i.StudentTrueName+'的'+ i.ParentType+'）'" :inline-desc="i.ParentPhone" :key="index">
             <img class="cellicon" slot="icon" :src="i.ParentHeadimgurl">
           </cell>
         </div>
