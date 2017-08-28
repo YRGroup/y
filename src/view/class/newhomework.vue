@@ -59,8 +59,8 @@ export default {
   },
   computed:{
     course:function(){
-      if(this.$store.state.currentUser.ExtendInfo.Course){
-        return this.$store.state.currentUser.ExtendInfo.Course
+      if(this.$store.state.currentUser.ExtendInfo.Course.CourseName){
+        return this.$store.state.currentUser.ExtendInfo.Course.CourseName
       }
     }
   },

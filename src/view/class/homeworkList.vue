@@ -23,9 +23,9 @@
     <div v-else>
       <div class="workcard" v-for="(i,index) in homework" :key="index">
         <div class="header">
-          <span class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName }}</span>
           <span class="auther">{{ i.AutherName }}</span>
           <span class="time">{{ i.CreateTime }}</span>
+          <span class="category" :style="{background:colors['语文']}">{{ i.CourseName }}</span>
         </div>
         <div class="title">{{i.Title}}</div>
         <div class="content">
@@ -163,7 +163,7 @@ export default {
   .header {
     height: 2rem;
     .category {
-      float: left;
+      float: right;
       padding: .3rem 1rem;
       color: #fff;
       border-radius: 5px;
@@ -176,16 +176,16 @@ export default {
       margin: 3px 0 0 10px;
     }
     .time {
-      float: right;
+      // float: right;
       color: @cc3;
     }
   }
   .title {
-    text-align: center;
-    font-size: 1.5rem;
+    // text-align: center;
+    font-size: 1rem;
   }
   .content {
-    margin: 1rem 0;
+    margin: 0.5rem 0;
     .img {
       // width: 100%;
       // height:100px;
