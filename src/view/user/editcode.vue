@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     getSms(){
-      this.$API.getRegSms(this.changePasswordData.phone).then(res => {
+      this.$API.getSms(this.changePasswordData.phone).then(res => {
         this.$vux.toast.show({
           type: "success",
           text: '获取验证码成功，请查收短信',
@@ -59,7 +59,7 @@ export default {
       })
     },
     changePassword() {
-      if (!this.changePasswordData.oldpwd | !this.changePasswordData.newpwd | !this.changePasswordData.newpwd2) {
+      if (!this.changePasswordData.newpwd | !this.changePasswordData.newpwd2) {
         this.$vux.toast.show({
           type: "text",
           width: "20em",
