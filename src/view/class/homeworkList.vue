@@ -1,7 +1,7 @@
 <template>
   <div class="work">
   
-    <div class="addbtn">
+    <div class="addbtn" v-show="$store.state.role == '老师'">
       <x-button class="" mini @click.native="$router.push('/class/newhomework')" type="primary" plain>发布新作业</x-button>
     </div>
   
