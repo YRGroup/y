@@ -2,23 +2,27 @@
   <div>
 
     <div class="card">
-      <!-- <cell v-for="(i,index) in examList" :key="index" :title="i.ExamName" :value="i.CreateTime" @click.native="getExamInfo(i.ID)">
-      </cell> -->
       <cell title="查看考试列表" is-link @click.native="showpopup=true"></cell>
     </div>
 
-    <div class="header card">
-      <p class="title">{{exam.Name}}</p>
-      <p class="time">{{exam.CreateTime}}</p>
+    <div class="noData" v-if="nodataImg">
+      <img :src="nodataPic">
     </div>
 
-    <div class="main card">
-      <ul class="subject">
-        <li v-for="(list,index) in exam.StudentSummary" :key="index" @click="$router.push('/student/'+list.Meid+'/score/'+exam.ExamID)">
-          <span class="title">{{list.TrueName}}</span>
-          <span class="score">{{list.TotalScore}}</span>
-        </li>
-      </ul>
+    <div v-else>
+      <div class="header card">
+        <p class="title">{{exam.Name}}</p>
+        <p class="time">{{exam.CreateTime}}</p>
+      </div>
+
+      <div class="main card">
+        <ul class="subject">
+          <li v-for="(list,index) in exam.StudentSummary" :key="index" @click="$router.push('/student/'+list.Meid+'/score/'+exam.ExamID)">
+            <span class="title">{{list.TrueName}}</span>
+            <span class="score">{{list.TotalScore}}</span>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <popup v-model="showpopup" class="popup">
@@ -32,18 +36,19 @@
 </template>
 
 <script>
-import { Cell,Popup } from 'vux'
+import { Cell, Popup } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Cell,Popup
+    Cell, Popup
   },
   data() {
     return {
       examList: [],
       exam: {},
       showpopup: false,
+      nodataPic: require('@/assets/nodata.png'),
       nodataImg: false
     }
   },
@@ -188,5 +193,11 @@ export default {
       }
     }
   }
+}
+
+.noData {
+  min-height: 600px;
+  text-align: center;
+  line-height: 600px;
 }
 </style>

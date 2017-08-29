@@ -14,6 +14,12 @@
         <span class="time">{{notice.date}}</span>
       </div>
     </div>
+
+    <card style="padding:0" :header="{title:'班级管理菜单'}" v-show="$store.state.role=='老师'">
+      <div slot="content">
+        <cell title="考试列表" is-link @click.native="$router.push('/class/exam')"></cell>
+      </div>
+    </card>
   
     <!--教师列表
   教师端不显示
@@ -110,11 +116,11 @@
 </template>
 
 <script>
-import { Flexbox, FlexboxItem, Card, Popup,Tab, TabItem,Divider } from 'vux'
+import { Flexbox, FlexboxItem, Card, Popup,Tab, TabItem,Divider,Cell } from 'vux'
 
 export default {
   components: {
-    Flexbox, FlexboxItem, Card,Popup, Tab, TabItem,Divider
+    Flexbox, FlexboxItem, Card,Popup, Tab, TabItem,Divider,Cell
   },
   data() {
     return {
