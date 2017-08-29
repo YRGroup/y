@@ -27,7 +27,7 @@
           <span class="time">{{ i.CreateTime }}</span>
           <span class="category" :style="{background:colors['语文']}">{{ i.CourseName }}</span>
         </div>
-        <div class="title">{{i.Title}}</div>
+        <div class="title" @click="$router.push('/class/homework/'+i.HID)">{{i.Title}}</div>
         <div class="content">
           <div @click="$router.push('/class/homework/'+i.HID)">{{i.Content}}</div>
           <div class="img" v-if="i.Albums">
