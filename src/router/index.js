@@ -238,7 +238,7 @@ export default new Router({
           component: studentprofile
         },
         { // 学生成绩报告
-          path: '/student/:currentStudentId/score/:examId',
+          path: '/student/:studentId/score/:examId',
           name: 'score',
           component: score
         },

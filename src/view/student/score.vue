@@ -5,18 +5,18 @@
     <div v-else>
       <div class="header card">
         <p class="title">{{score.ExamName}}</p>
-        <p class="time">2017-5-10</p>
+        <p class="time">{{score.Time}}</p>
       </div>
   
       <div class="main card">
         <div class="total">
           <div class="item">
             <span>名次</span>
-            <span class="num">20</span>
+            <span class="num">{{score.Remark || '暂无'}}</span>
           </div>
           <div class="item">
             <span>总分</span>
-            <span class="num">{{score.Score}}</span>
+            <span class="num">{{score.FullScore}}</span>
           </div>
         </div>
         <ul class="subject">
@@ -34,7 +34,7 @@
   
       <popup v-model="showpopup" width class="popup">
         <div class="content">
-          <li class="card examItem" v-for="(i,index) in exam" :key="index" @click="$router.push('/student/'+$store.state.studentId+'/score/'+i.ExamID),showpopup=false">
+          <li class="card examItem" v-for="(i,index) in exam" :key="index" @click="$router.push('/student/'+$route.params.studentId+'/score/'+i.ExamID),showpopup=false">
             <div class="left">
               <div class="title">{{i.ExamName}} > </div>
               <div class="time">{{i.Time}}</div>
@@ -86,15 +86,9 @@ export default {
         width: '20em'
       })
     }
+    console.log(this.$route)
   },
   watch: {
-    showpopup(val) {
-      if (val) {
-        this.$store.commit('showNav', false)
-      } else {
-        this.$store.commit('showNav', true)
-      }
-    },
     "$route": "getScoreData"
   }
 }
