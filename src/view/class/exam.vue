@@ -1,94 +1,81 @@
 <template>
   <div>
-    <has-no-student v-if="$store.state.hasNoStudent">
-    </has-no-student>
-    <div v-else>
-      <div class="header card">
-        <p class="title">{{score.ExamName}}</p>
-        <p class="time">{{score.Time}}</p>
-      </div>
-  
-      <div class="main card">
-        <div class="total">
-          <div class="item">
-            <span>名次</span>
-            <span class="num">{{score.Remark || '暂无'}}</span>
-          </div>
-          <div class="item">
-            <span>总分</span>
-            <span class="num">{{score.FullScore}}</span>
-          </div>
-        </div>
-        <ul class="subject">
-          <li v-for="(list,index) in score.ScoreInfo" :key="index">
-            <span class="title">{{list.CourseName}}</span>
-            <span class="score">{{list.Score}}</span>
-            <span class="fullScore">/{{list.FullScore}}</span>
-          </li>
-        </ul>
-      </div>
-  
-      <div class="more card" @click="showpopup=true,getExamList()">
-        查看历次成绩 >>>
-      </div>
-  
-      <popup v-model="showpopup" class="popup">
-        <div class="content">
-          <li class="card examItem" v-for="(i,index) in exam" :key="index" @click="$router.push('/student/'+$route.params.studentId+'/score/'+i.ExamID),showpopup=false">
-            <div class="left">
-              <div class="title">{{i.ExamName}} > </div>
-              <div class="time">{{i.Time}}</div>
-            </div>
-            <div class="score">{{i.Score}}分</div>
-          </li>
-        </div>
-      </popup>
+
+    <div class="card">
+      <!-- <cell v-for="(i,index) in examList" :key="index" :title="i.ExamName" :value="i.CreateTime" @click.native="getExamInfo(i.ID)">
+      </cell> -->
+      <cell title="查看考试列表" is-link @click.native="showpopup=true"></cell>
     </div>
-  
+
+    <div class="header card">
+      <p class="title">{{exam.Name}}</p>
+      <p class="time">{{exam.CreateTime}}</p>
+    </div>
+
+    <div class="main card">
+      <ul class="subject">
+        <li v-for="(list,index) in exam.StudentSummary" :key="index" @click="$router.push('/student/'+list.Meid+'/score/'+exam.ExamID)">
+          <span class="title">{{list.TrueName}}</span>
+          <span class="score">{{list.TotalScore}}</span>
+        </li>
+      </ul>
+    </div>
+
+    <popup v-model="showpopup" class="popup">
+      <div class="content">
+        <cell v-for="(i,index) in examList" :key="index" :title="i.ExamName" :value="i.CreateTime" @click.native="getExamInfo(i.ID),showpopup=false">
+        </cell>
+      </div>
+    </popup>
+
   </div>
 </template>
 
 <script>
-import { Popup } from 'vux'
-import hasNoStudent from '@/components/hasNoStudent'
+import { Cell,Popup } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Popup,hasNoStudent
+    Cell,Popup
   },
   data() {
     return {
+      examList: [],
+      exam: {},
       showpopup: false,
-      exam: [],
-      score: {}
+      nodataImg: false
     }
   },
   methods: {
-    getScoreData() {
-      this.$API.getExamScore(this.$route.params.studentId, this.$route.params.examId).then(res => {
-        this.score = res
+    getData() {
+      this.$API.getClassExamList(this.$store.state.currentClassId).then(res => {
+        this.examList = res
+        if (this.examList.length == 0) {
+          this.nodataImg = true
+        }
+        let data = this.examList
+        for (var i = 0; i < data.length; i++) {
+          let time = new Date(data[i].CreateTime)
+          data[i].CreateTime = time.Format('MM-dd hh:mm')
+        }
+        this.getExamInfo(this.examList[0].ID)
       })
     },
-    getExamList() {
-      this.$API.getExamList(this.$route.params.studentId).then(res => {
+    getExamInfo(id) {
+      this.$API.getExamInfo(id).then(res => {
         this.exam = res
+        let data = this.exam
+        let time = new Date(data.CreateTime)
+        data.CreateTime = time.Format('MM-dd hh:mm')
       })
     }
   },
   created() {
-    this.$store.commit('changeTitle', '成绩报告')
-    this.getScoreData()
-    if (this.exam.length === 0) {
-      this.$vux.toast.show({
-        type: "text",
-        text: '暂无考试信息',
-        width: '20em'
-      })
-    }
+    this.$store.commit('changeTitle', '考试列表报告')
+    this.getData()
   },
   watch: {
-    "$route": "getScoreData"
   }
 }
 </script>
@@ -157,12 +144,6 @@ export default {
       }
     }
   }
-}
-
-.more {
-  line-height: 2.5rem;
-  text-align: center;
-  color: @cc2;
 }
 
 .popup {

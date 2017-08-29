@@ -85,6 +85,7 @@ export default {
       let para = {}
       para.currentPage = this.currentPage
       para.pagesize = 10
+      para.student_meid = this.$store.state.currentStudentId
       this.$API.getCardList(para).then(res => {
         if (this.data.Blance == 0) {
           this.data.Blance = res.Blance

@@ -46,7 +46,11 @@ export default {
     getClassInfo(){
       this.$API.getClassInfo(this.$store.state.currentClassId).then(res=>{
         this.classInfo = res
-        this.classInfo.teacherName = res.teacher.TrueName    
+        if(res.teacher){
+          this.classInfo.teacherName = res.teacher.TrueName    
+        }else{
+          this.classInfo.teacherName = '未指定'
+        }
         this.classInfo.classlogo = require('@/assets/face/c.jpeg')         
       })
     }

@@ -91,7 +91,6 @@
           <!--<div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>-->
 
           <div class="more" @click="$router.push('/class/msg/'+item.ID)">
-
             查看详情
           </div>
         </div>

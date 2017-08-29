@@ -34,6 +34,7 @@ import newHomework from '@/view/class/newhomework'
 import kcb from '@/view/class/kcb'
 import newClassPost from '@/view/class/newpost'
 import manage from '@/view/class/manage'
+import exam from '@/view/class/exam'
 
 // 教师
 import teacher from '@/view/teacher/main'
@@ -171,6 +172,10 @@ export default new Router({
             {
               path: 'manage',
               component: manage
+            },
+            {
+              path: 'exam',
+              component: exam
             },
           ]
         },
