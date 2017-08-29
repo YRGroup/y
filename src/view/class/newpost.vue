@@ -78,6 +78,9 @@ export default {
       }
     },
     addNewPost() {
+      if (this.$store.state.role == '家长' && this.$store.state.currentStudentId != null) {
+        this.data.student_meid = this.$store.state.currentStudentId
+      }
       this.data.cid = this.$store.state.currentClassId
       this.data['img_url_list'] = this.fileList.join(',')
       if (this.data.type != null && this.data.content != '') {

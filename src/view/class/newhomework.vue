@@ -2,7 +2,7 @@
   <div class="hello">
   
     <group title="发布新的班级作业" labelWidth="6em">
-      <x-input title="科目："  v-model="course" :disabled="true"></x-input>
+      <cell title="科目："  v-model="course"></cell>
       <x-input title="标题：" placeholder="请输入标题" v-model="newHomeworkData.title" show-clear></x-input>
       
       <!-- <vue-html5-editor class="needsclick" :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor> -->
