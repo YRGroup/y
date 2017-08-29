@@ -7,7 +7,7 @@
         <p class="title">{{score.ExamName}}</p>
         <p class="time">{{score.Time}}</p>
       </div>
-  
+
       <div class="main card">
         <div class="total">
           <div class="item">
@@ -27,11 +27,11 @@
           </li>
         </ul>
       </div>
-  
+
       <div class="more card" @click="showpopup=true,getExamList()">
         查看历次成绩 >>>
       </div>
-  
+
       <popup v-model="showpopup" class="popup">
         <div class="content">
           <li class="card examItem" v-for="(i,index) in exam" :key="index" @click="$router.push('/student/'+$route.params.studentId+'/score/'+i.ExamID),showpopup=false">
@@ -44,7 +44,7 @@
         </div>
       </popup>
     </div>
-  
+
   </div>
 </template>
 
@@ -55,7 +55,7 @@ import hasNoStudent from '@/components/hasNoStudent'
 export default {
   name: 'hello',
   components: {
-    Popup,hasNoStudent
+    Popup, hasNoStudent
   },
   data() {
     return {
@@ -73,19 +73,19 @@ export default {
     getExamList() {
       this.$API.getExamList(this.$route.params.studentId).then(res => {
         this.exam = res
+        if (res.length === 0) {
+          this.$vux.toast.show({
+            type: "text",
+            text: '暂无考试信息',
+            width: '20em'
+          })
+        }
       })
     }
   },
   created() {
     this.$store.commit('changeTitle', '成绩报告')
     this.getScoreData()
-    if (this.exam.length === 0) {
-      this.$vux.toast.show({
-        type: "text",
-        text: '暂无考试信息',
-        width: '20em'
-      })
-    }
   },
   watch: {
     "$route": "getScoreData"
