@@ -8,7 +8,7 @@
   
       <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
-          <input type="file" accept="image/jpeg,image/png" multiple="multiple" id="imgFiles" @change="addImg"> 点击这里上传图片
+          <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg"> 点击这里上传图片
         </a>
         <div class="imgPreviewContainer">
           <div class="imgPreview" v-for="(i,index) in fileList" :key="index">

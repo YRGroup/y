@@ -14,7 +14,7 @@
       </cell>
       <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
-          <input type="file" accept="image/jpeg,image/png" ref="headImg" @change="addHeadImg"> 选择新头像
+          <input type="file" accept="image/*" ref="headImg" @change="addHeadImg"> 选择新头像
         </a>
       </div>
     </group>
@@ -45,7 +45,7 @@
         </cell>
         <div class="file" style="text-align:center">
           <a href="javascript:;" class="a-upload">
-            <input type="file" accept="image/jpeg,image/png" :ref="'honor'+index" @change="addImg(index)"> 选择图片
+            <input type="file" accept="image/*" :ref="'honor'+index" @change="addImg(index)"> 选择图片
           </a>
         </div>
         <x-input title="描述" v-model="i.Description"></x-input>

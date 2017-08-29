@@ -66,7 +66,7 @@
         <div class="face">
           <div class="headImg">
             <a href="javascript:;" class="a-upload">
-              <input type="file" ref="headImg" accept="image/jpeg,image/png" @change="addImg">
+              <input type="file" ref="headImg" accept="image/*" @change="addImg">
               <span v-show="!headImg">选择头像</span>
               <span v-show="headImg">修改头像</span>
             </a>
