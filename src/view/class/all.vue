@@ -15,18 +15,14 @@
       </div>
     </div>
 
-    <card style="padding:0" :header="{title:'班级管理菜单'}" v-show="$store.state.role=='老师'">
+    <!-- <card style="padding:0" :header="{title:'班级管理菜单'}" v-show="$store.state.role=='老师'">
       <div slot="content">
         <cell title="考试列表" is-link @click.native="$router.push('/class/exam')"></cell>
       </div>
-    </card>
+    </card> -->
   
-    <!--教师列表
-  教师端不显示
-  家长端显示
-  -->
 
-      <div class="teacherListBox">
+      <div class="teacherListBox" v-show="this.teachers.length">
         <div class="box-item" v-for="(item,index) in teachers" :key="index" @click="$router.push('/teacher/'+item.Meid)">
           <img :src="item.Headimgurl">
           <div class="name">{{ item.TrueName ||'&nbsp;' }}</div>
@@ -236,9 +232,9 @@ export default {
   created() {
     this.$store.commit('changeTitle', '班级动态')
     this.getAllClassDynamic()
-    // if(!this.teachers.length){
-    //   this.getTeacherList()
-    // }
+    if(!this.teachers.length){
+      this.getTeacherList()
+    }
     // if(!this.notice.length){
     //   this.getNotice()
     // }
@@ -381,8 +377,5 @@ export default {
 .popup{
   text-align: center;
   padding:1rem;
-  img{
-    max-width: 90%;
-  }
 }
 </style>

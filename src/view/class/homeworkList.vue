@@ -1,10 +1,10 @@
 <template>
   <div class="work">
-  
+
     <div class="addbtn" v-show="$store.state.role == '老师'">
       <x-button class="" mini @click.native="$router.push('/class/newhomework')" type="primary" plain>发布新作业</x-button>
     </div>
-  
+
     <popup v-model="newHomework" height="310px" is-transparent>
       <div class="popup">
         <group>
@@ -18,7 +18,7 @@
       </div>
     </popup>
     <group v-if="nodataImg">
-      <no-data ></no-data>
+      <no-data></no-data>
     </group>
     <div v-else>
       <div class="workcard" v-for="(i,index) in homework" :key="index">
@@ -31,15 +31,20 @@
         <div class="content">
           <div @click="$router.push('/class/homework/'+i.HID)">{{i.Content}}</div>
           <div class="img" v-if="i.Albums">
-            <img :src="imgurl" v-for="(imgurl,index) in i.Albums" :key="index">
+            <img :src="imgurl" v-for="(imgurl,index) in i.Albums" :key="index" @click="imgPopup(imgurl)">
           </div>
         </div>
         <!-- <div class="footer">{{ i.CreateTime }}</div> -->
       </div>
       <divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>
-      <divider v-show="noMoreData"  class="noMoreData">没有更多数据</divider>
+      <divider v-show="noMoreData" class="noMoreData">没有更多数据</divider>
+      <popup v-model="showImgPopup" is-transparent>
+        <div class="popup" @click="showImgPopup=false">
+          <img :src="popupImgUrl">
+        </div>
+      </popup>
     </div>
-  
+
   </div>
 </template>
 
@@ -57,6 +62,7 @@ export default {
   },
   data() {
     return {
+      showImgPopup: false,
       nodataImg: false,
       newHomework: false,
       newHomeworkData: {},
@@ -100,6 +106,10 @@ export default {
         text: msg
       })
     },
+    imgPopup(val) {
+      this.popupImgUrl = val
+      this.showImgPopup = true
+    },
     getHomeWork() {
       let para = {}
       para.cid = this.$store.state.currentClassId
@@ -110,9 +120,9 @@ export default {
           res.forEach((element) => {
             this.homework.push(element)
           })
-        }else if(!res.length && this.currentPage == 1){
+        } else if (!res.length && this.currentPage == 1) {
           this.nodataImg = true
-        }else if(!res.length && this.currentPage != 1) {
+        } else if (!res.length && this.currentPage != 1) {
           this.noMoreData = true
         }
         this.boxwid = res.length * 100 + 'px'
@@ -170,10 +180,8 @@ export default {
     }
     .auther {
       // float:right;
-      padding-right: 1rem;
-      color: @cc2;
-      font-size: 1.2em;
-      margin: 3px 0 0 10px;
+      padding-right: 1rem; // color: @cc2;
+      font-size: 1.2em; // margin: 3px 0 0 10px;
     }
     .time {
       // float: right;
@@ -190,9 +198,9 @@ export default {
       // width: 100%;
       // height:100px;
       img {
-        margin: 5%;
-        max-height: 100px;
-        max-width: 100px;
+        margin: 10px;
+        max-height: 80px;
+        max-width: 80px;
       }
     }
   }

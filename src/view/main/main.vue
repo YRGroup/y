@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-  
+
     <div class="follow" v-if="followWeixin">
       <span class="tips">
         <i class="iconfont">&#xe620;</i>
@@ -9,10 +9,10 @@
       <div class="followbtn" @click="showWX=true">
         <i class="iconfont">&#xe61f;</i>关注</div>
     </div>
-  
+
     <!--轮播图-->
     <swiper loop auto :list="swiperdate" class="bannerPic"></swiper>
-  
+
     <!--功能导航-->
     <flexbox wrap="wrap" :gutter="0">
       <flexbox-item :span="4">
@@ -31,6 +31,14 @@
           <span>成绩报告</span>
         </router-link>
       </flexbox-item>
+      <flexbox-item :span="4" v-show="$store.state.role=='老师'">
+        <router-link :to="'/class/exam'">
+          <div style="background:#fbc700">
+            <i class="iconfont">&#xe601;</i>
+          </div>
+          <span>班级成绩</span>
+        </router-link>
+      </flexbox-item>
       <flexbox-item :span="4">
         <router-link :to="'/addon/schoolcard'">
           <div style="background:#0ab9f7">
@@ -39,7 +47,7 @@
           <span>一卡通</span>
         </router-link>
       </flexbox-item>
-      
+
       <flexbox-item :span="4">
         <router-link to="/school">
           <div style="background:#8dc62c">
@@ -49,19 +57,19 @@
         </router-link>
       </flexbox-item>
       <flexbox-item :span="4" @click.native="fun('开发中，敬请期待~')">
-          <div style="background:#ff5498">
-            <i class="iconfont">&#xe604;</i>
-          </div>
-          <span>课程表</span>
+        <div style="background:#ff5498">
+          <i class="iconfont">&#xe604;</i>
+        </div>
+        <span>课程表</span>
       </flexbox-item>
       <flexbox-item :span="4" @click.native="fun('开发中，敬请期待~')">
-          <div style="background:#ab79d9">
-            <i class="iconfont">&#xe604;</i>
-          </div>
-          <span>更多</span>
+        <div style="background:#ab79d9">
+          <i class="iconfont">&#xe604;</i>
+        </div>
+        <span>更多</span>
       </flexbox-item>
     </flexbox>
-  
+
     <div class="newsCard">
       <tab :line-width="2">
         <tab-item selected @on-item-click="handleSwitchTab">校园新闻</tab-item>
@@ -109,9 +117,9 @@
           </div>
         </div>
       </div>
-  
+
     </div>
-  
+
     <x-dialog v-model="showWX" class="wxDialog">
       <div class="close" @click="showWX=false">
         <span>X</span>
@@ -134,7 +142,7 @@ import { Swiper, Flexbox, FlexboxItem, XButton, Popup, Tab, TabItem, XDialog } f
 export default {
   name: 'hello',
   components: {
-    Swiper, Flexbox, FlexboxItem, XButton, Popup, Tab, TabItem, XDialog ,noData
+    Swiper, Flexbox, FlexboxItem, XButton, Popup, Tab, TabItem, XDialog, noData
   },
   data() {
     return {
@@ -162,16 +170,16 @@ export default {
       page: 1,
       publicImg: require('@/assets/publicImg.png'),
       tabindex: '1',
-      currentPage:1,
-      QRcodeIMG:'',
+      currentPage: 1,
+      QRcodeIMG: '',
       showWX: false
     }
   },
-  computed:{
-    followWeixin(){
-      if(this.$store.getters.isWeixin){
+  computed: {
+    followWeixin() {
+      if (this.$store.getters.isWeixin) {
         return true
-      }else {
+      } else {
         return false
       }
     }
@@ -194,7 +202,7 @@ export default {
       this.$API.getNewsList(para).then(res => {
         if (this.data.length == 0 && this.page == 1) {
           this.nodataImg = true
-        }else{
+        } else {
           this.newsList = res
         }
       })
@@ -240,7 +248,7 @@ export default {
         this.data = res
       })
     },
-    getWXQRcode(){
+    getWXQRcode() {
       this.QRcodeIMG = this.$API.getWXQRcode()
     },
     changeNum1() {
@@ -260,7 +268,7 @@ export default {
   },
   mounted() {
 
-}
+  }
 }
 </script>
 
@@ -271,8 +279,7 @@ export default {
   background-color: white;
   height: 100%;
   .vux-flexbox-item {
-    cursor: pointer;
-    // margin: 0.5em 0;
+    cursor: pointer; // margin: 0.5em 0;
     div {
       border-radius: 50%;
       margin: 1em auto 0 auto;
@@ -376,13 +383,13 @@ export default {
   margin-top: 15px;
   background: #fff;
   .card {
-    margin:0 10px;
-    padding:15px 15px 15px 130px;;
+    margin: 0 10px;
+    padding: 15px 15px 15px 130px;
+    ;
     border-bottom: 1px dashed @cc4;
     overflow: hidden;
     position: relative;
-    height: 72px;
-    // min-height: 80px;
+    height: 72px; // min-height: 80px;
     .img {
       position: absolute;
       top: 15px;
@@ -447,9 +454,10 @@ export default {
     line-height: 3rem;
   }
 }
-.bannerPic{
-  .vux-swiper{
-    img{
+
+.bannerPic {
+  .vux-swiper {
+    img {
       min-width: 50%;
     }
   }
