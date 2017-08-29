@@ -236,9 +236,9 @@ export default {
   created() {
     this.$store.commit('changeTitle', '班级动态')
     this.getAllClassDynamic()
-    // if(!this.teachers.length){
-    //   this.getTeacherList()
-    // }
+    if(!this.teachers.length){
+      this.getTeacherList()
+    }
     // if(!this.notice.length){
     //   this.getNotice()
     // }
