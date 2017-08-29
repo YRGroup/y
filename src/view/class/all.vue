@@ -376,5 +376,8 @@ export default {
 .popup{
   text-align: center;
   padding:1rem;
+  img{
+    max-width: 90%;
+  }
 }
 </style>
