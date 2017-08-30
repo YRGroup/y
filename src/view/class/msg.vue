@@ -99,7 +99,7 @@ export default {
       replyData.did = this.commentId
       replyData.content = this.replymsg
       if (this.$store.state.role == '家长' && this.$store.state.currentStudentId != null) {
-        this.replyData.student_meid = this.$store.state.currentStudentId
+        replyData.student_meid = this.$store.state.currentStudentId
       }
       if (replyData.content != '') {
         this.$API.postNewComment(replyData).then(res => {
