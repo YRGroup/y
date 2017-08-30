@@ -96,6 +96,7 @@ export default {
       pageSize: 10,
       currentPage: 1,
       noMoreData: false,
+      popupImgUrl:''
     }
   },
   methods: {
@@ -213,9 +214,9 @@ export default {
 .popup {
   width: 95%;
   background-color: #fff;
-  height: 290px;
   margin: 0 auto;
   border-radius: 5px;
   padding-top: 10px;
+  text-align: center;
 }
 </style>

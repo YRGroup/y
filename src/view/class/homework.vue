@@ -10,11 +10,17 @@
       <div class="content">
         <div>{{homework.Content}}</div>
         <div class="img" v-if="homework.Albums">
-          <img :src="imgurl" v-for="(imgurl,index) in homework.Albums" :key="index">
+          <img :src="imgurl" v-for="(imgurl,index) in homework.Albums" :key="index" @click="imgPopup(imgurl)">
         </div>
       </div>
       <div class="footer">{{ homework.CreateTime }}</div>
     </div>
+
+    <popup v-model="showImgPopup" is-transparent>
+        <div class="popup" @click="showImgPopup=false">
+          <img :src="popupImgUrl">
+        </div>
+      </popup>
 
   </div>
 </template>
@@ -60,7 +66,9 @@ export default {
         '美术': '#1abc9c',
         '体育': '#2ecc71'
       },
-      homework: {}
+      homework: {},
+      showImgPopup: false,
+      popupImgUrl:''
     }
   },
   methods: {
@@ -70,6 +78,10 @@ export default {
         width: "20em",
         text: msg
       })
+    },
+    imgPopup(val) {
+      this.popupImgUrl = val
+      this.showImgPopup = true
     },
     getHomeWork() {
       this.$API.getHomework(this.$route.params.homeworkId).then(res => {
@@ -149,9 +161,9 @@ export default {
 .popup {
   width: 95%;
   background-color: #fff;
-  height: 290px;
   margin: 0 auto;
   border-radius: 5px;
   padding-top: 10px;
+  text-align: center;
 }
 </style>
