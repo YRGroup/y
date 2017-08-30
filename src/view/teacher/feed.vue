@@ -4,7 +4,6 @@
     <div class="hasNoData" v-if="!data.length">
       <icon type="safe_warn" is-msg></icon>
       <p>当前用户还没有发布过的动态</p>
-      <x-button>给ta发条私信</x-button>
     </div>
 
     <div v-else>
