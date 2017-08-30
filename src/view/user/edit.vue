@@ -21,8 +21,8 @@
 
     <div v-if="$store.state.role=='老师'">
       <group title="教师资料：">
-        <x-input title="民族" v-model="data.Volk" text-align="right"></x-input>
-        <x-input title="政治面貌" v-model="data.PoliticalStatus" text-align="right"></x-input>
+        <selector title="民族" :options="$store.state.nationList" v-model="data.Volk"></selector>
+        <selector title="政治面貌" :options="$store.state.politicalList" v-model="data.PoliticalStatus"></selector>
         <x-input title="教龄" v-model="data.SchoolAge" text-align="right"></x-input>
         <x-input title="职称" v-model="data.Title" text-align="right"></x-input>
         <cell title="当前学科" v-model="data.Course"></cell>
