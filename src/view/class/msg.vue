@@ -10,6 +10,9 @@
       </div>
       <div slot="content" class="content">
         <pre>{{data.content}}</pre>
+        <div class="img" v-if="data.albums.length!=0">
+          <img @click="imgPopup(imgurl)" :src="imgurl"  v-for="(imgurl,index) in data.albums" :key="index">
+        </div>
       </div>
     </card>
   
@@ -38,6 +41,12 @@
         </div>
       </div>
     </popup>
+
+    <popup v-model="showImgPopup" is-transparent>
+      <div class="popup" @click="showImgPopup=false">
+        <img :src="popupImgUrl" >
+      </div>
+    </popup>
   
   </div>
 </template>
@@ -53,6 +62,8 @@ export default {
     return {
       showpopup: false,
       replymsg: '',
+      showImgPopup:false,
+      popupImgUrl:'',
       commentId: '',
       content:'',
       commentLength: 0,
@@ -69,6 +80,10 @@ export default {
         text: msg
       })
     },
+    imgPopup(val){
+      this.popupImgUrl=val
+      this.showImgPopup=true
+    },
     getData() {
       this.$API.getClassDynamic(this.$store.state.currentClassId, this.$route.params.msgId).then(res => {
         this.data = res
@@ -83,6 +98,9 @@ export default {
       let replyData = {}
       replyData.did = this.commentId
       replyData.content = this.replymsg
+      if (this.$store.state.role == '家长' && this.$store.state.currentStudentId != null) {
+        this.replyData.student_meid = this.$store.state.currentStudentId
+      }
       if (replyData.content != '') {
         this.$API.postNewComment(replyData).then(res => {
           this.getData()
