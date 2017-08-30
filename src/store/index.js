@@ -85,6 +85,11 @@ const store = new Vuex.Store({
         }
       }
 
+      if (val.Role == '学生') {
+        state.currentClassId = val.ExtendInfo.ClassID
+        state.currentStudentId = val.Meid
+      }
+
       if (val.Role == '老师') {
         if (val.ExtendInfo) {
           if (val.ExtendInfo.Classes.length != 0) {
