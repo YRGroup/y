@@ -10,7 +10,7 @@
       </div>
       <div class="attachs">
         <ul class="attach">
-          <li v-for="(i,index) in data.Attachs">
+          <li v-for="(i,index) in data.Attachs" :key="index">
             <a :href="[i.FilePath]" target="_blank">{{i.FileName}}</a>
           </li>
         </ul>
