@@ -6,6 +6,7 @@
       <x-input title="姓名" v-model="data.TrueName" text-align="right" placeholder="请输入姓名"></x-input>
       <x-input title="身份证" v-model="data.IDCard" text-align="right" placeholder="请输入身份证"></x-input>
       <checker class="checker" v-model="data.Sex" default-item-class="checker-item" selected-item-class="checker-item-selected">
+        <div class="title">性别</div>
         <checker-item value="男">男</checker-item>
         <checker-item value="女">女</checker-item>
       </checker>
@@ -67,6 +68,7 @@
         <cell title="姓名" v-model="studentData.TrueName" text-align="right" placeholder="请在此填上新内容"></cell>
         <cell title="学号" v-model="studentData.StudentID" text-align="right" placeholder="请在此填上新内容"></cell>
         <checker class="checker" v-model="studentData.Sex" default-item-class="checker-item" selected-item-class="checker-item-selected">
+          <div class="title">性别</div>
           <checker-item value="男">男</checker-item>
           <checker-item value="女">女</checker-item>
         </checker>
@@ -127,7 +129,7 @@ export default {
           } else {
             this.noStudent = false
             this.$API.getStudentInfo(this.$store.state.currentStudentId).then(res => {
-              this.studentData=res.user
+              this.studentData = res.user
             })
           }
         })
@@ -247,9 +249,15 @@ export default {
 
 .checker {
   text-align: center;
+  border-top: 1px solid @cc4;
+  margin-left:1rem;
+  padding:.5rem 0;
+  .title{
+    float: left;
+  }
   .checker-item {
-    border: 1px solid @c2;
-    padding: 5px 15px;
+    border: 1px solid @cc4;
+    padding: 0 7px;
     width: 35px;
     border-radius: 15px;
     margin: 0 15px;
