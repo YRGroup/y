@@ -122,7 +122,7 @@
 
     <x-dialog v-model="showWX" class="wxDialog">
       <div class="close" @click="showWX=false">
-        <span>X</span>
+        <span><i class="iconfont">&#xe641;</i></span>
       </div>
       <div>
         <p class="main">长按识别二维码</p>
@@ -443,6 +443,7 @@ export default {
     position: absolute;
     right: 1rem;
     top: .5rem;
+    font-size: 1.2rem;
     cursor: pointer;
     &:hover {
       color: red;

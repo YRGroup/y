@@ -6,12 +6,13 @@
 
     <div v-else>
       <div class="class-header">
-        <img :src="classInfo.classlogo||'/static/img/c.b22e462.jpeg'">
+        <img :src="classPic">
+        <!-- <img :src="classInfo.classlogo||'/static/img/c.b22e462.jpeg'"> -->
         <span class="name">{{ classInfo.name }}</span>
         <span class="teacher">班主任：{{ classInfo.teacherName||'未指定' }}</span>
         <span class="count">人数：{{ classInfo.student_count }}</span>
-        <div class="addbtn1" @click="$router.push('/class/new')"><i class="iconfont">&#xe606;</i>发布</div>
-        <div class="addbtn2" @click="$router.push('/class/manage')"><i class="iconfont">&#xe832;</i>管理</div>
+        <div class="addbtn1" @click="$router.push('/class/new')"><i class="iconfont">&#xe606;</i>发动态</div>
+        <!-- <div class="addbtn2" @click="$router.push('/class/manage')"><i class="iconfont">&#xe832;</i>管理</div> -->
       </div>
 
       <transition name="slide-fade">
@@ -35,6 +36,7 @@ export default {
     return {
       classInfo:{},
       showAddStudent:false,
+      classPic: require('@/assets/class.png'),
     }
   },
   computed:{
@@ -103,10 +105,11 @@ export default {
   }
   .addbtn1{
     position: absolute;
-    top:1rem;
+    top:2rem;
     right:0;
-    background: rgba(255,255,255,0.3);
+    background:#ffb260;
     padding:0 .2em;
+    line-height: 2em;
     border-radius: 20px 0 0 20px;
     cursor: pointer;
     .iconfont{
@@ -120,7 +123,8 @@ export default {
     position: absolute;
     top:3.4rem;
     right:0;
-    background: rgba(255,255,255,0.3);
+    background:#ffb260;
+    // background: rgba(255,255,255,0.3);
     padding:0 .2em;
     border-radius: 20px 0 0 20px;
     cursor: pointer;
