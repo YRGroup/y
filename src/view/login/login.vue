@@ -66,11 +66,11 @@
 </template>
 
 <script>
-import { XButton, XInput, Group,Checker, CheckerItem } from 'vux'
+import { XButton, XInput, Group, Checker, CheckerItem } from 'vux'
 
 export default {
   components: {
-    XButton, XInput, Group,Checker, CheckerItem
+    XButton, XInput, Group, Checker, CheckerItem
   },
   data() {
     return {
@@ -211,6 +211,24 @@ export default {
           text: '密码不能小于6位',
           width: "20em"
         })
+      } else if (this.parent_unActived) {
+        if (this.parentName == '' || this.parentType == '') {
+          this.$vux.toast.show({
+            type: "warn",
+            text: '家长资料不完整',
+            width: "20em"
+          })
+        } else {
+          loginData.parent_truename = this.parentName
+          loginData.parent_type = this.parentType
+          this.$API.loginBySms(loginData).then(res => this.loginOK(res)).catch(err => {
+            this.$vux.toast.show({
+              type: "warn",
+              text: err.msg,
+              width: "20em"
+            })
+          })
+        }
       } else {
         this.$API.loginBySms(loginData).then(res => this.loginOK(res)).catch(err => {
           this.$vux.toast.show({
