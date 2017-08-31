@@ -26,7 +26,6 @@
         <x-input title="教龄" v-model="data.SchoolAge" text-align="right"></x-input>
         <x-input title="职称" v-model="data.Title" text-align="right"></x-input>
         <cell title="当前学科" v-model="data.Course"></cell>
-        <!-- <selector title="修改学科" v-model="data.Course" :options="courseList" text-align="right"></selector> -->
       </group>
 
       <group :title="'教学经历'+(index+1)+'：'" v-for="(i,index) in data.TeachExperience" :key="index">
@@ -36,8 +35,6 @@
         <datetime v-model="i.EndTime" title="选择结束时间"></datetime>
         <cell title="删除此条教学经历" is-link @click.native="data.TeachExperience.splice(index,1)"></cell>
       </group>
-
-      
 
       <group :title="'个人荣誉'+(index+1)+'：'" v-for="(i,index) in data.PersonalHonor" :key="index">
         <cell title="图片">
@@ -66,29 +63,17 @@
     </div>
 
     <div v-if="!$store.state.hasNoStudent">
-      <group title="学生资料：" v-for="(i,index) in allStudentData" :key="index">
-        <cell title="姓名" v-model="i.TrueName" text-align="right" placeholder="请在此填上新内容"></cell>
-        <cell title="性别" v-model="i.Sex" text-align="right" placeholder="请在此填上新内容"></cell>
-        <cell title="学号" v-model="i.StudentID" text-align="right" placeholder="请在此填上新内容"></cell>
-        <cell title="年龄" v-model="i.Age" text-align="right" placeholder="请在此填上新内容"></cell>
-        <cell title="家庭住址" v-model="i.Add" text-align="right" placeholder="请在此填上新内容"></cell>
-        <cell title="头像" text-align="right" placeholder="请在此填上新内容">
-          <img class="headImg" :src="i.Headimgurl" slot="default">
-        </cell>
+      <group title="学生资料：">
+        <cell title="姓名" v-model="studentData.TrueName" text-align="right" placeholder="请在此填上新内容"></cell>
+        <cell title="学号" v-model="studentData.StudentID" text-align="right" placeholder="请在此填上新内容"></cell>
+        <checker class="checker" v-model="studentData.Sex" default-item-class="checker-item" selected-item-class="checker-item-selected">
+          <checker-item value="男">男</checker-item>
+          <checker-item value="女">女</checker-item>
+        </checker>
+        <x-input title="籍贯" v-model="studentData.Address" text-align="right" placeholder="请在此填上新内容"></x-input>
+        <selector title="民族" :options="$store.state.nationList" v-model="studentData.Volk"></selector>
       </group>
     </div>
-
-    <popup v-model="addStudentPopup" is-transparent>
-      <div class="popup">
-        <group title="添加学生">
-          <x-input title="学生ID" v-model="addStudentData.student_meid" text-align="right" placeholder="请在此填上学生ID"></x-input>
-          <selector title="title" :options="parentTypeList" v-model="addStudentData.type"></selector>
-        </group>
-        <group class="btn">
-          <x-button type="primary" @click.native="addStudent">提交修改</x-button>
-        </group>
-      </div>
-    </popup>
 
     <group class="btn">
       <x-button type="primary" @click.native="submitChange">保存</x-button>
@@ -98,16 +83,15 @@
 </template>
 
 <script>
-import { Group, Cell, XButton, XInput, Popup, Selector, Checker, CheckerItem, Datetime, Flexbox, FlexboxItem } from 'vux'
+import { Group, Cell, XButton, XInput, Selector, Checker, CheckerItem, Datetime, Flexbox, FlexboxItem } from 'vux'
 
 export default {
   name: 'edit',
   components: {
-    Group, Cell, XButton, XInput, Popup, Selector, Checker, CheckerItem, Datetime, Flexbox, FlexboxItem
+    Group, Cell, XButton, XInput, Selector, Checker, CheckerItem, Datetime, Flexbox, FlexboxItem
   },
   data() {
     return {
-      addStudentPopup: false,
       parentTypeList: [
         { key: 1, value: '爸爸' },
         { key: 2, value: '妈妈' },
@@ -115,7 +99,7 @@ export default {
         { key: 4, value: '奶奶' }
       ],
       addStudentData: {},
-      allStudentData: [],
+      studentData: {},
       courseList: [
         '语文', '数学', '英语', '物理', '化学', '历史', '政治', '地理',
         '音乐', '美术', '体育'
@@ -135,19 +119,19 @@ export default {
         this.$API.getTeacherInfo(this.$store.state.currentUserId).then(res => {
           this.data = res
         })
+      } else {
+        this.$API.getCurrentUser().then(res => {
+          this.data = res
+          if (this.data.ExtendInfo.Students.length == 0) {
+            this.noStudent = true
+          } else {
+            this.noStudent = false
+            this.$API.getStudentInfo(this.$store.state.currentStudentId).then(res => {
+              this.studentData=res.user
+            })
+          }
+        })
       }
-      // this.$API.getCurrentUser().then(res => {
-      //   this.data = res
-      //   if (this.data.ExtendInfo.Students.length == 0) {
-      //     this.noStudent = true
-      //   } else {
-      //     this.noStudent = false
-      //     let num = this.data.ExtendInfo.Students.length
-      //     for (let i = 0; i < num; i++) {
-      //       this.allStudentData.push(res.ExtendInfo.Students[i])
-      //     }
-      //   }
-      // })
     },
     addHeadImg() {
       let files = this.$refs.headImg.files
@@ -266,7 +250,9 @@ export default {
   .checker-item {
     border: 1px solid @c2;
     padding: 5px 15px;
-    width: 40%;
+    width: 35px;
+    border-radius: 15px;
+    margin: 0 15px;
   }
   .checker-item-selected {
     border: 1px solid @c6;
