@@ -187,14 +187,6 @@ export default {
     }
   },
   methods: {
-    fun(msg) {
-      this.$vux.toast.show({
-        type: "text",
-        width: "20em",
-        text: msg,
-        show: true,
-      })
-    },
     getNewsList() {
       let para = {
         category: 1,
@@ -202,10 +194,10 @@ export default {
         pagesize: 10,
       }
       this.$API.getNewsList(para).then(res => {
-        if (this.data.length == 0 && this.page == 1) {
+        if (this.res.length == 0 && this.page == 1) {
           this.nodataImg = true
         } else {
-          this.newsList = res
+          this.data = res
         }
       })
     },
@@ -239,7 +231,6 @@ export default {
       this.getData()
     },
     getData() {
-
       let para = {
         category: this.tabindex,
         currentPage: this.page,
