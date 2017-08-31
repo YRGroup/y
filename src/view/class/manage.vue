@@ -7,7 +7,8 @@
       <x-input title="班级" v-model="data.name" text-align="right"></x-input>
       <cell title="班主任" v-model="data.teacher.TrueName" text-align="right"></cell>
       <cell title="班级logo" text-align="right" class="greatPic">
-        <img :src="data.classlogo||'/static/img/c.b22e462.jpeg'">
+        <img :src="classPic">
+        <!-- <img :src="data.classlogo||'/static/img/c.b22e462.jpeg'"> -->
       </cell>
     </group>
     <!-- <group title="班级成员管理">
@@ -62,7 +63,8 @@ export default {
         phone:'',
         // password:'',
         course_name:'',
-        role:'3'
+        role:'3',
+        classPic: require('@/assets/class.png'),
       },
       courseList: [
         {key:'语文',value:'语文'},
