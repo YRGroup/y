@@ -24,16 +24,32 @@
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe6ec;</i>
         </span>
-        <x-button slot="right" type="primary" mini  @click.native="getSms" v-show="step>=2" :disabled="getsmsCount!=0">
+        <x-button slot="right" type="primary" mini @click.native="getSms" v-show="step>=2" :disabled="getsmsCount!=0">
           <span v-show="step==2">获取验证码</span>
           <span v-show="step==3">{{getsmsCount!=0?(getsmsCount+'s后重新获取'):'重新获取'}}</span>
         </x-button>
       </x-input>
-      <x-input title="密码：" placeholder="请设置初始密码" type="text" v-model="newPWd" v-show="unActived">
-        <span slot="label" class="loginIcon">
-          <i class="iconfont">&#xe6ec;</i>
-        </span>
-      </x-input>
+      <div v-show="unActived">
+        <x-input title="密码：" placeholder="请设置初始密码" type="text" v-model="newPWd">
+          <span slot="label" class="loginIcon">
+            <i class="iconfont">&#xe6ec;</i>
+          </span>
+        </x-input>
+        <div v-show="parent_unActived">
+          <x-input title="家长姓名：" placeholder="请输入家长姓名" type="text" v-model="parentName">
+            <span slot="label" class="loginIcon">
+              <i class="iconfont">&#xe6ec;</i>
+            </span>
+          </x-input>
+          <checker class="checker" v-model="parentType" default-item-class="checker-item" selected-item-class="checker-item-selected">
+            <div class="title">身份</div>
+            <checker-item value="1">爸爸</checker-item>
+            <checker-item value="2">妈妈</checker-item>
+            <checker-item value="3">爷爷</checker-item>
+            <checker-item value="4">奶奶</checker-item>
+          </checker>
+        </div>
+      </div>
     </group>
     </br>
     <div style="padding:0 20px" class="loginBtn">
@@ -41,31 +57,30 @@
         <div @click="step=2">忘记密码？使用短信验证码登陆</div>
       </div>
       <x-button type="primary" @click.native="verifyAccount" v-show="step==0">下一步</x-button>
-      <!-- <x-button type="primary" @click.native="getSms" v-show="step>=2" :disabled="getsmsCount!=0">
-        <span v-show="step==2">获取短信验证码</span>
-        <span v-show="step==3">{{getsmsCount!=0?(getsmsCount+'s后重新获取短信验证码'):'重新获取短信验证码'}}</span>
-      </x-button> -->
       <x-button type="primary" @click.native="login" v-show="step==1 || step==3">登录</x-button>
 
       <div class="regBtn" @click="$router.push('/reg')">我是家长，还没有帐号？点击注册</div>
     </div>
-  
+
   </div>
 </template>
 
 <script>
-import { XButton, XInput, Group } from 'vux'
+import { XButton, XInput, Group,Checker, CheckerItem } from 'vux'
 
 export default {
   components: {
-    XButton, XInput, Group
+    XButton, XInput, Group,Checker, CheckerItem
   },
   data() {
     return {
       tel: '',
       pw: '',
       sms: '',
+      parentName: '',
+      parentType: '',
       unActived: false,
+      parent_unActived: false,
       newPWd: '',
       getsmsCount: 0,
       step: 0
@@ -130,6 +145,10 @@ export default {
           } else if (res.Msg == "unActived") {
             this.step = 2
             this.unActived = true
+          } else if (res.Msg == "unActived") {
+            this.step = 2
+            this.unActived = true
+            this.parent_unActived = true
           } else {
             this.$vux.toast.show({
               type: "warn",
@@ -276,6 +295,28 @@ export default {
         border: none;
       }
     }
+  }
+}
+
+.checker {
+  text-align: center;
+  border-top: 1px solid @cc4;
+  margin-left: 1rem;
+  padding: .5rem 0;
+  .title {
+    float: left;
+  }
+  .checker-item {
+    border: 1px solid @cc4;
+    padding: 0 7px;
+    width: 35px;
+    border-radius: 15px;
+    margin: 0 15px;
+  }
+  .checker-item-selected {
+    border: 1px solid @c6;
+    background: @c6;
+    color: #fff;
   }
 }
 
