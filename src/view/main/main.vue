@@ -177,7 +177,7 @@ export default {
   },
   computed: {
     followWeixin() {
-      if (this.$store.getters.isWeixin) {
+      if (this.$store.getters.isWeixin && this.$store.state.currentUser && !this.$store.state.currentUser.IsSubscribe) {
         return true
       } else {
         return false
