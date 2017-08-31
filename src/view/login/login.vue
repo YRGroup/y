@@ -145,11 +145,12 @@ export default {
           } else if (res.Msg == "unActived") {
             this.step = 2
             this.unActived = true
-          } else if (res.Msg == "unActived") {
+          } else if (res.Msg == "parent_unActived") {
             this.step = 2
             this.unActived = true
             this.parent_unActived = true
           } else {
+           // console.log(res.Msg)
             this.$vux.toast.show({
               type: "warn",
               text: '手机号未注册',
