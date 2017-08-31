@@ -9,7 +9,7 @@
             请先绑定校园卡号
           </h4>
           <group>
-            <x-input title="校园卡号：" placeholder="请输入校园卡号" v-model="addCardData.CardID" >
+            <x-input title="校园卡号：" placeholder="请输入校园卡号" v-model="addCardData.CardID">
             </x-input>
             <!-- <x-input title="卡号：" placeholder="请输入校园卡号" v-model="addCardData.CardID" placeholder-align="right"></x-input> -->
           </group>
@@ -18,24 +18,27 @@
           </x-button>
           <!-- <form :model="addCardData" label-width="100px" class="cardNum"> -->
           <!-- <el-form-item label="学生：" v-if="$store.getters.role==='家长'">
-                              <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
-                                <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
-                                </el-option>
-                              </el-select>
-                            </el-form-item> -->
+                                <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
+                                  <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
+                                  </el-option>
+                                </el-select>
+                              </el-form-item> -->
 
           <!-- <el-form-item label="卡号：">
-                      <el-input v-model.number="addCardData.CardID" placeholder="请输入校园卡号" size="large"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                      <el-button type="success" @click="addCardID" size="large">提交</el-button>
-                    </el-form-item> 
-              </form> -->
+                        <el-input v-model.number="addCardData.CardID" placeholder="请输入校园卡号" size="large"></el-input>
+                      </el-form-item>
+                      <el-form-item>
+                        <el-button type="success" @click="addCardID" size="large">提交</el-button>
+                      </el-form-item> 
+                </form> -->
         </div>
       </div>
       <div v-else>
         <group>
-          <cell title="一卡通当前余额：" :value="data.Blance+'元'">
+          <cell title="一卡通当前余额：">
+            <div slot="value">
+              <span class="balance">{{data.Blance}} 元</span>
+            </div>
           </cell>
         </group>
 
@@ -138,8 +141,7 @@ export default {
 }
 
 .noCard {
-  padding: 0 20px;
-  // min-height: 500px;
+  padding: 0 20px; // min-height: 500px;
   h4 {
     text-align: center;
     padding: 50px 0;
@@ -150,5 +152,9 @@ export default {
     width: 450px;
     margin: 0 auto;
   }
+}
+.balance{
+  color:#ff8212;
+  font-size: 1.2rem;
 }
 </style>
