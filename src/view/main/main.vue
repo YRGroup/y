@@ -179,6 +179,8 @@ export default {
     followWeixin() {
       if (this.$store.getters.isWeixin && this.$store.state.currentUser && !this.$store.state.currentUser.IsSubscribe) {
         return true
+      } else if(this.$store.getters.isWeixin && !this.$store.state.currentUser){
+        return true
       } else {
         return false
       }
