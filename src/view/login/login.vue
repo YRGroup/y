@@ -59,7 +59,7 @@
       <x-button type="primary" @click.native="verifyAccount" v-show="step==0">下一步</x-button>
       <x-button type="primary" @click.native="login" v-show="step==1 || step==3">登录</x-button>
 
-      <div class="regBtn" @click="$router.push('/reg')">我是家长，还没有帐号？点击注册</div>
+      <!-- <div class="regBtn" @click="$router.push('/reg')">我是家长，还没有帐号？点击注册</div> -->
     </div>
 
   </div>
@@ -155,7 +155,7 @@ export default {
               text: '手机号未注册',
               width: "20em"
             })
-            this.$router.push('/reg?tel=' + this.tel)
+            // this.$router.push('/reg?tel=' + this.tel)
           }
         }).catch(err => {
           this.$vux.toast.show({
