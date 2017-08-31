@@ -1,5 +1,7 @@
 <template>
   <div class="msg">
+
+    <div class="msgTitle">与 {{user.sendto_TrueName}} 的消息列表</div>
   
     <load-more :show-loading="false" tip="点击查看以前的消息" background-color="#f5f5f5" @click.native="getMsgInfo()" v-if="data.length!=0"></load-more>
   
@@ -29,7 +31,7 @@
 <script>
 import { XInput, XButton, LoadMore } from 'vux'
 export default {
-  name: 'hello',
+  name: 'msg',
   components: {
     XInput, XButton, LoadMore
   },
@@ -37,19 +39,14 @@ export default {
     return {
       showpopup: false,
       msg: '',
+      user:{},
       data: []
     }
   },
   methods: {
-    fun(msg) {
-      this.$vux.toast.show({
-        type: "text",
-        width: "20em",
-        text: msg
-      })
-    },
     getMsgInfo() {
       this.$API.getMsgInfo(this.$route.params.userId).then(res => {
+        this.user=res
         this.data = res.CL
         this.userImg = res.sendto_Headimgurl
       })
@@ -60,11 +57,6 @@ export default {
       msgdata.content = this.msg
       if (this.msg != '') {
         this.$API.replyMsg(msgdata).then(res => {
-          // this.$vux.toast.show({
-          //   type:"text",
-          //   text: '发送成功',
-          //   width:'20em'
-          // })
           this.msg = ''
           this.getMsgInfo()
           window.scrollTo(0, 10000)
@@ -89,9 +81,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.msg {
-  padding-top: 1px;
-}
 
 .replybtn {
   position: fixed;
@@ -163,5 +152,12 @@ export default {
     margin: 0 4rem 0 20px;
     text-align: left;
   }
+}
+
+.msgTitle{
+  text-align: center;
+  background: @cc6;
+  color:#fff;
+  line-height: 40px;
 }
 </style>
