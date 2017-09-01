@@ -117,7 +117,7 @@ export default {
         '语文', '数学', '英语', '物理', '化学', '历史', '政治', '地理',
         '音乐', '美术', '体育'
       ],
-      ParentType:'1',
+      ParentType: '1',
       data: {
         Course: '',
         Headimgurl: '',
@@ -132,14 +132,14 @@ export default {
       if (this.$store.state.role == '老师') {
         this.$API.getTeacherInfo(this.$store.state.currentUserId).then(res => {
           this.data = res
-          if(this.data.PersonalHonor.length){
-            this.data.PersonalHonor.forEach(o=>{
-              o.IsVisible='true'
+          if (this.data.PersonalHonor.length) {
+            this.data.PersonalHonor.forEach(o => {
+              o.IsVisible = 'true'
             })
           }
-          if(this.data.TeachExperience.length){
-            this.data.TeachExperience.forEach(o=>{
-              o.IsVisible='true'
+          if (this.data.TeachExperience.length) {
+            this.data.TeachExperience.forEach(o => {
+              o.IsVisible = 'true'
             })
           }
         })
@@ -188,21 +188,29 @@ export default {
     submitChange() {
       if (this.$store.state.role == '家长') {
         let editData = {}
-        editData.ParentType=this.ParentType
+        editData.ParentType = this.ParentType
         editData.meid = this.$store.state.currentUserId
         editData.TrueName = this.data.TrueName
-        this.$API.editParentInfo(editData).then((res) => {
-          this.$vux.toast.show({
-            type: "success",
-            width: "20em",
-            text: '修改家长资料成功'
+        this.$API.editParentInfo(editData).then(res => {
+          this.$API.editStudentInfo(this.studentData).then(res => {
+            this.$vux.toast.show({
+              type: "success",
+              width: "20em",
+              text: '修改资料成功'
+            })
+            this.$router.push('/user')
+          }).catch((err) => {
+            this.$vux.toast.show({
+              type: "warn",
+              width: "20em",
+              text: err.msg
+            })
           })
-          this.$router.push('/user')
         }).catch((err) => {
           this.$vux.toast.show({
             type: "warn",
             width: "20em",
-            text: '修改家长资料失败'
+            text: err.msg
           })
         })
       } else if (this.$store.state.role == '老师') {
@@ -217,7 +225,7 @@ export default {
           this.$vux.toast.show({
             type: "warn",
             width: "20em",
-            text: '修改老师资料失败'
+            text: err.msg
           })
         })
       }
