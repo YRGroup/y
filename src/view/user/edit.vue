@@ -34,6 +34,11 @@
         <cell title="执教时间">{{i.StartTime}} - {{i.EndTime}}</cell>
         <datetime v-model="i.StartTime" title="选择开始时间"></datetime>
         <datetime v-model="i.EndTime" title="选择结束时间"></datetime>
+        <checker class="checker" v-model="i.IsVisible" default-item-class="checker-item" selected-item-class="checker-item-selected">
+          <div class="title">权限</div>
+          <checker-item value="true">公开</checker-item>
+          <checker-item value="false">不公开</checker-item>
+        </checker>
         <cell title="删除此条教学经历" is-link @click.native="data.TeachExperience.splice(index,1)"></cell>
       </group>
 
@@ -61,7 +66,7 @@
             <x-button plain type="primary" @click.native="data.PersonalHonor.push({ImgPath:'',Description:'',IsVisible:'true'})">添加个人荣誉</x-button>
           </flexbox-item>
           <flexbox-item>
-            <x-button plain type="primary" @click.native="data.TeachExperience.push({})">添加教学经历</x-button>
+            <x-button plain type="primary" @click.native="data.TeachExperience.push({IsVisible:'true'})">添加教学经历</x-button>
           </flexbox-item>
         </flexbox>
       </group>
@@ -125,6 +130,16 @@ export default {
       if (this.$store.state.role == '老师') {
         this.$API.getTeacherInfo(this.$store.state.currentUserId).then(res => {
           this.data = res
+          if(this.data.PersonalHonor.length){
+            this.data.PersonalHonor.forEach(o=>{
+              o.IsVisible='true'
+            })
+          }
+          if(this.data.TeachExperience.length){
+            this.data.TeachExperience.forEach(o=>{
+              o.IsVisible='true'
+            })
+          }
         })
       } else {
         this.$API.getCurrentUser().then(res => {
