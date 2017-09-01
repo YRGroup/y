@@ -150,7 +150,7 @@ export default {
             this.unActived = true
             this.parent_unActived = true
           } else {
-           // console.log(res.Msg)
+            // console.log(res.Msg)
             this.$vux.toast.show({
               type: "warn",
               text: '手机号未注册',
@@ -246,12 +246,28 @@ export default {
       if (!val.IsSubscribe && this.$store.getters.isWeixin) {
         window.location.href = this.$store.state.ApiUrl + '/api/OAuth2Redirect/index?refUrl=' + window.location.host + '/%23/main'
       } else {
-        this.$vux.toast.show({
-          type: "text",
-          text: '登录成功',
-          width: "20em"
-        })
-        this.$router.push('/')
+        if (this.$store.getters.hasFullInfo === 'teacher') {
+          this.$vux.toast.show({
+            type: "text",
+            text: '资料不完整，请先补齐资料',
+            width: "20em"
+          })
+          this.$router.push('/edit')
+        } else if (this.$store.getters.hasFullInfo === 'parent') {
+          this.$vux.toast.show({
+            type: "text",
+            text: '资料不完整，请先补齐资料',
+            width: "20em"
+          })
+          this.$router.push('/edit')
+        } else {
+          this.$vux.toast.show({
+            type: "text",
+            text: '登录成功',
+            width: "20em"
+          })
+          this.$router.push('/')
+        }
       }
     },
     login() {

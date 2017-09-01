@@ -69,6 +69,15 @@ const store = new Vuex.Store({
         }
       }
     },
+    hasFullInfo: state => {
+      if (state.currentUser.Role === '老师' && state.currentUser.ExtendInfo.Status == 0) {
+        return 'teacher'
+      } else if (state.currentUser.Role === '家长' && state.currentUser.ExtendInfo.Students.length !== 0 && state.currentUser.ExtendInfo.Students[0].Status == 0) {
+        return 'parent'
+      } else {
+        return 'ok'
+      }
+    }
   },
   mutations: {
     login(state, val) {
