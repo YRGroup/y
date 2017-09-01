@@ -39,7 +39,7 @@
 
       <group :title="'个人荣誉'+(index+1)+'：'" v-for="(i,index) in data.PersonalHonor" :key="index">
         <cell title="图片">
-          <img :src="i.ImgPath">
+          <img :src="i.ImgPath" style="width:100px;">
         </cell>
         <div class="file" style="text-align:center">
           <a href="javascript:;" class="a-upload">
@@ -47,13 +47,18 @@
           </a>
         </div>
         <x-input title="描述" v-model="i.Description"></x-input>
-        <cell title="删除此条教学经历" is-link @click.native="data.TeachExperience.splice(index,1)"></cell>
+        <checker class="checker" v-model="i.IsVisible" default-item-class="checker-item" selected-item-class="checker-item-selected">
+          <div class="title">权限</div>
+          <checker-item value="true">公开</checker-item>
+          <checker-item value="false">不公开</checker-item>
+        </checker>
+        <cell title="删除此条个人荣誉" is-link @click.native="data.PersonalHonor.splice(index,1)"></cell>
       </group>
 
       <group class="btn">
         <flexbox>
           <flexbox-item>
-            <x-button plain type="primary" @click.native="data.PersonalHonor.push({})">添加个人荣誉</x-button>
+            <x-button plain type="primary" @click.native="data.PersonalHonor.push({ImgPath:'',Description:'',IsVisible:'true'})">添加个人荣誉</x-button>
           </flexbox-item>
           <flexbox-item>
             <x-button plain type="primary" @click.native="data.TeachExperience.push({})">添加教学经历</x-button>
@@ -63,7 +68,7 @@
 
     </div>
 
-    <div v-if="!$store.state.hasNoStudent">
+    <div v-if="$store.state.role=='家长' && !$store.state.hasNoStudent">
       <group title="学生资料：">
         <cell title="姓名" v-model="studentData.TrueName" text-align="right" placeholder="请在此填上新内容"></cell>
         <cell title="学号" v-model="studentData.StudentID" text-align="right" placeholder="请在此填上新内容"></cell>
@@ -250,15 +255,15 @@ export default {
 .checker {
   text-align: center;
   border-top: 1px solid @cc4;
-  margin-left:1rem;
-  padding:.5rem 0;
-  .title{
+  margin-left: 1rem;
+  padding: .5rem 0;
+  .title {
     float: left;
   }
   .checker-item {
     border: 1px solid @cc4;
     padding: 0 7px;
-    width: 35px;
+    width: 45px;
     border-radius: 15px;
     margin: 0 15px;
   }
