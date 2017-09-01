@@ -78,14 +78,17 @@
         <selector title="家长身份" :options="parentTypeList" v-model="ParentType"></selector>
         <cell title="姓名" v-model="studentData.TrueName" text-align="right" placeholder="请在此填上新内容"></cell>
         <cell title="学号" v-model="studentData.StudentID" text-align="right" placeholder="请在此填上新内容"></cell>
+        <cell title="籍贯" text-align="right">
+          {{studentData.Province}} {{studentData.City}} {{studentData.County}}
+        </cell>
         <checker class="checker" v-model="studentData.Sex" default-item-class="checker-item" selected-item-class="checker-item-selected">
           <div class="title">性别</div>
           <checker-item value="男">男</checker-item>
           <checker-item value="女">女</checker-item>
         </checker>
-        <x-input title="籍贯" v-model="studentData.Address" text-align="right" placeholder="请在此填上新内容"></x-input>
         <selector title="民族" :options="$store.state.nationList" v-model="studentData.Volk"></selector>
       </group>
+      <div class="tips">更多资料请至PC端修改</div>
     </div>
 
     <group class="btn">
@@ -333,5 +336,9 @@ export default {
     border-color: #ccc;
     text-decoration: none
   }
+}
+.tips{
+  line-height: 30px;
+  color:@cc3;
 }
 </style>
