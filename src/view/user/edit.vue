@@ -4,7 +4,6 @@
     <group>
       <cell title="手机号" v-model="data.Mobilephone" text-align="right" placeholder="请在此填上新内容"></cell>
       <x-input title="姓名" v-model="data.TrueName" text-align="right" placeholder="请输入姓名"></x-input>
-      <x-input title="身份证" v-model="data.IDCard" text-align="right" placeholder="请输入身份证"></x-input>
       <checker class="checker" v-model="data.Sex" default-item-class="checker-item" selected-item-class="checker-item-selected">
         <div class="title">性别</div>
         <checker-item value="男">男</checker-item>
@@ -22,6 +21,7 @@
 
     <div v-if="$store.state.role=='老师'">
       <group title="教师资料：">
+        <x-input title="身份证" v-model="data.IDCard" text-align="right" placeholder="请输入身份证"></x-input>
         <selector title="民族" :options="$store.state.nationList" v-model="data.Volk"></selector>
         <selector title="政治面貌" :options="$store.state.politicalList" v-model="data.PoliticalStatus"></selector>
         <x-input title="教龄" v-model="data.SchoolAge" text-align="right"></x-input>
@@ -75,6 +75,7 @@
 
     <div v-if="$store.state.role=='家长' && !$store.state.hasNoStudent">
       <group title="学生资料：">
+        <selector title="家长身份" :options="parentTypeList" v-model="ParentType"></selector>
         <cell title="姓名" v-model="studentData.TrueName" text-align="right" placeholder="请在此填上新内容"></cell>
         <cell title="学号" v-model="studentData.StudentID" text-align="right" placeholder="请在此填上新内容"></cell>
         <checker class="checker" v-model="studentData.Sex" default-item-class="checker-item" selected-item-class="checker-item-selected">
@@ -116,6 +117,7 @@ export default {
         '语文', '数学', '英语', '物理', '化学', '历史', '政治', '地理',
         '音乐', '美术', '体育'
       ],
+      ParentType:'1',
       data: {
         Course: '',
         Headimgurl: '',
@@ -148,6 +150,7 @@ export default {
             this.noStudent = true
           } else {
             this.noStudent = false
+            this.ParentType = this.data.ExtendInfo.Students[0].ParentType.toString()
             this.$API.getStudentInfo(this.$store.state.currentStudentId).then(res => {
               this.studentData = res.user
             })
@@ -185,6 +188,7 @@ export default {
     submitChange() {
       if (this.$store.state.role == '家长') {
         let editData = {}
+        editData.ParentType=this.ParentType
         editData.meid = this.$store.state.currentUserId
         editData.TrueName = this.data.TrueName
         this.$API.editParentInfo(editData).then((res) => {
