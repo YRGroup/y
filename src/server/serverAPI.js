@@ -198,6 +198,11 @@ API.getWXQRcode = () => {
   return _APIurl+'/api/school/WeiXinQRCode'
 }
 
+// 服务端统计
+API.refreshLiveness = () => {
+  return axios.get(_APIurl + '/api/User/SaveUserLiveness')
+}
+
 // 空API模板
 API.test = () => {
   return new Promise((resolve, reject) => {
