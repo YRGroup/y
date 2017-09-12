@@ -1,27 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-// 临时页面
-import dev from '@/components/dev'
 // 主页
 import home from '@/view/main'
 import main from '@/view/main/main'
-import mainnew from '@/view/main/news'
+import news from '@/view/main/news'
 import doc from '@/view/main/doc'
 
 // 功能模块
-import addon from '@/view/addon/default'
-import kechengbiao from '@/view/addon/kechengbiao'
-import reader from '@/view/addon/reader'
-import idol from '@/view/addon/idol'
-import interview from '@/view/addon/interview'
 import schoolcard from '@/view/addon/schoolcard'
 
-// 学校
-import news from '@/view/school/news'
-import school from '@/view/school/main'
-import newSchoolPost from '@/view/school/newpost'
-import allSchoolPost from '@/view/school/all'
 
 // 班级
 import classmain from '@/view/class/main'
@@ -53,16 +41,12 @@ import studentedit from '@/view/student/edit'
 import studentprofile from '@/view/student/profile'
 import studentparent from '@/view/student/parent'
 
-// 注册
 import reg from '@/view/login/reg'
-
-// 登陆
 import login from '@/view/login/login'
 
 // 通讯录
 import contact from '@/view/contact/main'
 import msg from '@/view/contact/allmsg'
-import mymsg from '@/view/contact/mymsg'
 
 // 用户
 import user from '@/view/user/main'
@@ -73,10 +57,10 @@ import teachercenter from '@/view/user/teacher'
 import editcode from '@/view/user/editcode'
 import linkchild from '@/view/user/linkchild'
 
-// 视频
-import player from '@/view/video/player'
 import videoList from '@/view/video/list'
-import addVideo from '@/view/video/add'
+import player from '@/view/video/player'
+
+import errorPage from '@/view/sys/404'
 
 Vue.use(Router)
 
@@ -89,55 +73,25 @@ export default new Router({
     {
       path: '/',
       component: home,
-      children: [
-        { //主页
-          path: '/',
-          component: home,
-          children: [{
-            path: '',
-            name: 'main',
-            component: main,
-          },{
-            path: '/mainnew',
-            name: 'mainnew',
-            component: mainnew
-          },{
-            path: '/doc',
-            name: 'doc',
-            component: doc
-          }
-        ]
+      children: [{
+          path: '',
+          name: 'main',
+          component: main,
         },
-
-        { //扩展模块
-          path: '/addon',
-          component: addon,
-          children: [{
-              path: 'kechengbiao',
-              name: 'kechengbiao',
-              component: kechengbiao
-            },
-            {
-              path: 'reader',
-              name: 'reader',
-              component: reader
-            },
-            {
-              path: 'idol',
-              name: 'idol',
-              component: idol
-            },
-            {
-              path: 'interview',
-              name: 'interview',
-              component: interview
-            },
-            {
-              path: 'schoolcard',
-              name: 'schoolcard',
-              component: schoolcard
-            },
-          ]
+        {
+          path: '/news',
+          name: 'news',
+          component: news
+        },
+        {
+          path: '/doc',
+          name: 'doc',
+          component: doc
+        },
+        {
+          path: '/schoolcard',
+          name: 'schoolcard',
+          component: schoolcard
         },
         { //班级
           path: '/class',
@@ -182,6 +136,11 @@ export default new Router({
               path: 'exam',
               component: exam
             },
+            {
+              path: '/contact',
+              name: 'contact',
+              component: contact
+            },
           ]
         },
         { //班级动态详情
@@ -208,7 +167,8 @@ export default new Router({
             {
               path: 'work',
               component: teacherwork
-            }
+            },
+
           ]
         },
         { // 教师资料
@@ -227,7 +187,7 @@ export default new Router({
               path: 'feed',
               component: studentfeed
             },
-            
+
             {
               path: 'timeline',
               component: timeline
@@ -257,47 +217,13 @@ export default new Router({
           name: 'studentedit',
           component: studentedit
         },
-        { //学校
-          path: '/school',
-          component: school,
-          children: [{
-              path: '',
-              component: allSchoolPost
-            },
-            {
-              path: 'new',
-              name: 'newSchoolPost',
-              component: newSchoolPost
-            },
-            {
-              path: 'all',
-              name: 'allSchoolPost',
-              component: allSchoolPost
-            },
-            {
-              path: '/news/:newsId',
-              name: 'news',
-              component: news
-            }
-          ]
-        },
         // 通讯录
-        {
-          path: '/contact',
-          name: 'contact',
-          component: contact
-        },
+
         {
           path: '/msg/:userId',
           name: 'msg',
           component: msg
         },
-        {
-          path: '/mymsg',
-          name: 'mymsg',
-          component: mymsg
-        },
-
         // 用户
         {
           path: '/user',
@@ -342,10 +268,13 @@ export default new Router({
           path: '/player',
           component: player
         },
+<<<<<<< HEAD
         {
           path: '/video/add',
           component: addVideo
         },
+=======
+>>>>>>> 6416d22c3aae14b2a1cfa8a61f37d826ae44e4a7
       ]
     },
 
@@ -360,8 +289,17 @@ export default new Router({
       name: 'login',
       component: login
     },
-
-
+    {
+      path: '/404',
+      name: 'errorPage',
+      component: errorPage,
+    },
+    {
+      path: '*',
+      redirect: {
+        path: '/404'
+      }
+    }
   ],
   scrollBehavior(to, from, savedPosition) {
     return {

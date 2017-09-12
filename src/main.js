@@ -88,9 +88,6 @@ import {
 } from 'vux'
 Vue.use(ToastPlugin)
 
-import Icon from 'vue-svg-icon/Icon.vue'
-Vue.component('icon', Icon)
-
 import {
   LoadingPlugin
 } from 'vux'

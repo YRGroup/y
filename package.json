@@ -61,7 +61,6 @@
     "vue-html5-editor": "^1.1.1",
     "vue-loader": "^11.1.4",
     "vue-style-loader": "^2.0.0",
-    "vue-svg-icon": "^1.2.9",
     "vue-template-compiler": "^2.2.4",
     "vux-loader": "^1.0.56",
     "webpack": "^2.2.1",

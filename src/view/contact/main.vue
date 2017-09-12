@@ -1,23 +1,21 @@
 <template>
   <div class="hello">
-  
+
     <has-no-student v-if="$store.state.hasNoStudent">
     </has-no-student>
-  
+
     <div v-else>
-      <group class="link">
+      <group class="link" title="班级通讯录">
         <cell class="itemlist" :title="'学生 （'+student.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'" @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null">
           <span slot="icon" class="roleheader bgcolor1">
             <i class="iconfont">&#xe607;</i>
           </span>
         </cell>
-  
         <div class="slide" :class="showContent1?'animate':null">
           <cell class="item" is-link v-for="(i,index) in student" :title="i.TrueName " :inline-desc="$store.state.role=='老师'?i.StudentID:null" :link="$store.state.role=='老师'?('/student/'+i.Meid):('/msg/'+i.Meid)" :key="index">
             <img class="cellicon" slot="icon" :src="i.Headimgurl">
           </cell>
         </div>
-  
         <cell class="itemlist" :title="'家长 （'+parent.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent2 ? 'up' : 'down'" @click.native="showContent2 = !showContent2" :class="showContent2?'activenav':null">
           <span slot="icon" class="roleheader bgcolor2">
             <i class="iconfont">&#xe609;</i>
@@ -28,7 +26,6 @@
             <img class="cellicon" slot="icon" :src="i.ParentHeadimgurl">
           </cell>
         </div>
-  
         <cell class="itemlist" :title="'老师 （'+teacher.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent3 ? 'up' : 'down'" @click.native="showContent3 = !showContent3" :class="showContent3?'activenav':null">
           <span slot="icon" class="roleheader bgcolor3">
             <i class="iconfont">&#xe605;</i>
@@ -39,21 +36,19 @@
             <img class="cellicon" slot="icon" :src="i.Headimgurl">
           </cell>
         </div>
-  
       </group>
-  
-      </br>
-      <ul class="msglist">
-        <li @click="$router.push('/msg/'+item.Meid)" v-for="(item,index) in msgdata" :key="index">
-          <img :src="item.HeadImg">
-          <span class="usename">{{ item.Name }}</span>
-          <span class="info">{{ item.Content }}</span>
-          <span class="time">{{ item.LastTime }}</span>
-          <span class="num" v-show="item.UnReadCount">{{ item.UnReadCount }}</span>
-        </li>
-      </ul>
-  
-      <div class="noMsg" v-if="msgdata.length===0">当前没有消息</div>
+      <group title="最近的消息">
+        <ul class="msglist">
+          <li @click="$router.push('/msg/'+item.Meid)" v-for="(item,index) in msgdata" :key="index">
+            <img :src="item.HeadImg">
+            <span class="usename">{{ item.Name }}</span>
+            <span class="info">{{ item.Content }}</span>
+            <span class="time">{{ item.LastTime }}</span>
+            <span class="num" v-show="item.UnReadCount">{{ item.UnReadCount }}</span>
+          </li>
+        </ul>
+        <div class="noMsg" v-if="msgdata.length===0">当前没有消息</div>
+      </group>
     </div>
   </div>
 </template>
@@ -132,7 +127,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit('changeTitle', '消息中心')
+    this.$store.commit('changeTitle', '班级通讯录')
     this.getStudentList()
     this.getTeacherList()
     this.getParentList()
