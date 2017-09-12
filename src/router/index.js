@@ -73,6 +73,11 @@ import teachercenter from '@/view/user/teacher'
 import editcode from '@/view/user/editcode'
 import linkchild from '@/view/user/linkchild'
 
+// 视频
+import player from '@/view/video/player'
+import videoList from '@/view/video/list'
+import addVideo from '@/view/video/add'
+
 Vue.use(Router)
 
 
@@ -328,6 +333,18 @@ export default new Router({
           path: '/user/linkchild',
           name: 'linkchild',
           component: linkchild
+        },
+        {
+          path: '/video',
+          component: videoList
+        },
+        {
+          path: '/player',
+          component: player
+        },
+        {
+          path: '/video/add',
+          component: addVideo
         },
       ]
     },

@@ -56,18 +56,26 @@
           <span>校园新闻</span>
         </router-link>
       </flexbox-item>
+      <flexbox-item :span="4">
+        <router-link to="/video">
+          <div style="background:#ab79d9">
+            <i class="iconfont">&#xe63c;</i>
+          </div>
+          <span>视频课程</span>
+        </router-link>
+      </flexbox-item>
       <flexbox-item :span="4" @click.native="fun('开发中，敬请期待~')">
         <div style="background:#ff5498">
           <i class="iconfont">&#xe617;</i>
         </div>
         <span>课程表</span>
       </flexbox-item>
-      <flexbox-item :span="4" @click.native="fun('开发中，敬请期待~')">
+      <!-- <flexbox-item :span="4" @click.native="fun('开发中，敬请期待~')">
         <div style="background:#ab79d9">
           <i class="iconfont">&#xe604;</i>
         </div>
         <span>更多</span>
-      </flexbox-item>
+      </flexbox-item> -->
     </flexbox>
 
     <div class="newsCard">
@@ -122,7 +130,9 @@
 
     <x-dialog v-model="showWX" class="wxDialog">
       <div class="close" @click="showWX=false">
-        <span><i class="iconfont">&#xe641;</i></span>
+        <span>
+          <i class="iconfont">&#xe641;</i>
+        </span>
       </div>
       <div>
         <p class="main">长按识别二维码</p>
@@ -179,7 +189,7 @@ export default {
     followWeixin() {
       if (this.$store.getters.isWeixin && this.$store.state.currentUser && !this.$store.state.currentUser.IsSubscribe) {
         return true
-      } else if(this.$store.getters.isWeixin && !this.$store.state.currentUser){
+      } else if (this.$store.getters.isWeixin && !this.$store.state.currentUser) {
         return true
       } else {
         return false
@@ -187,6 +197,13 @@ export default {
     }
   },
   methods: {
+    fun(msg) {
+      this.$vux.toast.show({
+        type: "text",
+        width: "20em",
+        text: msg
+      })
+    },
     getNewsList() {
       let para = {
         category: 1,
