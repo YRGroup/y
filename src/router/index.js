@@ -267,14 +267,7 @@ export default new Router({
         {
           path: '/player',
           component: player
-        },
-<<<<<<< HEAD
-        {
-          path: '/video/add',
-          component: addVideo
-        },
-=======
->>>>>>> 6416d22c3aae14b2a1cfa8a61f37d826ae44e4a7
+        }
       ]
     },
 

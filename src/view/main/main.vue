@@ -49,14 +49,6 @@
       </flexbox-item>
       <flexbox-item :span="4">
         <router-link to="/video">
-          <div style="background:#ff5498">
-            <i class="iconfont">&#xe617;</i>
-          </div>
-          <span>在线视频</span>
-        </router-link>
-      </flexbox-item>
-      <flexbox-item :span="4">
-        <router-link to="/video">
           <div style="background:#ab79d9">
             <i class="iconfont">&#xe63c;</i>
           </div>
