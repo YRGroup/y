@@ -280,9 +280,6 @@ export default {
       height: 4.6em;
       line-height: 4.6em;
       color: white;
-      svg {
-        margin-top: .2em;
-      }
       i {
         font-size: 2.4em;
         text-shadow: 2px 2px 1px rgba(0, 0, 0, .1);
@@ -306,9 +303,6 @@ export default {
           height: 4.6em;
           line-height: 4.6em;
           color: white;
-          svg {
-            margin-top: .2em;
-          }
           i {
             font-size: 2.4em;
             text-shadow: 2px 2px 1px rgba(0, 0, 0, .1);
