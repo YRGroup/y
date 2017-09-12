@@ -40,29 +40,22 @@
         </router-link>
       </flexbox-item>
       <flexbox-item :span="4">
-        <router-link :to="'/addon/schoolcard'">
+        <router-link :to="'/schoolcard'">
           <div style="background:#0ab9f7">
             <i class="iconfont">&#xe602;</i>
           </div>
           <span>一卡通</span>
         </router-link>
       </flexbox-item>
-
       <flexbox-item :span="4">
-        <router-link to="/school">
-          <div style="background:#8dc62c">
-            <i class="iconfont">&#xe737;</i>
+        <router-link to="/video">
+          <div style="background:#ff5498">
+            <i class="iconfont">&#xe617;</i>
           </div>
-          <span>校园新闻</span>
+          <span>在线视频</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="4" @click.native="fun('开发中，敬请期待~')">
-        <div style="background:#ff5498">
-          <i class="iconfont">&#xe617;</i>
-        </div>
-        <span>课程表</span>
-      </flexbox-item>
-      <flexbox-item :span="4" @click.native="fun('开发中，敬请期待~')">
+      <flexbox-item :span="4" @click.native="$vux.toast.text('开发中，敬请期待~')">
         <div style="background:#ab79d9">
           <i class="iconfont">&#xe604;</i>
         </div>
@@ -76,8 +69,8 @@
         <tab-item @on-item-click="handleSwitchTab">资料库</tab-item>
       </tab>
       <div v-if="tabindex == '1'">
-        <no-data v-if="nodataImg"></no-data>
-        <div v-else class="card" v-for="(i,index) in data" :key="index" @click="$router.push('/mainnew?id='+i.ID)">
+        <no-data v-if="!data.length"></no-data>
+        <div v-else class="card" v-for="(i,index) in data" :key="index" @click="$router.push('/news?id='+i.ID)">
           <div class="img" v-if="i.ImgUrl">
             <img :src="i.ImgUrl">
           </div>
@@ -88,7 +81,6 @@
             <div class="cardtitle">
               {{i.Title}}
             </div>
-            <!-- <div class="content">{{i.Describtion}}</div> -->
             <div class="cardfooter">
               <span class="time">
                 <i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
@@ -97,7 +89,7 @@
         </div>
       </div>
       <div v-if="tabindex == '2'">
-        <no-data v-if="nodataImg"></no-data>
+        <no-data v-if="!data.length"></no-data>
         <div v-else class="card" v-for="(i,index) in data" :key="index">
           <div class="img" v-if="i.ImgUrl">
             <img :src="i.ImgUrl">
@@ -109,7 +101,6 @@
             <div class="cardtitle">
               <a @click="$router.push('/doc?id='+i.ID)">{{i.Title}}</a>
             </div>
-            <!-- <div class="content">{{i.Describtion}}</div> -->
             <div class="cardfooter">
               <span class="time">
                 <i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
@@ -122,7 +113,9 @@
 
     <x-dialog v-model="showWX" class="wxDialog">
       <div class="close" @click="showWX=false">
-        <span><i class="iconfont">&#xe641;</i></span>
+        <span>
+          <i class="iconfont">&#xe641;</i>
+        </span>
       </div>
       <div>
         <p class="main">长按识别二维码</p>
@@ -146,7 +139,6 @@ export default {
   },
   data() {
     return {
-      nodataImg: false,
       swiperdate: [],
       mockSwiperdate: [
         {
@@ -179,7 +171,7 @@ export default {
     followWeixin() {
       if (this.$store.getters.isWeixin && this.$store.state.currentUser && !this.$store.state.currentUser.IsSubscribe) {
         return true
-      } else if(this.$store.getters.isWeixin && !this.$store.state.currentUser){
+      } else if (this.$store.getters.isWeixin && !this.$store.state.currentUser) {
         return true
       } else {
         return false
@@ -194,11 +186,7 @@ export default {
         pagesize: 10,
       }
       this.$API.getNewsList(para).then(res => {
-        if (this.res.length == 0 && this.page == 1) {
-          this.nodataImg = true
-        } else {
-          this.data = res
-        }
+        this.data = res
       })
     },
     getSwiper() {
@@ -208,18 +196,19 @@ export default {
         pagesize: 10,
       }
       this.$API.getNewsList(para).then(res => {
-        if (res.length) {
-          this.swiperdate = res.map(o => {
-            let r = {
-              url: '',
-              img: o.Albums[0].Thumbpath,
-              title: o.Title
-            }
-            return r
-          })
-        } else {
-          this.swiperdate = this.mockSwiperdate
-        }
+        this.swiperdate = this.mockSwiperdate
+        // if (res.length) {
+        //   this.swiperdate = res.map(o => {
+        //     let r = {
+        //       url: '',
+        //       img: o.Albums[0].Thumbpath,
+        //       title: o.Title
+        //     }
+        //     return r
+        //   })
+        // } else {
+        //   this.swiperdate = this.mockSwiperdate
+        // }
       })
     },
     handleSwitchTab() {
