@@ -284,29 +284,29 @@ export default {
 
 .checker {
   text-align: center;
-  border-top: 1px solid @cc4;
+  border-top: 1px solid @border;
   margin-left: 1rem;
   padding: .5rem 0;
   .title {
     float: left;
   }
   .checker-item {
-    border: 1px solid @cc4;
+    border: 1px solid @border;
     padding: 0 7px;
     width: 45px;
     border-radius: 15px;
     margin: 0 15px;
   }
   .checker-item-selected {
-    border: 1px solid @c6;
-    background: @c6;
+    border: 1px solid @main;
+    background: @main;
     color: #fff;
   }
 }
 
 .file {
   text-align: center;
-  border-top: 1px solid @cc4;
+  border-top: 1px solid @border;
   padding-top: 5px;
   .a-upload {
     padding: 4px 10px;
@@ -339,6 +339,6 @@ export default {
 }
 .tips{
   line-height: 30px;
-  color:@cc3;
+  color:@grey;
 }
 </style>

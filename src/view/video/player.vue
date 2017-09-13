@@ -72,11 +72,11 @@ export default {
   background: #fff;
   margin-bottom: 1em;
   .title {
-    border-bottom: 1px solid @cc4;
+    border-bottom: 1px solid @border;
     font-size: 16px;
     padding: 0 20px;
     line-height: 52px;
-    color: @cc6;
+    color: @main;
     font-weight: 600;
   }
   .content {
@@ -95,7 +95,7 @@ export default {
       }
     }
     .item {
-      border-bottom: 1px solid @cc4;
+      border-bottom: 1px solid @border;
       margin-bottom: 1em;
       padding: 1em;
       .header {
@@ -127,11 +127,11 @@ export default {
       margin: 5px 0;
     }
     .banji {
-      color: @cc2;
+      color: @grey;
       margin-right: 10px;
     }
     .course {
-      color: @cc2;
+      color: @grey;
     }
   }
 }

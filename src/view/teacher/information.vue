@@ -71,7 +71,7 @@ export default {
 .itemlist{
   margin-top:-10px;
   .title{
-    border-bottom: 1px solid @cc3;
+    border-bottom: 1px solid @grey;
     margin-bottom: -1px;
     font-size:1.1em;
     line-height: 1.4em;
@@ -81,8 +81,8 @@ export default {
     }
   }
   .more{
-    border-top:1px solid @cc4;
-    color:@cc3;
+    border-top:1px solid @border;
+    color:@grey;
     text-align: center;
     line-height: 3em;
   }

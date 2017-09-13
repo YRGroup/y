@@ -96,7 +96,7 @@ export default {
 
 .time {
   text-align: right;
-  color: @c4;
+  color: @grey;
 }
 
 .content {
@@ -114,7 +114,7 @@ export default {
 
 .footer {
   text-align: right;
-  color: @c4;
+  color: @grey;
 }
 
 .newsCard {
@@ -123,7 +123,7 @@ export default {
   .card {
     margin:0 10px;
     padding:15px 15px 15px 130px;;
-    border-bottom: 1px dashed @cc4;
+    border-bottom: 1px dashed @border;
     overflow: hidden;
     position: relative;
     height: 72px;
@@ -163,7 +163,7 @@ export default {
       }
       .cardfooter {
         margin-top: 10px;
-        color: @cc3;
+        color: @grey;
         font-size: 12px;
         .iconfont {
           font-size: 14px;

@@ -170,7 +170,7 @@ export default {
 
 .file {
   text-align: center;
-  border-top: 1px solid @cc4;
+  border-top: 1px solid @border;
   padding-top: 5px;
   .a-upload {
     padding: 4px 10px;
@@ -211,7 +211,7 @@ export default {
   padding: 0;
   .imgPreview {
     position: relative;
-    border-top: 1px solid @cc4;
+    border-top: 1px solid @border;
     width: 33.33%;
     height: 150px;
     &:hover .deleteImg {
@@ -233,7 +233,7 @@ export default {
       }
     }
     .imgName {
-      color: @cc4;
+      color: @border;
     }
     img {
       max-height: 100%;

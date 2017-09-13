@@ -89,7 +89,7 @@ export default {
   right: 0;
   padding: .5rem;
   .msgcontent {
-    background: @cc3;
+    background: @grey;
     display: inline-block;
     width: calc(~"100% - 7.5rem");
     background: #fff;
@@ -102,7 +102,7 @@ export default {
 
 .nomsg {
   text-align: center;
-  padding: 5rem; // background: @cc4;
+  padding: 5rem; // background: @border;
 }
 
 .item {
@@ -124,7 +124,7 @@ export default {
     border-radius: 6px;
     z-index: -1;
     word-break: break-all;
-    border-radius: 1px solid @cc4;
+    border-radius: 1px solid @border;
     box-shadow: 0 0 3px rgba(0, 0, 0, .1);
   }
 }
@@ -135,7 +135,7 @@ export default {
 
 .time {
   text-align: center;
-  color: @cc3;
+  color: @grey;
   font-size: 0.8rem;
   margin-bottom: 8px;
 }
@@ -156,7 +156,7 @@ export default {
 
 .msgTitle{
   text-align: center;
-  background: @cc6;
+  background: @main;
   color:#fff;
   line-height: 40px;
 }

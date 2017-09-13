@@ -355,7 +355,7 @@ export default {
   }
   .weui-btn {
     padding: 0 10px;
-    background: @cc7;
+    background: @main;
     .iconfont {
       margin-right: 5px;
     }
@@ -369,7 +369,7 @@ export default {
     margin: 0 10px;
     padding: 15px 15px 15px 130px;
     ;
-    border-bottom: 1px dashed @cc4;
+    border-bottom: 1px dashed @border;
     overflow: hidden;
     position: relative;
     height: 72px; // min-height: 80px;
@@ -408,7 +408,7 @@ export default {
       }
       .cardfooter {
         margin-top: 10px;
-        color: @cc3;
+        color: @grey;
         font-size: 12px;
         .iconfont {
           font-size: 14px;
@@ -433,7 +433,7 @@ export default {
     }
   }
   .main {
-    color: @cc7;
+    color: @main;
     font-size: 1.5rem;
     line-height: 3rem;
   }

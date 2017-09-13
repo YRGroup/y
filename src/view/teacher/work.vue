@@ -81,15 +81,15 @@ export default {
   text-align:left;
   .header{
     text-align:center;
-    border-bottom: 1px solid @cc4;
+    border-bottom: 1px solid @border;
   }
   .content{
     padding:1em;
-    // border-bottom: 1px solid @cc4;
+    // border-bottom: 1px solid @border;
   }
   .footer{
     text-align: right;
-    color:@cc2;
+    color:@grey;
   }
 }
 .hasNoData{

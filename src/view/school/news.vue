@@ -108,7 +108,7 @@ export default {
 
 .time {
   text-align: right;
-  color: @c4;
+  color: @grey;
 }
 
 .content {
@@ -122,7 +122,7 @@ export default {
   background: #fff;
   padding: 1rem;
   font-size: 1.3rem;
-  border-bottom: 1px solid @c2;
+  border-bottom: 1px solid @border;
   .btn {
     width: 80px;
     float: right;
@@ -133,7 +133,7 @@ export default {
   background: #fff;
   padding: .5rem;
   padding-left: 2rem;
-  border-bottom: 1px dotted @c2;
+  border-bottom: 1px dotted @border;
   .name,
   .content {
     display: inline-block;

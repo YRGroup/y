@@ -55,7 +55,7 @@ export default {
   padding-right:30px;
   line-height: 2.5rem;
   .telBtn{
-    background: @c1;
+    background: @bg;
     padding:5px 10px;
     border-radius: 5px;
   }

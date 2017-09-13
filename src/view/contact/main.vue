@@ -158,7 +158,7 @@ export default {
     .info {
       position: absolute;
       top: 2.7em;
-      color: @cc2;
+      color: @grey;
       height: 1.5em;
       width: 16em;
       overflow: hidden;
@@ -167,13 +167,13 @@ export default {
       position: absolute;
       top: 1.5em;
       right: 1em;
-      color: @cc3;
+      color: @grey;
     }
     .num {
       position: absolute;
       top: 3.5em;
       right: 1em;
-      background: @cc6;
+      background: @main;
       line-height: 1.2em;
       text-align: center;
       width: 1.3em;
@@ -188,7 +188,7 @@ export default {
     display: block;
     width: 100%;
     height: 1px;
-    background: @cc4;
+    background: @border;
     margin-top: .2em;
   }
   li:last-child {
@@ -197,7 +197,7 @@ export default {
 }
 
 // .activenav {
-//   background: @cc6;
+//   background: @main;
 //   color: #fff;
 // }
 .itemlist {
@@ -218,7 +218,7 @@ export default {
   overflow: hidden;
   max-height: 0;
   transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
-  border-top: 1px solid @cc4;
+  border-top: 1px solid @border;
 }
 
 .roleheader {

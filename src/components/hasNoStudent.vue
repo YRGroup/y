@@ -52,7 +52,7 @@ export default {
     }
     .subcon{
       font-size: 1.2em;
-      color:@cc2;
+      color:@grey;
       li{
         span{
           position: relative;
@@ -61,7 +61,7 @@ export default {
             content: "";
             width: 4px;
             height: 4px;
-            background: @cc6;
+            background: @main;
             border-radius: 50%;
             position: absolute;
             top: 8px;

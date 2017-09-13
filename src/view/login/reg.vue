@@ -303,7 +303,7 @@ export default {
 .register {
   padding: 0 2em;
   height: 100vh; // background-image: url('../../assets/img/bg1.jpg');
-  background: @c3;
+  background: @dark;
   background-position: center;
   .space {
     text-align: center;
@@ -317,7 +317,7 @@ export default {
       margin-top: 0;
     }
     .itemList {
-      border: 1px solid @cc4;
+      border: 1px solid @border;
       border-radius: 5px;
       img {
         vertical-align: middle;
@@ -332,7 +332,7 @@ export default {
 .roleChoice {
   width: 100%;
   .title {
-    color: @c6;
+    color: @main;
     font-size: 1.5rem;
     text-align: center;
   }
@@ -346,10 +346,10 @@ export default {
         max-height: 120px;
         border-radius: 50%;
         margin: 20px;
-        border: 3px solid @c4;
+        border: 3px solid @border;
       }
       .active {
-        border: 3px solid @c6;
+        border: 3px solid @main;
       }
     }
   }
@@ -358,7 +358,7 @@ export default {
 .endReg {
   .successInfo {
     padding: 2rem;
-    background: @c1;
+    background: @bg;
     text-align: center;
     border-radius: 10px;
     .title {
@@ -368,7 +368,7 @@ export default {
     .content {
       margin: 1rem 0;
       line-height: 2rem;
-      background: @c2;
+      background: @bg;
     }
   }
 }
@@ -381,22 +381,22 @@ export default {
   .checker {
     padding: 1rem;
     text-align: center;
-    border-top: 1px solid @c2;
-    border-bottom: 1px solid @c2;
+    border-top: 1px solid @border;
+    border-bottom: 1px solid @border;
     .checker-item {
       cursor: pointer;
-      background: @c4;
+      background: @grey;
       color: #fff;
       margin: 0 1rem;
       padding: 0 1rem;
     }
     .checker-selected {
-      background: @c6;
+      background: @main;
     }
   }
   .face {
     text-align: center;
-    border-top: 1px solid @c2;
+    border-top: 1px solid @border;
     .headImg {
       padding: 0px;
       text-align: center;

@@ -8,13 +8,15 @@
         <img :src="publicImg">
       </div>
       <div class="content">
-        <div class="cardtitle">
-          {{i.Title}}
+        <div class="title">
+          标题
         </div>
-        <div class="auther">李老师</div>
-        <div class="cardfooter">
+        <div class="footer">
+          <div class="auther">李老师</div>
+          <div class="category">语文</div>
           <span class="time">
-            <i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
+            <i class="iconfont">&#xe621;</i>{{i.AddTime || '2017-9-9'}}
+          </span>
         </div>
       </div>
     </div>
@@ -47,9 +49,9 @@ export default {
         pagesize: 10,
       }
       this.$API.getNewsList(para).then(res => {
-        if(!res.length){
+        if (!res.length) {
           this.nodataImg = true
-        }else{
+        } else {
           this.list = res
         }
       })
@@ -69,7 +71,7 @@ export default {
   margin: 0 10px;
   padding: 15px 15px 15px 130px;
   ;
-  border-bottom: 1px dashed @cc4;
+  border-bottom: 1px dashed @border;
   overflow: hidden;
   position: relative;
   height: 72px; // min-height: 80px;
@@ -87,11 +89,10 @@ export default {
   .content {
     width: 100%;
     display: inline-block;
-    .cardtitle {
+    .title {
       font-size: 14px;
-      height: 3em;
+      padding:.5em 0;
       overflow: hidden;
-      line-height: 20px;
       cursor: pointer;
     }
     .content {
@@ -106,13 +107,21 @@ export default {
         margin-left: 5px;
       }
     }
-    .cardfooter {
+    .footer {
       margin-top: 10px;
-      color: @cc3;
+      color: @grey;
       font-size: 12px;
+      .auther{
+        display: inline-block;
+        padding-right:1rem;
+      }
       .iconfont {
         font-size: 14px;
         margin-right: 5px;
+      }
+      .category{
+        display: inline-block;
+        padding-right:1rem;
       }
     }
   }
