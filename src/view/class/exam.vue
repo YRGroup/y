@@ -122,6 +122,9 @@ export default {
         let time = new Date(data.CreateTime)
         data.CreateTime = time.Format('MM-dd hh:mm')
 
+        this.chart1_indicator = []
+        this.chart1_series = []
+
         this.exam.CoursesSummary.forEach(o => {
           this.chart1_indicator.push({ name: o.CourseName, max: o.FullScore })
           this.chart1_series.push(o.AverageScore)
