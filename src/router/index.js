@@ -267,7 +267,7 @@ export default new Router({
         {
           path: '/player',
           component: player
-        }
+        },
       ]
     },
 

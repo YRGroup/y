@@ -52,7 +52,7 @@
           <div style="background:#ab79d9">
             <i class="iconfont">&#xe63c;</i>
           </div>
-          <span>视频课程</span>
+          <span>在线视频</span>
         </router-link>
       </flexbox-item>
       <flexbox-item :span="4" @click.native="fun('开发中，敬请期待~')">
@@ -61,12 +61,6 @@
         </div>
         <span>课程表</span>
       </flexbox-item>
-      <!-- <flexbox-item :span="4" @click.native="fun('开发中，敬请期待~')">
-        <div style="background:#ab79d9">
-          <i class="iconfont">&#xe604;</i>
-        </div>
-        <span>更多</span>
-      </flexbox-item> -->
     </flexbox>
 
     <div class="newsCard">

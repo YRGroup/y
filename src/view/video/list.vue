@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div>
     <div class="card" v-for="(i,index) in 3" :key="index" @click="$router.push('/player?id='+i.ID)">
       <div class="img" v-if="i.ImgUrl">
         <img :src="i.ImgUrl">
@@ -22,24 +22,44 @@
 </template>
 
 <script>
+import noData from '@/components/noData'
+import { Scroller, Flexbox, FlexboxItem, Card, Tab, TabItem, Group } from 'vux'
+
 export default {
-  name: 'hello',
+  components: {
+    Scroller, Flexbox, FlexboxItem, Card, Tab, TabItem, noData, Group
+  },
   data() {
     return {
+      page: 1,
+      list: [],
       publicImg: require('@/assets/publicImg.png'),
-      data: []
+      nodataImg: false,
     }
+  },
+  computed: {
   },
   methods: {
-    fun(val) {
-
-    }
+    getData() {
+      let para = {
+        category: 1,
+        currentPage: this.page,
+        pagesize: 10,
+      }
+      this.$API.getNewsList(para).then(res => {
+        if(!res.length){
+          this.nodataImg = true
+        }else{
+          this.list = res
+        }
+      })
+    },
   },
   created() {
-
+    this.$store.commit('changeTitle', '视频课程')
+    this.getData()
   },
   mounted() {
-
   }
 }
 </script>
