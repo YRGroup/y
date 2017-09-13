@@ -74,7 +74,7 @@
         <div @click="$router.push('/class/msg/'+item.ID)">{{item.content}}</div>
 
         <div class="img" v-if="item.albums.length!=0">
-          <div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in item.albums" :key="index">
+          <div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in item.albums" :key="index" @click="imgPopup(imgurl)">
           </div>
         </div>
       </div>

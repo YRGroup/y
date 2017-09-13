@@ -10,17 +10,18 @@
       <div class="content">
         <div>{{homework.Content}}</div>
         <div class="img" v-if="homework.Albums">
-          <img :src="imgurl" v-for="(imgurl,index) in homework.Albums" :key="index" @click="imgPopup(imgurl)">
+          <div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in homework.Albums" :key="index" @click="imgPopup(imgurl)">
+          </div>
         </div>
       </div>
       <div class="footer">{{ homework.CreateTime }}</div>
     </div>
 
     <popup v-model="showImgPopup" is-transparent>
-        <div class="popup" @click="showImgPopup=false">
-          <img :src="popupImgUrl">
-        </div>
-      </popup>
+      <div class="popup" @click="showImgPopup=false">
+        <img :src="popupImgUrl">
+      </div>
+    </popup>
 
   </div>
 </template>
@@ -68,7 +69,7 @@ export default {
       },
       homework: {},
       showImgPopup: false,
-      popupImgUrl:''
+      popupImgUrl: ''
     }
   },
   methods: {
@@ -145,10 +146,15 @@ export default {
   .content {
     margin: 1rem 0;
     .img {
-      img {
-        margin: 5%;
-        max-height: 100px;
-        max-width: 100px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      .imgCon {
+        width: calc(~"(100% - 30px) / 3");
+        height: 100px;
+        background-position: center;
+        background-size: cover;
+        margin: 5px;
       }
     }
   }
