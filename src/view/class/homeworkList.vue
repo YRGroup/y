@@ -31,7 +31,8 @@
         <div class="content">
           <div @click="$router.push('/class/homework/'+i.HID)">{{i.Content}}</div>
           <div class="img" v-if="i.Albums">
-            <img :src="imgurl" v-for="(imgurl,index) in i.Albums" :key="index" @click="imgPopup(imgurl)">
+            <div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in i.Albums" :key="index" @click="imgPopup(imgurl)">
+            </div>
           </div>
         </div>
         <!-- <div class="footer">{{ i.CreateTime }}</div> -->
@@ -96,7 +97,7 @@ export default {
       pageSize: 10,
       currentPage: 1,
       noMoreData: false,
-      popupImgUrl:''
+      popupImgUrl: ''
     }
   },
   methods: {
@@ -196,12 +197,15 @@ export default {
   .content {
     margin: 0.5rem 0;
     .img {
-      // width: 100%;
-      // height:100px;
-      img {
-        margin: 10px;
-        max-height: 80px;
-        max-width: 80px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      .imgCon {
+        width: calc(~"(100% - 30px) / 3");
+        height: 100px;
+        background-position: center;
+        background-size: cover;
+        margin: 5px;
       }
     }
   }
