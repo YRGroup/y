@@ -106,7 +106,7 @@ export default {
 
 #app .weui-bar__item_on .nav_icon,
 #app .weui-bar__item_on .navtext {
-  color: @cc6;
+  color: @main;
 }
 
 #app .weui-btn:after {

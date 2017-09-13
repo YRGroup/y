@@ -304,15 +304,15 @@ export default {
     text-align: center;
     background: #fff;
     padding: 0.5em;
-    color: @cc6;
+    color: @main;
     font-size: 1.2em;
-    border-top: 1px solid @cc4;
-    border-bottom: 1px solid @cc4;
+    border-top: 1px solid @border;
+    border-bottom: 1px solid @border;
   }
 }
 
 .iconfont {
-  color: @cc6;
+  color: @main;
   margin-right: .5em;
 }
 

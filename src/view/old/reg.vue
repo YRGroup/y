@@ -215,7 +215,7 @@ export default {
       margin-top: 0;
     }
     .itemList {
-      border: 1px solid @cc4;
+      border: 1px solid @border;
       border-radius: 5px;
       img {
         vertical-align: middle;
@@ -233,7 +233,7 @@ export default {
     height: 3.8em;
     line-height: 3.8em;
     display: block;
-    background: @cc6;
+    background: @main;
     text-align: center;
     .left {
       position: absolute;
@@ -250,7 +250,7 @@ export default {
 
 .loginIcon {
   margin-right: 8px;
-  color: @cc3;
+  color: @grey;
 }
 .regBtn{
   padding:0 20px;

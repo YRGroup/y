@@ -141,7 +141,7 @@ export default {
     top: 2rem;
     right: 0;
     border: none;
-    color: @cc6;
+    color: @main;
     padding: 0 1em;
   }
 }
@@ -159,7 +159,7 @@ export default {
   background: #fff;
   padding-left: 2em;
   margin-top:20px;
-  color: @cc2;
+  color: @grey;
    :after {
     content: "";
     position: absolute;
@@ -167,12 +167,12 @@ export default {
     height: 1em;
     top: 10px;
     left: 1em;
-    background: @cc6;
+    background: @main;
   }
   .addbtn {
     float: right;
     padding: 0 1rem;
-    color: @cc6;
+    color: @main;
     // background: #03a9f4;
     cursor: pointer;
     // border-top-left-radius: 15px;

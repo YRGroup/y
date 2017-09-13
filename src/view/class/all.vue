@@ -283,7 +283,7 @@ export default {
   padding: .5em;
   position: relative;
   .icon {
-    color: @cc6;
+    color: @main;
     width: 2.2em;
     position: absolute;
     left: 1em;
@@ -296,7 +296,7 @@ export default {
     display: block;
     width: 1px;
     height: 4em;
-    background: @cc4;
+    background: @border;
     position: absolute;
     left: 4em;
     top: .5em;
@@ -318,7 +318,7 @@ export default {
       .date {
         z-index: 100;
         background: #fff;
-        color: @cc3;
+        color: @grey;
         padding-left: 0.5em;
         width: 6em;
         right: 4em;
@@ -332,13 +332,13 @@ export default {
     display: block;
     width: 1px;
     height: 4em;
-    background: @cc4;
+    background: @border;
     position: absolute;
     right: 4em;
     top: .5em;
   }
   .link {
-    color: @cc2;
+    color: @grey;
     width: 1em;
     position: absolute;
     right: 1.6em;

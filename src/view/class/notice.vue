@@ -108,7 +108,7 @@ export default {
       }
       .time{
         display: block;
-        color:@cc3;
+        color:@grey;
       }
     }
   }

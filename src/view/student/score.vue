@@ -103,7 +103,7 @@ export default {
     font-size: 1rem;
   }
   .time {
-    color: @cc3;
+    color: @grey;
   }
 }
 
@@ -117,11 +117,11 @@ export default {
     .item {
       font-size: 1rem;
       width: 50%;
-      border-bottom: 1px solid @cc4;
+      border-bottom: 1px solid @border;
       .num {
         font-weight: bold;
         font-size: 1.2rem;
-        color: @cc6;
+        color: @main;
       }
     }
   }
@@ -130,11 +130,11 @@ export default {
     flex-wrap: wrap;
     padding: 0 .5rem;
     position: relative;
-    border-bottom: 1px solid @cc4;
+    border-bottom: 1px solid @border;
     &:before {
       content: "";
       display: block;
-      background: @cc4;
+      background: @border;
       width: 1px;
       height: 100%;
       position: absolute;
@@ -143,14 +143,14 @@ export default {
     li {
       width: 50%;
       line-height: 3rem;
-      border-bottom: 1px solid @cc4;
+      border-bottom: 1px solid @border;
       .score {
         font-size: 1.2rem;
-        color: @cc6;
+        color: @main;
         font-weight: 600;
       }
       .fullScore {
-        color: @cc2;
+        color: @grey;
       }
       &:last-child {
         border-bottom: none;
@@ -162,7 +162,7 @@ export default {
 .more {
   line-height: 2.5rem;
   text-align: center;
-  color: @cc2;
+  color: @grey;
 }
 
 .popup {
@@ -194,13 +194,13 @@ export default {
       }
       .time {
         display: inline-block;
-        color: @cc3;
+        color: @grey;
         line-height: 1.5rem;
       }
       .score {
         float: right;
         font-size: 1.1rem;
-        color: @cc6;
+        color: @main;
         width: 15%;
         text-align: right;
         margin-top: 10px;

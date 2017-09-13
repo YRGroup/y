@@ -58,9 +58,9 @@ body {
   margin: 0 auto;
   padding: 0;
   font-size: 12px;
-  background: @c1;
+  background: @bg;
   overflow-x: hidden;
-  color: @cc1;
+  color: @black;
 }
 
 html {
@@ -82,7 +82,7 @@ pre {
 }
 
 ::-webkit-input-placeholder {
-  color: @cc4;
+  color: @border;
 }
 
 li {
@@ -175,7 +175,7 @@ a {
     }
     .subcon {
       font-size: 1.2em;
-      color: @cc2;
+      color: @grey;
       li {
         span {
           position: relative;
@@ -184,7 +184,7 @@ a {
             content: "";
             width: 4px;
             height: 4px;
-            background: @cc6;
+            background: @main;
             border-radius: 50%;
             position: absolute;
             top: 8px;

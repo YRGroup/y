@@ -310,7 +310,7 @@ export default {
     height: 3.8em;
     line-height: 3.8em;
     display: block;
-    background: @cc6;
+    background: @main;
     max-width: 475px;
     .left {
       position: absolute;
@@ -335,33 +335,33 @@ export default {
 
 .checker {
   text-align: center;
-  border-top: 1px solid @cc4;
+  border-top: 1px solid @border;
   margin-left: 1rem;
   padding: .5rem 0;
   .title {
     float: left;
   }
   .checker-item {
-    border: 1px solid @cc4;
+    border: 1px solid @border;
     padding: 0 7px;
     width: 35px;
     border-radius: 15px;
     margin: 0 15px;
   }
   .checker-item-selected {
-    border: 1px solid @c6;
-    background: @c6;
+    border: 1px solid @main;
+    background: @main;
     color: #fff;
   }
 }
 
 .loginIcon {
   margin-right: 8px;
-  color: @cc3;
+  color: @grey;
 }
 
 .regBtn {
   line-height: 30px;
-  color: @c4;
+  color: @grey;
 }
 </style>

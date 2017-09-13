@@ -181,12 +181,12 @@ export default {
     }
     .auther {
       // float:right;
-      padding-right: 1rem; // color: @cc2;
+      padding-right: 1rem; // color: @grey;
       font-size: 1.2em; // margin: 3px 0 0 10px;
     }
     .time {
       // float: right;
-      color: @cc3;
+      color: @grey;
     }
   }
   .title {
@@ -206,7 +206,7 @@ export default {
     }
   }
   .footer {
-    color: @cc3;
+    color: @grey;
     text-align: right;
   }
 }

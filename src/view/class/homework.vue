@@ -135,7 +135,7 @@ export default {
     .auther {
       float: right;
       padding-right: 1rem;
-      color: @cc2;
+      color: @grey;
     }
   }
   .title {
@@ -153,7 +153,7 @@ export default {
     }
   }
   .footer {
-    color: @cc3;
+    color: @grey;
     text-align: right;
   }
 }
