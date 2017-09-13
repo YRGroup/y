@@ -2,8 +2,8 @@
   <div class="classMain">
 
     <!--班级通知
-  教师端显示
-  -->
+    教师端显示
+    -->
     <div class="notice" v-if="notice.length!=0">
       <div class="icon" @click="$router.push('/class/notice')">
         <span>通知</span>
@@ -16,25 +16,23 @@
     </div>
 
     <!-- <card style="padding:0" :header="{title:'班级管理菜单'}" v-show="$store.state.role=='老师'">
-      <div slot="content">
-        <cell title="考试列表" is-link @click.native="$router.push('/class/exam')"></cell>
-      </div>
-    </card> -->
-  
-
-      <div class="teacherListBox" v-show="this.teachers.length">
-        <div class="box-item" v-for="(item,index) in teachers" :key="index" @click="$router.push('/teacher/'+item.Meid)">
-          <img :src="item.Headimgurl">
-          <div class="name">{{ item.TrueName ||'&nbsp;' }}</div>
-          <div class="job">{{ item.Course ||'&nbsp;' }}</div>
+        <div slot="content">
+          <cell title="考试列表" is-link @click.native="$router.push('/class/exam')"></cell>
         </div>
-      </div>
+      </card> -->
 
-  
+    <div class="teacherListBox" v-show="this.teachers.length">
+      <div class="box-item" v-for="(item,index) in teachers" :key="index" @click="$router.push('/teacher/'+item.Meid)">
+        <img :src="item.Headimgurl">
+        <div class="name">{{ item.TrueName ||'&nbsp;' }}</div>
+        <div class="job">{{ item.Course ||'&nbsp;' }}</div>
+      </div>
+    </div>
+
     <!--班级作业
-  教师端不显示
-  家长端显示
-  -->
+    教师端不显示
+    家长端显示
+    -->
     <div class="classWork" v-if="homework!=[]">
       <div class="icon">
         <span>班级作业</span>
@@ -42,7 +40,7 @@
       <div class="content" v-if="homework.length">
         <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/work')">
           <div class="msg">
-           【 {{ i.CourseName }}】：{{ i.Title || '班级作业' }}
+            【 {{ i.CourseName }}】：{{ i.Title || '班级作业' }}
           </div>
           <div class="date">{{ i.CreateTime }}</div>
         </li>
@@ -58,11 +56,11 @@
         <span>更多</span>
       </div>
     </div>
-  
+
     <!--动态卡片
-  教师端显示
-  家长端显示
-  -->
+    教师端显示
+    家长端显示
+    -->
     <card v-for="(item,index) in list" :key="index">
       <div slot="header" class="header">
         <!-- <img :src="item.userImg" @click="$router.push('/teacher/'+item.auther_meid)"> -->
@@ -76,7 +74,8 @@
         <div @click="$router.push('/class/msg/'+item.ID)">{{item.content}}</div>
 
         <div class="img" v-if="item.albums.length!=0">
-          <img @click="imgPopup(imgurl)" :src="imgurl"  v-for="(imgurl,index) in item.albums" :key="index">
+          <div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in item.albums" :key="index">
+          </div>
         </div>
       </div>
       <div slot="footer" class="footer">
@@ -104,32 +103,32 @@
 
     <popup v-model="showImgPopup" is-transparent>
       <div class="popup" @click="showImgPopup=false">
-        <img :src="popupImgUrl" >
+        <img :src="popupImgUrl">
       </div>
     </popup>
-  
+
   </div>
 </template>
 
 <script>
-import { Flexbox, FlexboxItem, Card, Popup,Tab, TabItem,Divider,Cell } from 'vux'
+import { Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell } from 'vux'
 
 export default {
   components: {
-    Flexbox, FlexboxItem, Card,Popup, Tab, TabItem,Divider,Cell
+    Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell
   },
   data() {
     return {
-      boxwid: null||'1500px',
-      showImgPopup:false,
-      popupImgUrl:'',
+      boxwid: null || '1500px',
+      showImgPopup: false,
+      popupImgUrl: '',
       teachers: [],
       notice: [],
       homework: [],
       list: [],
-      pageSize:10,
-      currentPage:1,
-      noMoreData:false,
+      pageSize: 10,
+      currentPage: 1,
+      noMoreData: false,
     }
   },
   methods: {
@@ -140,9 +139,9 @@ export default {
         text: msg
       })
     },
-    imgPopup(val){
-      this.popupImgUrl=val
-      this.showImgPopup=true
+    imgPopup(val) {
+      this.popupImgUrl = val
+      this.showImgPopup = true
     },
     getAllClassDynamic() {
       let para = {}
@@ -151,14 +150,14 @@ export default {
       para.pagesize = this.pageSize
       para.currentPage = this.currentPage
       this.$API.getAllClassDynamic(para).then((res) => {
-        if(res.length){
-          res.forEach((element)=>{
+        if (res.length) {
+          res.forEach((element) => {
             this.list.push(element)
           })
-        }else{
+        } else {
           this.noMoreData = true
         }
-      }).catch(err=>{
+      }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
           width: "20em",
@@ -166,7 +165,7 @@ export default {
         })
       })
     },
-    loadMore(){
+    loadMore() {
       this.currentPage++
       this.getAllClassDynamic()
     },
@@ -174,7 +173,7 @@ export default {
       this.$API.getTeacherList(this.$store.state.currentClassId).then((res) => {
         this.teachers = res
         this.boxwid = res.length * 100 + 'px'
-      }).catch(err=>{
+      }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
           width: "20em",
@@ -190,7 +189,7 @@ export default {
       para.currentPage = 1
       this.$API.getAllClassDynamic(para).then((res) => {
         this.notice = res[0]
-      }).catch(err=>{
+      }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
           width: "20em",
@@ -205,7 +204,7 @@ export default {
       para.currentPage = 1
       this.$API.getHomeworkList(para).then((res) => {
         this.homework = res
-      }).catch(err=>{
+      }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
           width: "20em",
@@ -232,13 +231,13 @@ export default {
   created() {
     this.$store.commit('changeTitle', '班级动态')
     this.getAllClassDynamic()
-    if(!this.teachers.length){
+    if (!this.teachers.length) {
       this.getTeacherList()
     }
     // if(!this.notice.length){
     //   this.getNotice()
     // }
-    if(!this.homework.length){
+    if (!this.homework.length) {
       this.getHomeWork()
     }
   }
@@ -246,9 +245,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.classMain{
+.classMain {
   overflow-x: hidden;
 }
+
 .teacherListBox {
   position: relative;
   background: transparent;
@@ -256,22 +256,23 @@ export default {
   white-space: nowrap;
   overflow-x: scroll;
   min-width: 100vw;
-  padding:10px 0;
+  padding: 10px 0;
   box-sizing: border-box;
   .box-item {
     width: 5rem;
-    border-radius:15px;
-    display:inline-block;
+    border-radius: 15px;
+    display: inline-block;
     margin-left: 10px;
     text-align: center;
-    img{
-      width:3.6rem;
-      border-radius:50%;
+    img {
+      width: 3.6rem;
+      border-radius: 50%;
     }
   }
 }
-.header{
-  .tips{
+
+.header {
+  .tips {
     font-size: 0.8em;
   }
 }
@@ -307,10 +308,10 @@ export default {
     li {
       display: block;
       position: relative;
-      height:1.5em;
+      height: 1.5em;
       .msg {
         display: inline-block;
-        width:17em;
+        width: 17em;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -322,7 +323,7 @@ export default {
         padding-left: 0.5em;
         width: 6em;
         right: 4em;
-        top:0;
+        top: 0;
         position: absolute;
       }
     }
@@ -350,23 +351,22 @@ export default {
   height: 3rem;
   background: #fff;
   margin-bottom: @length;
-  padding: .5rem;
-  // width: 100%;
+  padding: .5rem; // width: 100%;
   .icon {
     width: 3rem;
     height: 3rem;
     display: inline-block;
     background: #ff8e00;
-    color:#fff;
+    color: #fff;
     text-align: center;
     border-radius: 5px;
     span {
       line-height: 3rem;
     }
   }
-  .title{
-    margin-top:-2.7rem;
-    margin-left:4rem;
+  .title {
+    margin-top: -2.7rem;
+    margin-left: 4rem;
     font-size: 1rem;
   }
   .info {
@@ -374,8 +374,9 @@ export default {
     color: #ccc;
   }
 }
-.popup{
+
+.popup {
   text-align: center;
-  padding:1rem;
+  padding: 1rem;
 }
 </style>
