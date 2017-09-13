@@ -43,7 +43,7 @@ export default {
       this.$API.getVideoAuth(para).then(res => {
         this.videoAuth = res.toString()
         this.initPlayer()
-        this.player.play()
+        // this.player.play()
       })
     },
     initPlayer() {
@@ -54,9 +54,8 @@ export default {
         id: 'J_prismPlayer',
         width: '100%',
         height: '300px',
-        autoplay: false,
+        autoplay: true,
         useH5Prism: true,
-        // useFlashPrism: true,
         vid: this.videoId,
         playauth: this.videoAuth,
         cover: this.videoCover,

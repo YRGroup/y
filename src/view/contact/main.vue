@@ -143,7 +143,6 @@ export default {
 .msglist {
   li {
     padding: 0.8em 0 0 1em;
-    font-size: 1.2em;
     background: #fff;
     position: relative;
     img {
