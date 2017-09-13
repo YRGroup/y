@@ -23,6 +23,10 @@
           </li>
         </ul>
       </div>
+
+      <div class="card">
+        <div id="chart1" style="width:100%; height:400px;"></div>
+      </div>
     </div>
 
     <popup v-model="showpopup" class="popup">
@@ -36,6 +40,7 @@
 </template>
 
 <script>
+import echarts from 'echarts';
 import { Cell, Popup } from 'vux'
 
 export default {
@@ -49,7 +54,10 @@ export default {
       exam: {},
       showpopup: false,
       nodataPic: require('@/assets/nodata.png'),
-      nodataImg: false
+      nodataImg: false,
+      chart1: null,
+      chart1_indicator: [],
+      chart1_series: [],
     }
   },
   methods: {
@@ -67,18 +75,67 @@ export default {
         this.getExamInfo(this.examList[0].ID)
       })
     },
+    setChart1() {
+      this.chart1.setOption({
+        title: {
+          text: '班级平均分'
+        },
+        tooltip: {},
+        legend: {
+        },
+        label: {
+          normal: {
+            show: true,
+            formatter: function(params) {
+              return params.value;
+            }
+          }
+        },
+        radar: {
+          // shape: 'circle',
+          name: {
+            textStyle: {
+              color: '#fff',
+              backgroundColor: '#999',
+              borderRadius: 3,
+              padding: [3, 5]
+            }
+          },
+          indicator: this.chart1_indicator
+        },
+        series: [{
+          type: 'radar',
+          itemStyle: { normal: { areaStyle: { type: 'default' } } },
+          data: [
+            {
+              value:this.chart1_series,
+              name: '班级平均分'
+            }
+          ]
+        }]
+      })
+    },
     getExamInfo(id) {
       this.$API.getExamInfo(id).then(res => {
         this.exam = res
         let data = this.exam
         let time = new Date(data.CreateTime)
         data.CreateTime = time.Format('MM-dd hh:mm')
+
+        this.exam.CoursesSummary.forEach(o => {
+          this.chart1_indicator.push({ name: o.CourseName, max: o.FullScore })
+          this.chart1_series.push(o.AverageScore)
+        })
+        this.setChart1()
       })
     }
   },
   created() {
     this.$store.commit('changeTitle', '考试列表报告')
     this.getData()
+  },
+  mounted() {
+    this.chart1 = echarts.init(document.getElementById('chart1'), 'macarons')
   },
   watch: {
   }
@@ -194,7 +251,9 @@ export default {
     }
   }
 }
-
+#chart1{
+  padding:20px 0;
+}
 .noData {
   min-height: 600px;
   text-align: center;

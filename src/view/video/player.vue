@@ -17,6 +17,7 @@
     <div class="card">
       <div class="title">课程介绍</div>
       <div class="content">
+        <h3 class="videoTitle">{{videoinfo.Title}}</h3>
         {{videoinfo.Description}}
       </div>
     </div>
@@ -86,7 +87,7 @@ export default {
     font-weight: 600;
   }
   .content {
-    padding: 2em;
+    padding: 1.2em;
     button {
       margin: .5em;
     }
@@ -124,8 +125,8 @@ export default {
       display: inline-block;
       width: 60px;
       height: 60px;
-      border-radius: 50%;
       img{
+        border-radius: 50%;
         max-width: 100%;
       }
     }
@@ -142,5 +143,8 @@ export default {
       color: @grey;
     }
   }
+}
+.videoTitle{
+  line-height: 2em;
 }
 </style>
