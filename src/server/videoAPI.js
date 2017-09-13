@@ -30,7 +30,7 @@ API.getMyVideoList = (para) => {
 // 获取所有视频列表
 API.getVideoList = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/video/getVideoList',{params:para}).then((res)=>{
+    axios.get(_APIurl+'/api/video/search',{params:para}).then((res)=>{
       resolve(res.data.Content)
     }).catch((err) => {
       reject(err)
