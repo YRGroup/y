@@ -1,22 +1,14 @@
 <template>
   <div>
-    <div class="card" v-for="(i,index) in 3" :key="index" @click="$router.push('/player?id='+i.ID)">
-      <div class="img" v-if="i.ImgUrl">
-        <img :src="i.ImgUrl">
-      </div>
-      <div class="img" v-else>
-        <img :src="publicImg">
+    <div class="card" v-for="(i,index) in data" :key="index" @click="openVideo(i)">
+      <div class="img">
+        <img :src="i.CoverUrl||'http://img.mukewang.com/576b7afb00019e4906000338-240-135.jpg'">
       </div>
       <div class="content">
-        <div class="title">
-          标题
-        </div>
+        <div class="title">{{i.Title}}</div>
         <div class="footer">
-          <div class="auther">李老师</div>
-          <div class="category">语文</div>
-          <span class="time">
-            <i class="iconfont">&#xe621;</i>{{i.AddTime || '2017-9-9'}}
-          </span>
+          <div class="auther">{{i.TrueName}}</div>
+          <div class="category">{{i.Tags.replace(/,/g,' ')}}</div>
         </div>
       </div>
     </div>
@@ -25,37 +17,36 @@
 
 <script>
 import noData from '@/components/noData'
-import { Scroller, Flexbox, FlexboxItem, Card, Tab, TabItem, Group } from 'vux'
+// import {  } from 'vux'
 
 export default {
   components: {
-    Scroller, Flexbox, FlexboxItem, Card, Tab, TabItem, noData, Group
+    
   },
   data() {
     return {
-      page: 1,
-      list: [],
-      publicImg: require('@/assets/publicImg.png'),
-      nodataImg: false,
+      filter: {
+        key: '',
+        cateid: '',
+        courseid: '',
+        grade: ''
+      },
+      data: [],
     }
   },
   computed: {
   },
   methods: {
     getData() {
-      let para = {
-        category: 1,
-        currentPage: this.page,
-        pagesize: 10,
-      }
-      this.$API.getNewsList(para).then(res => {
-        if (!res.length) {
-          this.nodataImg = true
-        } else {
-          this.list = res
-        }
+      let para = this.filter
+      this.$API.getVideoList(para).then(res => {
+        this.data = res
       })
     },
+    openVideo(val){
+      this.$router.push('/player?id='+val.VideoId)
+      this.$store.commit('setCurrentVideoInfo',val)
+    }
   },
   created() {
     this.$store.commit('changeTitle', '视频课程')
