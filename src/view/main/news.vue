@@ -175,10 +175,10 @@ export default {
 }
 .newcontent{
   overflow: hidden;
+  line-height: 1.4em;
 }
 .cardcont .vux-card-content{
   padding-left: 120px;
   margin-left: 120px;
-  background: red;
 }
 </style>
