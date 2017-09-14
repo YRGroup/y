@@ -107,7 +107,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .cardcont {
   img {
     width: 3.2em;
@@ -165,7 +165,6 @@ export default {
   text-align: center;
 }
 .newheader{
-  margin-bottom: 20px;
   .newtitle{
     font-size: 1.2em;
   }
@@ -173,12 +172,22 @@ export default {
     position: static;
   }
 }
+.weui-panel .header .time{
+  position: static;
+  margin-bottom: 1em;
+}
 .newcontent{
   overflow: hidden;
   line-height: 1.4em;
+  img{
+    max-width: 100%;
+    margin-top:10px;
+  }
 }
 .cardcont .vux-card-content{
   padding-left: 120px;
   margin-left: 120px;
 }
+
+
 </style>
