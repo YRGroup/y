@@ -3,8 +3,9 @@
 
     <div class="workcard">
       <div class="header">
-        <span class="category" :style="{background:colors[homework.CourseName]}">{{ homework.CourseName }}</span>
         <span class="auther">{{ homework.AutherName }}</span>
+        <span class="time">{{ homework.CreateTime }}</span>
+        <span class="category" :style="{background:colors[homework.CourseName]}">{{ homework.CourseName }}</span>
       </div>
       <div class="title">{{homework.Title}}</div>
       <div class="content">
@@ -14,7 +15,6 @@
           </div>
         </div>
       </div>
-      <div class="footer">{{ homework.CreateTime }}</div>
     </div>
 
     <popup v-model="showImgPopup" is-transparent>
@@ -55,13 +55,13 @@ export default {
         { key: '11', value: '体育' }
       ],
       colors: {
-        '语文': '#1abc9c',
-        '数学': '#2ecc71',
-        '英语': '#3498db',
-        '物理': '#9b59b6',
-        '化学': '#f1c40f',
-        '历史': '#e67e22',
-        '政治': '#e74c3c',
+        '语文': '#fe6867',
+        '数学': '#ffce31',
+        '英语': '#8b8efb',
+        '物理': '#ff80c0',
+        '化学': '#50c7ee',
+        '历史': '#ff9f22',
+        '政治': '#01c19e',
         '地理': '#34495e',
         '音乐': '#95a5a6',
         '美术': '#1abc9c',
@@ -123,28 +123,41 @@ export default {
 
 .workcard {
   background: #fff;
-  padding: 1rem;
+  padding: 1rem 0;
   margin: .6rem;
   .header {
+    padding: 0 1rem;
     height: 2rem;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid @border;
     .category {
       float: left;
-      padding: .3rem 1rem;
       color: #fff;
-      border-radius: 5px;
+      width: 2.4em;
+      height: 2.4em;
+      font-size: 1.2em;
+      line-height: 2.4em;
+      text-align: center;
+      border-radius: 50%;
+      margin-top: -0.5em;
+      margin-right: 20px;
     }
     .auther {
-      float: right;
-      padding-right: 1rem;
+      font-size: 1.2em;
+    }
+    .time {
+      // float: right;
       color: @grey;
     }
   }
   .title {
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   .content {
-    margin: 1rem 0;
+    padding:0 1rem;
+    margin: 0.5rem 0 1rem 0;
     .img {
       width: 100%;
       display: flex;

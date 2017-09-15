@@ -75,8 +75,9 @@ export default {
 .class-header{
   height:7.5em;
   width:100%;
-  background:linear-gradient(right top,#00c0a1, #00c06f);
-  background-size:100% 100%;
+  // background:linear-gradient(right top,#00c0a1, #00c06f);
+  background: url(../../assets/classBg.jpg);
+  background-size:cover;
   color:#fff;
   position:relative;
   img{

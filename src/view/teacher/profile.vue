@@ -116,10 +116,11 @@ export default {
 .itemlist{
   margin-top:-10px;
   .title{
-    border-bottom: 1px solid @grey;
+    border-bottom: 1px solid @border;
     margin-bottom: -1px;
     font-size:1.1em;
     line-height: 1.4em;
+    color: @main;
     .iconfont{
       margin-right:5px;
       font-size:1.2em;
@@ -127,7 +128,7 @@ export default {
   }
   .more{
     border-top:1px solid @border;
-    color:@grey;
+    color: @main;
     text-align: center;
     line-height: 3em;
   }

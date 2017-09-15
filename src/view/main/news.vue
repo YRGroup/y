@@ -16,8 +16,8 @@
     </div>
     <card class="comment cardcont" v-for="(i,index) in data.Comments" :key="index">
       <div slot="header" class="header">
-        <span class="headTextImg">{{i.UserName.substr(0,1)}}</span>
-         <!-- <img :src="i.Headimgurl" @click="fun('打开 '+i.UserName+' 的个人页面')">  -->
+        <!-- <span class="headTextImg">{{i.UserName.substr(0,1)}}</span> -->
+         <img :src="i.Headimgurl"> 
         <span class="usename">{{ i.UserName }}</span>
         <span class="time">{{ i.AddTime }}</span>
       </div>
@@ -172,7 +172,7 @@ export default {
     position: static;
   }
 }
-.weui-panel .header .time{
+.weui-panel .newheader .time{
   position: static;
   margin-bottom: 1em;
 }
@@ -184,10 +184,7 @@ export default {
     margin-top:10px;
   }
 }
-.cardcont .vux-card-content{
-  padding-left: 120px;
-  margin-left: 120px;
-}
+
 
 
 </style>
