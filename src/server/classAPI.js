@@ -64,6 +64,19 @@ API.getClassDynamic = (classId,postId) => {
   })
 }
 
+// 匿名获取单条班级动态
+API.getPostAnonymouse = (postId) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl + '/api/Share/GetDynamic', {
+      params: {
+        en_id: postId
+      }
+    }).then((res) => {
+      resolve(res.data.Content)
+    })
+  })
+}
+
 // 添加班级动态
 API.postNewClassDynamic = (classDynamicData) => {
   return new Promise((resolve, reject) => {

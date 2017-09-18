@@ -1,6 +1,6 @@
 <template>
   <div>
-  
+
     <card>
       <div slot="header" class="header cardcont">
         <img :src="data.userImg">
@@ -11,13 +11,13 @@
       <div slot="content" class="content">
         <pre>{{data.content}}</pre>
         <div class="img" v-if="data.albums.length!=0">
-          <img @click="imgPopup(imgurl)" :src="imgurl"  v-for="(imgurl,index) in data.albums" :key="index">
+          <img @click="imgPopup(imgurl)" :src="imgurl" v-for="(imgurl,index) in data.albums" :key="index">
         </div>
       </div>
     </card>
-  
+
     <div class="comment-header">
-      <span>全部评论（{{commentLength }}）</span>
+      <span>全部评论（{{data.comment.length }}）</span>
       <span class="addbtn" @click="openreply">回复</span>
     </div>
     <card class="comment cardcont" v-for="comment in data.comment" :key="comment.name">
@@ -30,7 +30,7 @@
         <p>{{comment.content }}</p>
       </div>
     </card>
-  
+
     <popup v-model="showpopup" height="180px" is-transparent>
       <div style="width: 95%;background-color:#fff;height:160px;margin:0 auto;border-radius:5px;padding-top:10px;">
         <group :title="'回复 '+data.auther">
@@ -44,10 +44,10 @@
 
     <popup v-model="showImgPopup" is-transparent>
       <div class="popup" @click="showImgPopup=false">
-        <img :src="popupImgUrl" >
+        <img :src="popupImgUrl">
       </div>
     </popup>
-  
+
   </div>
 </template>
 
@@ -62,34 +62,40 @@ export default {
     return {
       showpopup: false,
       replymsg: '',
-      showImgPopup:false,
-      popupImgUrl:'',
+      showImgPopup: false,
+      popupImgUrl: '',
       commentId: '',
-      content:'',
-      commentLength: 0,
+      content: '',
       fakeUserImg: 'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
-      data: {},
-      classHeader:false
+      data: {
+        albums: [],
+        comment: [],
+      },
+      classHeader: false
     }
   },
   methods: {
-    fun(msg) {
-      this.$vux.toast.show({
-        type: "text",
-        width: "20em",
-        text: msg
-      })
-    },
-    imgPopup(val){
-      this.popupImgUrl=val
-      this.showImgPopup=true
+    imgPopup(val) {
+      this.popupImgUrl = val
+      this.showImgPopup = true
     },
     getData() {
+      if (this.$route.name === 'post') {
+        this.userGetData()
+      }
+      if (this.$route.name === 'anonymousPost') {
+        this.anonymousGetData()
+      }
+    },
+    anonymousGetData() {
+      this.$API.getPostAnonymouse(this.$route.params.postId).then(res => {
+        this.data = res
+        this.commentId = res.ID
+      })
+    },
+    userGetData() {
       this.$API.getClassDynamic(this.$store.state.currentClassId, this.$route.params.postId).then(res => {
         this.data = res
-        if(res.comment){
-          this.commentLength = res.comment.length
-        }
         this.commentId = res.ID
       })
     },
@@ -110,7 +116,11 @@ export default {
           this.showpopup = false
         })
       } else {
-        this.fun('评论内容不能为空！')
+        this.$vux.toast.show({
+          type: "text",
+          width: "20em",
+          text: '评论内容不能为空！'
+        })
       }
 
     }
@@ -157,7 +167,7 @@ export default {
   font-size: 1.2em;
   background: #fff;
   padding-left: 2em;
-  margin-top:20px;
+  margin-top: 20px;
   color: @grey;
    :after {
     content: "";
@@ -171,19 +181,18 @@ export default {
   .addbtn {
     float: right;
     padding: 0 1rem;
-    color: @main;
-    // background: #03a9f4;
-    cursor: pointer;
-    // border-top-left-radius: 15px;
+    color: @main; // background: #03a9f4;
+    cursor: pointer; // border-top-left-radius: 15px;
     // border-bottom-left-radius: 15px;
   }
 }
-.content{
-  .img{
+
+.content {
+  .img {
     display: inline-block;
     text-align: center;
-    margin:0 auto;
-    img{
+    margin: 0 auto;
+    img {
       max-width: 100%;
     }
   }
