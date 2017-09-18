@@ -71,7 +71,7 @@
       </div>
       <div slot="content" class="content">
 
-        <div @click="$router.push('/class/msg/'+item.ID)">{{item.content}}</div>
+        <div @click="$router.push('/post/'+item.ID)">{{item.content}}</div>
 
         <div class="img" v-if="item.albums.length!=0">
           <div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in item.albums" :key="index" @click="imgPopup(imgurl)">
@@ -80,7 +80,7 @@
       </div>
       <div slot="footer" class="footer">
         <div class="footer-btn">
-          <!--<i class="iconfont view" @click="$router.push('/class/msg')">&#xe60f;  </i>-->
+          <!--<i class="iconfont view" @click="$router.push('/post')">&#xe60f;  </i>-->
           <i class="iconfont lick" @click="doLike(item.ID),item.like++">&#xe646; {{ item.like }}</i>
           <i class="iconfont combtn">&#xe6c3; {{ item.read }}</i>
         </div>
@@ -91,7 +91,7 @@
           </li>
           <!--<div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>-->
 
-          <div class="more" @click="$router.push('/class/msg/'+item.ID)">
+          <div class="more" @click="$router.push('/post/'+item.ID)">
             查看详情
           </div>
         </div>

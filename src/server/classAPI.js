@@ -51,12 +51,12 @@ API.addHomework = (data) => {
 }
 
 // 获取单条班级动态
-API.getClassDynamic = (classId,msgId) => {
+API.getClassDynamic = (classId,postId) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class/GetDynamic',{
       params:{
         cid:classId,
-        did:msgId
+        did:postId
       }
     }).then((res)=>{
       resolve(res.data.Content)
