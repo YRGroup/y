@@ -1,16 +1,16 @@
 <template>
   <div class="hello">
   
-    <group title="发布新的班级作业" labelWidth="6em">
-      <cell title="科目："  v-model="course"></cell>
+    <group title="发布新的班级作业" labelWidth="4em">
+      <cell title="学科："  v-model="course"></cell>
       <x-input title="标题：" placeholder="请输入标题" v-model="newHomeworkData.title" show-clear></x-input>
       
       <!-- <vue-html5-editor class="needsclick" :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor> -->
-      <x-textarea title="内容" v-model="newHomeworkData.content" placeholder="请在此输入内容" autosize></x-textarea>
+      <x-textarea title="正文：" v-model="newHomeworkData.content" placeholder="请在此输入内容" autosize></x-textarea>
 
       <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
-          <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg"> 点击这里上传图片
+          <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg">上传图片
         </a>
         <div class="imgPreviewContainer">
           <div class="imgPreview" v-for="(i,index) in fileList" :key="index">
@@ -171,7 +171,7 @@ export default {
 .file {
   text-align: center;
   border-top: 1px solid @border;
-  padding-top: 5px;
+  padding: 10px 0;
   .a-upload {
     padding: 4px 10px;
     height: 20px;
