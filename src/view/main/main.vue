@@ -15,52 +15,52 @@
 
     <!--功能导航-->
     <flexbox wrap="wrap" :gutter="0">
-      <flexbox-item :span="4">
+       <flexbox-item :span="3">
         <router-link :to="'/class/work'">
-          <div style="background:#28cb60">
+          <div style="background:#62ccfd">
             <i class="iconfont">&#xe668;</i>
           </div>
           <span>作业</span>
         </router-link>
-      </flexbox-item>
-      <flexbox-item :span="4" v-show="$store.state.role != '老师'">
+      </flexbox-item> 
+      <flexbox-item :span="3" v-show="$store.state.role != '老师'">
         <router-link :to="'/student/'+$store.state.currentStudentId+'/score/0'">
-          <div style="background:#fbc700">
+          <div style="background:#fdb963">
             <i class="iconfont">&#xe601;</i>
           </div>
           <span>成绩报告</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="4" v-show="$store.state.role=='老师'">
+      <flexbox-item :span="3" v-show="$store.state.role=='老师'">
         <router-link :to="'/class/exam'">
-          <div style="background:#fbc700">
+          <div style="background:#fdb963">
             <i class="iconfont">&#xe601;</i>
           </div>
           <span>班级成绩</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="4">
+      <flexbox-item :span="3">
         <router-link :to="'/schoolcard'">
-          <div style="background:#0ab9f7">
+          <div style="background:#47e4a1">
             <i class="iconfont">&#xe602;</i>
           </div>
           <span>一卡通</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="4">
+      <flexbox-item :span="3">
         <router-link to="/video">
-          <div style="background:#ab79d9">
+          <div style="background:#9dace4">
             <i class="iconfont">&#xe63c;</i>
           </div>
-          <span>在线视频</span>
+          <span>视频课程</span>
         </router-link>
       </flexbox-item>
-      <flexbox-item :span="4" @click.native="fun('开发中，敬请期待~')">
-        <div style="background:#ff5498">
+      <!-- <flexbox-item :span="3" @click.native="fun('开发中，敬请期待~')">
+        <div style="background:#62ccfd">
           <i class="iconfont">&#xe617;</i>
         </div>
         <span>课程表</span>
-      </flexbox-item>
+      </flexbox-item> -->
     </flexbox>
 
     <div class="newsCard">
@@ -264,50 +264,26 @@ export default {
 <style lang="less" scoped>
 .vux-flexbox {
   text-align: center;
-  padding: 1em 0;
-  background-color: white;
+  background-color: #fff;
   height: 100%;
+  padding:0.5em 0 1em 0;
+  box-shadow: 0 1px 6px 0 rgba(7,17,27,.1);
   .vux-flexbox-item {
     cursor: pointer; // margin: 0.5em 0;
     div {
-      border-radius: 50%;
+      border-radius: 1.6em;
       margin: 1em auto 0 auto;
-      width: 4.6em;
-      height: 4.6em;
-      line-height: 4.6em;
+      width: 3.8em;
+      height: 3.8em;
+      line-height: 3.8em;
       color: white;
       i {
-        font-size: 2.4em;
-        text-shadow: 2px 2px 1px rgba(0, 0, 0, .1);
+        font-size: 2em;
+        text-shadow: 0 0 2px rgba(0, 0, 0, .1);
       }
     }
     span {
       line-height: 2em;
-    }
-
-    .vux-flexbox {
-      text-align: center;
-      background-color: white;
-      height: 100%;
-      padding-bottom: 0.5em;
-      .vux-flexbox-item {
-        cursor: pointer;
-        div {
-          border-radius: 50%;
-          margin: 1em auto 0 auto;
-          width: 4.6em;
-          height: 4.6em;
-          line-height: 4.6em;
-          color: white;
-          i {
-            font-size: 2.4em;
-            text-shadow: 2px 2px 1px rgba(0, 0, 0, .1);
-          }
-        }
-        span {
-          line-height: 2em;
-        }
-      }
     }
   }
 }
@@ -383,14 +359,16 @@ export default {
       img {
         width: 100%;
         height: 72px;
+        border-radius: 6px;
       }
     }
     .cardCon {
       width: 100%;
       display: inline-block;
+      margin-top: 5px;
       .cardtitle {
         font-size: 14px;
-        height: 3em;
+        max-height: 3em;
         overflow: hidden;
         line-height: 20px;
         cursor: pointer;
@@ -408,7 +386,7 @@ export default {
         }
       }
       .cardfooter {
-        margin-top: 10px;
+        margin-top: 5px;
         color: @grey;
         font-size: 12px;
         .iconfont {

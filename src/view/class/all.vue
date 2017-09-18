@@ -40,7 +40,7 @@
       <div class="content" v-if="homework.length">
         <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/work')">
           <div class="msg">
-            【 {{ i.CourseName }}】：{{ i.Title || '班级作业' }}
+            【 {{ i.CourseName }}】{{ i.Title || '班级作业' }}
           </div>
           <div class="date">{{ i.CreateTime }}</div>
         </li>
@@ -80,13 +80,12 @@
       </div>
       <div slot="footer" class="footer">
         <div class="footer-btn">
-          <!--<i class="iconfont view" @click="$router.push('/post')">&#xe60f;  </i>-->
           <i class="iconfont lick" @click="doLike(item.ID),item.like++">&#xe646; {{ item.like }}</i>
-          <i class="iconfont combtn">&#xe6c3; {{ item.read }}</i>
+          <i class="iconfont combtn" @click="$router.push(`/p/${item.EncryptID}`)">&#xe6c3; </i>
         </div>
         <div class="comment" v-if="item.comment.length !== 0">
           <li v-for="(comment,index) in item.comment" v-if="item.comment.length!=0&&index<3" :key="index">
-            <span @click="fun('打开 '+comment.TrueName+' 的个人页面')">{{ comment.TrueName }}：</span>
+            <span>{{ comment.TrueName }}：</span>
             <span>{{ comment.content }}</span>
           </li>
           <!--<div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>-->
@@ -221,9 +220,9 @@ export default {
         })
       }).catch(err => {
         this.$vux.toast.show({
-          type: "success",
-          width: "20em",
-          text: err.msg
+          type: "text",
+          text: err.msg,
+          width: "20em"
         })
       })
     }
@@ -287,6 +286,7 @@ export default {
     color: @main;
     width: 2.2em;
     position: absolute;
+    font-weight: 600;
     left: 1em;
     top: 1em;
     font-size: 1.1em;

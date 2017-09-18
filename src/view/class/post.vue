@@ -22,8 +22,8 @@
     </div>
     <card class="comment cardcont" v-for="comment in data.comment" :key="comment.name">
       <div slot="header" class="header">
-        <img :src="fakeUserImg" @click="fun('打开 '+comment.TrueName+' 的个人页面')">
-        <span class="usename" @click="fun('打开 '+comment.TrueName+' 的个人页面')">{{ comment.TrueName }}</span>
+        <img :src="comment.Headimgurl">
+        <span class="usename">{{ comment.TrueName }}</span>
         <span class="time">{{ comment.addTime }}</span>
       </div>
       <div slot="content" class="content">
@@ -87,7 +87,9 @@ export default {
     getData() {
       this.$API.getClassDynamic(this.$store.state.currentClassId, this.$route.params.postId).then(res => {
         this.data = res
-        this.commentLength = res.comment.length
+        if(res.comment){
+          this.commentLength = res.comment.length
+        }
         this.commentId = res.ID
       })
     },
@@ -133,9 +135,6 @@ export default {
     font-size: 1.1em;
     top: 1em;
   }
-  .time {
-    top: 3em;
-  }
   .reply {
     position: absolute;
     top: 2rem;
@@ -177,6 +176,16 @@ export default {
     cursor: pointer;
     // border-top-left-radius: 15px;
     // border-bottom-left-radius: 15px;
+  }
+}
+.content{
+  .img{
+    display: inline-block;
+    text-align: center;
+    margin:0 auto;
+    img{
+      max-width: 100%;
+    }
   }
 }
 </style>

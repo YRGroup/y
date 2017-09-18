@@ -188,9 +188,9 @@ export default {
   overflow: hidden;
 }
 
-.cardcont .vux-card-content {
-  padding-left: 120px;
-  margin-left: 120px;
-  background: red;
-}
+// .vux-card-content {
+//   padding-left: 120px;
+//   margin-left: 120px;
+//   background: red;
+// }
 </style>

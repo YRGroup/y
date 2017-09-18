@@ -29,16 +29,16 @@
           <span v-show="step==3">{{getsmsCount!=0?(getsmsCount+'s后重新获取'):'重新获取'}}</span>
         </x-button>
       </x-input>
-      <div v-show="unActived">
+      <div v-show="unActived" class="borderline">
         <x-input title="密码：" placeholder="请设置初始密码" type="text" v-model="newPWd">
           <span slot="label" class="loginIcon">
             <i class="iconfont">&#xe6ec;</i>
           </span>
         </x-input>
-        <div v-show="parent_unActived">
+        <div v-show="parent_unActived" class="borderline">
           <x-input title="家长姓名：" placeholder="请输入家长姓名" type="text" v-model="parentName">
             <span slot="label" class="loginIcon">
-              <i class="iconfont">&#xe6ec;</i>
+              <i class="iconfont">&#xe678;</i>
             </span>
           </x-input>
           <checker class="checker" v-model="parentType" default-item-class="checker-item" selected-item-class="checker-item-selected">
@@ -337,16 +337,15 @@ export default {
   text-align: center;
   border-top: 1px solid @border;
   margin-left: 1rem;
-  padding: .5rem 0;
+  padding: 1rem 0;
   .title {
     float: left;
   }
   .checker-item {
     border: 1px solid @border;
     padding: 0 7px;
-    width: 35px;
     border-radius: 15px;
-    margin: 0 15px;
+    margin: 0 14px;
   }
   .checker-item-selected {
     border: 1px solid @main;
@@ -363,5 +362,22 @@ export default {
 .regBtn {
   line-height: 30px;
   color: @grey;
+}
+
+.borderline {
+  position: relative;
+}
+
+.borderline {
+  &:before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top: 1px solid #D9D9D9;
+    opacity: 0.5;
+    width: 100%;
+    margin-left:15px;
+  }
 }
 </style>

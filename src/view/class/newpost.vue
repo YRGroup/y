@@ -94,7 +94,8 @@ export default {
       } else {
         this.$vux.toast.show({
           type: "warn",
-          text: "数据不完整"
+          text: "数据不完整",
+          width: "20em"
         })
       }
     }
