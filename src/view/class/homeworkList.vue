@@ -2,7 +2,7 @@
   <div class="work">
 
     <div class="addbtn" v-show="$store.state.role == '老师'">
-      <x-button class="" mini @click.native="$router.push('/class/newhomework')" type="primary" plain>发布新作业</x-button>
+      <x-button class="" mini @click.native="$router.push('/class/newhomework')" type="primary" plain>布置作业</x-button>
     </div>
 
     <popup v-model="newHomework" height="310px" is-transparent>
@@ -25,7 +25,7 @@
         <div class="header">
           <span class="auther">{{ i.AutherName }}</span>
           <span class="time">{{ i.CreateTime }}</span>
-          <span class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName.substr(0,1) }}</span>
+          <span class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName }}</span>
         </div>
         <div class="title center" @click="$router.push('/class/homework/'+i.HID)">{{i.Title}}</div>
         <div class="content">
@@ -163,7 +163,7 @@ export default {
 
 <style lang="less" scoped>
 .addbtn {
-  padding: 0.8rem;
+  padding-top: 1em;
   margin: 0 auto;
   text-align: center;
 }
@@ -171,7 +171,7 @@ export default {
 .workcard {
   background: #fff;
   padding: 1rem 0;
-  margin: .6rem;
+  margin: 1em 0;
   .header {
     padding:0 1rem;
     height: 2rem;
@@ -179,16 +179,15 @@ export default {
     padding-bottom: 0.5em;
     border-bottom: 1px solid @border;
     .category {
-      float: left;
+      float: right;
       color: #fff;
       width: 2.4em;
-      height: 2.4em;
       font-size: 1.2em;
-      line-height: 2.4em;
+      line-height: 2em;
       text-align: center;
-      border-radius: 50%;
-      margin-top: -0.5em;
-      margin-right:20px;
+      border-radius: 6px;
+      margin-top: -0.1em;
+      padding:0 10px;
     }
     .auther {
       font-size: 1.2em;
@@ -205,6 +204,7 @@ export default {
   .content {
     padding:0 1rem;
     margin: 0.5rem 0;
+    line-height: 1.8em;
     .img {
       width: 100%;
       display: flex;

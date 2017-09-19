@@ -57,19 +57,20 @@ export default {
   color:#fff;
   background:linear-gradient(right top,#00c0a1, #00c06f);
   background-size:100% 100%;
-  padding:10px 50px;
+  padding:10px 20px;
   img{
     width:4rem;
     border-radius:50%;
     border:3px solid rgba(255,255,255,0.3);
+    vertical-align: middle;
   }
   .nameInfo{
     font-size: 1.2em;
     display:inline-block;
     vertical-align: top;
-    padding:1rem;
+    margin:10px 0 0 10px;
     .name{
-      font-size: 1.3rem;
+      font-size: 1.2rem;
     }
   }
   .tabmeun{
@@ -85,18 +86,18 @@ export default {
   }
   .msgbtn{
     position: absolute;
-    right:5px;
-    top:1rem;
+    right:0;
+    top:1em;
     padding:5px 1rem;
-    border-radius: 10px;
+    border-radius: 6px 0 0 6px;
     background: rgba(255,255,255,0.3);
   }
   .telbtn{
     position: absolute;
-    right:5px;
-    top:3.5rem;
+    right:0;
+    top:4.2em;
     padding:5px 1rem;
-    border-radius: 10px;
+    border-radius:6px 0 0 6px;
     background: rgba(255,255,255,0.3);
   }
 }

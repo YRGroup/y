@@ -132,16 +132,15 @@ export default {
     padding-bottom: 0.5em;
     border-bottom: 1px solid @border;
     .category {
-      float: left;
+      float: right;
       color: #fff;
       width: 2.4em;
-      height: 2.4em;
       font-size: 1.2em;
-      line-height: 2.4em;
+      line-height: 2em;
       text-align: center;
-      border-radius: 50%;
-      margin-top: -0.5em;
-      margin-right: 20px;
+      border-radius: 6px;
+      margin-top: -0.1em;
+      padding:0 10px;
     }
     .auther {
       font-size: 1.2em;
@@ -158,6 +157,7 @@ export default {
   .content {
     padding:0 1rem;
     margin: 0.5rem 0 1rem 0;
+    line-height: 1.8em;
     .img {
       width: 100%;
       display: flex;

@@ -2,13 +2,14 @@
   <div>
     <div class="card" v-for="(i,index) in data" :key="index" @click="openVideo(i)">
       <div class="img">
+        <div class="cover"><i class="iconfont">&#xe63c;</i></div>
         <img :src="i.CoverUrl||'http://img.mukewang.com/576b7afb00019e4906000338-240-135.jpg'">
       </div>
       <div class="content">
         <div class="title">{{i.Title}}</div>
         <div class="footer">
-          <div class="auther">{{i.TrueName}}</div>
-          <div class="category">{{i.Tags.replace(/,/g,' ')}}</div>
+          <div class="auther"><i class="iconfont">&#xe678;</i>{{i.TrueName}}</div>
+          <div class="category"><i class="iconfont">&#xe621;</i>{{i.Tags.replace(/,/g,' ')}}</div>
         </div>
       </div>
     </div>
@@ -59,49 +60,51 @@ export default {
 
 <style lang="less" scoped>
 .card {
-  margin: 0 10px;
-  padding: 15px 15px 15px 130px;
-  ;
-  border-bottom: 1px dashed @border;
   overflow: hidden;
   position: relative;
-  height: 72px; // min-height: 80px;
+  padding:10px;
+  height: 72px;
+  border-bottom: 1px solid #e5e5e5;
   .img {
     position: absolute;
-    top: 15px;
-    left: 0;
+    left: 10px;
     width: 120px;
     height: 72px;
     display: inline-block;
-    img {
+    margin-right: 10px;
+    .cover{
+      position: absolute;
       width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, .6);
+      opacity: .5;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 2.4em;
+      line-height: 72px;
+      color: #fff;
+    }
+    img {
+      max-width: 100%;
+      width: 120px;
+      height: 72px;
+      border-radius: 6px;
+      vertical-align: middle;
     }
   }
   .content {
-    width: 100%;
+    padding-left: 140px;
     display: inline-block;
     .title {
-      font-size: 14px;
-      padding:.5em 0;
       overflow: hidden;
-      cursor: pointer;
-    }
-    .content {
-      margin-top: 5px;
-      height: 1.4em;
-      line-height: 1.4em;
-      color: #666;
+      font-size: 1.4em;
+      max-height: 2.8em;
+      line-height: 1.2em;
       overflow: hidden;
-      margin-bottom: 5px;
-      a {
-        color: red;
-        margin-left: 5px;
-      }
     }
     .footer {
       margin-top: 10px;
       color: @grey;
-      font-size: 12px;
       .auther{
         display: inline-block;
         padding-right:1rem;

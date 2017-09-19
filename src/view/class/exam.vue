@@ -18,7 +18,7 @@
       <div class="main card">
         <ul class="subject">
           <li v-for="(list,index) in exam.StudentSummary" :key="index" @click="$router.push('/student/'+list.Meid+'/score/'+exam.ExamID)">
-            <span class="title">{{list.TrueName}}</span>
+            <span class="title">{{list.TrueName}}</span> 
             <span class="score">{{list.TotalScore}}</span>
           </li>
         </ul>
