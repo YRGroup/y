@@ -37,7 +37,7 @@ export default {
     }
   },
   created() {
-    if (!this.$store.state.hasLogin) {
+    if (!this.$store.state.hasLogin && !this.$route.meta.anonymous) {
       this.$store.dispatch('getCurrentUser')
     }
     if (localStorage.user && !this.$store.state.hasLogin) {

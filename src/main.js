@@ -14,7 +14,9 @@ FastClick.attach(document.body)
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
-  API.refreshLiveness()
+  if (!to.meta.anonymous) {
+    API.refreshLiveness()
+  }
   next()
 })
 

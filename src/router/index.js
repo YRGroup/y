@@ -14,7 +14,7 @@ import schoolcard from '@/view/addon/schoolcard'
 // 班级
 import classmain from '@/view/class/main'
 import classMainPage from '@/view/class/all'
-import classmsg from '@/view/class/msg'
+import post from '@/view/class/post'
 import notice from '@/view/class/notice'
 import homework from '@/view/class/homework'
 import homeworkList from '@/view/class/homeworkList'
@@ -108,10 +108,6 @@ export default new Router({
               path: 'homework/:homeworkId',
               component: homework
             },
-            // {
-            //     path: 'msg/:msgId',
-            //     component: classmsg
-            // },
             {
               path: 'kcb',
               component: kcb
@@ -144,9 +140,17 @@ export default new Router({
           ]
         },
         { //班级动态详情
-          path: '/class/msg/:msgId',
-          name: 'classmsg',
-          component: classmsg
+          path: '/post/:postId',
+          name: 'post',
+          component: post
+        },
+        {
+          path: '/p/:postId',
+          name: 'anonymousPost',
+          component: post,
+          meta: {
+            anonymous: true
+          }
         },
         { //教师
           path: '/teacher/:teacherId',
