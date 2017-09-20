@@ -6,15 +6,17 @@
       <x-input title="姓名" v-model="data.TrueName" text-align="right" placeholder="请输入姓名"></x-input>
       <checker class="checker" v-model="data.Sex" default-item-class="checker-item" selected-item-class="checker-item-selected">
         <div class="title">性别</div>
-        <checker-item value="男">男</checker-item>
-        <checker-item value="女">女</checker-item>
+        <div style="text-align:right">
+          <checker-item value="男">男</checker-item>
+          <checker-item value="女">女</checker-item>
+        </div>
       </checker>
       <cell title="头像" class="greatPic">
         <img :src="data.Headimgurl">
       </cell>
       <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
-          <input type="file" accept="image/*" ref="headImg" @change="addHeadImg"> 选择新头像
+          <input type="file" accept="image/*" ref="headImg" @change="addHeadImg"> 上传头像
         </a>
       </div>
     </group>
@@ -286,7 +288,7 @@ export default {
   text-align: center;
   border-top: 1px solid @border;
   margin-left: 1rem;
-  padding: .5rem 0;
+  padding: 0.8em 0;
   .title {
     float: left;
   }
@@ -296,6 +298,7 @@ export default {
     width: 45px;
     border-radius: 15px;
     margin: 0 15px;
+    text-align: center;
   }
   .checker-item-selected {
     border: 1px solid @main;
@@ -307,7 +310,7 @@ export default {
 .file {
   text-align: center;
   border-top: 1px solid @border;
-  padding-top: 5px;
+  padding: 10px 0;
   .a-upload {
     padding: 4px 10px;
     height: 20px;

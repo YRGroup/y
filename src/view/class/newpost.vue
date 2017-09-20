@@ -8,7 +8,7 @@
   
       <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
-          <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg"> 点击这里上传图片
+          <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg"> 上传图片
         </a>
         <div class="imgPreviewContainer">
           <div class="imgPreview" v-for="(i,index) in fileList" :key="index">
@@ -94,7 +94,7 @@ export default {
       } else {
         this.$vux.toast.show({
           type: "warn",
-          text: "数据不完整",
+          text: "请输入内容",
           width: "20em"
         })
       }
@@ -114,7 +114,7 @@ export default {
 .file {
   text-align: center;
   border-top: 1px solid @border;
-  padding-top: 5px;
+  padding: 10px 0;
   .a-upload {
     padding: 4px 10px;
     height: 20px;

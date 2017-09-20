@@ -23,9 +23,10 @@
 
     <div class="teacherListBox" v-show="this.teachers.length">
       <div class="box-item" v-for="(item,index) in teachers" :key="index" @click="$router.push('/teacher/'+item.Meid)">
-        <img :src="item.Headimgurl">
+        <!-- <img :src="item.Headimgurl"> -->
+        <div class="category" :style="{background:colors[item.Course]}">{{ item.Course.substr(0,1) }}</div>
         <div class="name">{{ item.TrueName ||'&nbsp;' }}</div>
-        <div class="job">{{ item.Course ||'&nbsp;' }}</div>
+        <!-- <div class="job">{{ item.Course ||'&nbsp;' }}</div> -->
       </div>
     </div>
 
@@ -91,7 +92,7 @@
           <!--<div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>-->
 
           <div class="more" @click="$router.push('/post/'+item.ID)">
-            查看详情
+            查看更多
           </div>
         </div>
       </div>
@@ -128,6 +129,19 @@ export default {
       pageSize: 10,
       currentPage: 1,
       noMoreData: false,
+      colors: {
+        '语文': '#fe6867',
+        '数学': '#ffce31',
+        '英语': '#8b8efb',
+        '物理': '#ff80c0',
+        '化学': '#50c7ee',
+        '历史': '#ff9f22',
+        '政治': '#01c19e',
+        '地理': '#34495e',
+        '音乐': '#95a5a6',
+        '美术': '#1abc9c',
+        '体育': '#2ecc71'
+      },
     }
   },
   methods: {
@@ -251,12 +265,13 @@ export default {
 .teacherListBox {
   position: relative;
   background: transparent;
-  background-color: #fff;
+  background: #fff;
   white-space: nowrap;
   overflow-x: scroll;
   min-width: 100vw;
   padding: 10px 0;
   box-sizing: border-box;
+  border-bottom: 1px solid #e5e5e5;
   .box-item {
     width: 5rem;
     border-radius: 15px;
@@ -266,6 +281,16 @@ export default {
     img {
       width: 3.6rem;
       border-radius: 50%;
+    }
+    .category{
+      display: inline-block;
+      color: #fff;
+      width: 2.6em;
+      font-size: 1.4em;
+      line-height: 2.6em;
+      text-align: center;
+      border-radius: 50%;
+      border:1px solid rgba(255,255,255,.2);
     }
   }
 }
@@ -279,9 +304,10 @@ export default {
 .classWork {
   margin: @length 0;
   background: #fff;
-  height: 4em;
+  height: 4.4em;
   padding: .5em;
   position: relative;
+  border-bottom: 1px solid #e5e5e5;
   .icon {
     color: @main;
     width: 2.2em;
@@ -290,7 +316,7 @@ export default {
     left: 1em;
     top: 1em;
     font-size: 1.1em;
-    line-height: 1.4em;
+    line-height: 1.5em;
   }
   .content:before {
     content: "";
@@ -300,21 +326,22 @@ export default {
     background: @border;
     position: absolute;
     left: 4em;
-    top: .5em;
+    top: .8em;
   }
   .content {
     margin-left: 4em;
-    margin-top: .5em;
+    margin-top: .3em;
     li {
       display: block;
       position: relative;
-      height: 1.5em;
+      height: 2em;
       .msg {
         display: inline-block;
         width: 17em;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        line-height: 2em;
       }
       .date {
         z-index: 100;
@@ -336,14 +363,14 @@ export default {
     background: @border;
     position: absolute;
     right: 4em;
-    top: .5em;
+    top: .8em;
   }
   .link {
     color: @grey;
     width: 1em;
     position: absolute;
     right: 1.6em;
-    top: 1em;
+    top: 1.3em;
   }
 }
 

@@ -94,6 +94,7 @@ export default {
   width: 100%;
   max-width: @appwidth;
   position: fixed;
+  background: @main;
   top: 0;
   z-index: 999;
 }
