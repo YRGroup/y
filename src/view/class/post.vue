@@ -18,7 +18,7 @@
 
     <div class="comment-header">
       <span>全部评论（{{data.comment.length }}）</span>
-      <span class="addbtn" @click="openreply">回复</span>
+      <span class="addbtn" @click="openreply" v-show="$route.name !== 'anonymousPost'">回复</span>
     </div>
     <card class="comment cardcont" v-for="comment in data.comment" :key="comment.name">
       <div slot="header" class="header">
@@ -53,6 +53,7 @@
 
 <script>
 import { Card, Popup, Group, XInput, XButton } from 'vux'
+import wx from 'weixin-js-sdk'
 
 export default {
   components: {
@@ -71,7 +72,22 @@ export default {
         albums: [],
         comment: [],
       },
-      classHeader: false
+      classHeader: false,
+      wxData: {
+        debug: false,
+        appId: '',
+        timestamp: null,
+        noncestr: '',
+        signature: '',
+        url: '',
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone']
+      },
+      wxShareData: {
+        title: '',
+        desc: '',
+        link: '',
+        imgUrl: 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
+      }
     }
   },
   methods: {
@@ -91,12 +107,26 @@ export default {
       this.$API.getPostAnonymouse(this.$route.params.postId).then(res => {
         this.data = res
         this.commentId = res.ID
+        this.wxShareData = {
+          title: res.auther + '分享的班级动态',
+          desc: res.content.slice(0, 30) + '...',
+          link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + res.EncryptID,
+          imgUrl: res.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
+        }
+        this.getWxData()
       })
     },
     userGetData() {
       this.$API.getClassDynamic(this.$store.state.currentClassId, this.$route.params.postId).then(res => {
         this.data = res
         this.commentId = res.ID
+        this.wxShareData = {
+          title: res.auther + '分享的班级动态',
+          desc: res.content.slice(0, 30) + '...',
+          link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + res.EncryptID,
+          imgUrl: res.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
+        }
+        this.getWxData()
       })
     },
     openreply() {
@@ -122,12 +152,25 @@ export default {
           text: '评论内容不能为空！'
         })
       }
-
-    }
+    },
+    getWxData(val) {
+      wx.onMenuShareTimeline(this.wxShareData)
+      wx.onMenuShareAppMessage(this.wxShareData)
+      wx.onMenuShareQQ(this.wxShareData)
+      wx.onMenuShareWeibo(this.wxShareData)
+      wx.onMenuShareQZone(this.wxShareData)
+    },
   },
   created() {
     this.$store.commit('changeTitle', '动态详情')
     this.getData()
+    this.$API.getWxData().then(res => {
+      this.wxData.appId = res.AppId
+      this.wxData.timestamp = res.Timestamp
+      this.wxData.nonceStr = res.NonceStr
+      this.wxData.signature = res.Signature
+      wx.config(this.wxData)
+    })
   },
   mounted() {
 
