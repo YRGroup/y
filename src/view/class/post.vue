@@ -53,6 +53,7 @@
 
 <script>
 import { Card, Popup, Group, XInput, XButton } from 'vux'
+import wx from 'weixin-js-sdk'
 
 export default {
   components: {
@@ -71,7 +72,7 @@ export default {
         albums: [],
         comment: [],
       },
-      classHeader: false
+      classHeader: false,
     }
   },
   methods: {
@@ -91,12 +92,14 @@ export default {
       this.$API.getPostAnonymouse(this.$route.params.postId).then(res => {
         this.data = res
         this.commentId = res.ID
+        this.getWxData(res)
       })
     },
     userGetData() {
       this.$API.getClassDynamic(this.$store.state.currentClassId, this.$route.params.postId).then(res => {
         this.data = res
         this.commentId = res.ID
+        this.getWxData(res)
       })
     },
     openreply() {
@@ -122,15 +125,55 @@ export default {
           text: '评论内容不能为空！'
         })
       }
-
-    }
+    },
+    getWxData(val) {
+      this.$API.getWxData().then(res => {
+        wx.config({
+          debug: false,
+          appId: res.AppId,
+          timestamp: res.Timestamp,
+          noncestr: res.NonceStr,
+          signature: res.Signature,
+          url: res.url,
+          jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone']
+        })
+        wx.onMenuShareTimeline({
+          title: val.auther + '分享的班级动态',
+          link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + val.EncryptID,
+          imgUrl: val.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
+        })
+        wx.onMenuShareAppMessage({
+          title: val.auther + '分享的班级动态',
+          desc: val.content.slice(0, 20),
+          link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + val.EncryptID,
+          imgUrl: val.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
+        })
+        wx.onMenuShareQQ({
+          title: val.auther + '分享的班级动态',
+          desc: val.content.slice(0, 20),
+          link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + val.EncryptID,
+          imgUrl: val.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
+        })
+        wx.onMenuShareWeibo({
+          title: val.auther + '分享的班级动态',
+          desc: val.content.slice(0, 20),
+          link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + val.EncryptID,
+          imgUrl: val.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
+        })
+        wx.onMenuShareQZone({
+          title: val.auther + '分享的班级动态',
+          desc: val.content.slice(0, 20),
+          link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + val.EncryptID,
+          imgUrl: val.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
+        })
+      })
+    },
   },
   created() {
     this.$store.commit('changeTitle', '动态详情')
     this.getData()
   },
   mounted() {
-
   }
 }
 </script>

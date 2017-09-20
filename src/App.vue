@@ -1,12 +1,12 @@
 <template>
   <div>
-  
+
     <loading v-model="isLoading"></loading>
-  
+
     <transition name='slide-fade'>
       <router-view></router-view>
     </transition>
-  
+
   </div>
 </template>
 
@@ -16,6 +16,11 @@ import { Loading } from 'vux'
 export default {
   components: {
     Loading
+  },
+  data() {
+    return {
+      
+    }
   },
   methods: {
 
@@ -45,7 +50,7 @@ export default {
     }
   },
   mounted() {
-    
+
   }
 }
 </script>
@@ -112,7 +117,8 @@ a {
 }
 
 @font-face {
-  font-family: 'iconfont';  /* project id 291668 */
+  font-family: 'iconfont';
+  /* project id 291668 */
   src: url('//at.alicdn.com/t/font_291668_rhnwcmwdqme7b9.eot');
   src: url('//at.alicdn.com/t/font_291668_rhnwcmwdqme7b9.eot?#iefix') format('embedded-opentype'),
   url('//at.alicdn.com/t/font_291668_rhnwcmwdqme7b9.woff') format('woff'),

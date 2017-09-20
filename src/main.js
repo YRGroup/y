@@ -80,7 +80,7 @@ axios.interceptors.response.use(
       err.code = error.response.data.Status
       err.msg = error.response.data.Msg
     }
-    if (error.response.status == 401) {
+    if (error.response.status == 401 || error.response.data.Msg === "操作令牌错误！") {
       router.push('/login')
     }
     return Promise.reject(err)
