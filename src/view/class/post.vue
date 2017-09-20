@@ -18,7 +18,7 @@
 
     <div class="comment-header">
       <span>全部评论（{{data.comment.length }}）</span>
-      <span class="addbtn" @click="openreply">回复</span>
+      <span class="addbtn" @click="openreply" v-show="$route.name !== 'anonymousPost'">回复</span>
     </div>
     <card class="comment cardcont" v-for="comment in data.comment" :key="comment.name">
       <div slot="header" class="header">
@@ -109,7 +109,7 @@ export default {
         this.commentId = res.ID
         this.wxShareData = {
           title: res.auther + '分享的班级动态',
-          desc: res.content.slice(0, 30)+'...',
+          desc: res.content.slice(0, 30) + '...',
           link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + res.EncryptID,
           imgUrl: res.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
         }
@@ -122,7 +122,7 @@ export default {
         this.commentId = res.ID
         this.wxShareData = {
           title: res.auther + '分享的班级动态',
-          desc: res.content.slice(0, 30)+'...',
+          desc: res.content.slice(0, 30) + '...',
           link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + res.EncryptID,
           imgUrl: res.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
         }
@@ -173,6 +173,7 @@ export default {
     })
   },
   mounted() {
+
   }
 }
 </script>
