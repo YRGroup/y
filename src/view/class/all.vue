@@ -259,6 +259,7 @@ export default {
 
 <style lang="less" scoped>
 .classMain {
+  margin-top: -20px;
   overflow-x: hidden;
 }
 
@@ -269,7 +270,7 @@ export default {
   white-space: nowrap;
   overflow-x: scroll;
   min-width: 100vw;
-  padding: 10px 0;
+  padding: 30px 0 10px;
   box-sizing: border-box;
   border-bottom: 1px solid #e5e5e5;
   .box-item {
@@ -280,6 +281,7 @@ export default {
     text-align: center;
     img {
       width: 3.6rem;
+      height: 3.6rem;
       border-radius: 50%;
     }
     .category{
@@ -291,6 +293,10 @@ export default {
       text-align: center;
       border-radius: 50%;
       border:1px solid rgba(255,255,255,.2);
+    }
+    .name{
+      line-height: 2em;
+      font-size: 1.1em;
     }
   }
 }

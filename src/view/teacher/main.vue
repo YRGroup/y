@@ -55,9 +55,12 @@ export default {
 <style lang="less" scoped>
 .teacher-header{
   color:#fff;
-  background:linear-gradient(right top,#00c0a1, #00c06f);
+  // background:linear-gradient(right top,#00c0a1, #00c06f);
+  background: url(../../assets/classBg.jpg) center center;
   background-size:100% 100%;
-  padding:10px 20px;
+  height: 100px;
+  padding:15px 20px;
+  box-sizing:border-box; 
   img{
     width:4rem;
     border-radius:50%;
@@ -87,18 +90,18 @@ export default {
   .msgbtn{
     position: absolute;
     right:0;
-    top:1em;
+    top:1.2em;
     padding:5px 1rem;
     border-radius: 6px 0 0 6px;
-    background: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.4);
   }
   .telbtn{
     position: absolute;
     right:0;
-    top:4.2em;
+    top:4.6em;
     padding:5px 1rem;
     border-radius:6px 0 0 6px;
-    background: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.4);
   }
 }
 </style>

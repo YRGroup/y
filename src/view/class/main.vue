@@ -6,7 +6,7 @@
 
     <div v-else>
       <div class="class-header">
-        <img :src="classPic">
+        <div><img :src="classPic"></div>
         <!-- <img :src="classInfo.classlogo||'/static/img/c.b22e462.jpeg'"> -->
         <span class="name">{{ classInfo.name }}</span>
         <span class="teacher">班主任：{{ classInfo.teacherName||'未指定' }}</span>
@@ -73,51 +73,52 @@ export default {
 
 <style lang="less" scoped>
 .class-header{
-  height:7.5em;
+  padding: 1em 0;
+  height:136px;
   width:100%;
   // background:linear-gradient(right top,#00c0a1, #00c06f);
-  background: url(../../assets/classBg.jpg);
+  background: url(../../assets/class_topbg.png) center;
   background-size:cover;
   color:#fff;
+  text-align: center;
   position:relative;
+  z-index: 100;
   img{
-    width:3.4rem;
-    border-radius:6px;
-    position:absolute;
-    top:1rem;
-    left:1rem;
-    border: 4px solid rgba(255,255,255,0.3);
+    width:3.2rem;
+    height:3.2rem;
+    border-radius:50%;
+    // position:absolute;
+    // top:1.1rem;
+    // left:1rem;
+    border: 3px solid rgba(255,255,255,0.3);
   }
   .name{
-    position:absolute;
-    top:1.3rem;
-    left:6rem;
-    font-size:1.4em;
+    // position:absolute;
+    // top:1.3rem;
+    // left:6rem;
+    font-size:1.2em;
+    display: block;
   }
   .teacher{
-    position:absolute;
-    top:3.3rem;
-    left:6rem;
+    margin-right: 10px;
+  //   position:absolute;
+  //   top:3.3rem;
+  //   left:6rem;
   }
-  .count{
-    position:absolute;
-    top:3.3rem;
-    left:13rem;
-  }
+  // .count{
+  //   position:absolute;
+  //   top:3.3rem;
+  //   left:13rem;
+  // }
   .addbtn1{
-    position: absolute;
-    top:2rem;
-    right:0;
     background:#ffb260;
-    padding:0 .2em;
-    line-height: 2em;
-    border-radius: 20px 0 0 20px;
-    cursor: pointer;
+    border-radius: 20px;
+    width: 80px;
+    margin:8px auto;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
     .iconfont{
-      font-size: 1.3em;
-      margin:0 5px 0 5px;
-      position: relative;
-      top: 2px;
+      font-size: 1.2em;
+      margin-right: 5px;
     }
   }
   .addbtn2{

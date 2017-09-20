@@ -1,11 +1,11 @@
 <template>
-  <div class="hello">
+  <div class="hello" style="margin-top:-10px">
 
     <has-no-student v-if="$store.state.hasNoStudent">
     </has-no-student>
 
     <div v-else>
-      <group class="link" title="班级通讯录">
+      <group class="link" title="">
         <cell class="itemlist" :title="'学生 （'+student.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'" @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null">
           <span slot="icon" class="roleheader bgcolor1">
             <i class="iconfont">&#xe607;</i>
@@ -37,7 +37,7 @@
           </cell>
         </div>
       </group>
-      <group title="最近的消息">
+      <group title="最近消息">
         <ul class="msglist">
           <li @click="$router.push('/msg/'+item.Meid)" v-for="(item,index) in msgdata" :key="index">
             <img :src="item.HeadImg">
@@ -200,7 +200,8 @@ export default {
 //   color: #fff;
 // }
 .itemlist {
-  background: #f9f9f9;
+  // background: #f9f9f9;
+  margin-top: -1px;
 }
 
 .cellicon {

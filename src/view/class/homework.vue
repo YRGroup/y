@@ -123,24 +123,20 @@ export default {
 
 .workcard {
   background: #fff;
-  padding: 1rem 0;
-  margin: .6rem;
+  margin: 1em 0;
   .header {
     padding: 0 1rem;
-    height: 2rem;
-    margin-bottom: 0.5em;
-    padding-bottom: 0.5em;
+    height: 2.4rem;
+    line-height: 2.4rem;
     border-bottom: 1px solid @border;
     .category {
       float: right;
       color: #fff;
       width: 2.4em;
-      font-size: 1.2em;
       line-height: 2em;
       text-align: center;
-      border-radius: 6px;
-      margin-top: -0.1em;
-      padding:0 10px;
+      border-radius: 0 0 6px 6px;
+      padding: 0 10px;
     }
     .auther {
       font-size: 1.2em;
@@ -155,8 +151,7 @@ export default {
     font-size: 1.2rem;
   }
   .content {
-    padding:0 1rem;
-    margin: 0.5rem 0 1rem 0;
+    padding: 0.5rem 1rem;
     line-height: 1.8em;
     .img {
       width: 100%;

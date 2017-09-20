@@ -257,7 +257,8 @@ export default {
 <style lang="less" scoped>
 .user-header {
   text-align: center;
-  background: linear-gradient(right top, #00c0a1, #00c06f);
+  // background: linear-gradient(right top, #00c0a1, #00c06f);
+  background: url(../../assets/home_bg.png) center;
   background-size: 100% 100%;
   color: #fff; // position: relative;
   padding: 10px 0;

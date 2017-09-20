@@ -2,7 +2,7 @@
   <div class="work">
 
     <div class="addbtn" v-show="$store.state.role == '老师'">
-      <x-button class="" mini @click.native="$router.push('/class/newhomework')" type="primary" plain>布置作业</x-button>
+      <x-button  @click.native="$router.push('/class/newhomework')" type="primary" plain>布置作业</x-button>
     </div>
 
     <popup v-model="newHomework" height="310px" is-transparent>
@@ -29,7 +29,7 @@
         </div>
         <div class="title center" @click="$router.push('/class/homework/'+i.HID)">{{i.Title}}</div>
         <div class="content">
-          <div @click="$router.push('/class/homework/'+i.HID)">{{i.Content}}</div>
+          <div class="text" @click="$router.push('/class/homework/'+i.HID)">{{i.Content}}</div>
           <div class="img" v-if="i.Albums">
             <div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in i.Albums" :key="index" @click="imgPopup(imgurl)">
             </div>
@@ -164,31 +164,32 @@ export default {
 <style lang="less" scoped>
 .addbtn {
   padding-top: 1em;
-  margin: 0 auto;
+  margin: 0 40px;
   text-align: center;
+  button{
+    border-radius: 99px!important;
+    line-height: 2;
+  }
 }
 
 .workcard {
   background: #fff;
-  padding: 1rem 0;
-  margin: 1em 0;
+  margin: 1em 10px;
   .header {
-    padding:0 1rem;
-    height: 2rem;
-    margin-bottom: 0.5em;
-    padding-bottom: 0.5em;
+    padding: 0 1rem;
+    height: 2.4rem;
+    line-height: 2.4rem;
     border-bottom: 1px solid @border;
     .category {
       float: right;
       color: #fff;
       width: 2.4em;
-      font-size: 1.2em;
       line-height: 2em;
       text-align: center;
-      border-radius: 6px;
-      margin-top: -0.1em;
-      padding:0 10px;
+      border-radius: 0 0 6px 6px;
+      padding: 0 10px;
     }
+
     .auther {
       font-size: 1.2em;
     }
@@ -202,8 +203,7 @@ export default {
     font-size: 1rem;
   }
   .content {
-    padding:0 1rem;
-    margin: 0.5rem 0;
+    padding: 0.5rem 1rem;
     line-height: 1.8em;
     .img {
       width: 100%;
@@ -216,6 +216,10 @@ export default {
         background-size: cover;
         margin: 5px;
       }
+    }
+    .text {
+      height: 2.6rem;
+      overflow: hidden;
     }
   }
   .footer {
