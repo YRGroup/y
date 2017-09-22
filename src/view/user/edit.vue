@@ -89,12 +89,14 @@
         </cell>
         <checker class="checker" v-model="studentData.Sex" default-item-class="checker-item" selected-item-class="checker-item-selected">
           <div class="title">性别</div>
-          <checker-item value="男">男</checker-item>
-          <checker-item value="女">女</checker-item>
+          <div style="text-align:right">
+            <checker-item value="男">男</checker-item>
+            <checker-item value="女">女</checker-item>
+          </div>
         </checker>
         <selector title="民族" :options="$store.state.nationList" v-model="studentData.Volk"></selector>
       </group>
-      <div class="tips">更多资料请至PC端修改</div>
+      <div class="tips">更多资料请用电脑登录修改</div>
     </div>
 
     <group class="btn">
@@ -345,6 +347,7 @@ export default {
   }
 }
 .tips{
+  text-align: center;
   line-height: 30px;
   color:@grey;
 }
