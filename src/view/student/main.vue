@@ -1,7 +1,7 @@
 <template>
   <div>
     <has-no-student v-if="$store.state.hasNoStudent"></has-no-student>
-    
+
     <div v-else>
       <div class="header">
         <div class="stuImg">
@@ -14,7 +14,7 @@
         <div class="msgbtn" @click="$router.push('/msg/'+$route.params.studentId)">
           <i class="iconfont">&#xe606;</i>发消息</div>
       </div>
-  
+
       <transition name="slide-fade">
         <router-view></router-view>
       </transition>
@@ -60,17 +60,19 @@ export default {
 <style lang="less" scoped>
 .header {
   color: #fff; // text-align: center;
-  background: linear-gradient(right top, #00c0a1, #00c06f); // background-size:100% 100%;
-  overflow: hidden;
-  padding: 10px;
+  // background: linear-gradient(right top, #00c0a1, #00c06f);
+  background: url(../../assets/classBg.jpg) center center;
+  height: 100px;
+  padding: 15px 20px;
+  box-sizing: border-box;
   position: relative;
   .stuImg {
     float: left;
-    margin-left: 1rem;
     img {
-      width: 3.4rem;
+      width: 4rem;
       border-radius: 50%;
       border: 3px solid rgba(255, 255, 255, 0.3);
+      vertical-align: middle;
     }
   }
   .nameInfo {
@@ -80,7 +82,7 @@ export default {
       font-size: 1.4em;
     }
     .clname {
-      opacity: 0.8
+      margin-top: 5px;
     }
   }
 
@@ -95,16 +97,14 @@ export default {
   .msgbtn {
     position: absolute;
     right: 0;
-    top: 1.4rem;
-    padding: 0.2rem;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 20px 0 0 20px;
+    top: 2.4rem;
+    padding:3px 10px;
+    border-radius:6px 0 0 6px;
+    background: rgba(255,255,255,0.4);
     .iconfont {
-      font-size: 1.3em;
       margin: 0 5px 0 5px;
-      position: relative;
       top: 2px;
+      font-size: 1.2em;
     }
   }
 }

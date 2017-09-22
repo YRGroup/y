@@ -24,7 +24,7 @@
     <div v-if="$store.state.role=='老师'">
       <group title="教师资料：">
         <x-input title="身份证" v-model="data.IDCard" text-align="right" placeholder="请输入身份证"></x-input>
-        <selector title="民族" :options="$store.state.nationList" v-model="data.Volk"></selector>
+        <selector title="民族" :options="$store.state.nationList" v-model="data.Volk" text-align="right"></selector>
         <selector title="政治面貌" :options="$store.state.politicalList" v-model="data.PoliticalStatus"></selector>
         <x-input title="教龄" v-model="data.SchoolAge" text-align="right"></x-input>
         <x-input title="职称" v-model="data.Title" text-align="right"></x-input>
@@ -32,20 +32,22 @@
       </group>
 
       <group :title="'教学经历'+(index+1)+'：'" v-for="(i,index) in data.TeachExperience" :key="index">
-        <x-input title="任职学校" v-model="i.SchoolName"></x-input>
+        <x-input title="任职学校" v-model="i.SchoolName" text-align="right"></x-input>
         <cell title="执教时间">{{i.StartTime}} - {{i.EndTime}}</cell>
         <datetime v-model="i.StartTime" title="选择开始时间"></datetime>
         <datetime v-model="i.EndTime" title="选择结束时间"></datetime>
         <checker class="checker" v-model="i.IsVisible" default-item-class="checker-item" selected-item-class="checker-item-selected">
           <div class="title">权限</div>
-          <checker-item value="true">公开</checker-item>
-          <checker-item value="false">不公开</checker-item>
+          <div style="text-align:right">
+            <checker-item value="false">公开</checker-item>
+            <checker-item value="true">不公开</checker-item>
+          </div>
         </checker>
-        <cell title="删除此条教学经历" is-link @click.native="data.TeachExperience.splice(index,1)"></cell>
+        <cell text-alien="center" title="删除此条教学经历" is-link @click.native="data.TeachExperience.splice(index,1)"></cell>
       </group>
 
       <group :title="'个人荣誉'+(index+1)+'：'" v-for="(i,index) in data.PersonalHonor" :key="index">
-        <cell title="图片">
+        <cell title="图片" class="greatPic">
           <img :src="i.ImgPath" style="width:100px;">
         </cell>
         <div class="file" style="text-align:center">
@@ -53,11 +55,13 @@
             <input type="file" accept="image/*" :ref="'honor'+index" @change="addImg(index)"> 选择图片
           </a>
         </div>
-        <x-input title="描述" v-model="i.Description"></x-input>
+        <x-input title="描述" v-model="i.Description" text-align="right"></x-input>
         <checker class="checker" v-model="i.IsVisible" default-item-class="checker-item" selected-item-class="checker-item-selected">
           <div class="title">权限</div>
-          <checker-item value="true">公开</checker-item>
-          <checker-item value="false">不公开</checker-item>
+          <div style="text-align: right;">
+            <checker-item value="false">公开</checker-item>
+            <checker-item value="true">不公开</checker-item>
+          </div>
         </checker>
         <cell title="删除此条个人荣誉" is-link @click.native="data.PersonalHonor.splice(index,1)"></cell>
       </group>
@@ -85,12 +89,14 @@
         </cell>
         <checker class="checker" v-model="studentData.Sex" default-item-class="checker-item" selected-item-class="checker-item-selected">
           <div class="title">性别</div>
-          <checker-item value="男">男</checker-item>
-          <checker-item value="女">女</checker-item>
+          <div style="text-align:right">
+            <checker-item value="男">男</checker-item>
+            <checker-item value="女">女</checker-item>
+          </div>
         </checker>
         <selector title="民族" :options="$store.state.nationList" v-model="studentData.Volk"></selector>
       </group>
-      <div class="tips">更多资料请至PC端修改</div>
+      <div class="tips">更多资料请用电脑登录修改</div>
     </div>
 
     <group class="btn">
@@ -310,7 +316,7 @@ export default {
 .file {
   text-align: center;
   border-top: 1px solid @border;
-  padding: 10px 0;
+  padding: 10px 0 5px;
   .a-upload {
     padding: 4px 10px;
     height: 20px;
@@ -341,6 +347,7 @@ export default {
   }
 }
 .tips{
+  text-align: center;
   line-height: 30px;
   color:@grey;
 }
