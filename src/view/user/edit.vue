@@ -47,7 +47,7 @@
       </group>
 
       <group :title="'个人荣誉'+(index+1)+'：'" v-for="(i,index) in data.PersonalHonor" :key="index">
-        <cell title="图片">
+        <cell title="图片" class="greatPic">
           <img :src="i.ImgPath" style="width:100px;">
         </cell>
         <div class="file" style="text-align:center">
