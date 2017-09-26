@@ -10,7 +10,7 @@
       <img src="../../assets/logo.png">
     </div>
     <group>
-      <x-input title="手机号：" placeholder="学号/手机号" keyboard="number" v-model="tel" @on-change="preVerify" @on-blur="verifyAccount">
+      <x-input title="手机号：" placeholder="学号/手机号" keyboard="number" v-model="tel" @on-change="preVerify" @on-blur="preVerify">
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe618;</i>
         </span>
@@ -56,7 +56,7 @@
       <div class="item" v-show="step==1">
         <div @click="step=2">忘记密码？使用短信验证码登陆</div>
       </div>
-      <x-button type="primary" @click.native="verifyAccount" v-show="step==0">下一步</x-button>
+      <x-button type="primary" @click.native="preVerify" v-show="step==0">下一步</x-button>
       <x-button type="primary" @click.native="login" v-show="step==1 || step==3">登录</x-button>
 
       <!-- <div class="regBtn" @click="$router.push('/reg')">我是家长，还没有帐号？点击注册</div> -->
@@ -126,54 +126,46 @@ export default {
       }
     },
     preVerify() {
-      if (this.tel.length == 11) {
-        this.verifyAccount()
-      }
-    },
-    verifyAccount() {
       if (this.tel == '') {
         this.$vux.toast.show({
           type: "warn",
           text: '请输入正确的手机号/学号',
           width: "20em"
         })
-      } else if (this.tel != '' && this.tel.length == 11) {
-        let para = { phone: this.tel }
-        this.$API.verifyAccount(para).then(res => {
-          if (res.Msg == "normal") {
-            this.step = 1
-          } else if (res.Msg == "unActived") {
-            this.step = 2
-            this.unActived = true
-          } else if (res.Msg == "parent_unActived") {
-            this.step = 2
-            this.unActived = true
-            this.parent_unActived = true
-          } else {
-            // console.log(res.Msg)
-            this.$vux.toast.show({
-              type: "warn",
-              text: '手机号未注册',
-              width: "20em"
-            })
-            // this.$router.push('/reg?tel=' + this.tel)
-          }
-        }).catch(err => {
+      } else if (this.tel.slice(0, 1) == 1 && this.tel.length === 11) {
+        this.verifyAccount()
+      } else {
+        this.step = 1
+      }
+    },
+    verifyAccount() {
+      let para = { phone: this.tel }
+      this.$API.verifyAccount(para).then(res => {
+        if (res.Msg == "normal") {
+          this.step = 1
+        } else if (res.Msg == "unActived") {
+          this.step = 2
+          this.unActived = true
+        } else if (res.Msg == "parent_unActived") {
+          this.step = 2
+          this.unActived = true
+          this.parent_unActived = true
+        } else {
+          // console.log(res.Msg)
           this.$vux.toast.show({
             type: "warn",
-            text: err.msg,
+            text: '手机号未注册',
             width: "20em"
           })
-        })
-      } else if (this.tel.length == 9 && this.tel.slice(0, 1) == 8) {
-        this.step = 1
-      } else {
+          // this.$router.push('/reg?tel=' + this.tel)
+        }
+      }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
-          text: '请检查账号',
+          text: err.msg,
           width: "20em"
         })
-      }
+      })
     },
     phoneLogin() {
       let loginData = {
@@ -194,6 +186,19 @@ export default {
         password: this.pw
       }
       this.$API.studentLogin(loginData).then(res => this.loginOK(res)).catch(err => {
+        this.$vux.toast.show({
+          type: "warn",
+          text: err.msg,
+          width: "20em"
+        })
+      })
+    },
+    LoginByNationID() {
+      let loginData = {
+        nationid: this.tel,
+        password: this.pw
+      }
+      this.$API.LoginByNationID(loginData).then(res => this.loginOK(res)).catch(err => {
         this.$vux.toast.show({
           type: "warn",
           text: err.msg,
@@ -277,6 +282,8 @@ export default {
         this.smsLogin()
       } else if (this.tel.slice(0, 1) == 8) {
         this.studentLogin()
+      } else{
+        this.LoginByNationID()
       }
     },
   },
@@ -377,7 +384,7 @@ export default {
     border-top: 1px solid #D9D9D9;
     opacity: 0.5;
     width: 100%;
-    margin-left:15px;
+    margin-left: 15px;
   }
 }
 </style>

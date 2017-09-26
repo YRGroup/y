@@ -17,8 +17,8 @@ API.logout = () => {
 
 // 登陆
 API.login = (logData) => {
-  document.cookie = "meid=aa;path=/;domain="+document.domain.match(/[^\.]+\.[^\.]+$/)[0]+";expires=" +new Date(2011,1,1).toGMTString()
-  document.cookie = "meid=aa;path=/;domain="+document.domain+";expires=" +new Date(2011,1,1).toGMTString()
+  document.cookie = "meid=aa;path=/;domain=" + document.domain.match(/[^\.]+\.[^\.]+$/)[0] + ";expires=" + new Date(2011, 1, 1).toGMTString()
+  document.cookie = "meid=aa;path=/;domain=" + document.domain + ";expires=" + new Date(2011, 1, 1).toGMTString()
   return new Promise((resolve, reject) => {
     axios.post(_APIurl + '/api/User/LoginByPhone', logData).then((res) => {
       resolve(res.data.Content)
@@ -30,8 +30,8 @@ API.login = (logData) => {
 
 // 使用学号登陆
 API.studentLogin = (logData) => {
-  document.cookie = "meid=aa;path=/;domain="+document.domain.match(/[^\.]+\.[^\.]+$/)[0]+";expires=" +new Date(2011,1,1).toGMTString()
-  document.cookie = "meid=aa;path=/;domain="+document.domain+";expires=" +new Date(2011,1,1).toGMTString()
+  document.cookie = "meid=aa;path=/;domain=" + document.domain.match(/[^\.]+\.[^\.]+$/)[0] + ";expires=" + new Date(2011, 1, 1).toGMTString()
+  document.cookie = "meid=aa;path=/;domain=" + document.domain + ";expires=" + new Date(2011, 1, 1).toGMTString()
   return new Promise((resolve, reject) => {
     axios.post(_APIurl + '/api/User/LoginByStudentID', logData).then((res) => {
       resolve(res.data.Content)
@@ -43,14 +43,27 @@ API.studentLogin = (logData) => {
   })
 }
 
-// 使用短信验证码登陆
-API.loginBySms = (data) => {
+// 使用学籍号登陆
+API.LoginByNationID = (logData) => {
   document.cookie = "meid=aa;path=/;domain="+document.domain.match(/[^\.]+\.[^\.]+$/)[0]+";expires=" +new Date(2011,1,1).toGMTString()
   document.cookie = "meid=aa;path=/;domain="+document.domain+";expires=" +new Date(2011,1,1).toGMTString()
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/user/LoginByPhoneCode',data).then((res)=>{
+    axios.post(_APIurl + '/api/User/LoginByNationID', logData).then((res) => {
       resolve(res.data.Content)
-    }).catch((err)=>{
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+// 使用短信验证码登陆
+API.loginBySms = (data) => {
+  document.cookie = "meid=aa;path=/;domain=" + document.domain.match(/[^\.]+\.[^\.]+$/)[0] + ";expires=" + new Date(2011, 1, 1).toGMTString()
+  document.cookie = "meid=aa;path=/;domain=" + document.domain + ";expires=" + new Date(2011, 1, 1).toGMTString()
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/user/LoginByPhoneCode', data).then((res) => {
+      resolve(res.data.Content)
+    }).catch((err) => {
       console.log('获取信息失败：')
       console.log(err)
       reject(err)
@@ -61,7 +74,9 @@ API.loginBySms = (data) => {
 // 验证账号
 API.verifyAccount = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl + '/api/User/CheckPhoneStatus', {params:para}).then((res) => {
+    axios.get(_APIurl + '/api/User/CheckPhoneStatus', {
+      params: para
+    }).then((res) => {
       resolve(res.data)
     }).catch((err) => {
       reject(err)
@@ -71,7 +86,7 @@ API.verifyAccount = (para) => {
 
 // 用户注册
 API.userReg = (regdata) => {
-  document.cookie=""
+  document.cookie = ""
   return new Promise((resolve, reject) => {
     axios.post(_APIurl + '/api/User/RegisterByPhone', regdata).then((res) => {
       resolve(res.data.Content)
@@ -184,7 +199,18 @@ API.getCardList = (para) => {
 // 绑定一卡通
 API.addSchoolcard = (cardNum) => {
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/user/BindYKT',cardNum).then((res)=>{
+    axios.post(_APIurl + '/api/user/BindYKT', cardNum).then((res) => {
+      resolve(res)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+// 解绑一卡通
+API.deleteSchoolcard = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/user/unBindYKT',para).then((res) => {
       resolve(res)
     }).catch((err) => {
       reject(err)
@@ -195,9 +221,9 @@ API.addSchoolcard = (cardNum) => {
 // 家长切换当前学生
 API.changeCurrentStudent = (para) => {
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/Parent/ChangeCurrentStudent',para).then((res)=>{
+    axios.post(_APIurl + '/api/Parent/ChangeCurrentStudent', para).then((res) => {
       resolve(res.data.Content)
-    }).catch((err)=>{
+    }).catch((err) => {
       reject(err)
     })
   })

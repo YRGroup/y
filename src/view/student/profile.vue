@@ -15,6 +15,7 @@
       <cell title="性别" :value="data.user.Sex"></cell>
       <cell title="手机" :value="data.user.Mobilephone"></cell>
       <cell title="民族" :value="data.user.Nation"></cell>
+      <cell title="学籍号" :value="data.user.nationid"></cell>
       <cell title="简介" :value="data.user.SelfDiscription"></cell>
       <cell title="地址" :value="data.user.Address"></cell>
     </group>

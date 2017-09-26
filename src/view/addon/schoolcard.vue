@@ -18,23 +18,29 @@
           </x-button>
           <!-- <form :model="addCardData" label-width="100px" class="cardNum"> -->
           <!-- <el-form-item label="学生：" v-if="$store.getters.role==='家长'">
-                                <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
-                                  <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
-                                  </el-option>
-                                </el-select>
-                              </el-form-item> -->
+                                          <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
+                                            <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
+                                            </el-option>
+                                          </el-select>
+                                        </el-form-item> -->
 
           <!-- <el-form-item label="卡号：">
-                        <el-input v-model.number="addCardData.CardID" placeholder="请输入校园卡号" size="large"></el-input>
-                      </el-form-item>
-                      <el-form-item>
-                        <el-button type="success" @click="addCardID" size="large">提交</el-button>
-                      </el-form-item> 
-                </form> -->
+                                  <el-input v-model.number="addCardData.CardID" placeholder="请输入校园卡号" size="large"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                  <el-button type="success" @click="addCardID" size="large">提交</el-button>
+                                </el-form-item> 
+                          </form> -->
         </div>
       </div>
       <div v-else>
         <group>
+          <cell title="一卡通卡号：">
+            <div slot="value">
+              <span class="balance">{{data.CampusCard}}</span>
+            </div>
+          </cell>
+          <cell title="解除绑定当前一卡通" is-link @click.native="unbindCard"></cell>
           <cell title="一卡通当前余额：">
             <div slot="value">
               <span class="balance">{{data.Blance}} 元</span>
@@ -92,6 +98,7 @@ export default {
       this.$API.getCardList(para).then(res => {
         if (this.data.Blance == 0) {
           this.data.Blance = res.Blance
+          this.data.CampusCard = res.CampusCard
         }
         res.Log.forEach((val) => {
           this.data.Log.push(val)
@@ -119,6 +126,23 @@ export default {
         })
       })
     },
+    unbindCard() {
+      this.$API.deleteSchoolcard(this.addCardData).then(res => {
+        this.$store.dispatch('getCurrentUser')
+        this.$vux.toast.show({
+          type: "text",
+          text: '解绑一卡通成功',
+          width: "20em"
+        })
+        this.getData()
+      }).catch((err) => {
+        this.$vux.toast.show({
+          type: "warn",
+          text: err.ms,
+          width: "20em"
+        })
+      })
+    }
   },
   created() {
     this.$store.commit('changeTitle', '一卡通消费记录')
@@ -153,8 +177,9 @@ export default {
     margin: 0 auto;
   }
 }
-.balance{
-  color:#ff8212;
+
+.balance {
+  color: #ff8212;
   font-size: 1.2rem;
 }
 </style>

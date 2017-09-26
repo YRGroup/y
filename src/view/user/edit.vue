@@ -84,6 +84,7 @@
         <selector title="家长身份" :options="parentTypeList" v-model="ParentType"></selector>
         <cell title="姓名" v-model="studentData.TrueName" text-align="right" placeholder="请在此填上新内容"></cell>
         <cell title="学号" v-model="studentData.StudentID" text-align="right" placeholder="请在此填上新内容"></cell>
+        <x-input title="学籍号" v-model="studentData.nationid" text-align="right" placeholder="请在此填上新内容"></x-input>
         <cell title="籍贯" text-align="right">
           {{studentData.Province}} {{studentData.City}} {{studentData.County}}
         </cell>
