@@ -15,14 +15,14 @@
 
     <!--功能导航-->
     <flexbox wrap="wrap" :gutter="0">
-       <flexbox-item :span="3">
+      <flexbox-item :span="3">
         <router-link :to="'/class/work'">
           <div style="background:#62ccfd">
             <i class="iconfont">&#xe668;</i>
           </div>
           <span>作业</span>
         </router-link>
-      </flexbox-item> 
+      </flexbox-item>
       <flexbox-item :span="3" v-show="$store.state.role != '老师'">
         <router-link :to="'/student/'+$store.state.currentStudentId+'/score/0'">
           <div style="background:#fdb963">
@@ -55,12 +55,6 @@
           <span>视频课程</span>
         </router-link>
       </flexbox-item>
-      <!-- <flexbox-item :span="3" @click.native="fun('开发中，敬请期待~')">
-        <div style="background:#62ccfd">
-          <i class="iconfont">&#xe617;</i>
-        </div>
-        <span>课程表</span>
-      </flexbox-item> -->
     </flexbox>
 
     <div class="newsCard">
@@ -179,13 +173,6 @@ export default {
     }
   },
   methods: {
-    fun(msg) {
-      this.$vux.toast.show({
-        type: "text",
-        width: "20em",
-        text: msg
-      })
-    },
     getNewsList() {
       let para = {
         category: 1,
@@ -251,7 +238,6 @@ export default {
   created() {
     this.$store.commit('changeTitle', '智慧校园')
     this.getSwiper()
-    this.getNewsList()
     this.getData()
     this.getWXQRcode()
   },
@@ -266,10 +252,10 @@ export default {
   text-align: center;
   background-color: #fff;
   height: 100%;
-  padding:0.5em 0 1em 0;
-  box-shadow: 0 1px 6px 0 rgba(7,17,27,.1);
+  padding: 0.5em 0 1em 0;
+  box-shadow: 0 1px 6px 0 rgba(7, 17, 27, .1);
   .vux-flexbox-item {
-    cursor: pointer; // margin: 0.5em 0;
+    cursor: pointer;
     div {
       border-radius: 1.6em;
       margin: 1em auto 0 auto;
@@ -348,7 +334,7 @@ export default {
     border-bottom: 1px dashed @border;
     overflow: hidden;
     position: relative;
-    height: 72px; // min-height: 80px;
+    height: 72px;
     .img {
       position: absolute;
       top: 15px;

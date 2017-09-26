@@ -12,11 +12,11 @@
         <div class="total">
           <div class="item">
             <span>名次</span>
-            <span class="num">{{score.Remark || '暂无'}}</span>
+            <span class="num">{{score.Ranking}}</span>
           </div>
           <div class="item">
             <span>总分</span>
-            <span class="num">{{score.FullScore}}</span>
+            <span class="num">{{score.Score +'/'+score.FullScore}}</span>
           </div>
         </div>
         <ul class="subject">
@@ -27,6 +27,10 @@
           </li>
         </ul>
       </div>
+
+      <div class="card">
+        <div id="scoreChart" ref="scoreChart"></div>
+      </div>  
 
       <div class="more card" @click="showpopup=true,getExamList()">
         查看历次成绩 >>>
@@ -51,6 +55,7 @@
 <script>
 import { Popup } from 'vux'
 import hasNoStudent from '@/components/hasNoStudent'
+var echarts = require('echarts/lib/echarts');
 
 export default {
   name: 'hello',
@@ -61,13 +66,18 @@ export default {
     return {
       showpopup: false,
       exam: [],
-      score: {}
+      score: {},
+      chartsIndicator: [],
+      chart_line1: [],
+      chart_line2: [],
+      myChart: null
     }
   },
   methods: {
     getScoreData() {
       this.$API.getExamScore(this.$route.params.studentId, this.$route.params.examId).then(res => {
         this.score = res
+        this.setCharts(res.ScoreInfo)
       })
     },
     getExamList() {
@@ -81,11 +91,97 @@ export default {
           })
         }
       })
+    },
+    setCharts(val) {
+      this.chart_line1 = []   //本次成绩
+      this.chart_line2 = []   //各科满分
+      this.chart_line3 = []   //班级平均分
+      this.chartsIndicator = []
+      while (val.length < 3) {
+        val.push({ Score: 1, CourseName: '无', FullScore: 100 })
+      }
+      val.forEach(o => {
+        if (o.Score == 0) {
+          this.chart_line1.push(1)
+          this.chart_line2.push(1)
+        } else {
+          this.chart_line1.push(o.Score)
+          this.chart_line2.push(o.ClassAvgScore)
+        }
+        let a = {
+          name: o.CourseName,
+          max: o.FullScore
+        }
+        this.chartsIndicator.push(a)
+      })
+      let option = {
+        title: {
+          text: '各科成绩分布图',
+          top: 0
+        },
+        tooltip: { show: true },
+        legend: {
+          show: true,
+          data: ['本次成绩', '班级平均分'],
+          right: 'right'
+        },
+        radar: {
+          indicator: this.chartsIndicator,
+          center: ['50%', 180],
+          name: {
+            formatter: '【{value}】',
+            textStyle: {
+              color: '#666'
+            }
+          },
+        },
+        series: [{
+          name: '平均分数对比',
+          type: 'radar',
+          data: [
+            {
+              value: this.chart_line1,
+              name: '本次成绩',
+              areaStyle: {
+                normal: {
+                  opacity: 0.5,
+                }
+              },
+              label: {
+                normal: {
+                  show: true,
+                  formatter: function(params) {
+                    return params.value;
+                  }
+                }
+              },
+              itemStyle: {
+                normal: {
+                  color: '#F9713C'
+                }
+              },
+            },
+            {
+              value: this.chart_line2,
+              name: '班级平均分',
+              itemStyle: {
+                normal: {
+                  color: '#43b359'
+                }
+              },
+            },
+          ]
+        }]
+      }
+      this.myChart.setOption(option)
     }
   },
   created() {
     this.$store.commit('changeTitle', '成绩报告')
     this.getScoreData()
+  },
+  mounted() {
+    this.myChart = echarts.init(document.getElementById('scoreChart'))
   },
   watch: {
     "$route": "getScoreData"
@@ -207,5 +303,11 @@ export default {
       }
     }
   }
+}
+#scoreChart {
+  width: 100%;
+  height: 320px;
+  margin: 0 auto;
+  margin-top: 30px;
 }
 </style>

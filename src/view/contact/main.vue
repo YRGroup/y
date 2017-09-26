@@ -11,7 +11,7 @@
             <i class="iconfont">&#xe607;</i>
           </span>
         </cell>
-        <div class="slide" :class="showContent1?'animate':null" v-show="$store.state.role=='老师'">
+        <div class="slide" :class="showContent1?'animate':null">
           <cell class="item" is-link v-for="(i,index) in student" :title="i.TrueName " :inline-desc="$store.state.role=='老师'?i.StudentID:null" :link="$store.state.role=='老师'?('/student/'+i.Meid):('/msg/'+i.Meid)" :key="index">
             <img class="cellicon" slot="icon" :src="i.Headimgurl">
           </cell>
@@ -21,7 +21,7 @@
             <i class="iconfont">&#xe609;</i>
           </span>
         </cell>
-        <div class="slide" :class="showContent2?'animate':null" v-show="$store.state.role=='老师'">
+        <div class="slide" :class="showContent2?'animate':null" >
           <cell class="item" is-link v-for="(i,index) in parent" :link="$store.state.role=='老师'?('/student/'+i.StudentMeid+'/parent'):('/msg/'+i.ParentMeid)" :title="i.ParentTrueName+'（'+i.StudentTrueName+'的'+ i.ParentType+'）'" :inline-desc="$store.state.role=='老师'?i.ParentPhone:null" :key="index">
             <img class="cellicon" slot="icon" :src="i.ParentHeadimgurl">
           </cell>
