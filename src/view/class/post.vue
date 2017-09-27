@@ -107,16 +107,23 @@ export default {
       this.$API.getPostAnonymouse(this.$route.params.postId).then(res => {
         this.data = res
         this.commentId = res.ID
-        this.wxShareData = {
-          title: res.auther + '分享的班级动态',
-          desc: res.content.slice(0, 30) + '...',
-          link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + res.EncryptID,
-          imgUrl: res.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
-        }
+        // this.wxShareData = {
+        //   title: res.auther + '分享的班级动态',
+        //   desc: res.content.slice(0, 30) + '...',
+        //   link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + res.EncryptID,
+        //   imgUrl: res.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
+        // }
         // this.getWxData()
       })
     },
     userGetData() {
+      this.$API.getWxData().then(res => {
+        this.wxData.appId = res.AppId
+        this.wxData.timestamp = res.Timestamp
+        this.wxData.nonceStr = res.NonceStr
+        this.wxData.signature = res.Signature
+        wx.config(this.wxData)
+      })
       this.$API.getClassDynamic(this.$store.state.currentClassId, this.$route.params.postId).then(res => {
         this.data = res
         this.commentId = res.ID
@@ -164,13 +171,7 @@ export default {
   created() {
     this.$store.commit('changeTitle', '动态详情')
     this.getData()
-    this.$API.getWxData().then(res => {
-      this.wxData.appId = res.AppId
-      this.wxData.timestamp = res.Timestamp
-      this.wxData.nonceStr = res.NonceStr
-      this.wxData.signature = res.Signature
-      wx.config(this.wxData)
-    })
+
   },
   mounted() {
 
