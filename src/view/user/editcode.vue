@@ -1,15 +1,18 @@
 <template>
   <div class="hello">
   
-    <group>
-      <x-input title="手机号 " v-model="changePasswordData.phone" text-align="left" :disabled="true" type='number'></x-input>
-    </group>
-    <group class="btn" v-show="!hasGetSms">
+    <!-- <group class="btn" v-show="!hasGetSms">
       <x-button type="primary" @click.native="getSms">获取验证码</x-button>
+    </group> -->
+    <group class="weui-cells_form">
+      <x-input title="手机号 " v-model="changePasswordData.phone" text-align="left" :disabled="true" type='number'></x-input>
+      <x-input title="验证码" class="weui-vcode" v-model="changePasswordData.code" type='number'>
+        <x-button slot="right" type="primary" mini @click.native="getSms" v-show="!hasGetSms">发送验证码</x-button>
+      </x-input>
     </group>
-    <group>
+    <!-- <group>
       <x-input title="验证码 " v-model="changePasswordData.code" text-align="left" placeholder="短信验证码" type='number'></x-input>
-    </group>
+    </group> -->
     <group>
       <x-input title="新 密 码" v-model="changePasswordData.newpwd" text-align="left" placeholder="请在此填上新密码" type='password'></x-input>
       <x-input title="确认密码 " v-model="changePasswordData.newpwd2" text-align="left" placeholder="重复新密码" type='password'></x-input>
