@@ -36,13 +36,13 @@
         <cell title="执教时间">{{i.StartTime}} - {{i.EndTime}}</cell>
         <datetime v-model="i.StartTime" title="选择开始时间"></datetime>
         <datetime v-model="i.EndTime" title="选择结束时间"></datetime>
-        <checker class="checker" v-model="i.IsVisible" default-item-class="checker-item" selected-item-class="checker-item-selected">
+        <!-- <checker class="checker" v-model="i.IsVisible" default-item-class="checker-item" selected-item-class="checker-item-selected">
           <div class="title">权限</div>
           <div style="text-align:right">
             <checker-item value="false">公开</checker-item>
             <checker-item value="true">不公开</checker-item>
           </div>
-        </checker>
+        </checker> -->
         <cell text-alien="center" title="删除此条教学经历" is-link @click.native="data.TeachExperience.splice(index,1)"></cell>
       </group>
 
@@ -56,13 +56,13 @@
           </a>
         </div>
         <x-input title="描述" v-model="i.Description" text-align="right"></x-input>
-        <checker class="checker" v-model="i.IsVisible" default-item-class="checker-item" selected-item-class="checker-item-selected">
+        <!-- <checker class="checker" v-model="i.IsVisible" default-item-class="checker-item" selected-item-class="checker-item-selected">
           <div class="title">权限</div>
           <div style="text-align: right;">
             <checker-item value="false">公开</checker-item>
             <checker-item value="true">不公开</checker-item>
           </div>
-        </checker>
+        </checker> -->
         <cell title="删除此条个人荣誉" is-link @click.native="data.PersonalHonor.splice(index,1)"></cell>
       </group>
 
