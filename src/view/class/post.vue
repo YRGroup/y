@@ -113,7 +113,7 @@ export default {
           link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + res.EncryptID,
           imgUrl: res.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
         }
-        this.getWxData()
+        // this.getWxData()
       })
     },
     userGetData() {
