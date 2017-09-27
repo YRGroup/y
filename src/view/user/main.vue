@@ -19,9 +19,9 @@
     </div>
 
     <group>
-      <cell title="绑定学生" is-link @click.native="addStudentPopup=true" v-if="$store.state.role=='家长'">
+      <!-- <cell title="绑定学生" is-link @click.native="addStudentPopup=true" v-if="$store.state.role=='家长'">
         <i slot="icon" class="iconfont">&#xe719;</i>
-      </cell>
+      </cell> -->
       <cell title="切换班级" :value="$store.state.currentUser.ExtendInfo.Classes[0].ClassName" is-link @click.native="classListPopup=true" v-if="$store.state.role=='老师'">
         <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>
