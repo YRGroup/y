@@ -9,7 +9,7 @@
             请先绑定校园卡号
           </h4>
           <group>
-            <x-input title="校园卡号：" placeholder="请输入校园卡号" v-model="addCardData.CardID">
+            <x-input title="卡号：" placeholder="请输入卡号" v-model="addCardData.CardID">
             </x-input>
             <!-- <x-input title="卡号：" placeholder="请输入校园卡号" v-model="addCardData.CardID" placeholder-align="right"></x-input> -->
           </group>
@@ -35,13 +35,13 @@
       </div>
       <div v-else>
         <group>
-          <cell title="一卡通卡号：">
+          <cell title="卡号：">
             <div slot="value">
               <span class="balance">{{data.CampusCard}}</span>
             </div>
           </cell>
-          <cell title="解除绑定当前一卡通" is-link @click.native="unbindCard"></cell>
-          <cell title="一卡通当前余额：">
+          <cell title="解除绑定" is-link @click.native="unbindCard"></cell>
+          <cell title="余额：">
             <div slot="value">
               <span class="balance">{{data.Blance}} 元</span>
             </div>
@@ -111,20 +111,20 @@ export default {
     },
     addCardID() {
       this.$API.addSchoolcard(this.addCardData).then(res => {
-        this.$store.dispatch('getCurrentUser')
-        this.$vux.toast.show({
-          type: "text",
-          text: '绑定卡号成功',
-          width: "20em"
+          this.$store.dispatch('getCurrentUser')
+          this.$vux.toast.show({
+            type: "text",
+            text: '绑定卡号成功',
+            width: "20em"
+          })
+          this.getData()
+        }).catch((err) => {
+          this.$vux.toast.show({
+            type: "warn",
+            text: err.msg,
+            width: "20em"
+          })
         })
-        this.getData()
-      }).catch((err) => {
-        this.$vux.toast.show({
-          type: "warn",
-          text: err.ms,
-          width: "20em"
-        })
-      })
     },
     unbindCard() {
       this.$API.deleteSchoolcard(this.addCardData).then(res => {
