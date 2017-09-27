@@ -85,9 +85,7 @@
         <cell title="姓名" v-model="studentData.TrueName" text-align="right" placeholder="请在此填上新内容"></cell>
         <cell title="学号" v-model="studentData.StudentID" text-align="right" placeholder="请在此填上新内容"></cell>
         <x-input title="学籍号" v-model="studentData.nationid" text-align="right" placeholder="请在此填上新内容"></x-input>
-        <cell title="籍贯" text-align="right">
-          {{studentData.Province}} {{studentData.City}} {{studentData.County}}
-        </cell>
+        <x-address title="籍贯" v-model="addr" :list="addrData" @on-hide="updateAddr"></x-address>
         <checker class="checker" v-model="studentData.Sex" default-item-class="checker-item" selected-item-class="checker-item-selected">
           <div class="title">性别</div>
           <div style="text-align:right">
@@ -108,12 +106,13 @@
 </template>
 
 <script>
-import { Group, Cell, XButton, XInput, Selector, Checker, CheckerItem, Datetime, Flexbox, FlexboxItem } from 'vux'
+import { Group, Cell, XButton, XInput, Selector, Checker, CheckerItem, Datetime, Flexbox, FlexboxItem, XAddress } from 'vux'
+import AddressData from '@/assets/address.js'
 
 export default {
   name: 'edit',
   components: {
-    Group, Cell, XButton, XInput, Selector, Checker, CheckerItem, Datetime, Flexbox, FlexboxItem
+    Group, Cell, XButton, XInput, Selector, Checker, CheckerItem, Datetime, Flexbox, FlexboxItem, XAddress
   },
   data() {
     return {
@@ -137,6 +136,8 @@ export default {
         IDCard: '',
         Sex: '',
       },
+      addr: [],
+      addrData: AddressData
     }
   },
   methods: {
@@ -241,12 +242,18 @@ export default {
           })
         })
       }
+    },
+    updateAddr(val) {
+      if (val) {
+        this.studentData.Province = this.addrData.find(o => { return o.value === this.addr[0] }).name
+        this.studentData.City = this.addrData.find(o => { return o.value === this.addr[1] }).name
+        this.studentData.County = this.addrData.find(o => { return o.value === this.addr[2] }).name
+      }
     }
   },
   created() {
     this.$store.commit('changeTitle', '完善资料')
     this.getData()
-    console.log(this.$refs)
   },
   mounted() {
 
@@ -347,9 +354,10 @@ export default {
     text-decoration: none
   }
 }
-.tips{
+
+.tips {
   text-align: center;
   line-height: 30px;
-  color:@grey;
+  color: @grey;
 }
 </style>
