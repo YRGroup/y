@@ -49,5 +49,15 @@ API.deleteVideo = (para) => {
   })
 }
 
+// 获取视频类别列表
+API.getCategeryList = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/Video/GetCategeryList').then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
 
 export default API
