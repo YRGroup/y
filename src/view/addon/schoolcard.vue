@@ -96,13 +96,15 @@ export default {
       para.pagesize = 10
       para.student_meid = this.$store.state.currentStudentId
       this.$API.getCardList(para).then(res => {
-        if (this.data.Blance == 0) {
-          this.data.Blance = res.Blance
-          this.data.CampusCard = res.CampusCard
+        if(res){
+            if (this.data.Blance == 0) {
+              this.data.Blance = res.Blance
+              this.data.CampusCard = res.CampusCard
+            }
+            res.Log.forEach((val) => {
+              this.data.Log.push(val)
+            })
         }
-        res.Log.forEach((val) => {
-          this.data.Log.push(val)
-        });
       })
     },
     loadMore() {
@@ -138,7 +140,7 @@ export default {
       }).catch((err) => {
         this.$vux.toast.show({
           type: "warn",
-          text: err.ms,
+          text: err.msg,
           width: "20em"
         })
       })
