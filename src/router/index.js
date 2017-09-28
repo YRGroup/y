@@ -77,11 +77,17 @@ export default new Router({
           path: '',
           name: 'main',
           component: main,
+          meta: {
+            anonymous: true
+          }
         },
         {
           path: '/news',
           name: 'news',
-          component: news
+          component: news,
+          meta: {
+            anonymous: true
+          }
         },
         {
           path: '/doc',
