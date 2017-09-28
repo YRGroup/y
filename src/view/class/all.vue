@@ -2,8 +2,8 @@
   <div class="classMain">
 
     <!--班级通知
-    教师端显示
-    -->
+      教师端显示
+      -->
     <div class="notice" v-if="notice.length!=0">
       <div class="icon" @click="$router.push('/class/notice')">
         <span>通知</span>
@@ -16,10 +16,10 @@
     </div>
 
     <!-- <card style="padding:0" :header="{title:'班级管理菜单'}" v-show="$store.state.role=='老师'">
-        <div slot="content">
-          <cell title="考试列表" is-link @click.native="$router.push('/class/exam')"></cell>
-        </div>
-      </card> -->
+          <div slot="content">
+            <cell title="考试列表" is-link @click.native="$router.push('/class/exam')"></cell>
+          </div>
+        </card> -->
 
     <div class="teacherListBox" v-show="this.teachers.length">
       <div class="box-item" v-for="(item,index) in teachers" :key="index" @click="$router.push('/teacher/'+item.Meid)">
@@ -31,9 +31,9 @@
     </div>
 
     <!--班级作业
-    教师端不显示
-    家长端显示
-    -->
+      教师端不显示
+      家长端显示
+      -->
     <div class="classWork" v-if="homework!=[]">
       <div class="icon">
         <span>班级作业</span>
@@ -59,9 +59,9 @@
     </div>
 
     <!--动态卡片
-    教师端显示
-    家长端显示
-    -->
+      教师端显示
+      家长端显示
+      -->
     <card v-for="(item,index) in list" :key="index">
       <div slot="header" class="header">
         <!-- <img :src="item.userImg" @click="$router.push('/teacher/'+item.auther_meid)"> -->
@@ -284,7 +284,7 @@ export default {
       height: 3.6rem;
       border-radius: 50%;
     }
-    .category{
+    .category {
       display: inline-block;
       color: #fff;
       width: 2.6em;
@@ -292,9 +292,9 @@ export default {
       line-height: 2.6em;
       text-align: center;
       border-radius: 50%;
-      border:1px solid rgba(255,255,255,.2);
+      border: 1px solid rgba(255, 255, 255, .2);
     }
-    .name{
+    .name {
       line-height: 2em;
       font-size: 1.1em;
     }

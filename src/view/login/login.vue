@@ -282,7 +282,7 @@ export default {
         this.smsLogin()
       } else if (this.tel.slice(0, 1) == 8) {
         this.studentLogin()
-      } else{
+      } else if (this.tel.length > 13) {
         this.LoginByNationID()
       }
     },
