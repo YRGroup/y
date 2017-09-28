@@ -207,7 +207,7 @@ API.addNewsComment = (params) => {
 
 // 获取微信二维码
 API.getWXQRcode = () => {
-  return axios.get(_APIurl + '/api/school/WeiXinQRCode')
+  return _APIurl + '/api/school/WeiXinQRCode'
 }
 
 // 服务端统计
