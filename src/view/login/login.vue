@@ -10,12 +10,12 @@
       <img src="../../assets/logo.png">
     </div>
     <group>
-      <x-input title="手机号：" placeholder="学号/手机号" keyboard="number" v-model="tel" @on-change="preVerify" @on-blur="preVerify">
+      <x-input title="手机号：" placeholder="学号/手机号" keyboard="number" v-model="data.uid" @on-change="preVerify" @on-blur="preVerify">
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe618;</i>
         </span>
       </x-input>
-      <x-input title="密码：" placeholder="密码" type="password" v-model="pw" @keyup.native.enter="login" v-show="step==1">
+      <x-input title="密码：" placeholder="密码" type="password" v-model="data.pwd" @keyup.native.enter="login" v-show="step==1">
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe6ec;</i>
         </span>
@@ -74,8 +74,10 @@ export default {
   },
   data() {
     return {
-      tel: '',
-      pw: '',
+      data: {
+        uid: '',
+        pwd: ''
+      },
       sms: '',
       parentName: '',
       parentType: '',
@@ -105,14 +107,14 @@ export default {
         , 1000)
     },
     getSms() {
-      if (this.tel == '' || this.tel.length != 11) {
+      if (this.data.uid == '' || this.data.uid.length != 11) {
         this.$vux.toast.show({
           type: "warn",
           text: '请输入正确手机号',
           width: "20em"
         })
       } else {
-        this.$API.getLoginSms(this.tel).then(() => {
+        this.$API.getLoginSms(this.data.uid).then(() => {
           this.getsmsCount = 180
           this.step = 3
           this.startCount()
@@ -126,20 +128,20 @@ export default {
       }
     },
     preVerify() {
-      if (this.tel == '') {
+      if (this.data.uid == '') {
         this.$vux.toast.show({
           type: "warn",
           text: '请输入正确的手机号/学号',
           width: "20em"
         })
-      } else if (this.tel.slice(0, 1) == 1 && this.tel.length === 11) {
+      } else if (this.data.uid.slice(0, 1) == 1 && this.data.uid.length === 11) {
         this.verifyAccount()
       } else {
         this.step = 1
       }
     },
     verifyAccount() {
-      let para = { phone: this.tel }
+      let para = { phone: this.data.uid }
       this.$API.verifyAccount(para).then(res => {
         if (res.Msg == "normal") {
           this.step = 1
@@ -151,7 +153,6 @@ export default {
           this.unActived = true
           this.parent_unActived = true
         } else {
-          // console.log(res.Msg)
           this.$vux.toast.show({
             type: "warn",
             text: '手机号未注册',
@@ -206,9 +207,18 @@ export default {
         })
       })
     },
+    uniLogin() {
+      this.$API.uniLogin(this.data).then(res => this.loginOK(res)).catch(err => {
+        this.$vux.toast.show({
+          type: "warn",
+          text: err.msg,
+          width: "20em"
+        })
+      })
+    },
     smsLogin() {
       let loginData = {
-        phone: this.tel,
+        phone: this.data.uid,
         code: this.sms
       }
       if (this.unActived && this.newPWd.length < 6) {
@@ -276,14 +286,10 @@ export default {
       }
     },
     login() {
-      if (this.tel.slice(0, 1) == 1 && this.step == 1) {
-        this.phoneLogin()
-      } else if (this.tel.slice(0, 1) == 1 && this.step >= 2) {
+      if (this.data.uid.slice(0, 1) == 1 && this.step >= 2) {
         this.smsLogin()
-      } else if (this.tel.slice(0, 1) == 8) {
-        this.studentLogin()
-      } else if (this.tel.length > 13) {
-        this.LoginByNationID()
+      } else {
+        this.uniLogin()
       }
     },
   },

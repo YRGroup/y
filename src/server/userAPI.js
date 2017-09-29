@@ -15,6 +15,19 @@ API.logout = () => {
   })
 }
 
+// 统一登陆
+API.uniLogin = (data) => {
+  document.cookie = "meid=aa;path=/;domain=" + document.domain.match(/[^\.]+\.[^\.]+$/)[0] + ";expires=" + new Date(2011, 1, 1).toGMTString()
+  document.cookie = "meid=aa;path=/;domain=" + document.domain + ";expires=" + new Date(2011, 1, 1).toGMTString()
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/User/LoginByPwd', data).then((res) => {
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
 // 登陆
 API.login = (logData) => {
   document.cookie = "meid=aa;path=/;domain=" + document.domain.match(/[^\.]+\.[^\.]+$/)[0] + ";expires=" + new Date(2011, 1, 1).toGMTString()
@@ -45,8 +58,8 @@ API.studentLogin = (logData) => {
 
 // 使用学籍号登陆
 API.LoginByNationID = (logData) => {
-  document.cookie = "meid=aa;path=/;domain="+document.domain.match(/[^\.]+\.[^\.]+$/)[0]+";expires=" +new Date(2011,1,1).toGMTString()
-  document.cookie = "meid=aa;path=/;domain="+document.domain+";expires=" +new Date(2011,1,1).toGMTString()
+  document.cookie = "meid=aa;path=/;domain=" + document.domain.match(/[^\.]+\.[^\.]+$/)[0] + ";expires=" + new Date(2011, 1, 1).toGMTString()
+  document.cookie = "meid=aa;path=/;domain=" + document.domain + ";expires=" + new Date(2011, 1, 1).toGMTString()
   return new Promise((resolve, reject) => {
     axios.post(_APIurl + '/api/User/LoginByNationID', logData).then((res) => {
       resolve(res.data.Content)
@@ -210,7 +223,7 @@ API.addSchoolcard = (cardNum) => {
 // 解绑一卡通
 API.deleteSchoolcard = (para) => {
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl + '/api/user/unBindYKT',para).then((res) => {
+    axios.post(_APIurl + '/api/user/unBindYKT', para).then((res) => {
       resolve(res)
     }).catch((err) => {
       reject(err)
