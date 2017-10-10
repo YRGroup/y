@@ -4,7 +4,7 @@
     <group title="发布新的班级作业" labelWidth="4em">
       <cell title="学科："  v-model="course"></cell>
       <x-input title="标题：" placeholder="请输入标题" v-model="newHomeworkData.title" show-clear></x-input>
-      
+      <!-- <selector v-show='isClassAdmin' title="学科：" :options="courseList" v-model="newHomeworkData.title"></selector> -->
       <!-- <vue-html5-editor class="needsclick" :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor> -->
       <x-textarea title="正文：" v-model="newHomeworkData.content" placeholder="请在此输入内容" autosize></x-textarea>
 
@@ -33,6 +33,7 @@
 
 <script>
 import { XInput, Group, XButton, Cell, Selector, XTextarea } from 'vux'
+import lrz from 'lrz'
 export default {
   name: 'hello',
   components: {
@@ -68,9 +69,13 @@ export default {
     updateData: function (data) {
       this.newHomeworkData.content = data
     },
-    addImg() {
+    addImg(e) {
       if (this.fileList.length < 9) {
         let imgFiles = document.getElementById('imgFiles').files
+        let files = e.target.files || e.dataTransfer.files
+				if(!files.length) return
+				this.createImage(files, e)
+        
         this.$vux.loading.show({
           text: 'Loading'
         })
@@ -89,6 +94,16 @@ export default {
           width:'20em'
         })
       }
+    },
+    createImage: function(file, e) {
+				let vm = this;
+				lrz(file[0], { width: 480 }).then(function(rst) {
+					vm.imgUrls.push(rst.base64);
+					return rst;
+				}).always(function() {
+				// 清空文件上传控件的值
+				e.target.value = null;
+			});
     },
     deleteImg(val) {
       for (let i = 0; i < this.fileList.length; i++) {
@@ -131,30 +146,6 @@ export default {
         })
       }
 
-
-      // if(this.newHomeworkData.course_name&&this.newHomeworkData.content){
-      //   this.newHomeworkData.class_id = this.$store.state.currentClassId
-      //   this.$API.addHomework(this.newHomeworkData).then(res=>{
-      //     this.$vux.toast.show({
-      //       type:"success",
-      //       width:'20em',
-      //       text: "发布成功"
-      //     })
-      //     this.$router.push('/class')
-      //   }).catch(err=>{
-      //     this.$vux.toast.show({
-      //       type:"warn",
-      //       width:'20em',
-      //       text: err.msg
-      //     })
-      //   })
-      // }else{
-      //   this.$vux.toast.show({
-      //     type:"warn",
-      //     width:'20em',
-      //     text: "数据不完整"
-      //   })
-      // }
     }
   },
   created() {

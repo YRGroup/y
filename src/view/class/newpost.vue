@@ -31,6 +31,7 @@
 
 <script>
 import { XInput, Group, XButton, Cell, Selector, XTextarea } from 'vux'
+import lrz from 'lrz'
 export default {
   name: 'hello',
   components: {
@@ -48,9 +49,12 @@ export default {
     }
   },
   methods: {
-    addImg() {
+    addImg(e) {
       if (this.fileList.length < 9) {
         let imgFiles = document.getElementById('imgFiles').files
+        let files = e.target.files || e.dataTransfer.files
+				if(!files.length) return
+				this.createImage(files, e)
         this.$vux.loading.show({
           text: 'Loading'
         })
@@ -76,6 +80,16 @@ export default {
           this.fileList.splice(i, 1)
         }
       }
+    },
+    createImage: function(file, e) {
+				let vm = this;
+				lrz(file[0], { width: 480 }).then(function(rst) {
+					vm.imgUrls.push(rst.base64);
+					return rst;
+				}).always(function() {
+				// 清空文件上传控件的值
+				e.target.value = null;
+			});
     },
     addNewPost() {
       if (this.$store.state.role == '家长' && this.$store.state.currentStudentId != null) {
