@@ -1,31 +1,33 @@
 <template>
   <div class="hello">
-  
+
     <group title="发布动态" labelWidth="6em">
       <!-- <selector title="类别：" placeholder="请选择类别" direction="right" v-model="data.type" :options="categoryList"></selector> -->
 
       <x-textarea v-model="data.content" placeholder="请输入班级动态" autosize></x-textarea>
-  
+
       <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
           <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg"> 上传图片
         </a>
         <div class="imgPreviewContainer">
-          <div class="imgPreview" v-for="(i,index) in fileList" :key="index">
+          <div class="imgPreview" v-for="(i,index) in imgUrls" :key="index">
             <div class="deleteImg">
-              <span @click="deleteImg(index)">X</span>
+              <span @click="deleteImg(index)">
+                <span class="iconfont">&#xe630;</span>
+              </span>
             </div>
             <img :src="i">
           </div>
         </div>
       </div>
-  
+
     </group>
-  
+
     <div style="padding:2rem;">
       <x-button @click.native="addNewPost" type="primary">确认发布</x-button>
     </div>
-  
+
   </div>
 </template>
 
@@ -40,10 +42,13 @@ export default {
   data() {
     return {
       data: {
+
         type: 1,
         content: '',
         'img_url_list': '',
+        'img_base64_list': '',
       },
+      imgUrls: [],
       fileList: [],
       categoryList: [{ key: '1', value: '班级动态' }, { key: '2', value: '班级新闻' }, { key: '3', value: '班级通知' }, { key: '4', value: '班级作业' }]
     }
@@ -53,50 +58,52 @@ export default {
       if (this.fileList.length < 9) {
         let imgFiles = document.getElementById('imgFiles').files
         let files = e.target.files || e.dataTransfer.files
-				if(!files.length) return
-				this.createImage(files, e)
+        if (!files.length) return
+        this.createImage(files, e)
         this.$vux.loading.show({
-          text: 'Loading'
+          text: '上传中...'
         })
-        this.$API.uploadImg(imgFiles).then((res) => {
-          res.forEach((val) => {
-            this.fileList.push(val)
-          })
-          this.$vux.loading.hide()
-        }).catch((err) => {
-          this.$vux.loading.hide()
-        })
-      }else{
+        // this.$API.uploadImg(imgFiles).then((res) => {
+        //   res.forEach((val) => {
+        //     this.fileList.push(val)
+        //   })
+        //   this.$vux.loading.hide()
+        // }).catch((err) => {
+        //   this.$vux.loading.hide()
+        // })
+      } else {
         this.$vux.toast.show({
-          type:'warn',
+          type: 'warn',
           text: '最多上传9张图片',
-          width:'20em'
+          width: '20em'
         })
       }
     },
     deleteImg(val) {
-      for (let i = 0; i < this.fileList.length; i++) {
+      for (let i = 0; i < this.imgUrls.length; i++) {
+
         if (i == val) {
-          this.fileList.splice(i, 1)
+          this.imgUrls.splice(i, 1)
         }
       }
     },
     createImage: function(file, e) {
-				let vm = this;
-				lrz(file[0], { width: 480 }).then(function(rst) {
-					vm.imgUrls.push(rst.base64);
-					return rst;
-				}).always(function() {
-				// 清空文件上传控件的值
-				e.target.value = null;
-			});
+      let vm = this
+      lrz(file[0], { width: 480 }).then(function(rst) {
+        vm.imgUrls.push(rst.base64);
+        vm.$vux.loading.hide()
+        return rst;
+      }).always(function() {
+        // 清空文件上传控件的值
+        e.target.value = null;
+      });
     },
     addNewPost() {
       if (this.$store.state.role == '家长' && this.$store.state.currentStudentId != null) {
         this.data.student_meid = this.$store.state.currentStudentId
       }
       this.data.cid = this.$store.state.currentClassId
-      this.data['img_url_list'] = this.fileList.join(',')
+      this.data['img_base64_list'] = this.imgUrls.join(',')
       if (this.data.type != null && this.data.content != '') {
         this.$API.postNewClassDynamic(this.data).then(res => {
           this.$vux.toast.show({
@@ -168,23 +175,16 @@ export default {
   padding: 0;
   .imgPreview {
     position: relative;
-    border-top: 1px solid @border;
-    width: 33.33%;
-    height: 150px;
-    &:hover .deleteImg {
-      display: block;
-    }
+    border: 1px solid @border;
+    width: 30%;
+    margin:0 1%;
+    height: 130px;
     .deleteImg {
-      display: none;
       position: absolute;
-      left: 0;
       right: 0;
       top: 0;
-      bottom: 0;
-      line-height: 10rem;
-      font-size: 50px;
-      color: #fff;
-      background: rgba(0, 0, 0, 0.3);
+      font-size: 20px;
+      color: red;
       span {
         cursor: pointer;
       }
@@ -196,6 +196,9 @@ export default {
       max-height: 100%;
       max-width: 100%;
     }
+    .iconfont{
+      padding:0 0 1em 1em;
+    }
   }
 }
 
@@ -203,6 +206,7 @@ export default {
 .popup {
   background: #fff;
   padding: 1rem;
+  max-height: 90vh;
   span {
     margin: 0 3px;
   }

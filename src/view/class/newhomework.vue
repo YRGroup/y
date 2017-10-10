@@ -1,8 +1,8 @@
 <template>
   <div class="hello">
-  
+
     <group title="发布新的班级作业" labelWidth="4em">
-      <cell title="学科："  v-model="course"></cell>
+      <cell title="学科：" v-model="course"></cell>
       <x-input title="标题：" placeholder="请输入标题" v-model="newHomeworkData.title" show-clear></x-input>
       <!-- <selector v-show='isClassAdmin' title="学科：" :options="courseList" v-model="newHomeworkData.title"></selector> -->
       <!-- <vue-html5-editor class="needsclick" :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor> -->
@@ -13,21 +13,23 @@
           <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg">上传图片
         </a>
         <div class="imgPreviewContainer">
-          <div class="imgPreview" v-for="(i,index) in fileList" :key="index">
+          <div class="imgPreview" v-for="(i,index) in imgUrls" :key="index">
             <div class="deleteImg">
-              <span @click="deleteImg(index)">X</span>
+              <span @click="deleteImg(index)">
+                <span class="iconfont">&#xe630;</span>
+              </span>
             </div>
             <img :src="i">
           </div>
-        </div> 
+        </div>
       </div>
-  
+
     </group>
-  
+
     <div style="padding:2rem;">
       <x-button @click.native="addHomework" type="primary">发布</x-button>
     </div>
-  
+
   </div>
 </template>
 
@@ -44,103 +46,105 @@ export default {
       newHomeworkData: {},
       fileList: [],
       courseList: [
-        {key:'语文',value:'语文'},
-        {key:'数学',value:'数学'},
-        {key:'英语',value:'英语'},
-        {key:'物理',value:'物理'},
-        {key:'化学',value:'化学'},
-        {key:'历史',value:'历史'},
-        {key:'政治',value:'政治'},
-        {key:'地理',value:'地理'},
-        {key:'音乐',value:'音乐'},
-        {key:'美术',value:'美术'},
-        {key:'体育',value:'体育'}
+        { key: '语文', value: '语文' },
+        { key: '数学', value: '数学' },
+        { key: '英语', value: '英语' },
+        { key: '物理', value: '物理' },
+        { key: '化学', value: '化学' },
+        { key: '历史', value: '历史' },
+        { key: '政治', value: '政治' },
+        { key: '地理', value: '地理' },
+        { key: '音乐', value: '音乐' },
+        { key: '美术', value: '美术' },
+        { key: '体育', value: '体育' }
       ],
+      imgUrls: []
     }
   },
-  computed:{
-    course:function(){
-      if(this.$store.state.currentUser.ExtendInfo.Course.CourseName){
+  computed: {
+    course: function() {
+      if (this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
         return this.$store.state.currentUser.ExtendInfo.Course.CourseName
       }
     }
   },
   methods: {
-    updateData: function (data) {
+    updateData: function(data) {
       this.newHomeworkData.content = data
     },
     addImg(e) {
       if (this.fileList.length < 9) {
         let imgFiles = document.getElementById('imgFiles').files
         let files = e.target.files || e.dataTransfer.files
-				if(!files.length) return
-				this.createImage(files, e)
-        
+        if (!files.length) return
+        this.createImage(files, e)
         this.$vux.loading.show({
-          text: 'Loading'
+          text: '上传中...'
         })
-        this.$API.uploadImg(imgFiles).then((res) => {
-          res.forEach((val) => {
-            this.fileList.push(val)
-          })
-          this.$vux.loading.hide()
-        }).catch((err) => {
-          this.$vux.loading.hide()
-        })
-      }else{
+        // this.$API.uploadImg(imgFiles).then((res) => {
+        //   res.forEach((val) => {
+        //     this.fileList.push(val)
+        //   })
+        //   this.$vux.loading.hide()
+        // }).catch((err) => {
+        //   this.$vux.loading.hide()
+        // })
+      } else {
         this.$vux.toast.show({
-          type:'warn',
+          type: 'warn',
           text: '最多上传9张图片',
-          width:'20em'
+          width: '20em'
         })
       }
     },
     createImage: function(file, e) {
-				let vm = this;
-				lrz(file[0], { width: 480 }).then(function(rst) {
-					vm.imgUrls.push(rst.base64);
-					return rst;
-				}).always(function() {
-				// 清空文件上传控件的值
-				e.target.value = null;
-			});
+      let vm = this
+      lrz(file[0], { width: 480 }).then(function(rst) {
+        vm.imgUrls.push(rst.base64);
+        vm.$vux.loading.hide()
+        return rst;
+      }).always(function() {
+        // 清空文件上传控件的值
+        e.target.value = null;
+      });
     },
     deleteImg(val) {
-      for (let i = 0; i < this.fileList.length; i++) {
+      for (let i = 0; i < this.imgUrls.length; i++) {
         if (i == val) {
-          this.fileList.splice(i, 1)
+          this.imgUrls.splice(i, 1)
         }
       }
     },
-    addHomework(){
+    addHomework() {
       this.newHomeworkData.course_name = this.course
-      this.newHomeworkData['img_url_list'] = this.fileList.join(',')
-      
-      if(!this.newHomeworkData.title){
+      // this.newHomeworkData['img_url_list'] = this.fileList.join(',')
+      this.newHomeworkData['img_base64_list'] = this.imgUrls.join(',')
+
+      if (!this.newHomeworkData.title) {
         this.$vux.toast.show({
-          type:"warn",
-          width:'20em',
+          type: "warn",
+          width: '20em',
           text: "请输入标题"
         })
-      }else if(!this.newHomeworkData.content){
+      } else if (!this.newHomeworkData.content) {
         this.$vux.toast.show({
-          type:"warn",
-          width:'20em',
+          type: "warn",
+          width: '20em',
           text: "请输入内容"
         })
-      }else{
+      } else {
         this.newHomeworkData.class_id = this.$store.state.currentClassId
-        this.$API.addHomework(this.newHomeworkData).then(res=>{
+        this.$API.addHomework(this.newHomeworkData).then(res => {
           this.$vux.toast.show({
-            type:"success",
-            width:'20em',
+            type: "success",
+            width: '20em',
             text: "发布成功"
           })
           this.$router.push('/class')
-        }).catch(err=>{
+        }).catch(err => {
           this.$vux.toast.show({
-            type:"warn",
-            width:'20em',
+            type: "warn",
+            width: '20em',
             text: err.msg
           })
         })
@@ -202,23 +206,16 @@ export default {
   padding: 0;
   .imgPreview {
     position: relative;
-    border-top: 1px solid @border;
-    width: 33.33%;
-    height: 150px;
-    &:hover .deleteImg {
-      display: block;
-    }
+    border: 1px solid @border;
+    width: 30%;
+    margin: 0 1%;
+    height: 130px;
     .deleteImg {
-      display: none;
       position: absolute;
-      left: 0;
       right: 0;
       top: 0;
-      bottom: 0;
-      line-height: 10rem;
-      font-size: 50px;
-      color: #fff;
-      background: rgba(0, 0, 0, 0.3);
+      font-size: 20px;
+      color: red;
       span {
         cursor: pointer;
       }
@@ -229,6 +226,9 @@ export default {
     img {
       max-height: 100%;
       max-width: 100%;
+    }
+    .iconfont {
+      padding:0 0 1em 1em;
     }
   }
 }
