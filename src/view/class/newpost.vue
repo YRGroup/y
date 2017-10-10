@@ -103,7 +103,7 @@ export default {
         this.data.student_meid = this.$store.state.currentStudentId
       }
       this.data.cid = this.$store.state.currentClassId
-      this.data['img_base64_list'] = this.imgUrls.join(',')
+      this.data['img_base64_list'] = this.imgUrls.join('|')
       if (this.data.type != null && this.data.content != '') {
         this.$API.postNewClassDynamic(this.data).then(res => {
           this.$vux.toast.show({

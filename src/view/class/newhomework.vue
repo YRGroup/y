@@ -118,7 +118,7 @@ export default {
     addHomework() {
       this.newHomeworkData.course_name = this.course
       // this.newHomeworkData['img_url_list'] = this.fileList.join(',')
-      this.newHomeworkData['img_base64_list'] = this.imgUrls.join(',')
+      this.newHomeworkData['img_base64_list'] = this.imgUrls.join('|')
 
       if (!this.newHomeworkData.title) {
         this.$vux.toast.show({
