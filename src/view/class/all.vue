@@ -410,8 +410,12 @@ export default {
 
 .popup {
   text-align: center;
+  margin:0 auto;
   padding: 1rem;
-  max-height: 90vh;
+  background: #fff;
+  max-height: 100vh;
+  max-width: 80vw;
+  position: relative;
   img{
     max-height: 90vh;
   }

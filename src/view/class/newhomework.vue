@@ -2,11 +2,12 @@
   <div class="hello">
 
     <group title="发布新的班级作业" labelWidth="4em">
-      <cell title="学科：" v-model="course"></cell>
+      <cell title="学科：" v-model="course" v-show="notClassAdmin"></cell>
+      <selector title="学科：" :options="courseList" v-model="newHomeworkData.course_name" v-show="isClassAdmin"></selector>
       <x-input title="标题：" placeholder="请输入标题" v-model="newHomeworkData.title" show-clear></x-input>
       <!-- <selector v-show='isClassAdmin' title="学科：" :options="courseList" v-model="newHomeworkData.title"></selector> -->
       <!-- <vue-html5-editor class="needsclick" :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor> -->
-      <x-textarea title="正文：" v-model="newHomeworkData.content" placeholder="请在此输入内容" autosize></x-textarea>
+      <x-textarea title="" v-model="newHomeworkData.content" placeholder="请在此输入内容" autosize></x-textarea>
 
       <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
@@ -45,20 +46,10 @@ export default {
     return {
       newHomeworkData: {},
       fileList: [],
-      courseList: [
-        { key: '语文', value: '语文' },
-        { key: '数学', value: '数学' },
-        { key: '英语', value: '英语' },
-        { key: '物理', value: '物理' },
-        { key: '化学', value: '化学' },
-        { key: '历史', value: '历史' },
-        { key: '政治', value: '政治' },
-        { key: '地理', value: '地理' },
-        { key: '音乐', value: '音乐' },
-        { key: '美术', value: '美术' },
-        { key: '体育', value: '体育' }
-      ],
-      imgUrls: []
+      imgUrls: [],
+      ClassInfo: {},
+      courseList: [],
+      notClassAdmin: false
     }
   },
   computed: {
@@ -66,9 +57,38 @@ export default {
       if (this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
         return this.$store.state.currentUser.ExtendInfo.Course.CourseName
       }
+    },
+    isClassAdmin(){
+      if(this.$store.state.role=='老师'){
+        if(this.ClassInfo.teacher && this.$store.state.currentUser.Meid == this.ClassInfo.teacher.Meid){
+          this.notClassAdmin = false
+          return true
+        }else{
+          this.notClassAdmin = true
+          return false
+        }
+      }
     }
   },
   methods: {
+    // 获取班级信息
+    getClassInfo () {
+        this.$API.getClassInfo(this.$store.state.currentClassId).then(res => {
+          this.ClassInfo = res
+        })
+    },
+    // 获取班级信息
+    getCourseList () {
+        this.$API.getCourseList().then(res => {
+          
+          this.courseList = res.map(o => {
+            return {
+              key: o.CourseName,
+              value: o.CourseName
+            }
+          })
+        })
+    },
     updateData: function(data) {
       this.newHomeworkData.content = data
     },
@@ -116,7 +136,10 @@ export default {
       }
     },
     addHomework() {
-      this.newHomeworkData.course_name = this.course
+      // this.newHomeworkData.course_name = this.course
+      if (this.notClassAdmin == true) {
+        this.newHomeworkData['course_name'] = this.course
+      }
       // this.newHomeworkData['img_url_list'] = this.fileList.join(',')
       this.newHomeworkData['img_base64_list'] = this.imgUrls.join('|')
 
@@ -153,6 +176,8 @@ export default {
     }
   },
   created() {
+    this.getClassInfo()
+    this.getCourseList()
   },
   mounted() {
 

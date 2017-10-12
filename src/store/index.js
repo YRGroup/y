@@ -18,6 +18,8 @@ const store = new Vuex.Store({
     currentStudentId: null,
     currentStudent: {},
 
+    currentClassInfo: {},
+
     hasStudent: false,
     currentUser: null,
     hasNoStudent: false,
@@ -53,6 +55,11 @@ const store = new Vuex.Store({
         return state.currentUser.Token
       }
     },
+    currentUserId: state => {
+      if (state.currentUser) {
+        return state.currentUser.Meid
+      }
+    },
     hasNoSchoolCard: state => {
       if (state.currentUser && state.currentUser.Role !== '家长') {
         if (!state.currentUser.ExtendInfo.CampusCard) {
@@ -80,7 +87,8 @@ const store = new Vuex.Store({
       } else {
         return 'ok'
       }
-    }
+    },
+
   },
   mutations: {
     login(state, val) {
@@ -130,6 +138,8 @@ const store = new Vuex.Store({
       state.hasNoStudent = false
       state.hasNewPost = false
 
+      // state.currentClassInfo = {}
+
       localStorage.clear()
       sessionStorage.clear()
       document.cookie = "meid=aa;path=/;domain=" + document.domain.match(/[^\.]+\.[^\.]+$/)[0] + ";expires=" + new Date(2011, 1, 1).toGMTString()
@@ -149,6 +159,9 @@ const store = new Vuex.Store({
     },
     changeCurrentClass(state, val) {
       state.currentClassId = val
+    },
+    setCurrentClassInfo(state, val) {
+      state.currentClassInfo = val
     },
     setToken(state, val) {
       state.token = val
@@ -222,6 +235,15 @@ const store = new Vuex.Store({
         }).catch(err => {
           reject(err)
         })
+      })
+    },
+    getCurrentClassInfo({
+      getters,
+      commit,
+      state
+    }, payload) {
+      API.getClassInfo(state.currentClassId).then(res => {
+        commit('setCurrentClassInfo', res)
       })
     },
   },
