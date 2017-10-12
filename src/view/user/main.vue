@@ -20,8 +20,11 @@
 
     <group>
       <!-- <cell title="绑定学生" is-link @click.native="addStudentPopup=true" v-if="$store.state.role=='家长'">
+          <i slot="icon" class="iconfont">&#xe719;</i>
+        </cell> -->
+      <cell title="邀请家长" is-link @click.native="inviteParentPopup=true" v-if="$store.state.role=='家长'">
         <i slot="icon" class="iconfont">&#xe719;</i>
-      </cell> -->
+      </cell>
       <cell title="切换班级" :value="$store.state.currentUser.ExtendInfo.Classes[0].ClassName" is-link @click.native="classListPopup=true" v-if="$store.state.role=='老师'">
         <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>
@@ -44,7 +47,7 @@
     </div>
 
     </br>
-
+    <!-- 切换班级 -->
     <popup v-model="classListPopup" is-transparent>
       <div class="popup">
         <group title="切换班级">
@@ -54,7 +57,7 @@
         </group>
       </div>
     </popup>
-
+    <!-- 切换学生 -->
     <popup v-model="myStudentPopup" is-transparent>
       <div class="popup">
         <group title="切换学生">
@@ -65,6 +68,21 @@
       </div>
     </popup>
 
+    <!-- 邀请家长 -->
+    <popup v-model="inviteParentPopup" is-transparent>
+      <div class="popup">
+        <group title="邀请家长">
+          <x-input title="手机号" v-model="Invitedata.MobilePhone" text-align="right" placeholder="手机号"></x-input>
+          <x-input title="姓名" v-model="Invitedata.truename" text-align="right" placeholder="真实姓名"></x-input>
+          <selector title="关系" :options="parentTypeList" v-model="Invitedata.type"></selector>
+        </group>
+        <group class="btn" style="margin:0 20px">
+          <x-button type="primary" @click.native="inviteParent">确定绑定</x-button>
+        </group>
+      </div>
+    </popup>
+
+    <!-- 添加学生 -->
     <popup v-model="addStudentPopup" is-transparent>
       <div class="popup">
         <group title="绑定学生">
@@ -109,13 +127,15 @@ export default {
       changePasswordData: {},
       myStudentPopup: false,
       addStudentPopup: false,
+      inviteParentPopup: false,
       changePasswordPopup: false,
-      classListPopup:false,
+      classListPopup: false,
       parentTypeList: [
         { key: 1, value: '爸爸' },
         { key: 2, value: '妈妈' },
         { key: 3, value: '爷爷' },
-        { key: 4, value: '奶奶' }
+        { key: 4, value: '奶奶' },
+        { key: 5, value: '家人' }
       ],
       addStudentData: {
         truename: '',
@@ -123,6 +143,7 @@ export default {
         type: 0,
       },
       allStudentData: [],
+      Invitedata:{},
       userface: require('@/assets/face/bw.jpg')
     }
   },
@@ -243,6 +264,49 @@ export default {
           text: '成功切换当前学生'
         })
       })
+    },
+    inviteParent(){
+      if(!this.Invitedata.MobilePhone){
+        this.$vux.toast.show({
+            type: "warn",
+            width: "20em",
+            text: '请填写手机号！'
+          })
+      }else if(!this.Invitedata.truename){
+        this.$vux.toast.show({
+            type: "warn",
+            width: "20em",
+            text: '请填写真实姓名！'
+          })
+      }else if(!this.Invitedata.type){
+        this.$vux.toast.show({
+            type: "warn",
+            width: "20em",
+            text: '请选择身份！'
+          })
+      }else{
+          this.Invitedata.student_id = this.$store.state.currentStudent.StudentID
+          this.Invitedata.student_meid = this.$store.state.currentStudent.Meid
+          this.$API.inviteParent(this.Invitedata).then(res => {
+            this.$vux.toast.show({
+              type: "success",
+              width: "20em",
+              text: '绑定成功~！'
+            })
+            this.InviteParent = false
+            this.Invitedata = {
+              MobilePhone:'',
+              truename:'',
+              type: ''
+            }
+          }).catch(err => {
+            this.$vux.toast.show({
+              type: "warn",
+              width: "20em",
+              text: err.msg
+            })
+          })
+      }
     }
   },
   created() {
@@ -256,8 +320,7 @@ export default {
 
 <style lang="less" scoped>
 .user-header {
-  text-align: center;
-  // background: linear-gradient(right top, #00c0a1, #00c06f);
+  text-align: center; // background: linear-gradient(right top, #00c0a1, #00c06f);
   background: url(../../assets/home_bg.png) center;
   background-size: 100% 100%;
   color: #fff; // position: relative;
