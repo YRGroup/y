@@ -10,10 +10,10 @@
 
       <div class="main card">
         <div class="total">
-          <div class="item">
+          <!-- <div class="item">
             <span>名次</span>
             <span class="num">{{score.Ranking}}</span>
-          </div>
+          </div> -->
           <div class="item">
             <span>总分</span>
             <span class="num">{{score.Score +'/'+score.FullScore}}</span>
@@ -212,7 +212,7 @@ export default {
     justify-content: center;
     .item {
       font-size: 1rem;
-      width: 50%;
+      width: 100%;
       border-bottom: 1px solid @border;
       .num {
         font-weight: bold;

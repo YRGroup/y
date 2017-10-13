@@ -17,7 +17,7 @@
 
       <div class="main card">
         <ul class="subject">
-          <li v-for="(list,index) in exam.StudentSummary" :key="index" @click="$router.push('/student/'+list.Meid+'/score/'+exam.ExamID)">
+          <li v-for="(list,index) in exam.StudentSummary" :key="index" @click="studentScore(list.Meid,exam.ExamID)">
             <span class="title">{{list.TrueName}}</span> 
             <span class="score">{{list.TotalScore}}</span>
           </li>
@@ -58,6 +58,7 @@ export default {
       chart1: null,
       chart1_indicator: [],
       chart1_series: [],
+      IsPublished:''
     }
   },
   methods: {
@@ -115,9 +116,22 @@ export default {
         }]
       })
     },
+    studentScore(Meid,ExamID) {
+      if(this.IsPublished){
+        this.$router.push('/student/'+Meid+'/score/'+ExamID)
+      }else{
+        this.$vux.toast.show({
+            type: "warn",
+            text: '本次考试成绩还未发布！~',
+            width: '20em',
+          })
+      }
+      // $router.push('/student/'+list.Meid+'/score/'+exam.ExamID)
+    },
     getExamInfo(id) {
       this.$API.getExamInfo(id).then(res => {
         this.exam = res
+        this.IsPublished = this.exam.IsPublished
         let data = this.exam
         let time = new Date(data.CreateTime)
         data.CreateTime = time.Format('MM-dd hh:mm')
