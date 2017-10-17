@@ -42,7 +42,6 @@ export default {
     }
   },
   created() {
-    console.log(2)
     if (!this.$store.state.hasLogin && !this.$route.meta.anonymous) {
       this.$store.dispatch('getCurrentUser')
     }
