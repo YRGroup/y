@@ -10,6 +10,9 @@ import store from './store'
 import API from './server/API'
 import md5 from 'js-md5'
 import axios from 'axios'
+import NProgress from 'nprogress' // Progress 进度条
+import 'nprogress/nprogress.css'// Progress 进度条 样式
+
 import {
   LoadingPlugin,
   ToastPlugin
@@ -20,6 +23,7 @@ import {
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
+  NProgress.start() // 开启Progress
   if (to.matched.some(record => record.meta.anonymous)) {
     next()
   } else {
@@ -27,7 +31,9 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
-
+router.afterEach(() => {
+  NProgress.done(); // 结束Progress
+});
 
 // 日期格式化
 Date.prototype.Format = function (fmt) {
