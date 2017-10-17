@@ -14,7 +14,7 @@
     <swiper loop auto :list="swiperdate" class="bannerPic"></swiper>
 
     <!--功能导航-->
-    <flexbox wrap="wrap" :gutter="0">
+    <flexbox wrap="wrap" :gutter="0" style="margin-bottom: 7.5px">
       <flexbox-item :span="3">
         <router-link :to="'/class/work'">
           <div style="background:#62ccfd">
@@ -56,55 +56,64 @@
         </router-link>
       </flexbox-item>
     </flexbox>
-
-    <div class="newsCard">
-      <tab :line-width="2">
-        <tab-item selected @on-item-click="handleSwitchTab">校园新闻</tab-item>
-        <tab-item @on-item-click="handleSwitchTab">资料库</tab-item>
-      </tab>
-      <div v-if="tabindex == '1'">
-        <no-data v-if="!data.length"></no-data>
-        <div v-else class="card" v-for="(i,index) in data" :key="index" @click="$router.push('/news?id='+i.ID)">
-          <div class="img" v-if="i.ImgUrl">
-            <img :src="i.ImgUrl">
-          </div>
-          <div class="img" v-else>
-            <img :src="publicImg">
-          </div>
-          <div class="cardCon">
-            <div class="cardtitle">
-              {{i.Title}}
-            </div>
-            <div class="cardfooter">
-              <span class="time">
-                <i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
-            </div>
-          </div>
+    <mt-loadmore :top-method="refresh" ref="loadmore" style="padding-bottom: 1.5rem;">
+      <div class="newsCard">
+        <tab :line-width="2" v-model="nowIndex">
+          <!--<tab-item selected @on-item-click="handleSwitchTab">校园新闻</tab-item>-->
+          <!--<tab-item @on-item-click="handleSwitchTab">资料库</tab-item>-->
+          <tab-item  @on-item-click="setSlide(0)">校园新闻</tab-item>
+          <tab-item  @on-item-click="setSlide(1)">资料库</tab-item>
+        </tab>
+        <div ref="newsCardTwo">
+          <ul >
+            <li>
+              <div>
+                <no-data v-if="!classNewList.length"></no-data>
+                <div v-else class="card" v-for="(i,index) in classNewList" :key="index" @click="$router.push('/news?id='+i.ID)">
+                  <div class="img" v-if="i.ImgUrl">
+                    <img :src="i.ImgUrl">
+                  </div>
+                  <div class="img" v-else>
+                    <img :src="publicImg">
+                  </div>
+                  <div class="cardCon">
+                    <div class="cardtitle">
+                      {{i.Title}}
+                    </div>
+                    <div class="cardfooter">
+                  <span class="time">
+                    <i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div v-if="nowIndex1">
+                <no-data v-if="!ziliaoList.length"></no-data>
+                <div v-else class="card" v-for="(i,index) in ziliaoList" :key="index">
+                  <div class="img" v-if="i.ImgUrl">
+                    <img :src="i.ImgUrl">
+                  </div>
+                  <div class="img" v-else>
+                    <img :src="publicImg">
+                  </div>
+                  <div class="cardCon">
+                    <div class="cardtitle">
+                      <a @click="$router.push('/doc?id='+i.ID)">{{i.Title}}</a>
+                    </div>
+                    <div class="cardfooter">
+                  <span class="time">
+                    <i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
-      <div v-if="tabindex == '2'">
-        <no-data v-if="!data.length"></no-data>
-        <div v-else class="card" v-for="(i,index) in data" :key="index">
-          <div class="img" v-if="i.ImgUrl">
-            <img :src="i.ImgUrl">
-          </div>
-          <div class="img" v-else>
-            <img :src="publicImg">
-          </div>
-          <div class="cardCon">
-            <div class="cardtitle">
-              <a @click="$router.push('/doc?id='+i.ID)">{{i.Title}}</a>
-            </div>
-            <div class="cardfooter">
-              <span class="time">
-                <i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
+    </mt-loadmore>
     <x-dialog v-model="showWX" class="wxDialog">
       <div class="close" @click="showWX=false">
         <span>
@@ -124,12 +133,14 @@
 
 <script>
 import noData from '@/components/noData'
+import mtLoadmore from '@/components/loadMore'
+require('@/js/swipe1.min');
 import { Swiper, Flexbox, FlexboxItem, XButton, Popup, Tab, TabItem, XDialog } from 'vux'
 
 export default {
   name: 'hello',
   components: {
-    Swiper, Flexbox, FlexboxItem, XButton, Popup, Tab, TabItem, XDialog, noData
+    Swiper, Flexbox, FlexboxItem, XButton, Popup, Tab, TabItem, XDialog, noData,mtLoadmore
   },
   data() {
     return {
@@ -154,11 +165,17 @@ export default {
       activeName: '1',
       data: [],
       page: 1,
+      classNewList:[],
+      ziliaoList:[],
       publicImg: require('@/assets/publicImg.png'),
       tabindex: '1',
       currentPage: 1,
       QRcodeIMG: '',
-      showWX: false
+      showWX: false,
+      nowIndex0:false,
+      nowIndex1:false,
+      nowIndex2:false,
+      nowIndex:0,
     }
   },
   computed: {
@@ -170,7 +187,7 @@ export default {
       } else {
         return false
       }
-    }
+    },
   },
   methods: {
     getNewsList() {
@@ -191,37 +208,18 @@ export default {
       }
       this.$API.getNewsList(para).then(res => {
         this.swiperdate = this.mockSwiperdate
-        // if (res.length) {
-        //   this.swiperdate = res.map(o => {
-        //     let r = {
-        //       url: '',
-        //       img: o.Albums[0].Thumbpath,
-        //       title: o.Title
-        //     }
-        //     return r
-        //   })
-        // } else {
-        //   this.swiperdate = this.mockSwiperdate
-        // }
       })
     },
-    handleSwitchTab() {
-      if (this.tabindex == "1") {
-        this.tabindex = '2'
-      } else {
-        this.tabindex = '1'
-      }
-      this.getData()
-    },
-    getData() {
+    getData(tar) {
       let para = {
-        category: this.tabindex,
+        category: tar,
         currentPage: this.page,
         pagesize: 10,
         showDelete: false,
       }
-      this.$API.getNewsList(para).then(res => {
-        this.data = res
+      return this.$API.getNewsList(para).then(res => {
+        tar==1?this.classNewList=res:this.ziliaoList=res;
+
       })
     },
     getWXQRcode() {
@@ -233,13 +231,50 @@ export default {
     changeNum2() {
       this.activeName = '2'
       this.tabindex = '2'
+    },
+    _initSwipe(){
+      this.tabs = new Swipe(this.$refs.newsCardTwo, {
+        startSlide: 0,
+        speed: 500,
+        callback: (a, b) => {
+          this.setTab(b);
+        }
+      })
+      console.log(this.tabs)
+    },
+    setSlide(i){
+      this.tabs.slide(i,300)
+    },
+    setTab(i){
+      this.nowIndex=i;
+      if(i==0&&!this.nowIndex0){
+        this.nowIndex0=true
+      }
+      if(i==1&&!this.nowIndex1){
+        this.getData(2);
+        this.nowIndex1=true
+      }
+      if(i==2&&!this.nowIndex2){
+        this.nowIndex2=true
+      }
+
+    },
+    refresh(){
+      Promise.all([this.getData(1),this.getData(2)]).then((posts)=> {
+          this.$refs.loadmore.onTopLoaded('刷新成功');
+      }).catch((reason)=>{
+          this.$refs.loadmore.onTopLoaded('刷新失败');
+      });
     }
   },
   created() {
     this.$store.commit('changeTitle', '智慧校园')
-    this.getSwiper()
-    this.getData()
-    this.getWXQRcode()
+    this.getSwiper();
+    this.getWXQRcode();
+    this.getData(1);
+    this.$nextTick(()=>{
+      this._initSwipe();
+    })
   },
   mounted() {
 
@@ -325,8 +360,18 @@ export default {
 }
 
 .newsCard {
-  margin-top: 15px;
+  margin-top: 7.5px;
   background: #fff;
+    .vux-tab{
+      .active{
+        color:red
+      }
+      .vux-tab-selected {
+        color: #666;
+        border-bottom: 3px solid #666;
+      }
+    }
+
   .card {
     margin: 0 10px;
     padding: 15px 15px 15px 130px;

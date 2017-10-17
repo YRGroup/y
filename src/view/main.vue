@@ -1,14 +1,14 @@
 <template>
   <div id="app">
-  
+
     <x-header id="nav-top" :left-options="{backText: ''}" v-show="!$store.getters.isWeixin">
       {{web_title}}
     </x-header>
-  
+
     <transition name='slide-fade'>
       <router-view id="inview" :style="{marginTop:ptop,marginBottom:pdown}"></router-view>
     </transition>
-  
+
     <tabbar id="nav-bottom" v-show="$store.state.showBottomNav">
       <tabbar-item selected link="/">
         <i slot="icon" class="iconfont nav_icon">&#xe666;</i>
@@ -27,7 +27,7 @@
         <span slot="label" class="navtext">{{hasLogin?'我的':'未登录'}}</span>
       </tabbar-item>
     </tabbar>
-  
+
   </div>
 </template>
 
@@ -47,10 +47,10 @@ export default {
     }
   },
   methods: {
-    
+
   },
   watch: {
-    
+
   },
   computed: {
     ptop() {
@@ -65,15 +65,15 @@ export default {
     web_title() {
       return this.$store.state.title
     },
-    
+
   },
   created() {
   },
   mounted() {
-    
+
   },
   beforeCreate() {
-    
+
   }
 }
 </script>
@@ -81,7 +81,6 @@ export default {
 <style lang="less">
 
 #app {
-  height: 100%;
   padding: 0;
 }
 

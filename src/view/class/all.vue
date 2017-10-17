@@ -1,6 +1,6 @@
 <template>
-  <div class="classMain">
-
+  <div class="classMain aas1" >
+    <mt-loadmore :top-method="refresh" :bottom-method="loadMore" :bottom-all-loaded="noMoreData" ref="loadmore" style="padding-bottom: 1.5rem;">
     <!--班级通知
       教师端显示
       -->
@@ -21,13 +21,18 @@
           </div>
         </card> -->
 
-    <div class="teacherListBox" v-show="this.teachers.length">
-      <div class="box-item" v-for="(item,index) in teachers" :key="index" @click="$router.push('/teacher/'+item.Meid)">
-        <!-- <img :src="item.Headimgurl"> -->
-        <div class="category" :style="{background:colors[item.Course]}">{{ item.Course.substr(0,1) }}</div>
-        <div class="name">{{ item.TrueName ||'&nbsp;' }}</div>
-        <!-- <div class="job">{{ item.Course ||'&nbsp;' }}</div> -->
-      </div>
+    <div class="teacherListBox" v-show="this.teachers.length" ref="lineScroll" style="height:112px">
+      <ul style="height: 71px" class="scrollerX">
+        <li class="box-item" v-for="(item,index) in teachers" :key="index" @click="$router.push('/teacher/'+item.Meid)">
+          <div   >
+            <!-- <img :src="item.Headimgurl"> -->
+            <div class="category" :style="{background:colors[item.Course]}">{{ item.Course.substr(0,1) }}</div>
+            <div class="name">{{ item.TrueName ||'&nbsp;' }}</div>
+            <!-- <div class="job">{{ item.Course ||'&nbsp;' }}</div> -->
+          </div>
+        </li>
+      </ul>
+
     </div>
 
     <!--班级作业
@@ -39,12 +44,15 @@
         <span>班级作业</span>
       </div>
       <div class="content" v-if="homework.length">
-        <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/work')">
-          <div class="msg">
-            【 {{ i.CourseName }}】{{ i.Title || '班级作业' }}
-          </div>
-          <div class="date">{{ i.CreateTime }}</div>
-        </li>
+        <scrollNew :leg="homework.length" :showNum="2">
+          <li v-for="(i,index) in homeworkC" :key="index" @click="$router.push('/class/work')">
+            <div class="msg">
+              【 {{ i.CourseName }}】{{ i.Title || '班级作业' }}
+            </div>
+            <div class="date">{{ i.CreateTime }}</div>
+          </li>
+        </scrollNew>
+
       </div>
       <div class="content" v-else>
         <li>
@@ -91,31 +99,34 @@
           </li>
           <!--<div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>-->
 
-          <div class="more" @click="$router.push('/post/'+item.ID)">
-            查看更多
-          </div>
+          <!--<div class="more" @click="$router.push('/post/'+item.ID)">-->
+            <!--查看更多-->
+          <!--</div>-->
         </div>
       </div>
     </card>
 
-    <divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>
-    <divider v-show="noMoreData" class="noMoreData">没有更多数据</divider>
+    <!--<divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>-->
+    <!--<divider v-show="noMoreData" class="noMoreData">没有更多数据</divider>-->
 
     <popup v-model="showImgPopup" is-transparent>
       <div class="popup" @click="showImgPopup=false">
         <img :src="popupImgUrl">
       </div>
     </popup>
-
+    </mt-loadmore>
   </div>
 </template>
 
 <script>
 import { Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell } from 'vux'
-
+//require('@/js/iscroll.min');
+import IScroll from 'better-scroll';
+import scrollNew from '@/components/scrollNew';
+import mtLoadmore from '@/components/loadMore'
 export default {
   components: {
-    Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell
+    Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell,scrollNew,mtLoadmore
   },
   data() {
     return {
@@ -127,7 +138,7 @@ export default {
       homework: [],
       list: [],
       pageSize: 10,
-      currentPage: 1,
+      currentPage: 0,
       noMoreData: false,
       colors: {
         '语文': '#fe6867',
@@ -140,8 +151,21 @@ export default {
         '地理': '#34495e',
         '音乐': '#95a5a6',
         '美术': '#1abc9c',
-        '体育': '#2ecc71'
+        '体育': '#2ecc71',
+        '暂无':'#000'
       },
+    }
+  },
+  computed:{
+    homeworkC(){
+        var a=this.homework;
+        a.push(this.homework[0])
+        a.push(this.homework[1])
+        return a;
+    },
+    mainHeight(){
+        console.log(window.innerHeight)
+        return window.innerHeight-259;
     }
   },
   methods: {
@@ -163,19 +187,28 @@ export default {
       para.pagesize = this.pageSize
       para.currentPage = this.currentPage
       this.$API.getAllClassDynamic(para).then((res) => {
+        if(this.currentPage==1){
+          this.list=[];
+        }
         if (res.length) {
           res.forEach((element) => {
             this.list.push(element)
           })
-        } else {
+          this.noMoreData = false
+        }
+        if (res.length==this.pageSize){
+          this.noMoreData = false
+        }else{
           this.noMoreData = true
         }
+        this.$refs.loadmore.onBottomLoaded('加载成功');
       }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
           width: "20em",
           text: err.msg
         })
+        this.$refs.loadmore.onBottomLoaded('加载失败');
       })
     },
     loadMore() {
@@ -183,25 +216,12 @@ export default {
       this.getAllClassDynamic()
     },
     getTeacherList() {
-      this.$API.getTeacherList(this.$store.state.currentClassId).then((res) => {
+      return this.$API.getTeacherList(this.$store.state.currentClassId).then((res) => {
         this.teachers = res
-        this.boxwid = res.length * 100 + 'px'
-      }).catch(err => {
-        this.$vux.toast.show({
-          type: "warn",
-          width: "20em",
-          text: err.msg
+        this.boxwid = res.length * 100 + 'px';
+        this.$nextTick(()=>{
+          this._lineScroll();
         })
-      })
-    },
-    getNotice() {
-      let para = {}
-      para.cid = this.$store.state.currentClassId
-      para.type = 3
-      para.pagesize = 1
-      para.currentPage = 1
-      this.$API.getAllClassDynamic(para).then((res) => {
-        this.notice = res[0]
       }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
@@ -213,9 +233,9 @@ export default {
     getHomeWork() {
       let para = {}
       para.cid = this.$store.state.currentClassId
-      para.pagesize = 2
+      para.pagesize = 3
       para.currentPage = 1
-      this.$API.getHomeworkList(para).then((res) => {
+      return this.$API.getHomeworkList(para).then((res) => {
         this.homework = res
       }).catch(err => {
         this.$vux.toast.show({
@@ -239,37 +259,43 @@ export default {
           width: "20em"
         })
       })
+    },
+    _lineScroll(){
+        this.newScroll=new IScroll(this.$refs.lineScroll,{
+          scrollX: true,
+        })
+        console.log(this.newScroll)
+    },
+    refresh(){
+      this.currentPage=1;
+      Promise.all([this.getAllClassDynamic(),this.getTeacherList(),this.getHomeWork()]).then((posts)=> {
+        this.$refs.loadmore.onTopLoaded('刷新成功');
+      }).catch((reason)=>{
+        this.$refs.loadmore.onTopLoaded('刷新失败');
+      });
     }
   },
   created() {
     this.$store.commit('changeTitle', '班级动态')
-    this.getAllClassDynamic()
-    if (!this.teachers.length) {
+    this.currentPage=1;
+      this.getAllClassDynamic()
       this.getTeacherList()
-    }
-    // if(!this.notice.length){
-    //   this.getNotice()
-    // }
-    if (!this.homework.length) {
       this.getHomeWork()
-    }
   }
 }
 </script>
 
 <style lang="less" scoped>
 .classMain {
-  margin-top: -20px;
-  overflow-x: hidden;
+  /*margin-top: -20px;*/
+  /*margin-bottom: 53px;*/
 }
 
 .teacherListBox {
-  position: relative;
-  background: transparent;
+  /*position: relative;*/
   background: #fff;
   white-space: nowrap;
-  overflow-x: scroll;
-  min-width: 100vw;
+  min-width: 100%;
   padding: 30px 0 10px;
   box-sizing: border-box;
   border-bottom: 1px solid #e5e5e5;
@@ -277,6 +303,7 @@ export default {
     width: 5rem;
     border-radius: 15px;
     display: inline-block;
+    /*float: left;*/
     margin-left: 10px;
     text-align: center;
     img {
@@ -336,7 +363,9 @@ export default {
   }
   .content {
     margin-left: 4em;
-    margin-top: .3em;
+    margin-top: 3px;
+    height: 48px;
+    overflow: hidden;
     li {
       display: block;
       position: relative;

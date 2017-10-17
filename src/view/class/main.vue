@@ -1,6 +1,6 @@
 <template>
-  <div class="hello">
-    
+  <div class="hello hasClassShow">
+
     <has-no-student v-if="$store.state.hasNoStudent">
     </has-no-student>
 
@@ -49,11 +49,11 @@ export default {
       this.$API.getClassInfo(this.$store.state.currentClassId).then(res=>{
         this.classInfo = res
         if(res.teacher){
-          this.classInfo.teacherName = res.teacher.TrueName    
+          this.classInfo.teacherName = res.teacher.TrueName
         }else{
           this.classInfo.teacherName = '未指定'
         }
-        this.classInfo.classlogo = require('@/assets/face/c.jpeg')         
+        this.classInfo.classlogo = require('@/assets/face/c.jpeg')
       })
     }
   },
@@ -65,7 +65,7 @@ export default {
     if(this.$store.state.hasLogin && this.$store.state.hasNoStudent && this.$store.state.role =='家长'){
       this.showAddStudent=true
     }else{
-      this.showAddStudent=false 
+      this.showAddStudent=false
     }
   }
 }
@@ -74,7 +74,7 @@ export default {
 <style lang="less" scoped>
 .class-header{
   padding: 1em 0;
-  height:136px;
+  height:160px;
   width:100%;
   // background:linear-gradient(right top,#00c0a1, #00c06f);
   background: url(../../assets/class_topbg.png) center;

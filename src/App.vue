@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :style="{'height':mainHeight+'px'}" style="overflow: scroll">
 
     <loading v-model="isLoading"></loading>
 
@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      
+
     }
   },
   methods: {
@@ -39,10 +39,12 @@ export default {
     },
     isLoading() {
       return this.$store.state.isLoading
+    },
+    mainHeight(){
+        return window.innerHeight
     }
   },
   created() {
-    console.log(1)
     if (!this.$store.state.hasLogin && !this.$route.meta.anonymous) {
       this.$store.dispatch('getCurrentUser')
     }
@@ -75,7 +77,6 @@ html {
 }
 
 #app {
-  min-height: 100vh;
   padding: 0;
 }
 
@@ -110,7 +111,27 @@ a {
   transform: translateX(100vw);
   opacity: 0;
 }
-
+.scrollerX {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+  -o-text-size-adjust: none;
+  text-size-adjust: none;
+}
 //基本信息里的头像
 .headImg {
   height: 2.4rem;
