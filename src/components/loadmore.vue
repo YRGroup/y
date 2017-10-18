@@ -87,7 +87,7 @@
       },
       bottomPullText: {
         type: String,
-        default: '上拉刷新'
+        default: '上拉加载更多'
       },
       bottomDropText: {
         type: String,
@@ -168,8 +168,6 @@
         })
         setTimeout(() => {
           this.translate = 0;
-          console.log(this.$el.getBoundingClientRect().top)
-          console.log(this.$el)
           setTimeout(()=>{
             this.topStatus = 'pull';
           },200)
@@ -177,7 +175,7 @@
       },
 
       onBottomLoaded(a) {
-
+        alert(this.bottomAllLoaded)
         this.$nextTick(() => {
           if (this.scrollEventTarget === window) {
             document.body.scrollTop += 50;
