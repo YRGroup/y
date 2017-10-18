@@ -195,7 +195,6 @@ export default {
 //          })
           this.list=this.list.concat(res)
         }
-        alert(res.length)
         if(res.length==this.pageSize){
           this.noMoreData = false
         }else{
