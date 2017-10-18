@@ -1,6 +1,6 @@
 <template>
   <div class="classMain aas1" >
-    <mt-loadmore :top-method="refresh" :bottom-method="loadMore" :bottom-all-loaded="noMoreData" ref="loadmore" style="padding-bottom: 1.5rem;">
+    <mt-loadmore  :top-method="refresh" :bottom-method="loadMore" :bottom-all-loaded="noMoreData" ref="loadmore" style="padding-bottom: 1.5rem;">
     <!--班级通知
       教师端显示
       -->
@@ -164,7 +164,6 @@ export default {
         return a;
     },
     mainHeight(){
-        console.log(window.innerHeight)
         return window.innerHeight-259;
     }
   },
@@ -191,17 +190,18 @@ export default {
           this.list=[];
         }
         if (res.length) {
-          res.forEach((element) => {
-            this.list.push(element)
-          })
-          this.noMoreData = false
+//          res.forEach((element) => {
+//            this.list.push(element)
+//          })
+          this.list=this.list.concat(res)
         }
-        if (res.length==this.pageSize){
+        alert(res.length)
+        if(res.length==this.pageSize){
           this.noMoreData = false
         }else{
           this.noMoreData = true
         }
-        this.$refs.loadmore.onBottomLoaded('加载成功');
+//        this.$refs.loadmore.onBottomLoaded('加载成功');
       }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
@@ -264,7 +264,6 @@ export default {
         this.newScroll=new IScroll(this.$refs.lineScroll,{
           scrollX: true,
         })
-        console.log(this.newScroll)
     },
     refresh(){
       this.currentPage=1;
