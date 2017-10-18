@@ -225,13 +225,6 @@ export default {
     getWXQRcode() {
       this.QRcodeIMG = this.$API.getWXQRcode()
     },
-    changeNum1() {
-      this.tabindex = '1'
-    },
-    changeNum2() {
-      this.activeName = '2'
-      this.tabindex = '2'
-    },
     _initSwipe(){
       this.tabs = new Swipe(this.$refs.newsCardTwo, {
         startSlide: 0,
