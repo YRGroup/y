@@ -1,85 +1,59 @@
 <template>
   <div class="work">
-
-    <div class="addbtn" v-show="$store.state.role == '老师'">
-      <x-button  @click.native="$router.push('/class/newhomework')" type="primary" plain>布置作业</x-button>
-    </div>
-
-    <popup v-model="newHomework" height="310px" is-transparent>
-      <div class="popup">
-        <group>
-          <selector title="学科" :options="course_list" v-model="newHomeworkData.course_id"></selector>
-          <x-textarea title="作业" placeholder="请输入作业内容" v-model="newHomeworkData.content"></x-textarea>
-        </group>
-        <div style="padding:20px 15px;">
-          <x-button type="primary" @click.native="addHomework">发布</x-button>
-          <x-button @click.native="newHomework = false">取消</x-button>
-        </div>
+      <div class="addbtn" v-show="$store.state.role == '老师'">
+        <x-button  @click.native="$router.push('/class/newhomework')" type="primary" plain>布置作业</x-button>
       </div>
-    </popup>
-    <group v-if="nodataImg">
-      <no-data></no-data>
-    </group>
-    <div v-else>
-      <div class="workcard" v-for="(i,index) in homework" :key="index">
-        <div class="header">
-          <span class="auther">{{ i.AutherName }}</span>
-          <span class="time">{{ i.CreateTime }}</span>
-          <span class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName }}</span>
-        </div>
-        <div class="title center" @click="$router.push('/class/homework/'+i.HID)">{{i.Title}}</div>
-        <div class="content">
-          <div class="text" @click="$router.push('/class/homework/'+i.HID)">{{i.Content}}</div>
-          <div class="img" v-if="i.Albums">
-            <div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in i.Albums" :key="index" @click="imgPopup(imgurl)">
+      <group v-if="homework.length==0">
+        <no-data></no-data>
+      </group>
+      <div v-else>
+        <mt-loadmore  :top-method="refresh" :bottom-method="loadMore" :bottom-all-loaded="noMoreData" ref="loadmore" style="padding-bottom: 1.5rem;">
+
+        <div class="workcard" v-for="(i,index) in homework" :key="index">
+          <div class="header">
+            <span class="auther">{{ i.AutherName }}</span>
+            <span class="time">{{ i.CreateTime }}</span>
+            <span class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName }}</span>
+          </div>
+          <div class="title center" @click="$router.push('/class/homework/'+i.HID)">{{i.Title}}</div>
+          <div class="content">
+            <div class="text" @click="$router.push('/class/homework/'+i.HID)">{{i.Content}}</div>
+            <div class="img" v-if="i.Albums">
+              <div class="imgCon preview-img"
+                   :style="{backgroundImage: 'url\('+imgurl.src+'\)'}"
+                   v-for="(imgurl,index) in i.imgList"
+                   :key="index"
+                   @click="$preview.open(imgurl.index, imgList)"
+              >
+              </div>
             </div>
           </div>
+          <!-- <div class="footer">{{ i.CreateTime }}</div> -->
         </div>
-        <!-- <div class="footer">{{ i.CreateTime }}</div> -->
-      </div>
-      <divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>
-      <divider v-show="noMoreData" class="noMoreData">没有更多数据</divider>
-      <popup v-model="showImgPopup" is-transparent>
-        <div class="popup" @click="showImgPopup=false">
-          <img :src="popupImgUrl">
-        </div>
-      </popup>
-    </div>
+        </mt-loadmore>
 
+      </div>
   </div>
 </template>
 
 <script>
 import noData from '@/components/noData'
-import { Popup, Group, XTextarea, XButton, Selector, Divider } from 'vux'
+import mtLoadmore from '@/components/loadMore'
+import { Popup, Group, XTextarea, XButton, Selector } from 'vux'
 
 export default {
   components: {
     Popup,
     Group,
     XTextarea,
+    mtLoadmore,
     Selector,
-    XButton, Divider, noData
+    XButton,
+    noData
   },
   data() {
     return {
       showImgPopup: false,
-      nodataImg: false,
-      newHomework: false,
-      newHomeworkData: {},
-      course_list: [
-        { key: '1', value: '语文' },
-        { key: '2', value: '数学' },
-        { key: '3', value: '英语' },
-        { key: '4', value: '物理' },
-        { key: '5', value: '化学' },
-        { key: '6', value: '历史' },
-        { key: '7', value: '政治' },
-        { key: '8', value: '地理' },
-        { key: '9', value: '音乐' },
-        { key: '10', value: '美术' },
-        { key: '11', value: '体育' }
-      ],
       colors: {
         '语文': '#fe6867',
         '数学': '#ffce31',
@@ -93,9 +67,10 @@ export default {
         '美术': '#1abc9c',
         '体育': '#2ecc71'
       },
+      imgList:[],
       homework: [],
       pageSize: 10,
-      currentPage: 1,
+      currentPage:0,
       noMoreData: false,
       popupImgUrl: ''
     }
@@ -112,51 +87,120 @@ export default {
       this.popupImgUrl = val
       this.showImgPopup = true
     },
-    getHomeWork() {
+    getHomeWork(flag) {
       let para = {}
       para.cid = this.$store.state.currentClassId
       para.pagesize = this.pageSize
       para.currentPage = this.currentPage
       this.$API.getHomeworkList(para).then(res => {
+        if(this.currentPage == 1){
+          this.homework=[]
+          this.imgList=[]
+        }
+        //*******图片预览处理*******//
+
+        //获取最后一个 '.preview-img'的 index
+        let index=this.getLastIndex(this.homework.length);
+        res.forEach((n,i)=>{
+          // 处理图片预览的 数据格式
+          n.imgList=[];
+          n.Albums.forEach((m,j)=>{
+            let obj={
+              src:m,
+              w:200,
+              h:200,
+              index:index++
+
+            }
+            n.imgList.push(obj)
+            //把动态里面的图片都放进一个数组里面
+            //index 代表位置
+            this.imgList.push(obj)
+
+          })
+        })
+        this.preloadimages(this.imgList).done((images)=>{
+          images.forEach((n,i)=>{
+            this.imgList[i].w=n.width
+            this.imgList[i].h=n.height
+          })
+        })
+        //*******图片预览处理结束*******//
+
         if (res.length) {
           res.forEach((element) => {
             this.homework.push(element)
           })
-        } else if (!res.length && this.currentPage == 1) {
-          this.nodataImg = true
-        } else if (!res.length && this.currentPage != 1) {
+        }
+        if(res.length==this.pagesize) {
+          this.noMoreData = false
+        } else {
           this.noMoreData = true
         }
-        this.boxwid = res.length * 100 + 'px'
+        this.$nextTick(()=>{
+          this.$refs.loadmore.onBottomLoaded('加载成功');
+          if(flag=='refresh') {
+            setTimeout(() => {
+              this.$refs.loadmore.onTopLoaded('刷新成功');
+            }, 300)
+          }
+        })
+
+//        this.boxwid = res.length * 100 + 'px'
       })
     },
     loadMore() {
       this.currentPage++
       this.getHomeWork()
     },
-    addHomework() {
-      if (this.newHomeworkData.course_name && this.newHomeworkData.content) {
-        this.newHomeworkData.class_id = this.$store.state.currentClassId
-        this.newHomeworkData.title = ''
-        this.$API.addHomework(this.newHomeworkData).then(res => {
-          this.$vux.toast.show({
-            type: "success",
-            text: "发布成功"
-          })
-          this.newHomework = false
-          this.getHomeWork()
-        })
-      } else {
-        this.$vux.toast.show({
-          type: "warn",
-          text: "数据不完整"
-        })
+    refresh(){
+      this.currentPage=1;
+      this.getHomeWork('refresh');
+    },
+    getLastIndex(length){
+      let last=this.homework[length-1];
+      if(last&&last.imgList.length){
+        return last.imgList[last.imgList.length-1].index+1;
+      }else{
+        if(length-1<=0){
+          return 0;
+        }else{
+          return this.getLastIndex(length-1)
+
+        }
+      }
+    },
+    preloadimages(arr){
+      var newimages=[], loadedimages=0
+      var postaction=function(){}  //此处增加了一个postaction函数
+      var arr=(typeof arr!="object")? [arr] : arr
+      function imageloadpost(){
+        loadedimages++
+        if (loadedimages==arr.length){
+          postaction(newimages) //加载完成用我们调用postaction函数并将newimages数组做为参数传递进去
+        }
+      }
+      for (var i=0; i<arr.length; i++){
+        newimages[i]=new Image()
+        newimages[i].src=arr[i].src
+        newimages[i].onload=function(){
+          imageloadpost()
+        }
+        newimages[i].onerror=function(){
+          imageloadpost()
+        }
+      }
+      return { //此处返回一个空白对象的done方法
+        done:function(f){
+          postaction=f || postaction
+        }
       }
     }
   },
   created() {
     this.$store.commit('changeTitle', '班级作业')
-    this.getHomeWork()
+//    this.getHomeWork()
+    this.refresh();
   }
 }
 </script>

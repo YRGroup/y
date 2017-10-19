@@ -52,7 +52,6 @@
             <div class="date">{{ i.CreateTime }}</div>
           </li>
         </scrollNew>
-
       </div>
       <div class="content" v-else>
         <li>
@@ -83,7 +82,14 @@
         <div @click="$router.push('/post/'+item.ID)">{{item.content}}</div>
 
         <div class="img" v-if="item.albums.length!=0">
-          <div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in item.albums" :key="index" @click="imgPopup(imgurl)">
+          <!--<div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in item.albums" :key="index" @click="imgPopup(imgurl)">-->
+          <!--</div>-->
+          <div class="imgCon preview-img"
+               :style="{backgroundImage: 'url\('+imgurl.src+'\)'}"
+               v-for="(imgurl,index) in item.imgList"
+               :key="imgurl.index"
+               @click="$preview.open(imgurl.index, imgList)"
+          >
           </div>
         </div>
       </div>
@@ -97,36 +103,21 @@
             <span>{{ comment.TrueName }}：</span>
             <span>{{ comment.content }}</span>
           </li>
-          <!--<div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>-->
-
-          <!--<div class="more" @click="$router.push('/post/'+item.ID)">-->
-            <!--查看更多-->
-          <!--</div>-->
         </div>
       </div>
     </card>
-
-    <!--<divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>-->
-    <!--<divider v-show="noMoreData" class="noMoreData">没有更多数据</divider>-->
-
-    <popup v-model="showImgPopup" is-transparent>
-      <div class="popup" @click="showImgPopup=false">
-        <img :src="popupImgUrl">
-      </div>
-    </popup>
     </mt-loadmore>
   </div>
 </template>
 
 <script>
-import { Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell } from 'vux'
-//require('@/js/iscroll.min');
+import { Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell , Marquee , MarqueeItem } from 'vux'
 import IScroll from 'better-scroll';
 import scrollNew from '@/components/scrollNew';
 import mtLoadmore from '@/components/loadMore'
 export default {
   components: {
-    Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell,scrollNew,mtLoadmore
+    Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell,scrollNew, mtLoadmore, Marquee , MarqueeItem
   },
   data() {
     return {
@@ -137,6 +128,7 @@ export default {
       notice: [],
       homework: [],
       list: [],
+      imgList:[],
       pageSize: 10,
       currentPage: 0,
       noMoreData: false,
@@ -179,7 +171,7 @@ export default {
       this.popupImgUrl = val
       this.showImgPopup = true
     },
-    getAllClassDynamic() {
+    getAllClassDynamic(flag) {
       let para = {}
       para.cid = this.$store.state.currentClassId
       para.type = 1
@@ -188,19 +180,50 @@ export default {
       this.$API.getAllClassDynamic(para).then((res) => {
         if(this.currentPage==1){
           this.list=[];
+          this.imgList=[];
         }
+        //*******图片预览处理*******//
+
+        //获取最后一个 '.preview-img'的 index
+        let index=this.getLastIndex(this.list.length);
+        res.forEach((n,i)=>{
+
+            // 处理图片预览的 数据格式
+            n.imgList=[];
+            n.albums.forEach((m,j)=>{
+                let obj={
+                  src:m,
+                  w:200,
+                  h:200,
+                  index:index++
+
+                }
+               n.imgList.push(obj)
+              //把动态里面的图片都放进一个数组里面
+              //index 代表位置
+              this.imgList.push(obj)
+
+            })
+        })
+        this.preloadimages(this.imgList).done((images)=>{
+          images.forEach((n,i)=>{
+            this.imgList[i].w=n.width
+            this.imgList[i].h=n.height
+          })
+        })
+        //*******图片预览处理结束*******//
+
         if (res.length) {
-//          res.forEach((element) => {
-//            this.list.push(element)
-//          })
-          this.list=this.list.concat(res)
+          this.list=this.list.concat(res);
         }
         if(res.length==this.pageSize){
           this.noMoreData = false
         }else{
           this.noMoreData = true
         }
-//        this.$refs.loadmore.onBottomLoaded('加载成功');
+        this.$nextTick(()=>{
+            this.$refs.loadmore.onBottomLoaded('加载成功');
+        })
       }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
@@ -212,8 +235,9 @@ export default {
     },
     loadMore() {
       this.currentPage++
-      this.getAllClassDynamic()
+      this.getAllClassDynamic(true)
     },
+
     getTeacherList() {
       return this.$API.getTeacherList(this.$store.state.currentClassId).then((res) => {
         this.teachers = res
@@ -262,6 +286,7 @@ export default {
     _lineScroll(){
         this.newScroll=new IScroll(this.$refs.lineScroll,{
           scrollX: true,
+          click:true
         })
     },
     refresh(){
@@ -271,14 +296,57 @@ export default {
       }).catch((reason)=>{
         this.$refs.loadmore.onTopLoaded('刷新失败');
       });
+    },
+    getLastIndex(length){
+      let last=this.list[length-1];
+      if(last&&last.imgList.length){
+        return last.imgList[last.imgList.length-1].index+1;
+      }else{
+        if(length-1<=0){
+          return 0;
+        }else{
+          return this.getLastIndex(length-1)
+
+        }
+      }
+    },
+     preloadimages(arr){
+        var newimages=[], loadedimages=0
+        var postaction=function(){}  //此处增加了一个postaction函数
+        var arr=(typeof arr!="object")? [arr] : arr
+        function imageloadpost(){
+          loadedimages++
+          if (loadedimages==arr.length){
+            postaction(newimages) //加载完成用我们调用postaction函数并将newimages数组做为参数传递进去
+          }
+        }
+        for (var i=0; i<arr.length; i++){
+          newimages[i]=new Image()
+          newimages[i].src=arr[i].src
+          newimages[i].onload=function(){
+            imageloadpost()
+          }
+          newimages[i].onerror=function(){
+            imageloadpost()
+          }
+        }
+        return { //此处返回一个空白对象的done方法
+          done:function(f){
+            postaction=f || postaction
+          }
+        }
     }
   },
   created() {
     this.$store.commit('changeTitle', '班级动态')
     this.currentPage=1;
-      this.getAllClassDynamic()
-      this.getTeacherList()
-      this.getHomeWork()
+
+    this.$nextTick(()=>{
+//      this.getAllClassDynamic()
+//      this.getTeacherList()
+//      this.getHomeWork()
+        this.refresh();
+    })
   }
 }
 </script>

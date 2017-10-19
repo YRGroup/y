@@ -13,16 +13,16 @@
         <a href="javascript:;" class="a-upload">
           <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg">上传图片
         </a>
-        <div class="imgPreviewContainer">
-          <div class="imgPreview" v-for="(i,index) in imgUrls" :key="index">
+        <transition-group name="list" tag="ul" class="imgPreviewContainer">
+          <div class="imgPreview" v-for="(i,index) in imgUrls" :key="i.src">
             <div class="deleteImg">
-              <span @click="deleteImg(index)">
-                <span class="iconfont">&#xe630;</span>
-              </span>
+                <span @click="deleteImg(index)">
+                  <span class="iconfont">&#xe630;</span>
+                </span>
             </div>
-            <img :src="i">
+            <img :src="i.src" class="preview-img" @click="$preview.open(index, imgUrls)">
           </div>
-        </div>
+        </transition-group>
       </div>
 
     </group>
@@ -68,6 +68,14 @@ export default {
           return false
         }
       }
+    },
+    imgBaseList(){
+      let arr=[];
+      console.log(this.imgUrls)
+      this.imgUrls.forEach((n,i)=>{
+        arr.push(n.src)
+      })
+      return arr;
     }
   },
   methods: {
@@ -80,7 +88,7 @@ export default {
     // 获取班级信息
     getCourseList () {
         this.$API.getCourseList().then(res => {
-          
+
           this.courseList = res.map(o => {
             return {
               key: o.CourseName,
@@ -101,14 +109,6 @@ export default {
         this.$vux.loading.show({
           text: '上传中...'
         })
-        // this.$API.uploadImg(imgFiles).then((res) => {
-        //   res.forEach((val) => {
-        //     this.fileList.push(val)
-        //   })
-        //   this.$vux.loading.hide()
-        // }).catch((err) => {
-        //   this.$vux.loading.hide()
-        // })
       } else {
         this.$vux.toast.show({
           type: 'warn',
@@ -120,7 +120,15 @@ export default {
     createImage: function(file, e) {
       let vm = this
       lrz(file[0], { width: 480 }).then(function(rst) {
-        vm.imgUrls.push(rst.base64);
+        let img = new Image();
+        img.src = rst.base64;
+        img.onload=()=>{
+          vm.imgUrls.push({
+            src:rst.base64,
+            w:img.width,
+            h:img.height
+          });
+        }
         vm.$vux.loading.hide()
         return rst;
       }).always(function() {
@@ -141,7 +149,7 @@ export default {
         this.newHomeworkData['course_name'] = this.course
       }
       // this.newHomeworkData['img_url_list'] = this.fileList.join(',')
-      this.newHomeworkData['img_base64_list'] = this.imgUrls.join('|')
+      this.newHomeworkData['img_base64_list'] = this.imgBaseList.join('|')
 
       if (!this.newHomeworkData.title) {
         this.$vux.toast.show({
@@ -224,9 +232,9 @@ export default {
 
 .imgPreviewContainer {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  /*display: flex;*/
+  /*flex-wrap: wrap;*/
+  /*justify-content: center;*/
   margin: 0;
   padding: 0;
   .imgPreview {
@@ -234,6 +242,7 @@ export default {
     border: 1px solid @border;
     width: 30%;
     margin: 0 1%;
+    float: left;
     height: 130px;
     .deleteImg {
       position: absolute;
@@ -249,8 +258,8 @@ export default {
       color: @border;
     }
     img {
-      max-height: 100%;
-      max-width: 100%;
+      height: 100%;
+      width: 100%;
     }
     .iconfont {
       padding:0 0 1em 1em;
