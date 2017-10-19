@@ -57,7 +57,7 @@ let webpackConfig = {
         }
       },
       {
-        test: /vue-preview.src.*?js$/,
+        test: /wxpreview.src.*?js$/,
         loader: 'babel-loader'
       }
     ]
