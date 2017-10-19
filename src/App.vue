@@ -6,7 +6,6 @@
     <transition name='slide-fade'>
       <router-view></router-view>
     </transition>
-
   </div>
 </template>
 
@@ -131,6 +130,14 @@ a {
   -ms-text-size-adjust: none;
   -o-text-size-adjust: none;
   text-size-adjust: none;
+}
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to
+  /* .list-leave-active for below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
 }
 //基本信息里的头像
 .headImg {

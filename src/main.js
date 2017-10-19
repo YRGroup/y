@@ -10,6 +10,7 @@ import store from './store'
 import API from './server/API'
 import md5 from 'js-md5'
 import axios from 'axios'
+import VuePreview from 'vue-preview'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css'// Progress 进度条 样式
 
@@ -17,6 +18,7 @@ import {
   LoadingPlugin,
   ToastPlugin
 } from 'vux'
+Vue.use(VuePreview)
 
 // FastClick.attach(document.body)
 
@@ -100,7 +102,6 @@ Vue.prototype.$http = axios
 
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
-
 new Vue({
   router,
   store,

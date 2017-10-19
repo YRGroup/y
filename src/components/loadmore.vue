@@ -3,13 +3,15 @@
     <div class="mint-loadmore-content" :class="{ 'is-dropped': topDropped || bottomDropped}" :style="{ 'transform': 'translate3d(0, ' + translate + 'px, 0)' }">
       <slot name="top">
         <div class="mint-loadmore-top" v-if="topMethod">
-          <!--<spinner v-if="topStatus === 'loading'" class="mint-loadmore-spinner" :size="20" type="fading-circle"></spinner>-->
+          <!--<spinner  class="mint-loadmore-spinner" :size="20" type="fading-circle"></spinner>-->
+          <InlineLoading v-if="topStatus === 'loading'&&topText==topLoadingText"></InlineLoading>
           <span class="mint-loadmore-text">{{ topText }}</span>
         </div>
       </slot>
       <slot></slot>
       <slot name="bottom">
         <div class="mint-loadmore-bottom" v-if="bottomMethod">
+          <InlineLoading v-if="topStatus === 'loading'"></InlineLoading>
           <!--<spinner v-if="bottomStatus === 'loading'" class="mint-loadmore-spinner" :size="20" type="fading-circle"></spinner>-->
           <span class="mint-loadmore-text">{{ bottomText }}</span>
         </div>
@@ -46,11 +48,12 @@
 </style>
 
 <script type="text/babel">
-//  import spinner from 'mint-ui/packages/spinner/src/spinner/fading-circle.vue';
+  import { InlineLoading } from 'vux'
   export default {
     name: 'mt-loadmore',
     components: {
 //      'spinner': spinner
+      InlineLoading
     },
 
     props: {
@@ -117,7 +120,7 @@
         containerFilled: false,
         topText: '',
         topDropped: false,
-        bottomText: '',
+        bottomText: '暂无更多',
         bottomDropped: false,
         bottomReached: false,
         direction: '',
@@ -175,12 +178,11 @@
       },
 
       onBottomLoaded(a) {
-        alert(this.bottomAllLoaded)
         this.$nextTick(() => {
           if (this.scrollEventTarget === window) {
-            document.body.scrollTop += 50;
+//            document.body.scrollTop += 50;
           } else {
-            this.scrollEventTarget.scrollTop += 50;
+//            this.scrollEventTarget.scrollTop += 50;
           }
           if(this.bottomAllLoaded){
             this.bottomText='暂无更多'
@@ -239,7 +241,7 @@
         this.topText = this.topPullText;
         this.scrollEventTarget = this.getScrollEventTarget(this.$el);
         if (typeof this.bottomMethod === 'function') {
-          this.fillContainer();
+//          this.fillContainer();
           this.bindTouchEvents();
         }
         if (typeof this.topMethod === 'function') {
@@ -250,7 +252,6 @@
       fillContainer() {
         if (this.autoFill) {
           this.$nextTick(() => {
-
 
             if (this.scrollEventTarget === window) {
               this.containerFilled = this.$el.getBoundingClientRect().bottom >=

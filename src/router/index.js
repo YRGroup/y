@@ -102,7 +102,8 @@ export default new Router({
         { //班级
           path: '/class',
           component: classmain,
-          children: [{
+          children: [
+            {
               path: '',
               component: classMainPage
             },

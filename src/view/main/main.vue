@@ -233,7 +233,6 @@ export default {
           this.setTab(b);
         }
       })
-      console.log(this.tabs)
     },
     setSlide(i){
       this.tabs.slide(i,300)
