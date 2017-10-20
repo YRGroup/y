@@ -6,38 +6,36 @@
       <p>当前用户还没有发布过的动态</p>
     </div>
 
-    <div v-else>
-      <card v-for="(item,index) in data" :key="index">
-        <div slot="header" class="header">
-          <img :src="item.userImg" @click="$router.push('/teacher/'+item.auther_meid)">
-          <span class="usename">{{ item.auther }}</span>
-          <span class="time">{{ item.date }}</span>
-          <span class="tips">{{ item.category }}</span>
-        </div> 
-        <div slot="content" class="content">
-          <p>{{ item.content }}</p>
-        </div>
-        <div slot="footer" class="footer">
-          <div class="footer-btn">
-            <i class="iconfont lick" @click="doLike(item.id),item.like++">&#xe646; {{ item.like }}</i>
-            <i class="iconfont combtn">&#xe6c3; {{ item.read }}</i>
-          </div>  
-          <div class="comment">
-            <li v-for="(comment,index) in item.comment" v-if="index<3" :key="index">
-              <span @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.userName }}：</span>
-              <span>{{ comment.content }}</span>
-            </li>
-            <div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>
-            <div class="more" @click="$router.push('/post/'+item.id)">
-              查看更多
+    <div v-show="data.length>0">
+      <mt-loadmore  :bottom-method="loadMore" :bottom-all-loaded="noMoreData" ref="loadmore" style="padding-bottom: 1.5rem;">
+        <card v-for="(item,index) in data" :key="index">
+          <div slot="header" class="header">
+            <img :src="item.userImg" @click="$router.push('/teacher/'+item.auther_meid)">
+            <span class="usename">{{ item.auther }}</span>
+            <span class="time">{{ item.date }}</span>
+            <span class="tips">{{ item.category }}</span>
+          </div>
+          <div slot="content" class="content">
+            <p>{{ item.content }}</p>
+          </div>
+          <div slot="footer" class="footer">
+            <div class="footer-btn">
+              <i class="iconfont lick" @click="doLike(item.id),item.like++">&#xe646; {{ item.like }}</i>
+              <i class="iconfont combtn">&#xe6c3; {{ item.read }}</i>
+            </div>
+            <div class="comment">
+              <li v-for="(comment,index) in item.comment" v-if="index<3" :key="index">
+                <span @click="fun('打开 '+comment.name+' 的个人页面')">{{ comment.userName }}：</span>
+                <span>{{ comment.content }}</span>
+              </li>
+              <div class="hasNoComment" v-show="item.comment.length===0">还没有评论</div>
+              <div class="more" @click="$router.push('/post/'+item.id)">
+                查看更多
+              </div>
             </div>
           </div>
-        </div> 
-      </card>
-
-      <divider @click.native="loadMore" v-show="!noMoreData">点击加载更多</divider>
-      <divider v-show="noMoreData"  class="noMoreData">没有更多数据</divider>
-
+        </card>
+      </mt-loadmore>
     </div>
 
   </div>
@@ -45,10 +43,10 @@
 
 <script>
 import { Card,Icon,XButton,Divider } from 'vux'
-
+import mtLoadmore from '@/components/loadMore'
 export default {
   components: {
-    Card,Icon,XButton,Divider
+    Card,Icon,XButton,Divider,mtLoadmore
   },
   data () {
     return {
@@ -84,9 +82,15 @@ export default {
           res.forEach((element)=>{
             this.data.push(element)
           })
+        }
+        if(res.length==this.pageSize){
+          this.noMoreData = false
         }else{
           this.noMoreData = true
         }
+        this.$nextTick(()=>{
+          this.$refs.loadmore.onBottomLoaded('加载成功');
+        })
       })
     },
     loadMore(){

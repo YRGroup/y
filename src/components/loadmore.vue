@@ -189,20 +189,22 @@
           }else{
             this.bottomText=a
           }
-        });
-        setTimeout(() => {
-          this.translate = 0;
-          setTimeout(()=>{
-            this.bottomStatus = 'pull';
-            this.bottomDropped = false;
-            this.$nextTick(() => {
-              if(this.bottomAllLoaded){
-                this.bottomText='暂无更多'
-              }
-            })
+          setTimeout(() => {
+            this.translate = 0;
+            setTimeout(()=>{
+              this.bottomStatus = 'pull';
+              this.bottomDropped = false;
+              this.bottomText=this.bottomPullText
+              this.$nextTick(() => {
 
-          },200)
-        }, 500);
+                if(this.bottomAllLoaded){
+                  this.bottomText='暂无更多'
+                }
+              })
+            },200)
+          }, 500);
+        });
+
         if (!this.bottomAllLoaded && !this.containerFilled) {
           this.fillContainer();
         }

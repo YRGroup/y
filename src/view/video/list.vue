@@ -3,6 +3,7 @@
     <div class="searchBar">
       <x-button type="primary" @click.native="showSearch=true" plain style="border-radius:99px;">搜索</x-button>
     </div>
+
     <div class="card" v-for="(i,index) in data" :key="index" @click="openVideo(i)">
       <div class="img">
         <div class="cover">
@@ -21,7 +22,7 @@
         </div>
       </div>
     </div>
-
+    <noData v-if="data.length==0">  </noData>
     <popup v-model="showSearch">
       <group title="搜索视频课程">
         <selector title="类别" :options="cateData" v-model="filter.cateid"></selector>
@@ -40,7 +41,7 @@ import { XButton, Group, Selector, Popup, XInput } from 'vux'
 
 export default {
   components: {
-    XButton, Group, Selector, Popup, XInput
+    XButton, Group, Selector, Popup, XInput, noData
   },
   data() {
     return {

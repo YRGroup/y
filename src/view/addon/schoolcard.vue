@@ -105,9 +105,9 @@ export default {
             res.Log.forEach((val) => {
               this.data.Log.push(val)
             })
-          this.dataEnd=(res.Log.length==pagesize)?false:true
-
-
+            this.dataEnd=(res.Log.length==pagesize)?false:true
+        }else{
+          this.dataEnd=true;
         }
       })
     },

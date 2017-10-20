@@ -5,7 +5,7 @@
       <cell title="学生家长" is-link :link="'/student/'+$route.params.studentId+'/parent'"></cell>
       <cell title="详细资料" is-link :link="'/student/'+$route.params.studentId+'/profile'"></cell>
       <cell title="成绩报告" is-link :link="'/student/'+$route.params.studentId+'/score/0'"></cell>
-      <cell title="一卡通" is-link :link="'/addon/schoolcard'"></cell>
+      <cell title="一卡通" is-link :link="'/schoolcard'"></cell>
     </group>
 
   </div>
