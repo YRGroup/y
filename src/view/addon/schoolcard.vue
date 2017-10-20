@@ -48,9 +48,8 @@
           </cell>
         </group>
 
-        <div class="noMsg" v-if="data.Log===0">当前没有消费记录</div>
-
-        <group title="消费记录：">
+        <div class="noMsg" v-if="data.Log.length===0">当前没有消费记录</div>
+        <group title="消费记录：" v-else>
           <cell :title="i.Title" :inline-desc="i.CreateTime" v-for="(i,index) in data.Log" :key="index">
             <div slot="value">
               <span style="color: red">{{i.OpeaType}} {{i.Money}}</span>
@@ -58,7 +57,7 @@
           </cell>
         </group>
 
-        <div class="btn">
+        <div class="btn" v-if="!dataEnd">
           <x-button type="primary" @click.native="loadMore">点击加载更多</x-button>
         </div>
       </div>
@@ -70,11 +69,12 @@
 <script>
 import { Group, Cell, LoadMore, XButton, XInput, Confirm} from 'vux'
 import hasNoStudent from '@/components/hasNoStudent'
+import noData from '@/components/noData'
 
 export default {
   name: 'hello',
   components: {
-    Group, Cell, LoadMore, XButton, hasNoStudent, XInput,Confirm
+    Group, Cell, LoadMore, XButton, hasNoStudent, XInput,Confirm,noData
   },
   data() {
     return {
@@ -86,6 +86,7 @@ export default {
         Blance: 0,
         Log: [],
       },
+      dataEnd:false,
       currentPage: 1
     }
   },
@@ -104,6 +105,9 @@ export default {
             res.Log.forEach((val) => {
               this.data.Log.push(val)
             })
+            this.dataEnd=(res.Log.length==pagesize)?false:true
+        }else{
+          this.dataEnd=true;
         }
       })
     },

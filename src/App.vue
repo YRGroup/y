@@ -142,6 +142,15 @@ a {
 .pswp__counter {
   /*display: none;*/
 }
+//播放器的 样式
+.prism-big-play-btn{
+  position: absolute;
+  margin: auto!important;
+  top: 0!important;
+  bottom: 0!important;
+  left: 0!important;
+  right: 0!important;
+}
 //基本信息里的头像
 .headImg {
   height: 2.4rem;

@@ -41,7 +41,7 @@
         <img :src="showimgurl" style="max-width:100%">
       </div>
     </x-dialog>
-    
+
 
   </div>
 </template>
@@ -51,7 +51,7 @@ import { Cell, Scroller, Group,XDialog  } from 'vux'
 
 export default {
   components: {
-    Cell, Scroller, Group,XDialog 
+    Cell, Scroller, Group,XDialog
   },
   data () {
     return {
@@ -62,7 +62,8 @@ export default {
   },
   computed:{
     boxwid(){
-      if(this.data.PersonalHonor.length){
+
+      if(this.data.PersonalHonor&&this.data.PersonalHonor.length){
         return this.data.PersonalHonor.length * 100 +'px'
       }else{
         return '100%'

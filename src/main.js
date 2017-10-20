@@ -14,7 +14,6 @@ import VuePreview from 'wxpreview'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css'// Progress 进度条 样式
 
-console.log(VuePreview)
 
 import {
   LoadingPlugin,
