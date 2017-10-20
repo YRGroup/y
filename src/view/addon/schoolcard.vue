@@ -29,7 +29,7 @@
                                 </el-form-item>
                                 <el-form-item>
                                   <el-button type="success" @click="addCardID" size="large">提交</el-button>
-                                </el-form-item> 
+                                </el-form-item>
                           </form> -->
         </div>
       </div>
@@ -68,13 +68,13 @@
 </template>
 
 <script>
-import { Group, Cell, LoadMore, XButton, XInput } from 'vux'
+import { Group, Cell, LoadMore, XButton, XInput, Confirm} from 'vux'
 import hasNoStudent from '@/components/hasNoStudent'
 
 export default {
   name: 'hello',
   components: {
-    Group, Cell, LoadMore, XButton, hasNoStudent, XInput
+    Group, Cell, LoadMore, XButton, hasNoStudent, XInput,Confirm
   },
   data() {
     return {
@@ -129,6 +129,17 @@ export default {
         })
     },
     unbindCard() {
+      let _this=this;
+      this.$vux.confirm.show({
+        title: '提示',
+        content: '是否确定解除绑定',
+        onConfirm () {
+            _this.DounbindCard();
+        }
+
+      })
+    },
+    DounbindCard(){
       this.$API.deleteSchoolcard(this.addCardData).then(res => {
         this.$store.dispatch('getCurrentUser')
         this.$vux.toast.show({

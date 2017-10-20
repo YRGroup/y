@@ -139,6 +139,9 @@ a {
   opacity: 0;
   transform: translateY(30px);
 }
+.pswp__counter {
+  /*display: none;*/
+}
 //基本信息里的头像
 .headImg {
   height: 2.4rem;

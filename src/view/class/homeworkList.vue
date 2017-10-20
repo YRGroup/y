@@ -23,7 +23,7 @@
                    :style="{backgroundImage: 'url\('+imgurl.src+'\)'}"
                    v-for="(imgurl,index) in i.imgList"
                    :key="index"
-                   @click="$preview.open(imgurl.index, imgList)"
+                   @click="openImg($event,index, i.imgList)"
               >
               </div>
             </div>
@@ -100,7 +100,6 @@ export default {
         //*******图片预览处理*******//
 
         //获取最后一个 '.preview-img'的 index
-        let index=this.getLastIndex(this.homework.length);
         res.forEach((n,i)=>{
           // 处理图片预览的 数据格式
           n.imgList=[];
@@ -109,7 +108,6 @@ export default {
               src:m,
               w:200,
               h:200,
-              index:index++
 
             }
             n.imgList.push(obj)
@@ -157,19 +155,6 @@ export default {
       this.currentPage=1;
       this.getHomeWork('refresh');
     },
-    getLastIndex(length){
-      let last=this.homework[length-1];
-      if(last&&last.imgList.length){
-        return last.imgList[last.imgList.length-1].index+1;
-      }else{
-        if(length-1<=0){
-          return 0;
-        }else{
-          return this.getLastIndex(length-1)
-
-        }
-      }
-    },
     preloadimages(arr){
       var newimages=[], loadedimages=0
       var postaction=function(){}  //此处增加了一个postaction函数
@@ -195,6 +180,9 @@ export default {
           postaction=f || postaction
         }
       }
+    },
+    openImg(el,i,list){
+      this.$preview.open(el.target.parentNode,i,list)
     }
   },
   created() {

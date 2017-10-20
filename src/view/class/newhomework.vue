@@ -20,7 +20,7 @@
                   <span class="iconfont">&#xe630;</span>
                 </span>
             </div>
-            <img :src="i.src" class="preview-img" @click="$preview.open(index, imgUrls)">
+            <img :src="i.src" class="preview-img" @click="$preview.open('',index, imgUrls)">
           </div>
         </transition-group>
       </div>
