@@ -41,7 +41,7 @@
       -->
     <div class="classWork" v-if="homework!=[]">
       <div class="icon">
-        <span>班级作业</span>
+        <span>222班级作业</span>
       </div>
       <div class="content" v-if="homework.length">
         <scrollNew :leg="homework.length" :showNum="2">
