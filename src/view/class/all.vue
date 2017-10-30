@@ -41,13 +41,13 @@
       -->
     <div class="classWork" v-if="homework!=[]">
       <div class="icon">
-        <span>222班级作业</span>
+        <span>班级作业</span>
       </div>
       <div class="content" v-if="homework.length">
         <scrollNew :leg="homework.length" :showNum="2">
           <li v-for="(i,index) in homeworkC" :key="index" @click="$router.push('/class/work')">
             <div class="msg">
-              【 {{ i.CourseName }}】{{ i.Title || '班级作业' }}
+              【{{ i.CourseName }}】{{ i.Title || '班级作业' }}
             </div>
             <div class="date">{{ i.CreateTime }}</div>
           </li>
