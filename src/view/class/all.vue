@@ -45,7 +45,7 @@
       </div>
       <div class="content" v-if="homework.length">
         <scrollNew :leg="homework.length" :showNum="2">
-          <li v-for="(i,index) in homeworkC" :key="index" @click="$router.push('/class/work')">
+          <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/work')">
             <div class="msg">
               【 {{ i.CourseName }}】{{ i.Title || '班级作业' }}
             </div>
@@ -149,12 +149,6 @@ export default {
     }
   },
   computed:{
-    homeworkC(){
-        var a=this.homework;
-        a.push(this.homework[0])
-        a.push(this.homework[1])
-        return a;
-    },
     mainHeight(){
         return window.innerHeight-259;
     }

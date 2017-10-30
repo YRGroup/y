@@ -169,9 +169,7 @@ a {
 
 .iconfont {
   font-family: "iconfont";
-  font-style: normal; // -webkit-font-smoothing: antialiased;
-  // -webkit-text-stroke-width: 0.2px;
-  // -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
 }
 
 .nav_icon {
