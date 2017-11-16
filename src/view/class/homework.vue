@@ -16,6 +16,15 @@
         </div>
       </div>
     </div>
+    <div slot="content" class="look">
+      <div class="lookNum">已读：{{homework.LookCount}}人</div>
+      <div class="lookuser">
+        <div class="item" v-for="(i,index) in homework.LookUser">
+          <img :src="i.Headimgurl">
+          <span class="name">{{i.TrueName}}</span>
+        </div>
+      </div>
+    </div>
 
     <popup v-model="showImgPopup" is-transparent>
       <div class="popup" @click="showImgPopup=false">
@@ -27,7 +36,7 @@
 </template>
 
 <script>
-import { Popup, Group, XTextarea, XButton, Selector } from 'vux'
+import { Popup, Group, XTextarea, XButton, Selector } from "vux";
 
 export default {
   components: {
@@ -42,35 +51,35 @@ export default {
       newHomework: false,
       newHomeworkData: {},
       course_list: [
-        { key: '1', value: '语文' },
-        { key: '2', value: '数学' },
-        { key: '3', value: '英语' },
-        { key: '4', value: '物理' },
-        { key: '5', value: '化学' },
-        { key: '6', value: '历史' },
-        { key: '7', value: '政治' },
-        { key: '8', value: '地理' },
-        { key: '9', value: '音乐' },
-        { key: '10', value: '美术' },
-        { key: '11', value: '体育' }
+        { key: "1", value: "语文" },
+        { key: "2", value: "数学" },
+        { key: "3", value: "英语" },
+        { key: "4", value: "物理" },
+        { key: "5", value: "化学" },
+        { key: "6", value: "历史" },
+        { key: "7", value: "政治" },
+        { key: "8", value: "地理" },
+        { key: "9", value: "音乐" },
+        { key: "10", value: "美术" },
+        { key: "11", value: "体育" }
       ],
       colors: {
-        '语文': '#fe6867',
-        '数学': '#ffce31',
-        '英语': '#8b8efb',
-        '物理': '#ff80c0',
-        '化学': '#50c7ee',
-        '历史': '#ff9f22',
-        '政治': '#01c19e',
-        '地理': '#34495e',
-        '音乐': '#95a5a6',
-        '美术': '#1abc9c',
-        '体育': '#2ecc71'
+        语文: "#fe6867",
+        数学: "#ffce31",
+        英语: "#8b8efb",
+        物理: "#ff80c0",
+        化学: "#50c7ee",
+        历史: "#ff9f22",
+        政治: "#01c19e",
+        地理: "#34495e",
+        音乐: "#95a5a6",
+        美术: "#1abc9c",
+        体育: "#2ecc71"
       },
       homework: {},
       showImgPopup: false,
-      popupImgUrl: ''
-    }
+      popupImgUrl: ""
+    };
   },
   methods: {
     fun(msg) {
@@ -78,42 +87,42 @@ export default {
         type: "text",
         width: "20em",
         text: msg
-      })
+      });
     },
     imgPopup(val) {
-      this.popupImgUrl = val
-      this.showImgPopup = true
+      this.popupImgUrl = val;
+      this.showImgPopup = true;
     },
     getHomeWork() {
       this.$API.getHomework(this.$route.params.homeworkId).then(res => {
-        this.homework = res
-      })
+        this.homework = res;
+      });
     },
     addHomework() {
       if (this.newHomeworkData.course_name && this.newHomeworkData.content) {
-        this.newHomeworkData.class_id = this.$store.state.currentClassId
-        this.newHomeworkData.title = ''
+        this.newHomeworkData.class_id = this.$store.state.currentClassId;
+        this.newHomeworkData.title = "";
         this.$API.addHomework(this.newHomeworkData).then(res => {
           this.$vux.toast.show({
             type: "success",
             text: "发布成功"
-          })
-          this.newHomework = false
-          this.getHomeWork()
-        })
+          });
+          this.newHomework = false;
+          this.getHomeWork();
+        });
       } else {
         this.$vux.toast.show({
           type: "warn",
           text: "数据不完整"
-        })
+        });
       }
     }
   },
   created() {
-    this.$store.commit('changeTitle', '班级作业')
-    this.getHomeWork()
+    this.$store.commit("changeTitle", "班级作业");
+    this.getHomeWork();
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -179,5 +188,28 @@ export default {
   border-radius: 5px;
   padding-top: 10px;
   text-align: center;
+}
+.look {
+  background: #fff;
+  padding: 10px;
+  margin-top: 20px;
+  .lookNum {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .lookuser {
+    .item {
+      display: inline-block;
+      margin: 0 10px 10px 0;
+      text-align: center;
+      border-radius: 8px;
+      img {
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
+        display: block;
+      }
+    }
+  }
 }
 </style>

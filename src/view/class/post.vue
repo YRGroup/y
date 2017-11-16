@@ -9,12 +9,28 @@
         <span class="tips">{{ data.category }}</span>
       </div>
       <div slot="content" class="content">
-        <pre>{{data.content}}</pre>
+        <pre>{{data.content}} <span class="atuser" v-for="list in data.AtUser">@{{list.TrueName}}</span></pre>
         <div class="img" v-if="data.albums.length!=0">
           <img @click="imgPopup(imgurl)" :src="imgurl" v-for="(imgurl,index) in data.albums" :key="index">
         </div>
+        <div class="liked">
+          <div class="iszan"><i class="iconfont">&#xe611;</i></div>
+          <div class="item">
+            <span v-for="(i,index) in data.zans">{{i.TrueName||'user'}} , </span>
+          </div>
+          <div class="zanNum">{{data.like}}人觉得很赞</div> 
+        </div>
       </div>
     </card>
+    <div slot="content" class="look">
+      <div class="lookNum">已读：{{data.LookCount}}人</div>
+      <div class="lookuser">
+        <div class="item" v-for="(i,index) in data.LookUser">
+          <img :src="i.Headimgurl">
+          <span class="name">{{i.TrueName}}</span>
+        </div>
+      </div>
+    </div>
 
     <div class="comment-header">
       <span>全部评论（{{data.comment.length }}）</span>
@@ -52,61 +68,73 @@
 </template>
 
 <script>
-import { Card, Popup, Group, XInput, XButton } from 'vux'
-import wx from 'weixin-js-sdk'
+import { Card, Popup, Group, XInput, XButton } from "vux";
+import wx from "weixin-js-sdk";
 
 export default {
   components: {
-    Card, Popup, Group, XInput, XButton
+    Card,
+    Popup,
+    Group,
+    XInput,
+    XButton
   },
   data() {
     return {
       showpopup: false,
-      replymsg: '',
+      replymsg: "",
       showImgPopup: false,
-      popupImgUrl: '',
-      commentId: '',
-      content: '',
-      fakeUserImg: 'https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png',
+      popupImgUrl: "",
+      commentId: "",
+      content: "",
+      fakeUserImg:
+        "https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png",
       data: {
         albums: [],
-        comment: [],
+        comment: []
       },
       classHeader: false,
       wxData: {
         debug: false,
-        appId: '',
+        appId: "",
         timestamp: null,
-        noncestr: '',
-        signature: '',
-        url: '',
-        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone']
+        noncestr: "",
+        signature: "",
+        url: "",
+        jsApiList: [
+          "onMenuShareTimeline",
+          "onMenuShareAppMessage",
+          "onMenuShareQQ",
+          "onMenuShareWeibo",
+          "onMenuShareQZone"
+        ]
       },
       wxShareData: {
-        title: '',
-        desc: '',
-        link: '',
-        imgUrl: 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
+        title: "",
+        desc: "",
+        link: "",
+        imgUrl:
+          "http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg"
       }
-    }
+    };
   },
   methods: {
     imgPopup(val) {
-      this.popupImgUrl = val
-      this.showImgPopup = true
+      this.popupImgUrl = val;
+      this.showImgPopup = true;
     },
     getData() {
-      if (this.$route.name === 'post') {
-        this.userGetData()
+      if (this.$route.name === "post") {
+        this.userGetData();
       }
-      if (this.$route.name === 'anonymousPost') {
-        this.anonymousGetData()
+      if (this.$route.name === "anonymousPost") {
+        this.anonymousGetData();
       }
     },
     anonymousGetData() {
       this.$API.getPostAnonymouse(this.$route.params.postId).then(res => {
-        this.data = res
-        this.commentId = res.ID
+        this.data = res;
+        this.commentId = res.ID;
         // this.wxShareData = {
         //   title: res.auther + '分享的班级动态',
         //   desc: res.content.slice(0, 30) + '...',
@@ -114,69 +142,76 @@ export default {
         //   imgUrl: res.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
         // }
         // this.getWxData()
-      })
+      });
     },
     userGetData() {
       this.$API.getWxData().then(res => {
-        this.wxData.appId = res.AppId
-        this.wxData.timestamp = res.Timestamp
-        this.wxData.nonceStr = res.NonceStr
-        this.wxData.signature = res.Signature
-        wx.config(this.wxData)
-      })
-      this.$API.getClassDynamic(this.$store.state.currentClassId, this.$route.params.postId).then(res => {
-        this.data = res
-        this.commentId = res.ID
-        this.wxShareData = {
-          title: res.auther + '分享的班级动态',
-          desc: res.content.slice(0, 30) + '...',
-          link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + res.EncryptID,
-          imgUrl: res.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
-        }
-        this.getWxData()
-      })
+        this.wxData.appId = res.AppId;
+        this.wxData.timestamp = res.Timestamp;
+        this.wxData.nonceStr = res.NonceStr;
+        this.wxData.signature = res.Signature;
+        wx.config(this.wxData);
+      });
+      this.$API
+        .getClassDynamic(
+          this.$store.state.currentClassId,
+          this.$route.params.postId
+        )
+        .then(res => {
+          this.data = res;
+          this.commentId = res.ID;
+          this.wxShareData = {
+            title: res.auther + "分享的班级动态",
+            desc: res.content.slice(0, 30) + "...",
+            link: "http://jkyr.yearnedu.com/redirect.html?pid=" + res.EncryptID,
+            imgUrl:
+              res.albums[0] ||
+              "http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg"
+          };
+          this.getWxData();
+        });
     },
     openreply() {
-      this.showpopup = true
+      this.showpopup = true;
     },
     addreply() {
-      let replyData = {}
-      replyData.did = this.commentId
-      replyData.content = this.replymsg
-      if (this.$store.state.role == '家长' && this.$store.state.currentStudentId != null) {
-        replyData.student_meid = this.$store.state.currentStudentId
+      let replyData = {};
+      replyData.did = this.commentId;
+      replyData.content = this.replymsg;
+      if (
+        this.$store.state.role == "家长" &&
+        this.$store.state.currentStudentId != null
+      ) {
+        replyData.student_meid = this.$store.state.currentStudentId;
       }
-      if (replyData.content != '') {
+      if (replyData.content != "") {
         this.$API.postNewComment(replyData).then(res => {
-          this.getData()
-          this.replymsg = ''
-          this.showpopup = false
-        })
+          this.getData();
+          this.replymsg = "";
+          this.showpopup = false;
+        });
       } else {
         this.$vux.toast.show({
           type: "text",
           width: "20em",
-          text: '评论内容不能为空！'
-        })
+          text: "评论内容不能为空！"
+        });
       }
     },
     getWxData(val) {
-      wx.onMenuShareTimeline(this.wxShareData)
-      wx.onMenuShareAppMessage(this.wxShareData)
-      wx.onMenuShareQQ(this.wxShareData)
-      wx.onMenuShareWeibo(this.wxShareData)
-      wx.onMenuShareQZone(this.wxShareData)
-    },
+      wx.onMenuShareTimeline(this.wxShareData);
+      wx.onMenuShareAppMessage(this.wxShareData);
+      wx.onMenuShareQQ(this.wxShareData);
+      wx.onMenuShareWeibo(this.wxShareData);
+      wx.onMenuShareQZone(this.wxShareData);
+    }
   },
   created() {
-    this.$store.commit('changeTitle', '动态详情')
-    this.getData()
-
+    this.$store.commit("changeTitle", "动态详情");
+    this.getData();
   },
-  mounted() {
-
-  }
-}
+  mounted() {}
+};
 </script>
 
 <style lang="less" scoped>
@@ -213,7 +248,7 @@ export default {
   padding-left: 2em;
   margin-top: 20px;
   color: @grey;
-   :after {
+  :after {
     content: "";
     position: absolute;
     width: 3px;
@@ -235,9 +270,56 @@ export default {
   .img {
     display: inline-block;
     text-align: center;
-    margin: 0 auto;
+    margin: 20px auto;
     img {
       max-width: 100%;
+    }
+  }
+}
+.atuser {
+  color: #0c92f3;
+  margin-right: 8px;
+}
+.liked {
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid @border;
+  .iszan {
+    display: inline-block;
+    position: relative;
+    top: 5px;
+    .iconfont {
+      font-size: 24px;
+      color: @main;
+    }
+  }
+  .zanNum {
+    display: inline-block;
+  }
+  .item {
+    display: inline-block;
+  }
+}
+.look {
+  background: #fff;
+  padding: 10px;
+  margin-top: 20px;
+  .lookNum {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .lookuser {
+    .item {
+      display: inline-block;
+      margin: 0 10px 10px 0;
+      text-align: center;
+      border-radius: 8px;
+      img {
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
+        display: block;
+      }
     }
   }
 }

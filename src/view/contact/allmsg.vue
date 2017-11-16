@@ -1,6 +1,5 @@
 <template>
   <div class="msg">
-
     <div class="msgTitle">与 {{user.sendto_TrueName}} 的消息列表</div>
   
     <load-more :show-loading="false" tip="点击查看以前的消息" background-color="#f5f5f5" @click.native="getMsgInfo()" v-if="data.length!=0"></load-more>
@@ -12,6 +11,7 @@
         </div>
         <img class="picinfo" :src="userImg">
         <span class="content">{{item.Content}}</span>
+        <div class="isread" v-show="item.showRead">{{item.IsRead == false ? '未读' : '已读'}}</div>
       </li>
   
       <div class="nomsg" v-if="data.length===0">还没有消息</div>
@@ -49,6 +49,15 @@ export default {
         this.user=res
         this.data = res.CL
         this.userImg = res.sendto_Headimgurl
+        this.data.forEach(element => {
+          element.showRead = null
+          if(this.$route.params.userId == element.SendTo){
+            element.showRead = true
+          }else{
+            element.showRead = false
+          }
+        })
+        console.log(this.data)
       })
     },
     replyMsg() {
@@ -159,5 +168,9 @@ export default {
   background: @main;
   color:#fff;
   line-height: 40px;
+}
+.isread{
+  margin-right: 4rem;
+  color: @grey;
 }
 </style>

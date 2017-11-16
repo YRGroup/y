@@ -35,10 +35,6 @@
 
     </div>
 
-    <!--班级作业
-      教师端不显示
-      家长端显示
-      -->
     <div class="classWork" v-if="homework!=[]">
       <div class="icon">
         <span>班级作业</span>
@@ -65,10 +61,6 @@
       </div>
     </div>
 
-    <!--动态卡片
-      教师端显示
-      家长端显示
-      -->
     <card v-for="(item,index) in list" :key="index">
       <div slot="header" class="header">
         <!-- <img :src="item.userImg" @click="$router.push('/teacher/'+item.auther_meid)"> -->
@@ -79,7 +71,7 @@
       </div>
       <div slot="content" class="content">
 
-        <div @click="$router.push('/post/'+item.ID)">{{item.content}}</div>
+        <div @click="$router.push('/post/'+item.ID)">{{item.content}} <span class="atuser" v-for="list in item.AtUser">@{{list.TrueName}}</span></div>
 
         <div class="img" v-if="item.albums.length!=0">
           <!--<div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in item.albums" :key="index" @click="imgPopup(imgurl)">-->
@@ -176,7 +168,7 @@ export default {
           this.list=[];
           this.imgList=[];
         }
-        //*******图片预览处理*******//
+        // 图片预览处理
 
         //获取最后一个 '.preview-img'的 index
         res.forEach((n,i)=>{
@@ -202,7 +194,7 @@ export default {
             this.imgList[i].h=n.height
           })
         })
-        //*******图片预览处理结束*******//
+        // 图片预览处理结束
 
         if (res.length) {
           this.list=this.list.concat(res);
@@ -496,5 +488,9 @@ export default {
   img{
     max-height: 90vh;
   }
+}
+.atuser {
+  color: #0c92f3;
+  margin-right: 8px;
 }
 </style>
