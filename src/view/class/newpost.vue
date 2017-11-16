@@ -141,7 +141,7 @@ export default {
     createImage: function(file, e) {
       let vm = this;
       console.log(this);
-      lrz(file[0], { width: 480 })
+      lrz(file[0], { quality :file[0].size>1024*200?0.7:1  })
         .then(rst => {
           vm.$vux.loading.hide();
 
