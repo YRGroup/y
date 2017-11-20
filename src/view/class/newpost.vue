@@ -28,7 +28,7 @@
       <!-- <selector v-show="showstudent" placeholder="请选择" multiple="multiple" v-model="data.at_meid" title="省份" name="district" :options="studentList"></selector> -->
     </group>
     <div is-transparent>
-      <popup v-model="showstudent"  position="bottom" max-height="50%">
+      <popup v-model="showstudent" position="bottom" max-height="50%" >
           <group>
             <checklist ref="demoObject" title="选择学生" 
             label-position="left" :options="studentList" v-model="data.at_meid"></checklist>

@@ -80,15 +80,14 @@
                :style="{backgroundImage: 'url\('+imgurl.src+'\)'}"
                v-for="(imgurl,index) in item.imgList"
                :key="imgurl.index"
-               @click="openImg($event,index, item.imgList)"
-          >
+               @click="openImg($event,index, item.imgList)">
           </div>
         </div>
       </div>
       <div slot="footer" class="footer">
         <div class="footer-btn">
           <i class="iconfont lick" @click="doLike(item.ID),item.like++">&#xe646; {{ item.like }}</i>
-          <i class="iconfont combtn" @click="$router.push(`/p/${item.EncryptID}`)">&#xe6c3; </i>
+          <!-- <i class="iconfont combtn" @click="$router.push(`/p/${item.EncryptID}`)">&#xe6c3; </i> -->
         </div>
         <div class="comment" v-if="item.comment.length !== 0">
           <li v-for="(comment,index) in item.comment" v-if="item.comment.length!=0&&index<3" :key="index">
@@ -204,9 +203,9 @@ export default {
         }else{
           this.noMoreData = true
         }
-        this.$nextTick(()=>{
-            this.$refs.loadmore.onBottomLoaded('加载成功');
-        })
+        // this.$nextTick(()=>{
+        //     this.$refs.loadmore.onBottomLoaded('加载成功');
+        // })
       }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
@@ -489,8 +488,5 @@ export default {
     max-height: 90vh;
   }
 }
-.atuser {
-  color: #0c92f3;
-  margin-right: 8px;
-}
+
 </style>

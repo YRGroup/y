@@ -17,7 +17,11 @@
         <span @click="$router.push('/class')">我的班级</span>
       </p>
     </div>
-
+    <group>
+      <cell title="我的动态" is-link @click.native="$router.push('/user/mypost')" v-show="$store.state.role !='老师'">
+        <i slot="icon" class="iconfont">&#xe66c;</i>
+      </cell>
+    </group>
     <group>
       <!-- <cell title="绑定学生" is-link @click.native="addStudentPopup=true" v-if="$store.state.role=='家长'">
           <i slot="icon" class="iconfont">&#xe719;</i>
@@ -377,6 +381,7 @@ export default {
 
 .iconfont {
   color: @main;
+  font-size: 1.2em;
   margin-right: .5em;
 }
 

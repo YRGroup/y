@@ -252,5 +252,15 @@ API.inviteParent = (para) => {
     })
   })
 }
+// 获取个人发布的动态列表
+API.getAllUserDynamic = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/User/GetDynamicList',{params:para}).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
 
 export default API
