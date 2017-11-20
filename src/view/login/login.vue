@@ -67,7 +67,6 @@
 
 <script>
 import { XButton, XInput, Group, Checker, CheckerItem } from 'vux'
-
 export default {
   components: {
     XButton, XInput, Group, Checker, CheckerItem
@@ -168,45 +167,6 @@ export default {
         })
       })
     },
-    phoneLogin() {
-      let loginData = {
-        phone: this.tel,
-        password: this.pw
-      }
-      this.$API.login(loginData).then(res => this.loginOK(res)).catch(err => {
-        this.$vux.toast.show({
-          type: "warn",
-          text: err.msg,
-          width: "20em"
-        })
-      })
-    },
-    studentLogin() {
-      let loginData = {
-        studentid: this.tel,
-        password: this.pw
-      }
-      this.$API.studentLogin(loginData).then(res => this.loginOK(res)).catch(err => {
-        this.$vux.toast.show({
-          type: "warn",
-          text: err.msg,
-          width: "20em"
-        })
-      })
-    },
-    LoginByNationID() {
-      let loginData = {
-        nationid: this.tel,
-        password: this.pw
-      }
-      this.$API.LoginByNationID(loginData).then(res => this.loginOK(res)).catch(err => {
-        this.$vux.toast.show({
-          type: "warn",
-          text: err.msg,
-          width: "20em"
-        })
-      })
-    },
     uniLogin() {
       this.$API.uniLogin(this.data).then(res => this.loginOK(res)).catch(err => {
         this.$vux.toast.show({
@@ -258,7 +218,7 @@ export default {
     loginOK(val) {
       this.$store.commit('login', val)
       this.$store.commit('setToken', val.Token)
-      if (!val.IsSubscribe && this.$store.getters.isWeixin) {
+      if (!this.getCookie("WeixinOpenid") && this.$store.getters.isWeixin) {
         window.location.href = this.$store.state.ApiUrl + '/api/OAuth2Redirect/index?refUrl=' + window.location.host + '/%23/main'
       } else {
         if (this.$store.getters.hasFullInfo === 'teacher') {
