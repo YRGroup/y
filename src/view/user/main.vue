@@ -17,8 +17,21 @@
         <span @click="$router.push('/class')">我的班级</span>
       </p>
     </div>
-    <group>
-      <cell title="我的动态" is-link @click.native="$router.push('/user/mypost')" v-show="$store.state.role !='老师'">
+    <!-- <group v-show="$store.state.role !='老师'">
+      <cell title="我的动态" is-link @click.native="$router.push('/user/mypost')" >
+        <i slot="icon" class="iconfont">&#xe66c;</i>
+      </cell>
+    </group> -->
+    <group v-show="$store.state.role =='学生'">
+      <cell title="个人主页" is-link @click.native="$router.push('/student/' + $store.state.currentStudent.Meid)" >
+        <i slot="icon" class="iconfont">&#xe66c;</i>
+      </cell>
+    </group>
+    <group v-show="$store.state.role =='家长'">
+      <cell title="个人主页" is-link @click.native="$router.push('/student/' + $store.state.currentStudent.Meid + '/parent')" >
+        <i slot="icon" class="iconfont">&#xe66c;</i>
+      </cell>
+      <cell title="我的动态" is-link @click.native="$router.push('/student/'+$store.state.currentStudent.Meid+'/mypost')" >
         <i slot="icon" class="iconfont">&#xe66c;</i>
       </cell>
     </group>
@@ -35,9 +48,9 @@
       <cell title="切换学生" :value="$store.state.currentStudent.TrueName" is-link @click.native="myStudentPopup=true" v-if="$store.state.role=='家长'">
         <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>
-      <cell title="我的账号" :value="data.Mobilephone">
+      <!-- <cell title="我的账号" :value="data.Mobilephone">
         <i slot="icon" class="iconfont">&#xe693;</i>
-      </cell>
+      </cell> -->
       <cell title="完善资料" is-link @click.native="$router.push('/edit')">
         <i slot="icon" class="iconfont">&#xe60b;</i>
       </cell>
@@ -117,13 +130,19 @@
 </template>
 
 <script>
-import { Group, Cell, XButton, Popup, Selector, XInput } from 'vux'
-import hasNoStudent from '@/components/hasNoStudent'
+import { Group, Cell, XButton, Popup, Selector, XInput } from "vux";
+import hasNoStudent from "@/components/hasNoStudent";
 
 export default {
-  name: 'hello',
+  name: "hello",
   components: {
-    Group, Cell, XButton, Popup, Selector, XInput, hasNoStudent
+    Group,
+    Cell,
+    XButton,
+    Popup,
+    Selector,
+    XInput,
+    hasNoStudent
   },
   data() {
     return {
@@ -135,191 +154,209 @@ export default {
       changePasswordPopup: false,
       classListPopup: false,
       parentTypeList: [
-        { key: 1, value: '爸爸' },
-        { key: 2, value: '妈妈' },
-        { key: 3, value: '爷爷' },
-        { key: 4, value: '奶奶' },
-        { key: 5, value: '家人' }
+        { key: 1, value: "爸爸" },
+        { key: 2, value: "妈妈" },
+        { key: 3, value: "爷爷" },
+        { key: 4, value: "奶奶" },
+        { key: 5, value: "家人" }
       ],
       addStudentData: {
-        truename: '',
-        student_id: '',
-        type: 0,
+        truename: "",
+        student_id: "",
+        type: 0
       },
       allStudentData: [],
-      Invitedata:{},
-      userface: require('@/assets/face/bw.jpg')
-    }
+      Invitedata: {},
+      userface: require("@/assets/face/bw.jpg")
+    };
   },
   methods: {
     changePassword() {
-      if (!this.changePasswordData.oldpwd | !this.changePasswordData.newpwd | !this.changePasswordData.newpwd2) {
+      if (
+        !this.changePasswordData.oldpwd |
+        !this.changePasswordData.newpwd |
+        !this.changePasswordData.newpwd2
+      ) {
         this.$vux.toast.show({
           type: "text",
           width: "20em",
-          text: '数据不完整'
-        })
-      } else if (this.changePasswordData.newpwd != this.changePasswordData.newpwd2) {
+          text: "数据不完整"
+        });
+      } else if (
+        this.changePasswordData.newpwd != this.changePasswordData.newpwd2
+      ) {
         this.$vux.toast.show({
           type: "text",
           width: "20em",
-          text: '两次输入的新密码不一致'
-        })
+          text: "两次输入的新密码不一致"
+        });
       } else {
-        this.$API.changePassword(this.changePasswordData).then((res) => {
+        this.$API.changePassword(this.changePasswordData).then(res => {
           this.$vux.toast.show({
             type: "success",
             width: "20em",
-            text: '修改成功,请重新登录'
-          })
-          this.$store.commit('logout')
-          this.$router.push('/login')
-        })
+            text: "修改成功,请重新登录"
+          });
+          this.$store.commit("logout");
+          this.$router.push("/login");
+        });
       }
     },
     logout() {
-      this.$store.dispatch('logout')
+      this.$store.dispatch("logout");
       this.$vux.toast.show({
         type: "text",
-        text: '退出成功'
-      })
-      this.$router.push('/')
+        text: "退出成功"
+      });
+      this.$router.push("/");
     },
     getData() {
-      this.$API.getCurrentUser().then(res => {
-        this.data = res
-        if (res.ExtendInfo.Students != null) {
-          if (res.ExtendInfo.Students.length == 0) {
-            let noStudentDate = {
-              TrueName: 'null',
-              SchoolName: 'null',
-              ClassName: 'null',
-              StudentID: 'null'
+      console.log(this.$store.state.currentUserId)
+      this.$API
+        .getCurrentUser()
+        .then(res => {
+          this.data = res;
+          if (res.ExtendInfo.Students != null) {
+            if (res.ExtendInfo.Students.length == 0) {
+              let noStudentDate = {
+                TrueName: "null",
+                SchoolName: "null",
+                ClassName: "null",
+                StudentID: "null"
+              };
+              this.allStudentData.push(noStudentDate);
+            } else {
+              let num = res.ExtendInfo.Students.length;
+              this.allStudentData = [];
+              for (let i = 0; i < num; i++) {
+                this.allStudentData.push(res.ExtendInfo.Students[i]);
+              }
+              this.$store.commit(
+                "changeCurrentStudent",
+                this.allStudentData[0]
+              );
             }
-            this.allStudentData.push(noStudentDate)
-          } else {
-            let num = res.ExtendInfo.Students.length
-            this.allStudentData = []
-            for (let i = 0; i < num; i++) {
-              this.allStudentData.push(res.ExtendInfo.Students[i])
-            }
-            this.$store.commit('changeCurrentStudent', this.allStudentData[0])
           }
-        }
-        this.mobilePhone = res.Mobilephone
-      }).catch(err => {
-        this.$vux.toast.show({
-          type: "text",
-          text: "您还未登录",
-          width: "20em"
+          this.mobilePhone = res.Mobilephone;
         })
-        this.$router.push('/login')
-      })
+        .catch(err => {
+          this.$vux.toast.show({
+            type: "text",
+            text: "您还未登录",
+            width: "20em"
+          });
+          this.$router.push("/login");
+        });
     },
     addStudent() {
-      if (this.addStudentData.truename && this.addStudentData['student_id']) {
-        this.$API.addStudent(this.addStudentData).then((res) => {
-          this.$vux.toast.show({
-            type: "text",
-            width: "20em",
-            text: '绑定成功'
+      if (this.addStudentData.truename && this.addStudentData["student_id"]) {
+        this.$API
+          .addStudent(this.addStudentData)
+          .then(res => {
+            this.$vux.toast.show({
+              type: "text",
+              width: "20em",
+              text: "绑定成功"
+            });
+            this.getData();
+            this.addStudentPopup = false;
           })
-          this.getData()
-          this.addStudentPopup = false
-        }).catch((err) => {
-          this.$vux.toast.show({
-            type: "text",
-            width: "20em",
-            text: '绑定失败'
-          })
-        })
+          .catch(err => {
+            this.$vux.toast.show({
+              type: "text",
+              width: "20em",
+              text: "绑定失败"
+            });
+          });
       } else {
         this.$vux.toast.show({
           type: "text",
           width: "20em",
-          text: '请完善数据'
-        })
+          text: "请完善数据"
+        });
       }
     },
     changeCurrentClass(val) {
-      this.$store.commit('changeCurrentClass', val)
-      this.classListPopup = false
+      this.$store.commit("changeCurrentClass", val);
+      this.classListPopup = false;
       let para = {
         ClassID: val.ClassID
-      }
+      };
       this.$API.changeCurrentClass(para).then(res => {
         this.$vux.toast.show({
           type: "text",
           width: "20em",
-          text: '成功切换当前班级'
-        })
-      })
+          text: "成功切换当前班级"
+        });
+      });
     },
     changeCurrentStudent(val) {
-      this.$store.commit('changeCurrentStudent', val)
-      this.myStudentPopup = false
+      this.$store.commit("changeCurrentStudent", val);
+      this.myStudentPopup = false;
       let para = {
         Student_Meid: val.Meid
-      }
+      };
       this.$API.changeCurrentStudent(para).then(res => {
         this.$vux.toast.show({
           type: "text",
           width: "20em",
-          text: '成功切换当前学生'
-        })
-      })
+          text: "成功切换当前学生"
+        });
+      });
     },
-    inviteParent(){
-      if(!this.Invitedata.MobilePhone){
+    inviteParent() {
+      if (!this.Invitedata.MobilePhone) {
         this.$vux.toast.show({
-            type: "warn",
-            width: "20em",
-            text: '请填写手机号！'
-          })
-      }else if(!this.Invitedata.truename){
+          type: "warn",
+          width: "20em",
+          text: "请填写手机号！"
+        });
+      } else if (!this.Invitedata.truename) {
         this.$vux.toast.show({
-            type: "warn",
-            width: "20em",
-            text: '请填写真实姓名！'
-          })
-      }else if(!this.Invitedata.type){
+          type: "warn",
+          width: "20em",
+          text: "请填写真实姓名！"
+        });
+      } else if (!this.Invitedata.type) {
         this.$vux.toast.show({
-            type: "warn",
-            width: "20em",
-            text: '请选择身份！'
-          })
-      }else{
-          this.Invitedata.student_id = this.$store.state.currentStudent.StudentID
-          this.Invitedata.student_meid = this.$store.state.currentStudent.Meid
-          this.$API.inviteParent(this.Invitedata).then(res => {
+          type: "warn",
+          width: "20em",
+          text: "请选择身份！"
+        });
+      } else {
+        this.Invitedata.student_id = this.$store.state.currentStudent.StudentID;
+        this.Invitedata.student_meid = this.$store.state.currentStudent.Meid;
+        this.$API
+          .inviteParent(this.Invitedata)
+          .then(res => {
             this.$vux.toast.show({
               type: "success",
               width: "20em",
-              text: '绑定成功~！'
-            })
-            this.InviteParent = false
+              text: "绑定成功~！"
+            });
+            this.InviteParent = false;
             this.Invitedata = {
-              MobilePhone:'',
-              truename:'',
-              type: ''
-            }
-          }).catch(err => {
+              MobilePhone: "",
+              truename: "",
+              type: ""
+            };
+          })
+          .catch(err => {
             this.$vux.toast.show({
               type: "warn",
               width: "20em",
               text: err.msg
-            })
-          })
+            });
+          });
       }
     }
   },
   created() {
-    this.$store.commit('changeTitle', '个人中心')
-    this.getData()
+    this.$store.commit("changeTitle", "个人中心");
+    this.getData();
   },
-  mounted() {
-  },
-}
+  mounted() {}
+};
 </script>
 
 <style lang="less" scoped>
@@ -341,7 +378,7 @@ export default {
     // position: absolute;
     // bottom:0;
     // width:100%;
-    border-top: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
     margin-top: 10px; // vertical-align: bottom;
     height: 24px;
     line-height: 32px;
@@ -355,12 +392,12 @@ export default {
     }
   }
   .bottomnav:after {
-    content: '';
+    content: "";
     display: block;
     position: relative;
     width: 1px;
     height: 2.2rem;
-    background: rgba(255, 255, 255, .3);
+    background: rgba(255, 255, 255, 0.3);
     top: 0;
     left: 50%;
   }
@@ -382,7 +419,7 @@ export default {
 .iconfont {
   color: @main;
   font-size: 1.2em;
-  margin-right: .5em;
+  margin-right: 0.5em;
 }
 
 .popup {

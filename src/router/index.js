@@ -55,7 +55,7 @@ import parentcenter from '@/view/user/parent'
 import studentcenter from '@/view/user/student'
 import teachercenter from '@/view/user/teacher'
 import editcode from '@/view/user/editcode'
-import mypost from '@/view/user/mypost'
+import mypost from '@/view/student/mypost'
 import linkchild from '@/view/user/linkchild'
 
 import videoList from '@/view/video/list'
@@ -166,7 +166,7 @@ export default new Router({
           children: [{
               path: '',
               name: 'teacher',
-              component: teacherprofile
+              component: teacherfeed
             },
             {
               path: 'profile',
@@ -211,6 +211,10 @@ export default new Router({
             {
               path: 'parent',
               component: studentparent
+            },
+            {
+              path: 'mypost',
+              component: mypost
             }
           ]
         },

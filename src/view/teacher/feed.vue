@@ -1,12 +1,7 @@
 <template>
   <div class="trends"  style="margin-top:10px">
 
-    <div class="hasNoData" v-if="!data.length">
-      <icon type="safe_warn" is-msg></icon>
-      <p>当前用户还没有发布过的动态</p>
-    </div>
-
-    <div v-show="data.length>0">
+    <div v-if="data.length">
       <mt-loadmore  :bottom-method="loadMore" :bottom-all-loaded="noMoreData" ref="loadmore" style="padding-bottom: 1.5rem;">
         <card v-for="(item,index) in data" :key="index">
           <div slot="header" class="header">
@@ -44,6 +39,10 @@
           </div>
         </card>
       </mt-loadmore>
+    </div>
+    <div class="hasNoData" v-else>
+      <icon type="safe_warn" is-msg></icon>
+      <p>当前用户还没有发布过的动态</p>
     </div>
 
   </div>
@@ -87,6 +86,7 @@ export default {
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
       this.$API.getAllUserDynamic(para).then(res=>{
+        console.log(res)
         if(res.length){
           res.forEach((element)=>{
             this.data.push(element)

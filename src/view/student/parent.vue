@@ -11,7 +11,7 @@
       <div class="btn">
         <a class="telBtn" :href="'tel:'+i.ParentPhone">打电话</a>
       </div>
-      <cell title="发送站内信" is-link :link="'/msg/'+i.ParentMeid"></cell>
+      <!-- <cell title="发送站内信" is-link :link="'/msg/'+i.ParentMeid"></cell> -->
     </group>
   
   </div>

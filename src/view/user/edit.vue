@@ -159,7 +159,8 @@ export default {
       } else {
         this.$API.getCurrentUser().then(res => {
           this.data = res
-          if (this.data.ExtendInfo.Students.length == 0) {
+          console.log(res)
+          if (!this.data.ExtendInfo.Students) {
             this.noStudent = true
           } else {
             this.noStudent = false
