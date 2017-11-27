@@ -24,15 +24,15 @@
     </group> -->
     <group v-show="$store.state.role =='学生'">
       <cell title="个人主页" is-link @click.native="$router.push('/student/' + $store.state.currentStudent.Meid)" >
-        <i slot="icon" class="iconfont">&#xe66c;</i>
+        <i slot="icon" class="iconfont">&#xe612;</i>
       </cell>
     </group>
     <group v-show="$store.state.role =='家长'">
       <cell title="个人主页" is-link @click.native="$router.push('/student/' + $store.state.currentStudent.Meid + '/parent')" >
-        <i slot="icon" class="iconfont">&#xe66c;</i>
+        <i slot="icon" class="iconfont">&#xe612;</i>
       </cell>
       <cell title="我的动态" is-link @click.native="$router.push('/student/'+$store.state.currentStudent.Meid+'/mypost')" >
-        <i slot="icon" class="iconfont">&#xe66c;</i>
+        <i slot="icon" class="iconfont">&#xe737;</i>
       </cell>
     </group>
     <group>
@@ -40,7 +40,7 @@
           <i slot="icon" class="iconfont">&#xe719;</i>
         </cell> -->
       <cell title="邀请家长" is-link @click.native="inviteParentPopup=true" v-if="$store.state.role=='家长'">
-        <i slot="icon" class="iconfont">&#xe719;</i>
+        <i slot="icon" class="iconfont">&#xe932;</i>
       </cell>
       <cell title="切换班级" :value="$store.state.currentClass.ClassName" is-link @click.native="classListPopup=true" v-if="$store.state.role=='老师'">
         <i slot="icon" class="iconfont">&#xe719;</i>
