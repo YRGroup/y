@@ -43,7 +43,7 @@
         <scrollNew :leg="homework.length" :showNum="2">
           <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/work')">
             <div class="msg">
-              【{{ i.CourseName }}】{{ i.Title || '班级作业' }}
+              <span v-if="!i.IsRead">[未读]</span>【{{ i.CourseName }}】{{ i.Title || '班级作业' }}
             </div>
             <div class="date">{{ i.CreateTime }}</div>
           </li>

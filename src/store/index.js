@@ -24,7 +24,7 @@ const store = new Vuex.Store({
     currentUser: null,
     hasNoStudent: false,
     hasNewPost: false,
-    hasNewMsg: '0',
+    UnReadMsgCount: '0',
     
     currentVideoInfo:{},
 
@@ -96,7 +96,7 @@ const store = new Vuex.Store({
       state.currentUser = val
       state.currentUserId = val.Meid
       state.role = val.Role
-
+      state.UnReadMsgCount=val.UnReadMsgCount
       if (val.Role == '家长') {
         if (val.ExtendInfo.Students.length != 0) {
           state.hasNoStudent = false
