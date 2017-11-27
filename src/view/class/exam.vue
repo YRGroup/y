@@ -18,6 +18,7 @@
       <div class="main card">
         <ul class="subject">
           <li v-for="(list,index) in exam.StudentSummary" :key="index" @click="studentScore(list.Meid,exam.ExamID)">
+            <span class="rank">No.{{index+1}}</span> 
             <span class="title">{{list.TrueName}}</span> 
             <span class="score">{{list.TotalScore}}</span>
           </li>
@@ -205,6 +206,10 @@ export default {
       height: 100%;
       position: absolute;
       left: 50%;
+    }
+    .rank{
+        float: left;
+        margin-left: .5rem;
     }
     li {
       width: 50%;
