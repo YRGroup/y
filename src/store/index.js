@@ -15,6 +15,7 @@ const store = new Vuex.Store({
 
     currentUserId: null,
     currentClassId: null,
+    currentClass: {},
     currentStudentId: null,
     currentStudent: {},
 
@@ -116,6 +117,7 @@ const store = new Vuex.Store({
         if (val.ExtendInfo) {
           if (val.ExtendInfo.Classes.length != 0) {
             state.currentClassId = val.ExtendInfo.Classes[0].ClassID
+            state.currentClass=val.ExtendInfo.Classes[0]
           }
         }
       }
@@ -158,7 +160,8 @@ const store = new Vuex.Store({
       state.currentStudent = val
     },
     changeCurrentClass(state, val) {
-      state.currentClassId = val
+      state.currentClassId = val.ClassID
+      state.currentClass=val
     },
     setCurrentClassInfo(state, val) {
       state.currentClassInfo = val
