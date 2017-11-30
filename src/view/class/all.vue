@@ -43,7 +43,7 @@
         <scrollNew :leg="homework.length" :showNum="2">
           <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/work')">
             <div class="msg">
-              <span v-if="!i.IsRead">[未读]</span>【{{ i.CourseName }}】{{ i.Title || '班级作业' }}
+              <span v-if="!i.IsRead">[未读]</span>【{{ i.CourseName }}】[{{i.CreateTime | formatDateMMdd}}] {{ i.Title || '班级作业' }}
             </div>
             <div class="date">{{ i.CreateTime }}</div>
           </li>
@@ -106,6 +106,7 @@ import { Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell , Marque
 import IScroll from 'better-scroll';
 import scrollNew from '@/components/scrollNew';
 import mtLoadmore from '@/components/loadMore'
+import {formatDate} from '@/common/js/formatdate.js';
 export default {
   components: {
     Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell,scrollNew, mtLoadmore, Marquee , MarqueeItem
@@ -137,6 +138,12 @@ export default {
         '体育': '#2ecc71',
       },
     }
+  },
+  filters: {
+        formatDateMMdd(time) {
+            var date = new Date(time);
+            return formatDate(date, "MM月dd日");
+        }
   },
   computed:{
     mainHeight(){
