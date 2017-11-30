@@ -4,7 +4,7 @@
     <!--班级通知
       教师端显示
       -->
-    <div class="notice" v-if="notice.length!=0">
+    <!-- <div class="notice" v-if="notice.length!=0">
       <div class="icon" @click="$router.push('/class/notice')">
         <span>通知</span>
       </div>
@@ -13,7 +13,7 @@
         <span class="auther">{{notice.auther}}</span>
         <span class="time">{{notice.date}}</span>
       </div>
-    </div>
+    </div> -->
 
     <!-- <card style="padding:0" :header="{title:'班级管理菜单'}" v-show="$store.state.role=='老师'">
           <div slot="content">
@@ -64,8 +64,8 @@
     <card v-for="(item,index) in list" :key="index">
       <div slot="header" class="header">
         <!-- <img :src="item.userImg" @click="$router.push('/teacher/'+item.auther_meid)"> -->
-        <img :src="item.userImg">
-        <span class="usename">{{ item.auther }}</span>
+        <img :src="item.userImg" @click="openUserPage(item)">
+        <span class="usename" @click="openUserPage(item)">{{ item.auther }}</span>
         <span class="time">{{ item.date }}</span>
         <span class="tips">{{ item.category }}</span>
       </div>
@@ -73,7 +73,7 @@
 
         <div @click="$router.push('/post/'+item.ID)">{{item.content}} <span class="atuser" v-for="list in item.AtUser">@{{list.TrueName}}</span></div>
 
-        <div class="img" v-if="item.albums.length!=0">
+        <div class="img" v-if="item.albums.length">
           <!--<div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in item.albums" :key="index" @click="imgPopup(imgurl)">-->
           <!--</div>-->
           <div class="imgCon preview-img"
@@ -89,7 +89,7 @@
           <i class="iconfont lick" @click="doLike(item.ID),item.like++">&#xe646; {{ item.like }}</i>
           <!-- <i class="iconfont combtn" @click="$router.push(`/p/${item.EncryptID}`)">&#xe6c3; </i> -->
         </div>
-        <div class="comment" v-if="item.comment.length !== 0">
+        <div class="comment" v-if="item.comment.length">
           <li v-for="(comment,index) in item.comment" v-if="item.comment.length!=0&&index<3" :key="index">
             <span>{{ comment.TrueName }}：</span>
             <span>{{ comment.content }}</span>
@@ -135,7 +135,6 @@ export default {
         '音乐': '#95a5a6',
         '美术': '#1abc9c',
         '体育': '#2ecc71',
-        '暂无':'#000'
       },
     }
   },
@@ -163,6 +162,7 @@ export default {
       para.pagesize = this.pageSize
       para.currentPage = this.currentPage
       this.$API.getAllClassDynamic(para).then((res) => {
+        console.log(res)
         if(this.currentPage==1){
           this.list=[];
           this.imgList=[];
@@ -171,7 +171,6 @@ export default {
 
         //获取最后一个 '.preview-img'的 index
         res.forEach((n,i)=>{
-
             // 处理图片预览的 数据格式
             n.imgList=[];
             n.albums.forEach((m,j)=>{
@@ -219,7 +218,7 @@ export default {
       this.currentPage++
       this.getAllClassDynamic(true)
     },
-
+    // 获取教师列表
     getTeacherList() {
       return this.$API.getTeacherList(this.$store.state.currentClassId).then((res) => {
         this.teachers = res
@@ -235,6 +234,7 @@ export default {
         })
       })
     },
+    // 获取作业列表
     getHomeWork() {
       let para = {}
       para.cid = this.$store.state.currentClassId
@@ -250,6 +250,7 @@ export default {
         })
       })
     },
+    // 点赞
     doLike(id) {
       this.$API.doLikeThisPost(id).then(() => {
         this.$vux.toast.show({
@@ -306,8 +307,17 @@ export default {
           }
         }
     },
+    // 查看动态图片
     openImg(el,i,list){
       this.$preview.open(el.target.parentNode,i,list)
+    },
+    // 查看个人主页
+    openUserPage(i){
+      if(i.auther_role == 3){
+        this.$router.push('/teacher/'+i.auther_meid)
+      }else{
+        this.$router.push('/student/'+i.auther_meid)
+      }
     }
   },
   created() {

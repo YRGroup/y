@@ -22,17 +22,9 @@
         <i slot="icon" class="iconfont">&#xe66c;</i>
       </cell>
     </group> -->
-    <group v-show="$store.state.role =='学生'">
+    <group v-show="$store.state.role =='学生' || $store.state.role =='家长'">
       <cell title="个人主页" is-link @click.native="$router.push('/student/' + $store.state.currentStudent.Meid)" >
         <i slot="icon" class="iconfont">&#xe612;</i>
-      </cell>
-    </group>
-    <group v-show="$store.state.role =='家长'">
-      <cell title="个人主页" is-link @click.native="$router.push('/student/' + $store.state.currentStudent.Meid + '/parent')" >
-        <i slot="icon" class="iconfont">&#xe612;</i>
-      </cell>
-      <cell title="我的动态" is-link @click.native="$router.push('/student/'+$store.state.currentStudent.Meid+'/mypost')" >
-        <i slot="icon" class="iconfont">&#xe737;</i>
       </cell>
     </group>
     <group>

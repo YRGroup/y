@@ -160,7 +160,7 @@ export default new Router({
             anonymous: true
           }
         },
-        { //教师
+        { //教师个人主页
           path: '/teacher/:teacherId',
           component: teacher,
           children: [{
@@ -188,7 +188,7 @@ export default new Router({
           name: 'information',
           component: information
         },
-        { //学生
+        { //学生个人主页
           path: '/student/:studentId',
           component: student,
           children: [{
