@@ -15,7 +15,6 @@ const store = new Vuex.Store({
 
     currentUserId: null,
     currentClassId: null,
-    currentClass: {},
     currentStudentId: null,
     currentStudent: {},
 
@@ -117,7 +116,6 @@ const store = new Vuex.Store({
         if (val.ExtendInfo) {
           if (val.ExtendInfo.Classes.length != 0) {
             state.currentClassId = val.ExtendInfo.Classes[0].ClassID
-            state.currentClass=val.ExtendInfo.Classes[0]
           }
         }
       }
@@ -140,7 +138,7 @@ const store = new Vuex.Store({
       state.hasNoStudent = false
       state.hasNewPost = false
 
-      // state.currentClassInfo = {}
+      state.currentClassInfo = {}
 
       localStorage.clear()
       sessionStorage.clear()
@@ -159,9 +157,11 @@ const store = new Vuex.Store({
     changeCurrentStudent(state, val) {
       state.currentStudent = val
     },
+    changeCurrentStudentId(state, val) {
+      state.currentStudentId = val
+    },
     changeCurrentClass(state, val) {
       state.currentClassId = val.ClassID
-      state.currentClass=val
     },
     setCurrentClassInfo(state, val) {
       state.currentClassInfo = val

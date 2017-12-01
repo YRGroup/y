@@ -69,6 +69,7 @@
         <span class="time">{{ item.date }}</span>
         <span class="tips">{{ item.category }}</span>
       </div>
+      
       <div slot="content" class="content">
 
         <div @click="$router.push('/post/'+item.ID)">{{item.content}} <span class="atuser" v-for="list in item.AtUser">@{{list.TrueName}}</span></div>
@@ -87,10 +88,11 @@
       <div slot="footer" class="footer">
         <div class="footer-btn">
           <i class="iconfont lick" @click="doLike(item.ID),item.like++">&#xe646; {{ item.like }}</i>
-          <!-- <i class="iconfont combtn" @click="$router.push(`/p/${item.EncryptID}`)">&#xe6c3; </i> -->
+          <i class="iconfont combtn" @click="delPost(item.ID)" v-if="item.showDelete">&#xe630;</i>
         </div>
-        <div class="comment" v-if="item.comment.length">
-          <li v-for="(comment,index) in item.comment" v-if="item.comment.length!=0&&index<3" :key="index">
+
+        <div class="comment" v-if="item.comment.length"  @click="$router.push('/post/'+item.ID)">
+          <li v-for="(comment,index) in item.comment" v-if="item.comment.length!=0&&index<2" :key="index">
             <span>{{ comment.TrueName }}：</span>
             <span>{{ comment.content }}</span>
           </li>
@@ -102,14 +104,14 @@
 </template>
 
 <script>
-import { Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell , Marquee , MarqueeItem } from 'vux'
+import { Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell , Marquee , MarqueeItem , Confirm } from 'vux'
 import IScroll from 'better-scroll';
 import scrollNew from '@/components/scrollNew';
 import mtLoadmore from '@/components/loadMore'
 import {formatDate} from '@/common/js/formatdate.js';
 export default {
   components: {
-    Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell,scrollNew, mtLoadmore, Marquee , MarqueeItem
+    Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell,scrollNew, mtLoadmore, Marquee , MarqueeItem , Confirm
   },
   data() {
     return {
@@ -148,7 +150,10 @@ export default {
   computed:{
     mainHeight(){
         return window.innerHeight-259;
-    }
+    },
+    isAdmin() {
+      return this.$store.state.currentUser.Meid == this.$store.state.currentClassInfo.teacher.Meid
+    },
   },
   methods: {
     fun(msg) {
@@ -176,21 +181,28 @@ export default {
         // 图片预览处理
 
         //获取最后一个 '.preview-img'的 index
-        res.forEach((n,i)=>{
-            // 处理图片预览的 数据格式
-            n.imgList=[];
-            n.albums.forEach((m,j)=>{
-                let obj={
-                  src:m,
-                  w:200,
-                  h:200,
-                }
-               n.imgList.push(obj)
-              //把动态里面的图片都放进一个数组里面
-              //index 代表位置
-              this.imgList.push(obj)
+        res.forEach(n =>{
+          //如果老师、家长、班主任 显示删除按钮  
+          if(this.$store.state.currentUser.Meid == n.auther_meid || 
+            this.$store.state.currentStudentId == n.auther_meid || this.isAdmin){
+            n.showDelete = true
+          }else{
+            n.showDelete = false
+          }
+          // 处理图片预览的 数据格式
 
-            })
+          n.imgList=[];
+          n.albums.forEach((m,j)=>{
+              let obj={
+                src:m,
+                w:200,
+                h:200,
+              }
+              n.imgList.push(obj)
+            //把动态里面的图片都放进一个数组里面
+            //index 代表位置
+            this.imgList.push(obj)
+          })
         })
         this.preloadimages(this.imgList).done((images)=>{
           images.forEach((n,i)=>{
@@ -272,6 +284,33 @@ export default {
         })
       })
     },
+    // 删除动态
+    delPost(id) {
+      let _this = this
+      this.$vux.confirm.show({
+        title: '提示',
+        content: '确定要删除该动态吗？？',
+        onConfirm () {
+          let para = {did: id};
+          _this.$API.deletePost(para).then(() => {
+            _this.$vux.toast.show({
+              type: "success",
+              width: "20em",
+              text: '删除成功~'
+            });
+            _this.refresh()
+          }).catch(err => {
+            $vux.toast.show({
+              type: "text",
+              width: "26em",
+              text: err.msg
+            })
+          });
+
+
+        }
+      })
+    },
     _lineScroll(){
         this.newScroll=new IScroll(this.$refs.lineScroll,{
           scrollX: true,
@@ -328,8 +367,10 @@ export default {
   },
   created() {
     this.$store.commit('changeTitle', '班级动态')
+    this.$store.dispatch('getCurrentClassInfo')
+    console.log(this.$store.state.currentClassInfo)
+    console.log(this.$store.state.currentStudent)
     this.currentPage=1;
-
     this.$nextTick(()=>{
 //      this.getAllClassDynamic()
 //      this.getTeacherList()

@@ -102,6 +102,17 @@ API.postNewComment = (replyData) => {
   })
 }
 
+// 删除动态
+API.deletePost = (params) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/Class/DeleteDynamic', params).then((res) => {
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
 // 点赞班级动态
 API.doLikeThisPost = (classDynamicId) => {
   return new Promise((resolve, reject) => {

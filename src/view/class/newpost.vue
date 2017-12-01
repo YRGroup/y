@@ -106,16 +106,16 @@ export default {
         let imgFiles = document.getElementById("imgFiles").files;
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) return;
-        console.log(files[0]);
         this.createImage(files, e);
         this.$vux.loading.show({
-          text: "上传中..."
+          width: "20em",
+          text: "发送中..."
         });
       } else {
         this.$vux.toast.show({
           type: "warn",
+          width: "20em",
           text: "最多上传9张图片",
-          width: "20em"
         });
       }
     },
@@ -136,11 +136,9 @@ export default {
           this.studentList.push(list)
         })
       });
-      console.log(this.studentList)
     },
     createImage: function(file, e) {
       let vm = this;
-      console.log(this);
       lrz(file[0], { quality :file[0].size>1024*200?0.7:1  })
         .then(rst => {
           vm.$vux.loading.hide();
@@ -172,8 +170,14 @@ export default {
       this.data.cid = this.$store.state.currentClassId;
 
       this.data["img_base64_list"] = this.imgBaseList.join("|");
+      
       if (this.data.type != null && this.data.content != "") {
+        this.$vux.loading.show({
+          text: '上传中~',
+          width: '20em'
+        })
         this.$API.postNewClassDynamic(this.data).then(res => {
+          this.$vux.loading.hide()
           this.$vux.toast.show({
             type: "success",
             text: "发布成功"

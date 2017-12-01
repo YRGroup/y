@@ -34,7 +34,7 @@
       <cell title="邀请家长" is-link @click.native="inviteParentPopup=true" v-if="$store.state.role=='家长'">
         <i slot="icon" class="iconfont">&#xe932;</i>
       </cell>
-      <cell title="切换班级" :value="$store.state.currentClass.ClassName" is-link @click.native="classListPopup=true" v-if="$store.state.role=='老师'">
+      <cell title="切换班级" :value="$store.state.currentClassInfo.name" is-link @click.native="classListPopup=true" v-if="$store.state.role=='老师'">
         <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>
       <cell title="切换学生" :value="$store.state.currentStudent.TrueName" is-link @click.native="myStudentPopup=true" v-if="$store.state.role=='家长'">
@@ -203,7 +203,6 @@ export default {
       this.$router.push("/");
     },
     getData() {
-      console.log(this.$store.state.currentUserId)
       this.$API
         .getCurrentUser()
         .then(res => {
@@ -344,6 +343,7 @@ export default {
     }
   },
   created() {
+    this.$store.dispatch('getCurrentClassInfo')
     this.$store.commit("changeTitle", "个人中心");
     this.getData();
   },
