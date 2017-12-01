@@ -43,7 +43,7 @@
         <scrollNew :leg="homework.length" :showNum="2">
           <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/work')">
             <div class="msg">
-              <span v-if="!i.IsRead">[未读]</span>【{{ i.CourseName }}】[{{i.CreateTime | formatDateMMdd}}] {{ i.Title || '班级作业' }}
+              <span v-if="!i.IsRead">[未读]</span>【{{ i.CourseName }}】 {{ i.Title || '班级作业' }}
             </div>
             <div class="date">{{ i.CreateTime }}</div>
           </li>
@@ -169,7 +169,6 @@ export default {
       para.pagesize = this.pageSize
       para.currentPage = this.currentPage
       this.$API.getAllClassDynamic(para).then((res) => {
-        console.log(res)
         if(this.currentPage==1){
           this.list=[];
           this.imgList=[];
