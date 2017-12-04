@@ -108,7 +108,6 @@ import { Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell , Marque
 import IScroll from 'better-scroll';
 import scrollNew from '@/components/scrollNew';
 import mtLoadmore from '@/components/loadMore'
-import {formatDate} from '@/common/js/formatdate.js';
 export default {
   components: {
     Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell,scrollNew, mtLoadmore, Marquee , MarqueeItem , Confirm
@@ -142,10 +141,7 @@ export default {
     }
   },
   filters: {
-        formatDateMMdd(time) {
-            var date = new Date(time);
-            return formatDate(date, "MM月dd日");
-        }
+
   },
   computed:{
     mainHeight(){
@@ -223,6 +219,7 @@ export default {
         // this.$nextTick(()=>{
         //     this.$refs.loadmore.onBottomLoaded('加载成功');
         // })
+        console.log(this.list)
       }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
@@ -354,6 +351,7 @@ export default {
     },
     // 查看动态图片
     openImg(el,i,list){
+      console.log(this.$preview)
       this.$preview.open(el.target.parentNode,i,list)
     },
     // 查看个人主页
@@ -368,8 +366,6 @@ export default {
   created() {
     this.$store.commit('changeTitle', '班级动态')
     this.$store.dispatch('getCurrentClassInfo')
-    console.log(this.$store.state.currentClassInfo)
-    console.log(this.$store.state.currentStudent)
     this.currentPage=1;
     this.$nextTick(()=>{
 //      this.getAllClassDynamic()

@@ -202,7 +202,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css";
 .file {
   text-align: center;
   border-top: 1px solid @border;
