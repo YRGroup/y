@@ -86,7 +86,6 @@ export default {
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
       this.$API.getAllUserDynamic(para).then(res=>{
-        console.log(res)
         if(res.length){
           res.forEach((element)=>{
             this.data.push(element)
@@ -160,7 +159,7 @@ export default {
     }
   },
   created(){
-    this.$store.commit('changeTitle','教师动态')
+    this.$store.commit('changeTitle','教师主页')
     this.getData()
   },
   mounted(){
