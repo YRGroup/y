@@ -10,6 +10,10 @@
       </div>
       <div slot="content" class="content">
         <pre>{{data.content}} <span class="atuser" v-for="list in data.AtUser">@{{list.TrueName}}</span></pre>
+        <div class="video" v-if="data.Video">
+        <div class="prism-player" id="J_prismPlayer">
+        </div>
+      </div>
         <div class="img" v-if="data.albums.length!=0">
           <img @click="imgPopup(imgurl)" :src="imgurl" v-for="(imgurl,index) in data.albums" :key="index">
         </div>
@@ -81,6 +85,7 @@ export default {
   },
   data() {
     return {
+      videoAuth:"",
       showpopup: false,
       replymsg: "",
       showImgPopup: false,
@@ -159,6 +164,15 @@ export default {
         )
         .then(res => {
           this.data = res;
+         
+          if(this.data.Video)
+          {console.log(this.data.Video)
+            this.$API.getVideoAuth({videoid:this.data.Video.VideoId}).then(auth => {
+              this.videoAuth = auth.toString()
+              this.initPlayer()
+              // this.player.play()
+            })
+          }
           this.commentId = res.ID;
           this.wxShareData = {
             title: res.auther + "分享的班级动态",
@@ -170,6 +184,21 @@ export default {
           };
           this.getWxData();
         });
+    },
+    initPlayer() {
+      if (this.player) {
+        this.player = null
+      }console.log(this.data)
+      this.player = new prismplayer({
+        id: 'J_prismPlayer',
+        width: '100%',
+        height: '300px',
+        autoplay: true,
+        useH5Prism: true,
+        vid: this.data.Video.VideoId,
+        playauth: this.videoAuth,
+        cover: this.data.Video.CoverUrl,
+      })
     },
     openreply() {
       this.showpopup = true;
