@@ -86,7 +86,6 @@ export default {
         //*******图片预览处理结束*******//
           res.forEach((element)=>{
             this.data.push(element)
-            console.log(this.data)
           })
         }
         if(res.length==this.pageSize){

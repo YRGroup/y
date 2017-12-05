@@ -28,7 +28,6 @@
             <!-- <img :src="item.Headimgurl"> -->
             <div class="category" :style="{background:colors[item.Course]}">{{ item.Course.substr(0,1) }}</div>
             <div class="name">{{ item.TrueName ||'&nbsp;' }}</div>
-            <!-- <div class="job">{{ item.Course ||'&nbsp;' }}</div> -->
           </div>
         </li>
       </ul>
@@ -77,12 +76,15 @@
         <div class="img" v-if="item.albums.length">
           <!--<div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in item.albums" :key="index" @click="imgPopup(imgurl)">-->
           <!--</div>-->
-          <div class="imgCon preview-img"
+          <a class="imgCon" v-for="(imgurl,index) in item.imgList"  :key="imgurl.index">
+            <img class="preview-img" :src="imgurl.src" @click="openImg($event,index, item.imgList)">
+          </a>
+          <!-- <div class="imgCon preview-img"
                :style="{backgroundImage: 'url\('+imgurl.src+'\)'}"
                v-for="(imgurl,index) in item.imgList"
                :key="imgurl.index"
                @click="openImg($event,index, item.imgList)">
-          </div>
+          </div> -->
         </div>
       </div>
       <div slot="footer" class="footer">
@@ -219,7 +221,6 @@ export default {
         // this.$nextTick(()=>{
         //     this.$refs.loadmore.onBottomLoaded('加载成功');
         // })
-        console.log(this.list)
       }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
@@ -351,8 +352,7 @@ export default {
     },
     // 查看动态图片
     openImg(el,i,list){
-      console.log(this.$preview)
-      this.$preview.open(el.target.parentNode,i,list)
+      this.$preview.open(el.target.parentNode.parentNode,i,list)
     },
     // 查看个人主页
     openUserPage(i){

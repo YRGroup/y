@@ -13,7 +13,7 @@
     <tab class="tabmeun">
       <tab-item selected @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/feed')">动态</tab-item>
       <tab-item @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/work')">作业</tab-item>
-      <tab-item @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/profile')">主页</tab-item>
+      <tab-item @on-item-click="$router.push('/teacher/'+$route.params.teacherId+'/profile')">资料</tab-item>
     </tab>
 
     <transition name="slide-fade">
