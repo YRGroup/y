@@ -8,6 +8,7 @@
       <div class="file" style="text-align:center">
         <a href="javascript:;" class="a-upload">
           <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg"> 上传图片
+           <input type="file" accept="video/*" capture="camcorder" multiple="multiple" id="videoFile" @change="addVideo"> 上传视频
         </a>
           <transition-group name="list" tag="ul" class="imgPreviewContainer">
             <div class="imgPreview" v-for="(i,index) in imgUrls" :key="i.src">
@@ -44,6 +45,8 @@
 </template>
 
 <script>
+require('@/js/aliyun-sdk.min.js')
+require('@/js/vod-sdk-upload-1.1.0.min.js')
 import {
   XInput,
   Group,
@@ -76,7 +79,8 @@ export default {
         content: "",
         img_url_list: "",
         img_base64_list: "",
-        at_meid:[]
+        at_meid:[],
+        videoid:"",
       },
       imgUrls: [],
       fileList: [],
@@ -192,6 +196,72 @@ export default {
           width: "20em"
         });
       }
+    },
+    addVideo(e){
+        let imgFiles = document.getElementById("videoFile").files;
+        let files = e.target.files || e.dataTransfer.files;
+        if (!files.length) return;
+        let vue_this=this;
+        let file=files[0];
+         this.$API.getVideoUploadAuth(
+           {FileName: file.name,
+                Title: file.name,
+                FileSize: file.size,
+                Description: "Description",
+                Coverurl: "",
+                CateId: 16,
+                CourseId: 0,
+                Grade: 0,
+                Tags:"",}).then(res => {
+                  this.data.videoid=res.VideoID//保存视频ID
+                  //this.log(res);
+                  var uploader;
+                  uploader = new VODUpload({
+                      // 文件上传失败
+                      'onUploadFailed': function (uploadInfo, code, message) {
+                          vue_this.log("onUploadFailed: file:" + uploadInfo.file.name + ",code:" + code + ", message:" + message);
+                      },
+                      // 文件上传完成
+                      'onUploadSucceed': function (uploadInfo) {
+                          vue_this.log("onUploadSucceed: " + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
+                           vue_this.$vux.loading.hide()
+                          vue_this.$vux.toast.show({
+                            type: "success",
+                            text: "上传完成"
+                          });
+                      },
+                      // 文件上传进度
+                      'onUploadProgress': function (uploadInfo, totalSize, uploadedSize) {
+                          vue_this.log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" + Math.ceil(uploadedSize * 100 / totalSize) + "%");
+                      },
+                      // STS临时账号会过期，过期时触发函数
+                      'onUploadTokenExpired': function () {
+                          vue_this.log("onUploadTokenExpired");
+                      },
+                      // 开始上传
+                      'onUploadstarted': function (uploadInfo) {
+                          var uploadAuth = res.UploadAuth
+                          var uploadAddress =res.UploadAddress;
+                          uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress);
+                          
+                          vue_this.log("onUploadStarted:" + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
+                      }
+                  });
+                  // 点播上传。每次上传都是独立的鉴权，所以初始化时，不需要设置鉴权
+            uploader.init();
+            var userData = '{"Vod":{"UserData":"{"IsShowWaterMark":"false","Priority":"7"}"}}';
+            uploader.addFile(file, null, null, null, userData);
+            uploader.startUpload();
+          });
+          
+        this.$vux.loading.show({
+          width: "20em",
+          text: "上传中..."
+        });
+    },
+    log(content)
+    {
+      console.log(content);
     }
   },
   created() {
