@@ -28,7 +28,6 @@
             <!-- <img :src="item.Headimgurl"> -->
             <div class="category" :style="{background:colors[item.Course]}">{{ item.Course.substr(0,1) }}</div>
             <div class="name">{{ item.TrueName ||'&nbsp;' }}</div>
-            <!-- <div class="job">{{ item.Course ||'&nbsp;' }}</div> -->
           </div>
         </li>
       </ul>

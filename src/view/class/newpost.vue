@@ -24,14 +24,18 @@
 
     </group>
     <group>
-      <x-switch title="是否@某学生" v-model="showstudent"></x-switch>
+      <x-switch title="是否@某学生" v-model="showStudent"  @on-change="selectStudent"></x-switch>
       <!-- <selector v-show="showstudent" placeholder="请选择" multiple="multiple" v-model="data.at_meid" title="省份" name="district" :options="studentList"></selector> -->
     </group>
-    <div is-transparent>
-      <popup v-model="showstudent" position="bottom" max-height="50%" >
+    <div>
+      <popup v-model="choiceStudent" position="bottom" max-height="50%" >
           <group>
-            <checklist ref="demoObject" title="选择学生" 
+            <checklist title="选择学生" 
             label-position="left" :options="studentList" v-model="data.at_meid"></checklist>
+            <!-- <div style="padding:20px">
+              <x-button @click.native="choiceStudent = false" type="primary">确定</x-button>
+              <x-button @click.native="choiceStudent = false,data.at_meid = [],showStudent = false">取消</x-button>
+            </div> -->
           </group>
       </popup>
     </div>
@@ -80,7 +84,8 @@ export default {
       },
       imgUrls: [],
       fileList: [],
-      showstudent: false,
+      showStudent: false,
+      choiceStudent: false,
       categoryList: [
         { key: "1", value: "班级动态" },
         { key: "2", value: "班级新闻" },
@@ -98,7 +103,14 @@ export default {
         arr.push(n.src);
       });
       return arr;
-    }
+    },
+    // showStudent() {
+    //   if(this.data.at_meid) {
+    //     return true
+    //   }else{
+    //     return false
+    //   }
+    // }
   },
   methods: {
     addImg(e) {
@@ -126,6 +138,18 @@ export default {
         }
       }
     },
+    selectStudent() {
+      if(this.showStudent){
+        this.choiceStudent = true
+      }else{
+        this.data.at_meid = []
+        this.choiceStudent = false
+      }
+    },
+    // atStudent() {
+    //   this.choiceStudent = false
+    //   console.log(this.data.at_meid)
+    // },
     getData() {
       let classId = this.$store.state.currentClassId;
       this.$API.getStudentList(classId).then(res => {
