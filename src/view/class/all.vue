@@ -1,5 +1,5 @@
 <template>
-  <div class="classMain aas1" >
+  <div class="classMain" >
     <mt-loadmore  :top-method="refresh" :bottom-method="loadMore" :bottom-all-loaded="noMoreData" ref="loadmore" style="padding-bottom: 1.5rem;">
     <!--班级通知
       教师端显示
@@ -62,9 +62,9 @@
 
     <card v-for="(item,index) in list" :key="index">
       <div slot="header" class="header">
-        <!-- <img :src="item.userImg" @click="$router.push('/teacher/'+item.auther_meid)"> -->
-        <img :src="item.userImg" @click="openUserPage(item)">
-        <span class="usename" @click="openUserPage(item)">{{ item.auther }}</span>
+        <div v-if="item.auther_role == '3'" @click="$router.push('/teacher/'+i.auther_meid)" class="category" :style="{background:colors[item.CourseName]}">{{ item.CourseName.substr(0,1) }}</div>
+        <img v-else :src="item.userImg" @click="$router.push('/student/'+i.auther_meid)">
+        <span class="usename">{{ item.auther }}</span>
         <span class="time">{{ item.date }}</span>
         <span class="tips">{{ item.category }}</span>
       </div>
@@ -228,6 +228,7 @@ export default {
         // this.$nextTick(()=>{
         //     this.$refs.loadmore.onBottomLoaded('加载成功');
         // })
+        console.log(this.list)
 
       }).catch(err => {
         this.$vux.toast.show({
@@ -363,13 +364,13 @@ export default {
       this.$preview.open(el.target.parentNode.parentNode,i,list)
     },
     // 查看个人主页
-    openUserPage(i){
-      if(i.auther_role == 3){
-        this.$router.push('/teacher/'+i.auther_meid)
-      }else{
-        this.$router.push('/student/'+i.auther_meid)
-      }
-    }
+    // openUserPage(i){
+    //   if(i.auther_role == 3){
+    //     this.$router.push('/teacher/'+i.auther_meid)
+    //   }else{
+    //     this.$router.push('/student/'+i.auther_meid)
+    //   }
+    // }
   },
   created() {
     this.$store.commit('changeTitle', '班级动态')
@@ -390,13 +391,22 @@ export default {
   /*margin-top: -20px;*/
   /*margin-bottom: 53px;*/
 }
-
+.category {
+  display: inline-block;
+  color: #fff;
+  width: 2.6em;
+  font-size: 1.4em;
+  line-height: 2.6em;
+  text-align: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .2);
+}
 .teacherListBox {
   /*position: relative;*/
   background: #fff;
   white-space: nowrap;
   min-width: 100%;
-  padding: 30px 0 10px;
+  padding: 20px 0 10px;
   box-sizing: border-box;
   border-bottom: 1px solid #e5e5e5;
   .box-item {
@@ -411,16 +421,7 @@ export default {
       height: 3.6rem;
       border-radius: 50%;
     }
-    .category {
-      display: inline-block;
-      color: #fff;
-      width: 2.6em;
-      font-size: 1.4em;
-      line-height: 2.6em;
-      text-align: center;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, .2);
-    }
+    
     .name {
       line-height: 2em;
       font-size: 1.1em;
