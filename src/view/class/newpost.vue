@@ -104,13 +104,6 @@ export default {
       });
       return arr;
     },
-    // showStudent() {
-    //   if(this.data.at_meid) {
-    //     return true
-    //   }else{
-    //     return false
-    //   }
-    // }
   },
   methods: {
     addImg(e) {
@@ -146,10 +139,6 @@ export default {
         this.choiceStudent = false
       }
     },
-    // atStudent() {
-    //   this.choiceStudent = false
-    //   console.log(this.data.at_meid)
-    // },
     getData() {
       let classId = this.$store.state.currentClassId;
       this.$API.getStudentList(classId).then(res => {
