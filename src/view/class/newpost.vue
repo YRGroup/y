@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <group title="发布动态" labelWidth="6em">
+    <group title="" labelWidth="6em">
       <!-- <selector title="类别：" placeholder="请选择类别" direction="right" v-model="data.type" :options="categoryList"></selector> -->
 
       <x-textarea v-model="data.content" placeholder="请输入班级动态" autosize></x-textarea>
@@ -208,6 +208,7 @@ export default {
     }
   },
   created() {
+    this.$store.commit('changeTitle', '发布动态')
     this.getData()
   },
   mounted() {}

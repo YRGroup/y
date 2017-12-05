@@ -121,10 +121,6 @@ export default new Router({
               component: kcb
             },
             {
-              path: 'new',
-              component: newClassPost
-            },
-            {
               path: 'newhomework',
               component: newHomework
             },
@@ -146,6 +142,11 @@ export default new Router({
               component: contact
             },
           ]
+        },
+        // 发动态
+        {
+          path: 'new',
+          component: newClassPost
         },
         { //班级动态详情
           path: '/post/:postId',

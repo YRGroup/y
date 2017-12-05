@@ -11,7 +11,7 @@
         <span class="name">{{ classInfo.name }}</span>
         <span class="teacher">班主任：{{ classInfo.teacherName||'未指定' }}</span>
         <span class="count">人数：{{ classInfo.student_count }}</span>
-        <div class="addbtn1" @click="$router.push('/class/new')"><i class="iconfont">&#xe606;</i>发动态</div>
+        <div class="addbtn1" @click="$router.push('/new')"><i class="iconfont">&#xe606;</i>发动态</div>
         <!-- <div class="addbtn2" @click="$router.push('/class/manage')"><i class="iconfont">&#xe832;</i>管理</div> -->
       </div>
 
