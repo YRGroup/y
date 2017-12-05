@@ -11,9 +11,8 @@
       <div slot="content" class="content">
         <pre>{{data.content}} <span class="atuser" v-for="list in data.AtUser">@{{list.TrueName}}</span></pre>
         <div class="video" v-if="data.Video">
-        <div class="prism-player" id="J_prismPlayer">
+          <div class="prism-player" id="J_prismPlayer"></div>
         </div>
-      </div>
         <div class="img" v-if="data.albums.length!=0">
           <img @click="imgPopup(imgurl)" :src="imgurl" v-for="(imgurl,index) in data.albums" :key="index">
         </div>
@@ -85,20 +84,17 @@ export default {
   },
   data() {
     return {
-      videoAuth:"",
+      videoAuth: "",
       showpopup: false,
       replymsg: "",
       showImgPopup: false,
       popupImgUrl: "",
       commentId: "",
       content: "",
-      fakeUserImg:
-        "https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png",
       data: {
         albums: [],
         comment: []
       },
-      classHeader: false,
       wxData: {
         debug: false,
         appId: "",
@@ -164,14 +160,15 @@ export default {
         )
         .then(res => {
           this.data = res;
-         
-          if(this.data.Video)
-          {console.log(this.data.Video)
-            this.$API.getVideoAuth({videoid:this.data.Video.VideoId}).then(auth => {
-              this.videoAuth = auth.toString()
-              this.initPlayer()
-              // this.player.play()
-            })
+
+          if (this.data.Video) {
+            this.$API
+              .getVideoAuth({ videoid: this.data.Video.VideoId })
+              .then(auth => {
+                this.videoAuth = auth.toString();
+                this.initPlayer();
+                // this.player.play()
+              });
           }
           this.commentId = res.ID;
           this.wxShareData = {
@@ -187,18 +184,28 @@ export default {
     },
     initPlayer() {
       if (this.player) {
-        this.player = null
-      }console.log(this.data)
+        this.player = null;
+      }
       this.player = new prismplayer({
-        id: 'J_prismPlayer',
-        width: '100%',
-        height: '300px',
+        id: "J_prismPlayer",
+        width: "100%",
+        height: "300px",
         autoplay: true,
         useH5Prism: true,
+        hideBar: true,
         vid: this.data.Video.VideoId,
         playauth: this.videoAuth,
         cover: this.data.Video.CoverUrl,
-      })
+        skinLayout:[{"name":"controlBar","align":"blabs","x":0,"y":0,"children":[{"name":"progress","align":"tlabs","x":0,"y":0},
+                {"name":"playButton","align":"tl","x":15,"y":26},
+                {"name":"fullScreenButton","align":"tr","x":20,"y":25},
+                {"name":"timeDisplay","align":"tl","x":10,"y":24}]},
+                {"name":"H5Loading","align":"cc"},
+                {"name":"fullControlBar","align":"tlabs","x":0,"y":0,"children":[{"name":"fullTitle","align":"tl","x":25,"y":6},
+                {"name":"fullNormalScreenButton","align":"tr","x":24,"y":13},
+                {"name":"fullTimeDisplay","align":"tr","x":10,"y":12}]},
+                {"name":"bigPlayButton","align":"blabs","x":30,"y":80}],
+      });
     },
     openreply() {
       this.showpopup = true;

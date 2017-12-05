@@ -6,20 +6,24 @@
       <x-textarea v-model="data.content" placeholder="请输入班级动态" autosize></x-textarea>
 
       <div class="file" style="text-align:center">
-        <a href="javascript:;" class="a-upload">
+        <!-- <a href="javascript:;" class="a-upload">
           <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg"> 上传图片
+        </a> -->
+        <ul class="imgPreviewContainer" v-if="showupDataImg">
+          <li class="imgPreview" v-for="(i,index) in imgUrls" :key="i.src">
+            <div class="deleteImg" @click="deleteImg(index)">
+                <span class="iconfont">&#xe630;</span>
+            </div>
+            <img :src="i.src" class="preview-img" @click="$preview.open(null,index, imgUrls)">
+          </li>
+          <li class="updataImg a-upload">
+            <i class="iconfont">&#xe623;</i>
+            <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg">
+          </li>
+        </ul>
+        <a href="javascript:;" class="a-upload uploadVideo">
            <input type="file" accept="video/*" capture="camcorder" multiple="multiple" id="videoFile" @change="addVideo"> 上传视频
         </a>
-          <transition-group name="list" tag="ul" class="imgPreviewContainer">
-            <div class="imgPreview" v-for="(i,index) in imgUrls" :key="i.src">
-              <div class="deleteImg">
-                <span @click="deleteImg(index)">
-                  <span class="iconfont">&#xe630;</span>
-                </span>
-              </div>
-              <img :src="i.src" class="preview-img" @click="$preview.open(null,index, imgUrls)">
-            </div>
-          </transition-group>
       </div>
       <div class="selectStu"></div>
 
@@ -49,8 +53,8 @@
 </template>
 
 <script>
-require('@/js/aliyun-sdk.min.js')
-require('@/js/vod-sdk-upload-1.1.0.min.js')
+require("@/js/aliyun-sdk.min.js");
+require("@/js/vod-sdk-upload-1.1.0.min.js");
 import {
   XInput,
   Group,
@@ -83,8 +87,8 @@ export default {
         content: "",
         img_url_list: "",
         img_base64_list: "",
-        at_meid:[],
-        videoid:"",
+        at_meid: [],
+        videoid: ""
       },
       imgUrls: [],
       fileList: [],
@@ -96,18 +100,18 @@ export default {
         { key: "3", value: "班级通知" },
         { key: "4", value: "班级作业" }
       ],
-      studentList:[]
+      studentList: [],
+      showupDataImg:true
     };
   },
   computed: {
     imgBaseList() {
       let arr = [];
-      console.log(this.imgUrls);
       this.imgUrls.forEach((n, i) => {
         arr.push(n.src);
       });
       return arr;
-    },
+    }
   },
   methods: {
     addImg(e) {
@@ -124,7 +128,7 @@ export default {
         this.$vux.toast.show({
           type: "warn",
           width: "20em",
-          text: "最多上传9张图片",
+          text: "最多上传9张图片"
         });
       }
     },
@@ -136,27 +140,27 @@ export default {
       }
     },
     selectStudent() {
-      if(this.showStudent){
-        this.choiceStudent = true
-      }else{
-        this.data.at_meid = []
-        this.choiceStudent = false
+      if (this.showStudent) {
+        this.choiceStudent = true;
+      } else {
+        this.data.at_meid = [];
+        this.choiceStudent = false;
       }
     },
     getData() {
       let classId = this.$store.state.currentClassId;
       this.$API.getStudentList(classId).then(res => {
         res.forEach(element => {
-          let list = {}
-          list.key = element.Meid
-          list.value = element.NickName
-          this.studentList.push(list)
-        })
+          let list = {};
+          list.key = element.Meid;
+          list.value = element.NickName;
+          this.studentList.push(list);
+        });
       });
     },
     createImage: function(file, e) {
       let vm = this;
-      lrz(file[0], { quality :file[0].size>1024*200?0.7:1  })
+      lrz(file[0], { quality: file[0].size > 1024 * 200 ? 0.7 : 1 })
         .then(rst => {
           vm.$vux.loading.hide();
 
@@ -176,7 +180,6 @@ export default {
           e.target.value = null;
         });
     },
-    addimgList() {},
     addNewPost() {
       if (
         this.$store.state.role == "家长" &&
@@ -187,19 +190,19 @@ export default {
       this.data.cid = this.$store.state.currentClassId;
 
       this.data["img_base64_list"] = this.imgBaseList.join("|");
-      
+
       if (this.data.type != null && this.data.content != "") {
         this.$vux.loading.show({
-          text: '上传中~',
-          width: '20em'
-        })
+          text: "上传中~",
+          width: "20em"
+        });
         this.$API.postNewClassDynamic(this.data).then(res => {
-          this.$vux.loading.hide()
+          this.$vux.loading.hide();
           this.$vux.toast.show({
             type: "success",
             text: "发布成功"
           });
-          
+
           this.$router.push("/class");
         });
       } else {
@@ -210,76 +213,111 @@ export default {
         });
       }
     },
-    addVideo(e){
-        let imgFiles = document.getElementById("videoFile").files;
-        let files = e.target.files || e.dataTransfer.files;
-        if (!files.length) return;
-        let vue_this=this;
-        let file=files[0];
-         this.$API.getVideoUploadAuth(
-           {FileName: file.name,
-                Title: file.name,
-                FileSize: file.size,
-                Description: "Description",
-                Coverurl: "",
-                CateId: 16,
-                CourseId: 0,
-                Grade: 0,
-                Tags:"",}).then(res => {
-                  this.data.videoid=res.VideoID//保存视频ID
-                  //this.log(res);
-                  var uploader;
-                  uploader = new VODUpload({
-                      // 文件上传失败
-                      'onUploadFailed': function (uploadInfo, code, message) {
-                          vue_this.log("onUploadFailed: file:" + uploadInfo.file.name + ",code:" + code + ", message:" + message);
-                      },
-                      // 文件上传完成
-                      'onUploadSucceed': function (uploadInfo) {
-                          vue_this.log("onUploadSucceed: " + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
-                           vue_this.$vux.loading.hide()
-                          vue_this.$vux.toast.show({
-                            type: "success",
-                            text: "上传完成"
-                          });
-                      },
-                      // 文件上传进度
-                      'onUploadProgress': function (uploadInfo, totalSize, uploadedSize) {
-                          vue_this.log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" + Math.ceil(uploadedSize * 100 / totalSize) + "%");
-                      },
-                      // STS临时账号会过期，过期时触发函数
-                      'onUploadTokenExpired': function () {
-                          vue_this.log("onUploadTokenExpired");
-                      },
-                      // 开始上传
-                      'onUploadstarted': function (uploadInfo) {
-                          var uploadAuth = res.UploadAuth
-                          var uploadAddress =res.UploadAddress;
-                          uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress);
-                          
-                          vue_this.log("onUploadStarted:" + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
-                      }
-                  });
-                  // 点播上传。每次上传都是独立的鉴权，所以初始化时，不需要设置鉴权
-            uploader.init();
-            var userData = '{"Vod":{"UserData":"{"IsShowWaterMark":"false","Priority":"7"}"}}';
-            uploader.addFile(file, null, null, null, userData);
-            uploader.startUpload();
-          });
-          
-        this.$vux.loading.show({
-          width: "20em",
-          text: "上传中..."
+    addVideo(e) {
+      let imgFiles = document.getElementById("videoFile").files;
+      let files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      let vue_this = this;
+      let file = files[0];
+      let params = {
+        FileName: file.name,
+        Title: file.name,
+        FileSize: file.size,
+        Description: "Description",
+        Coverurl: "",
+        CateId: 16,
+        CourseId: 0,
+        Grade: 0,
+        Tags: ""
+      };
+      this.$API.getVideoUploadAuth(params).then(res => {
+        this.data.videoid = res.VideoID; //保存视频ID
+        //this.log(res);
+        var uploader;
+        uploader = new VODUpload({
+          // 文件上传失败
+          onUploadFailed: function(uploadInfo, code, message) {
+            vue_this.log(
+              "onUploadFailed: file:" +
+                uploadInfo.file.name +
+                ",code:" +
+                code +
+                ", message:" +
+                message
+            );
+          },
+          // 文件上传完成
+          onUploadSucceed: function(uploadInfo) {
+            vue_this.log(
+              "onUploadSucceed: " +
+                uploadInfo.file.name +
+                ", endpoint:" +
+                uploadInfo.endpoint +
+                ", bucket:" +
+                uploadInfo.bucket +
+                ", object:" +
+                uploadInfo.object
+            );
+            vue_this.$vux.loading.hide();
+            vue_this.$vux.toast.show({
+              type: "success",
+              text: "上传完成"
+            });
+          },
+          // 文件上传进度
+          // 'onUploadProgress': function (uploadInfo, totalSize, uploadedSize) {
+          //     vue_this.log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" + Math.ceil(uploadedSize * 100 / totalSize) + "%");
+          // },
+          onUploadProgress: function(uploadInfo, totalSize, uploadedSize) {
+            vue_this.log(Math.ceil(uploadedSize * 100 / totalSize));
+          },
+          // STS临时账号会过期，过期时触发函数
+          onUploadTokenExpired: function() {
+            vue_this.log("onUploadTokenExpired");
+          },
+          // 开始上传
+          onUploadstarted: function(uploadInfo) {
+            var uploadAuth = res.UploadAuth;
+            var uploadAddress = res.UploadAddress;
+            uploader.setUploadAuthAndAddress(
+              uploadInfo,
+              uploadAuth,
+              uploadAddress
+            );
+
+            vue_this.log(
+              "onUploadStarted:" +
+                uploadInfo.file.name +
+                ", endpoint:" +
+                uploadInfo.endpoint +
+                ", bucket:" +
+                uploadInfo.bucket +
+                ", object:" +
+                uploadInfo.object
+            );
+          }
         });
+        // 点播上传。每次上传都是独立的鉴权，所以初始化时，不需要设置鉴权
+        uploader.init();
+        var userData =
+          '{"Vod":{"UserData":"{"IsShowWaterMark":"false","Priority":"7"}"}}';
+        uploader.addFile(file, null, null, null, userData);
+        uploader.startUpload();
+      });
+      this.$vux.loading.show({text: "上传中..."});
+      this.showupDataImg = false
     },
-    log(content)
-    {
-      console.log(content);
+    log(content) {
+      if (!isNaN(content)) {
+        this.$vux.loading.show({
+          text: content + "%"
+        });
+      }
     }
   },
   created() {
-    this.$store.commit('changeTitle', '发布动态')
-    this.getData()
+    this.$store.commit("changeTitle", "发布动态");
+    this.getData();
   },
   mounted() {}
 };
@@ -290,16 +328,21 @@ export default {
   text-align: center;
   border-top: 1px solid @border;
   padding: 10px 0;
+  .uploadVideo{
+    margin-top: 20px;
+    padding: 5px 20px;
+    background: #ddd;
+  }
   .a-upload {
-    padding: 4px 10px;
-    height: 20px;
-    line-height: 20px;
+    // padding: 4px 10px;
+    // height: 20px;
+    // line-height: 20px;
     position: relative;
-    cursor: pointer;
-    color: #888;
-    background: #fafafa;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    // cursor: pointer;
+    // color: #888;
+    // background: #fafafa;
+    // border: 1px solid #ddd;
+    // border-radius: 4px;
     overflow: hidden;
     display: inline-block;
   }
@@ -328,21 +371,51 @@ export default {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  display: flex;
+  flex-flow:wrap;
+  .updataImg{
+    border:1px dashed #c8c8c8;
+    flex-basis:23%;
+    // height: 96px;
+    min-height: 80px;
+    // line-height: 96px;
+    margin:.4%;
+    border-radius: 6px;
+    position: relative;
+    .iconfont{
+      position: absolute;
+      font-size: 28px;
+      opacity: .4;
+      top: 50%;
+      left:50%;
+      margin-left: -14px;
+      margin-top: -24px;
+    }
+  }
   .imgPreview {
     position: relative;
     border: 1px solid @border;
-    width: 30%;
-    margin: 0 1%;
-    height: 130px;
+    flex-basis:23%;
+    max-height: 100px;
+    margin:.4%;
     float: left;
+    border-radius: 6px;
+    overflow: hidden;
     .deleteImg {
+      width: 34px;
+      height: 34px;
+      line-height: 34px;
+      text-align: center;
       position: absolute;
+      background: #000;
+      opacity: .4;
+      border-radius: 0 0.35em;
       right: 0;
       top: 0;
-      font-size: 20px;
-      color: red;
+      font-size: 16px;
+      color: #fff;
       span {
-        cursor: pointer;
+
       }
     }
     .imgName {
@@ -351,10 +424,9 @@ export default {
     img {
       height: 100%;
       width: 100%;
+      object-fit:cover;
     }
-    .iconfont {
-      padding: 0 0 1em 1em;
-    }
+
   }
 }
 

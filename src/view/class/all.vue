@@ -72,7 +72,14 @@
       <div slot="content" class="content">
 
         <div @click="$router.push('/post/'+item.ID)">{{item.content}} <span class="atuser" v-for="list in item.AtUser">@{{list.TrueName}}</span></div>
-
+        <div class="videoCover" v-if="item.Video" @click="$router.push('/post/'+item.ID)">
+          <span class="CoverImg">
+            <span class="icon"><i class="iconfont">&#xe63c;</i></span>
+            <span class="shade"></span>
+            <img :src="item.Video.CoverUrl" alt="">
+          </span>
+          <!-- <div class="prism-player" :id="'J_prismPlayer' + index"></div> -->
+        </div>
         <div class="img" v-if="item.albums.length">
           <!--<div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in item.albums" :key="index" @click="imgPopup(imgurl)">-->
           <!--</div>-->
@@ -116,6 +123,7 @@ export default {
   },
   data() {
     return {
+      videoAuth:'',
       boxwid: null || '1500px',
       showImgPopup: false,
       popupImgUrl: '',
@@ -179,7 +187,7 @@ export default {
         // 图片预览处理
 
         //获取最后一个 '.preview-img'的 index
-        res.forEach(n =>{
+        res.forEach((n,index) =>{
           //如果老师、家长、班主任 显示删除按钮  
           if(this.$store.state.currentUser.Meid == n.auther_meid || 
             this.$store.state.currentStudentId == n.auther_meid || this.isAdmin){
@@ -188,7 +196,6 @@ export default {
             n.showDelete = false
           }
           // 处理图片预览的 数据格式
-
           n.imgList=[];
           n.albums.forEach((m,j)=>{
               let obj={
@@ -221,6 +228,7 @@ export default {
         // this.$nextTick(()=>{
         //     this.$refs.loadmore.onBottomLoaded('加载成功');
         // })
+
       }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
@@ -539,6 +547,38 @@ export default {
   position: relative;
   img{
     max-height: 90vh;
+  }
+}
+.videoCover{
+  margin-top: 10px;
+  .CoverImg{
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    width: 60%;
+    background: #fff;
+  }
+  .shade{
+    display: inline-block;
+    width:100%;
+    height: 100%;
+    position: absolute;
+    background: #000;
+    opacity: .2;
+  }
+  .icon{
+    position: absolute;
+    font-size: 30px;
+    color: #fff;
+    opacity: .7;
+    left: 50%;
+    top: 50%;
+    margin-left: -15px;
+    margin-top: -15px;
+  }
+  img{
+    max-width: 100%;
+    vertical-align: middle;
   }
 }
 
