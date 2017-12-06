@@ -160,10 +160,8 @@ export default {
         )
         .then(res => {
           this.data = res;
-
           if (this.data.Video) {
-            this.$API
-              .getVideoAuth({ videoid: this.data.Video.VideoId })
+            this.$API.getVideoAuth({ videoid: this.data.Video.VideoId })
               .then(auth => {
                 this.videoAuth = auth.toString();
                 this.initPlayer();
