@@ -186,24 +186,44 @@ export default {
       }
       this.player = new prismplayer({
         id: "J_prismPlayer",
-        width: "100%",
-        height: "300px",
+        // width: "100%",
+        // height: "300px",
         autoplay: true,
         useH5Prism: true,
         hideBar: true,
+        useH5Prism:true,
+        x5_video_position:'top',
+        x5_type:'h5',
         vid: this.data.Video.VideoId,
         playauth: this.videoAuth,
         cover: this.data.Video.CoverUrl,
-        skinLayout:[{"name":"controlBar","align":"blabs","x":0,"y":0,"children":[{"name":"progress","align":"tlabs","x":0,"y":0},
-                {"name":"playButton","align":"tl","x":15,"y":26},
-                {"name":"fullScreenButton","align":"tr","x":20,"y":25},
-                {"name":"timeDisplay","align":"tl","x":10,"y":24}]},
-                {"name":"H5Loading","align":"cc"},
-                {"name":"fullControlBar","align":"tlabs","x":0,"y":0,"children":[{"name":"fullTitle","align":"tl","x":25,"y":6},
-                {"name":"fullNormalScreenButton","align":"tr","x":24,"y":13},
-                {"name":"fullTimeDisplay","align":"tr","x":10,"y":12}]},
-                {"name":"bigPlayButton","align":"blabs","x":30,"y":80}],
+        skinLayout:
+              [{"name":"bigPlayButton","align":"ll"},
+                {"name":"H5Loading","align":"cc"}]
       });
+      this._firstFullscreen = true;
+      let that = this;
+      this.player.on('requestFullScreen',(e)=>{
+        if(that._firstFullscreen)
+        {
+            that.player.cancelFullScreen();
+            that._firstFullscreen = false;
+        }
+        else
+        {
+            let video=$(that.player.el()).find('video');
+            video.addClass('center');
+        }
+      });
+      this.player.on('requestFullScreen',(e)=>{
+          that.adjustLayout(true);
+          that.player.cancelFullScreen();
+      });
+      this.player.tag.addEventListener("x5videoexitfullscreen",()=>{
+          if(WeixinJSBridge)
+              WeixinJSBridge.call('closeWindow');
+      });
+        
     },
     openreply() {
       this.showpopup = true;
@@ -351,7 +371,7 @@ export default {
       img {
         width: 42px;
         height: 42px;
-        border-radius: 8px;
+        border-radius: 50%;
         display: block;
       }
     }

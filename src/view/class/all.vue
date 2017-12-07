@@ -1,26 +1,6 @@
 <template>
   <div class="classMain" >
     <mt-loadmore  :top-method="refresh" :bottom-method="loadMore" :bottom-all-loaded="noMoreData" ref="loadmore" style="padding-bottom: 1.5rem;">
-    <!--班级通知
-      教师端显示
-      -->
-    <!-- <div class="notice" v-if="notice.length!=0">
-      <div class="icon" @click="$router.push('/class/notice')">
-        <span>通知</span>
-      </div>
-      <div class="title">{{notice.content}}</div>
-      <div class="info">
-        <span class="auther">{{notice.auther}}</span>
-        <span class="time">{{notice.date}}</span>
-      </div>
-    </div> -->
-
-    <!-- <card style="padding:0" :header="{title:'班级管理菜单'}" v-show="$store.state.role=='老师'">
-          <div slot="content">
-            <cell title="考试列表" is-link @click.native="$router.push('/class/exam')"></cell>
-          </div>
-        </card> -->
-
     <div class="teacherListBox" v-show="this.teachers.length" ref="lineScroll" style="height:112px">
       <ul style="height: 71px" class="scrollerX">
         <li class="box-item" v-for="(item,index) in teachers" :key="index" @click="$router.push('/teacher/'+item.Meid)">
@@ -62,8 +42,8 @@
 
     <card v-for="(item,index) in list" :key="index">
       <div slot="header" class="header">
-        <div v-if="item.auther_role == '3'" @click="$router.push('/teacher/'+i.auther_meid)" class="category" :style="{background:colors[item.CourseName]}">{{ item.CourseName.substr(0,1) }}</div>
-        <img v-else :src="item.userImg" @click="$router.push('/student/'+i.auther_meid)">
+        <div v-if="item.auther_role == '3'" @click="$router.push('/teacher/'+item.auther_meid)" class="category" :style="{background:colors[item.CourseName]}">{{ item.CourseName.substr(0,1) }}</div>
+        <img v-else :src="item.userImg" @click="$router.push('/student/'+item.auther_meid)">
         <span class="usename">{{ item.auther }}</span>
         <span class="time">{{ item.date }}</span>
         <span class="tips">{{ item.category }}</span>
@@ -218,7 +198,6 @@ export default {
         // this.$nextTick(()=>{
         //     this.$refs.loadmore.onBottomLoaded('加载成功');
         // })
-        console.log(this.list)
 
       }).catch(err => {
         this.$vux.toast.show({
@@ -235,7 +214,7 @@ export default {
     },
     // 获取教师列表
     getTeacherList() {
-      return this.$API.getTeacherList(this.$store.state.currentClassId).then((res) => {
+      this.$API.getTeacherList(this.$store.state.currentClassId).then((res) => {
         this.teachers = res
         this.boxwid = res.length * 100 + 'px';
         this.$nextTick(()=>{
@@ -309,7 +288,7 @@ export default {
       })
     },
     _lineScroll(){
-        this.newScroll=new IScroll(this.$refs.lineScroll,{
+        this.newScroll = new IScroll(this.$refs.lineScroll,{
           scrollX: true,
           click:true
         })
@@ -542,11 +521,11 @@ export default {
 }
 .videoCover{
   margin-top: 10px;
+  width: 60%;
   .CoverImg{
     display: inline-block;
     position: relative;
     height: 100%;
-    width: 60%;
     background: #fff;
   }
   .shade{
@@ -559,13 +538,14 @@ export default {
   }
   .icon{
     position: absolute;
-    font-size: 30px;
+    font-size: 42px;
     color: #fff;
     opacity: .7;
     left: 50%;
     top: 50%;
     margin-left: -15px;
     margin-top: -15px;
+    z-index: 99;
   }
   img{
     max-width: 100%;

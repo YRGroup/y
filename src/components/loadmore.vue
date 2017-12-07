@@ -28,7 +28,7 @@
     transition: .2s;
   }
   .mint-loadmore-top {
-    font-size: .38rem;
+    /* font-size: .38rem; */
     color: #999;
   }
   .mint-loadmore-top {
