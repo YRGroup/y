@@ -21,11 +21,12 @@
             <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg">
           </li>
         </ul>
-        <a href="javascript:;" class="a-upload uploadVideo">
-           <input type="file" accept="video/*" capture="camcorder" multiple="multiple" id="videoFile" @change="addVideo"> 上传视频
+        <a href="javascript:;" class="a-upload uploadVideo" v-if="showVideoBtn">
+           <!-- <input type="file" accept="video/*" capture="camcorder" multiple="multiple" id="videoFile" @change="addVideo"> 上传视频 -->
+           <input type="file" accept="video/*" multiple="multiple" id="videoFile" @change="addVideo"> 上传视频
         </a>
       </div>
-      <div class="selectStu"></div>
+      <div id="updataVideo" style="text-align:center;margin-bottom:10px"></div>
 
     </group>
     <group>
@@ -101,7 +102,8 @@ export default {
         { key: "4", value: "班级作业" }
       ],
       studentList: [],
-      showupDataImg:true
+      showupDataImg:true,
+      showVideoBtn: true
     };
   },
   computed: {
@@ -267,6 +269,10 @@ export default {
               type: "success",
               text: "上传完成"
             });
+            let text = document.getElementById('updataVideo')
+            let name = '<div>'+ uploadInfo.file.name +'</div>'
+            text.innerHTML = "视频上传成功！" + name
+            vue_this.showVideoBtn = false
           },
           // 文件上传进度
           // 'onUploadProgress': function (uploadInfo, totalSize, uploadedSize) {
