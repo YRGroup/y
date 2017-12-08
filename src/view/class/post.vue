@@ -191,7 +191,7 @@ export default {
         autoplay: true,
         useH5Prism: true,
         hideBar: true,
-        useH5Prism:true,
+        playsinline:true,
         x5_video_position:'top',
         x5_type:'h5',
         vid: this.data.Video.VideoId,
@@ -199,7 +199,10 @@ export default {
         cover: this.data.Video.CoverUrl,
         skinLayout:
               [{"name":"bigPlayButton","align":"ll"},
-                {"name":"H5Loading","align":"cc"}]
+                {"name":"H5Loading","align":"cc"},
+                {"name":"controlBar","align":"blabs","x":0,"y":0,"children":[{"name":"fullScreenButton","align":"tr","x":20,"y":25},
+                {"name":"playButton","align":"tl","x":15,"y":26},
+                {"name":"timeDisplay","align":"tl","x":10,"y":24}]}]
       });
       this._firstFullscreen = true;
       let that = this;
@@ -377,4 +380,7 @@ export default {
     }
   }
 }
+ video {
+    object-fit: contain !important;
+    }
 </style>

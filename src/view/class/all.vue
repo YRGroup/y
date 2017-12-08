@@ -48,7 +48,6 @@
         <span class="time">{{ item.date }}</span>
         <span class="tips">{{ item.category }}</span>
       </div>
-      
       <div slot="content" class="content">
 
         <div @click="$router.push('/post/'+item.ID)">{{item.content}} <span class="atuser" v-for="list in item.AtUser">@{{list.TrueName}}</span></div>
@@ -66,10 +65,10 @@
             <img class="preview-img" :src="imgurl.src" @click="openImg($event,index, item.imgList)">
           </a>
           <!-- <div class="imgCon preview-img"
-               :style="{backgroundImage: 'url\('+imgurl.src+'\)'}"
-               v-for="(imgurl,index) in item.imgList"
-               :key="imgurl.index"
-               @click="openImg($event,index, item.imgList)">
+              :style="{backgroundImage: 'url\('+imgurl.src+'\)'}"
+              v-for="(imgurl,index) in item.imgList"
+              :key="imgurl.index"
+              @click="openImg($event,index, item.imgList)">
           </div> -->
         </div>
       </div>
@@ -102,7 +101,6 @@ export default {
   },
   data() {
     return {
-      videoAuth:'',
       boxwid: null || '1500px',
       showImgPopup: false,
       popupImgUrl: '',
@@ -198,7 +196,10 @@ export default {
         // this.$nextTick(()=>{
         //     this.$refs.loadmore.onBottomLoaded('加载成功');
         // })
-
+        this.$nextTick(() => {
+          this._lineScroll()
+        })
+        console.log(this.list)
       }).catch(err => {
         this.$vux.toast.show({
           type: "warn",
@@ -291,7 +292,7 @@ export default {
         this.newScroll = new IScroll(this.$refs.lineScroll,{
           scrollX: true,
           click:true
-        })
+        });
     },
     refresh(){
       this.currentPage=1;

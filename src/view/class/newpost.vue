@@ -196,6 +196,10 @@ export default {
           text: "上传中~",
           width: "20em"
         });
+        if(this.data.videoid) {
+          this.data.img_base64_list = ''
+        }
+        console.log(this.data)
         this.$API.postNewClassDynamic(this.data).then(res => {
           this.$vux.loading.hide();
           this.$vux.toast.show({
@@ -299,8 +303,7 @@ export default {
         });
         // 点播上传。每次上传都是独立的鉴权，所以初始化时，不需要设置鉴权
         uploader.init();
-        var userData =
-          '{"Vod":{"UserData":"{"IsShowWaterMark":"false","Priority":"7"}"}}';
+        var userData = '{"Vod":{"UserData":"{"IsShowWaterMark":"false","Priority":"7"}"}}';
         uploader.addFile(file, null, null, null, userData);
         uploader.startUpload();
       });
