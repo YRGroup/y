@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <popup v-model="showImgPopup" is-transparent>
+    <popup v-model="showImgPopup" width="100%">
       <div class="popup" @click="showImgPopup=false">
         <img :src="popupImgUrl">
       </div>
@@ -37,6 +37,7 @@
 
 <script>
 import { Popup, Group, XTextarea, XButton, Selector } from "vux";
+import wx from "weixin-js-sdk";
 
 export default {
   components: {
@@ -50,19 +51,6 @@ export default {
     return {
       newHomework: false,
       newHomeworkData: {},
-      course_list: [
-        { key: "1", value: "语文" },
-        { key: "2", value: "数学" },
-        { key: "3", value: "英语" },
-        { key: "4", value: "物理" },
-        { key: "5", value: "化学" },
-        { key: "6", value: "历史" },
-        { key: "7", value: "政治" },
-        { key: "8", value: "地理" },
-        { key: "9", value: "音乐" },
-        { key: "10", value: "美术" },
-        { key: "11", value: "体育" }
-      ],
       colors: {
         语文: "#fe6867",
         数学: "#ffce31",
@@ -78,7 +66,30 @@ export default {
       },
       homework: {},
       showImgPopup: false,
-      popupImgUrl: ""
+      popupImgUrl: "",
+      wxData: {
+        debug: false,
+        appId: "",
+        timestamp: null,
+        noncestr: "",
+        signature: "",
+        url: "",
+        jsApiList: [
+          "onMenuShareTimeline",
+          "onMenuShareAppMessage",
+          "onMenuShareQQ",
+          "onMenuShareWeibo",
+          "onMenuShareQZone"
+        ]
+      },
+      commentId: "",
+      wxShareData: {
+        title: "",
+        desc: "",
+        link: "",
+        imgUrl:
+          "http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg"
+      }
     };
   },
   methods: {
@@ -89,13 +100,37 @@ export default {
         text: msg
       });
     },
+    getData() {
+      if (this.$route.name === "homework") {
+        this.getHomeWork();
+      }
+      if (this.$route.name === "anonymousPost") {
+        this.anonymousHomework();
+      }
+    },
     imgPopup(val) {
       this.popupImgUrl = val;
       this.showImgPopup = true;
     },
     getHomeWork() {
+      this.$API.getWxData().then(res => {
+        this.wxData.appId = res.AppId;
+        this.wxData.timestamp = res.Timestamp;
+        this.wxData.nonceStr = res.NonceStr;
+        this.wxData.signature = res.Signature;
+        wx.config(this.wxData);
+      });
       this.$API.getHomework(this.$route.params.homeworkId).then(res => {
         this.homework = res;
+        console.log(res.EncryptID)
+        this.commentId = res.HID;
+        this.wxShareData = {
+          title: res.CourseName + " 老师布置的作业 " + res.CreateTime,
+          desc: res.Content.slice(0, 30) + "...",
+          link: "http://jkyr.yearnedu.com/redirect.html?type=h&pid=" + res.EncryptID,
+          imgUrl: res.Albums[0] || "http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg"
+        };
+        this.getWxData();
       });
     },
     addHomework() {
@@ -116,11 +151,24 @@ export default {
           text: "数据不完整"
         });
       }
+    },
+    anonymousHomework() {
+      this.$API.getPostHomework(this.$route.params.homeworkId).then(res => {
+        this.homework = res;
+        this.commentId = res.ID;
+      });
+    },
+    getWxData(val) {
+      wx.onMenuShareTimeline(this.wxShareData);
+      wx.onMenuShareAppMessage(this.wxShareData);
+      wx.onMenuShareQQ(this.wxShareData);
+      wx.onMenuShareWeibo(this.wxShareData);
+      wx.onMenuShareQZone(this.wxShareData);
     }
   },
   created() {
     this.$store.commit("changeTitle", "班级作业");
-    this.getHomeWork();
+    this.getData();
   }
 };
 </script>
@@ -182,12 +230,16 @@ export default {
 }
 
 .popup {
-  width: 95%;
+  width: 100%;
   background-color: #fff;
   margin: 0 auto;
   border-radius: 5px;
   padding-top: 10px;
   text-align: center;
+  text-align: center;
+  img{
+    max-width: 90vw;
+  }
 }
 .look {
   background: #fff;

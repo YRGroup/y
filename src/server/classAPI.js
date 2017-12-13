@@ -77,6 +77,19 @@ API.getPostAnonymouse = (postId) => {
   })
 }
 
+// 微信分享查看作业
+API.getPostHomework = (postId) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl + '/api/Share/GetHomework', {
+      params: {
+        en_id: postId
+      }
+    }).then((res) => {
+      resolve(res.data.Content)
+    })
+  })
+}
+
 // 添加班级动态
 API.postNewClassDynamic = (classDynamicData) => {
   return new Promise((resolve, reject) => {

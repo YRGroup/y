@@ -86,6 +86,9 @@ html {
 pre {
   font-family: -apple-system-font, "Helvetica Neue", sans-serif;
 }
+.modal-open{
+  position: static!important;
+}
 
 ::-webkit-input-placeholder {
   color: @border;

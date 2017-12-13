@@ -136,13 +136,13 @@ export default {
       this.$API.getPostAnonymouse(this.$route.params.postId).then(res => {
         this.data = res;
         this.commentId = res.ID;
-        // this.wxShareData = {
-        //   title: res.auther + '分享的班级动态',
-        //   desc: res.content.slice(0, 30) + '...',
-        //   link: 'http://jkyr.yearnedu.com/redirect.html?pid=' + res.EncryptID,
-        //   imgUrl: res.albums[0] || 'http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg'
-        // }
-        // this.getWxData()
+        if (this.data.Video) {
+            this.$API.getVideoAuth({ videoid: this.data.Video.VideoId })
+              .then(auth => {
+                this.videoAuth = auth.toString();
+                this.initPlayer();
+              });
+          }
       });
     },
     userGetData() {
@@ -172,7 +172,7 @@ export default {
           this.wxShareData = {
             title: res.auther + "分享的班级动态",
             desc: res.content.slice(0, 30) + "...",
-            link: "http://jkyr.yearnedu.com/redirect.html?pid=" + res.EncryptID,
+            link: "http://jkyr.yearnedu.com/redirect.html?type=d&pid=" + res.EncryptID,
             imgUrl:
               res.albums[0] ||
               "http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg"

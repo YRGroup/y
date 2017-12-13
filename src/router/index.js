@@ -112,10 +112,19 @@ export default new Router({
               path: 'work',
               component: homeworkList
             },
-            {
-              path: 'homework/:homeworkId',
-              component: homework
-            },
+            // {
+            //   path: 'homework/:homeworkId',
+            //   name: 'homework',
+            //   component: homework
+            // },
+            // {
+            //   path: '/hw/:homeworkId',
+            //   name: 'anonymousPost',
+            //   component: homework,
+            //   meta: {
+            //     anonymous: true
+            //   }
+            // },
             {
               path: 'kcb',
               component: kcb
@@ -147,6 +156,20 @@ export default new Router({
         {
           path: 'new',
           component: newClassPost
+        },
+        {
+          path: 'homework/:homeworkId',
+          name: 'homework',
+          component: homework
+        },
+        // 班级作业
+        {
+          path: '/hw/:homeworkId',
+          name: 'anonymousPost',
+          component: homework,
+          meta: {
+            anonymous: true
+          }
         },
         { //班级动态详情
           path: '/post/:postId',
