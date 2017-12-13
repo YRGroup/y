@@ -51,19 +51,6 @@ export default {
     return {
       newHomework: false,
       newHomeworkData: {},
-      colors: {
-        语文: "#fe6867",
-        数学: "#ffce31",
-        英语: "#8b8efb",
-        物理: "#ff80c0",
-        化学: "#50c7ee",
-        历史: "#ff9f22",
-        政治: "#01c19e",
-        地理: "#34495e",
-        音乐: "#95a5a6",
-        美术: "#1abc9c",
-        体育: "#2ecc71"
-      },
       homework: {},
       showImgPopup: false,
       popupImgUrl: "",
@@ -91,6 +78,11 @@ export default {
           "http://pic.yearnedu.com/UploadFiles/images/2017/09/13/636409320424412976.jpg"
       }
     };
+  },
+  computed: {
+    colors() {
+      return this.$store.state.colors
+    }
   },
   methods: {
     fun(msg) {

@@ -44,6 +44,7 @@ const store = new Vuex.Store({
       '音乐': '#95a5a6',
       '美术': '#1abc9c',
       '体育': '#2ecc71',
+      '计算机': '#ffc100'
     },
   },
   getters: {
