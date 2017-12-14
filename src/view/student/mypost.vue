@@ -47,14 +47,13 @@ export default {
   methods: {
     getData() {
       let params = {};
-      params.meid = this.$store.state.currentUser.Meid;
+      params.meid = this.$route.params.studentId;
       params.pagesize = this.pageSize;
       params.currentPage = this.currentPage;
       this.$API
         .getAllUserDynamic(params)
         .then(res => {
           this.data = res;
-          console.log(this.data);
           this.imgList=[]
           //*******图片预览处理*******//
 

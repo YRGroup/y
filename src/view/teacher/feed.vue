@@ -93,28 +93,29 @@ export default {
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
       this.$API.getAllUserDynamic(para).then(res=>{
+        console.log(res)
         if(res.length){
-          res.forEach((element)=>{
-            this.data.push(element)
-          })
-        }
-          res.forEach((n,i)=>{
-
-            // 处理图片预览的 数据格式
-            n.imgList=[];
-            n.Albums.forEach((m,j)=>{
-                let obj={
-                  src:m,
-                  w:200,
-                  h:200,
-                }
-               n.imgList.push(obj)
-              //把动态里面的图片都放进一个数组里面
-              //index 代表位置
-              this.imgList.push(obj)
-
+            res.forEach((element)=>{
+              this.data.push(element)
             })
-        })
+            res.forEach((n,i)=>{
+
+              // 处理图片预览的 数据格式
+              n.imgList=[];
+              n.Albums.forEach((m,j)=>{
+                  let obj={
+                    src:m,
+                    w:200,
+                    h:200,
+                  }
+                n.imgList.push(obj)
+                //把动态里面的图片都放进一个数组里面
+                //index 代表位置
+                this.imgList.push(obj)
+
+              })
+            })
+        }
         this.preloadimages(this.imgList).done((images)=>{
           images.forEach((n,i)=>{
             this.imgList[i].w=n.width
@@ -126,9 +127,11 @@ export default {
         }else{
           this.noMoreData = true
         }
-        this.$nextTick(()=>{
-          this.$refs.loadmore.onBottomLoaded('加载成功');
-        })
+        if(res.length){
+          this.$nextTick(()=>{
+            this.$refs.loadmore.onBottomLoaded('加载成功');
+          })
+        }
       })
     },
     preloadimages(arr){
