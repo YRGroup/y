@@ -124,9 +124,9 @@ const store = new Vuex.Store({
       }
     },
     hasFullInfo: state => {
-      if (this.isTeacher && state.currentUser.ExtendInfo.Status == 0) {
+      if (this.a.getters.isTeacher && state.currentUser.ExtendInfo.Status == 0) {
         return 'teacher'
-      } else if (this.isParent && state.currentUser.ExtendInfo.Students.length !== 0 && state.currentUser.ExtendInfo.Students[0].Status == 0) {
+      } else if (this.a.getters.isParent && state.currentUser.ExtendInfo.Students.length !== 0 && state.currentUser.ExtendInfo.Students[0].Status == 0) {
         return 'parent'
       } else {
         return 'ok'
