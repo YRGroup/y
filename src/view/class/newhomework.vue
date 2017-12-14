@@ -2,10 +2,10 @@
   <div class="hello">
 
     <group title="发布新的班级作业" labelWidth="4em">
-      <cell title="学科：" v-model="course" v-show="notClassAdmin"></cell>
-      <selector title="学科：" :options="courseList" v-model="newHomeworkData.course_name" v-show="isClassAdmin"></selector>
+      <cell title="学科：" v-model="course" v-show="!$store.getters.isAdviserTeacher"></cell>
+      <selector title="学科：" :options="courseList" v-model="newHomeworkData.course_name" v-show="$store.getters.isAdviserTeacher"></selector>
       <x-input title="标题：" placeholder="请输入标题" v-model="newHomeworkData.title" show-clear></x-input>
-      <!-- <selector v-show='isClassAdmin' title="学科：" :options="courseList" v-model="newHomeworkData.title"></selector> -->
+      <!-- <selector v-show='$store.getters.isAdviserTeacher' title="学科：" :options="courseList" v-model="newHomeworkData.title"></selector> -->
       <!-- <vue-html5-editor class="needsclick" :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="300"></vue-html5-editor> -->
       <x-textarea title="" v-model="newHomeworkData.content" placeholder="请在此输入内容" autosize></x-textarea>
 
@@ -49,24 +49,12 @@ export default {
       imgUrls: [],
       ClassInfo: {},
       courseList: [],
-      notClassAdmin: false
     }
   },
   computed: {
     course: function() {
       if (this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
         return this.$store.state.currentUser.ExtendInfo.Course.CourseName
-      }
-    },
-    isClassAdmin(){
-      if(this.$store.state.role=='老师'){
-        if(this.ClassInfo.teacher && this.$store.state.currentUser.Meid == this.ClassInfo.teacher.Meid){
-          this.notClassAdmin = false
-          return true
-        }else{
-          this.notClassAdmin = true
-          return false
-        }
       }
     },
     imgBaseList(){
@@ -145,7 +133,7 @@ export default {
     },
     addHomework() {
       // this.newHomeworkData.course_name = this.course
-      if (this.notClassAdmin == true) {
+      if (!this.$store.getters.isAdviserTeacher) {
         this.newHomeworkData['course_name'] = this.course
       }
       // this.newHomeworkData['img_url_list'] = this.fileList.join(',')

@@ -42,7 +42,7 @@
 
     <card v-for="(item,index) in list" :key="index">
       <div slot="header" class="header">
-        <div v-if="item.auther_role == '3'" @click="$router.push('/teacher/'+item.auther_meid)" class="category" :style="{background:colors[item.CourseName]}">{{ item.CourseName.substr(0,1) }}</div>
+        <div v-if="item.auther_role == '4'||item.auther_role == '8'" @click="$router.push('/teacher/'+item.auther_meid)" class="category" :style="{background:colors[item.CourseName]}">{{ item.CourseName.substr(0,1) }}</div>
         <img v-else :src="item.userImg" @click="$router.push('/student/'+item.auther_meid)">
         <span class="usename">{{ item.auther }}</span>
         <span class="time">{{ item.date }}</span>

@@ -6,23 +6,23 @@
 
     <div v-else>
       <group class="link" title="">
-        <cell class="itemlist" :title="'学生 （'+student.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'" @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null" v-show="$store.state.role=='老师'">
+        <cell class="itemlist" :title="'学生 （'+student.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'" @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null" v-show="$store.getters.isTeacher">
           <span slot="icon" class="roleheader bgcolor1">
             <i class="iconfont">&#xe607;</i>
           </span>
         </cell>
         <div class="slide" :class="showContent1?'animate':null">
-          <cell class="item" is-link v-for="(i,index) in student" :title="i.TrueName " :inline-desc="$store.state.role=='老师'?i.StudentID:null" :link="$store.state.role=='老师'?('/student/'+i.Meid):('/msg/'+i.Meid)" :key="index">
+          <cell class="item" is-link v-for="(i,index) in student" :title="i.TrueName " :inline-desc="$store.getters.isTeacher?i.StudentID:null" :link="$store.getters.isTeacher?('/student/'+i.Meid):('/msg/'+i.Meid)" :key="index">
             <img class="cellicon" slot="icon" :src="i.Headimgurl">
           </cell>
         </div>
-        <cell class="itemlist" :title="'家长 （'+parent.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent2 ? 'up' : 'down'" @click.native="showContent2 = !showContent2" :class="showContent2?'activenav':null" v-show="$store.state.role=='老师'">
+        <cell class="itemlist" :title="'家长 （'+parent.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent2 ? 'up' : 'down'" @click.native="showContent2 = !showContent2" :class="showContent2?'activenav':null" v-show="$store.getters.isTeacher">
           <span slot="icon" class="roleheader bgcolor2">
             <i class="iconfont">&#xe609;</i>
           </span>
         </cell>
         <div class="slide" :class="showContent2?'animate':null" >
-          <cell class="item" is-link v-for="(i,index) in parent" :link="$store.state.role=='老师'?('/student/'+i.StudentMeid+'/parent'):('/msg/'+i.ParentMeid)" :title="i.ParentTrueName+'（'+i.StudentTrueName+'的'+ i.ParentType+'）'" :inline-desc="$store.state.role=='老师'?i.ParentPhone:null" :key="index">
+          <cell class="item" is-link v-for="(i,index) in parent" :link="$store.getters.isTeacher?('/student/'+i.StudentMeid+'/parent'):('/msg/'+i.ParentMeid)" :title="i.ParentTrueName+'（'+i.StudentTrueName+'的'+ i.ParentType+'）'" :inline-desc="$store.getters.isTeacher?i.ParentPhone:null" :key="index">
             <img class="cellicon" slot="icon" :src="i.ParentHeadimgurl">
           </cell>
         </div>

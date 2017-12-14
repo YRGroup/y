@@ -17,7 +17,7 @@
             提交
           </x-button>
           <!-- <form :model="addCardData" label-width="100px" class="cardNum"> -->
-          <!-- <el-form-item label="学生：" v-if="$store.getters.role==='家长'">
+          <!-- <el-form-item label="学生：" v-if="$store.getters.isParent">
                                           <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
                                             <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
                                             </el-option>

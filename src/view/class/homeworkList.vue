@@ -1,6 +1,6 @@
 <template>
   <div class="work">
-      <div class="addbtn" v-show="$store.state.role == '老师'">
+      <div class="addbtn" v-show="$store.getters.isTeacher">
         <x-button  @click.native="$router.push('/class/newhomework')" type="primary" plain>布置作业</x-button>
       </div>
       <group v-if="homework.length==0">

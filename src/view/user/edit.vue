@@ -21,7 +21,7 @@
       </div>
     </group>
 
-    <div v-if="$store.state.role=='老师'">
+    <div v-if="$store.getters.isTeacher">
       <group title="教师资料：">
         <x-input title="身份证" v-model="data.IDCard" text-align="right" placeholder="请输入身份证"></x-input>
         <selector title="民族" :options="$store.state.nationList" v-model="data.Volk" text-align="right"></selector>
@@ -79,7 +79,7 @@
 
     </div>
 
-    <div v-if="$store.state.role=='家长' && !$store.state.hasNoStudent">
+    <div v-if="$store.getters.isParent && !$store.state.hasNoStudent">
       <group title="学生资料：">
         <selector title="家长身份" :options="parentTypeList" v-model="ParentType"></selector>
         <cell title="姓名" v-model="studentData.TrueName" text-align="right" placeholder="请输入姓名"></cell>
@@ -142,7 +142,7 @@ export default {
   },
   methods: {
     getData() {
-      if (this.$store.state.role == '老师') {
+      if (this.$store.getters.isTeacher) {
         this.$API.getTeacherInfo(this.$store.state.currentUserId).then(res => {
           this.data = res
           if (this.data.PersonalHonor.length) {
@@ -200,7 +200,7 @@ export default {
       })
     },
     submitChange() {
-      if (this.$store.state.role == '家长') {
+      if (this.$store.getters.isParent) {
         let editData = {}
         editData.ParentType = this.ParentType
         editData.meid = this.$store.state.currentUserId
@@ -227,7 +227,7 @@ export default {
             text: err.msg
           })
         })
-      } else if (this.$store.state.role == '老师') {
+      } else if (this.$store.getters.isTeacher) {
         this.$API.editTeacherInfo(this.data).then((res) => {
           this.$vux.toast.show({
             type: "success",

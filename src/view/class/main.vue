@@ -62,7 +62,7 @@ export default {
     this.getClassInfo()
   },
   mounted(){
-    if(this.$store.state.hasLogin && this.$store.state.hasNoStudent && this.$store.state.role =='家长'){
+    if(this.$store.state.hasLogin && this.$store.state.hasNoStudent && $store.getters.isParent){
       this.showAddStudent=true
     }else{
       this.showAddStudent=false

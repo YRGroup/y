@@ -4,40 +4,37 @@
     <div class="user-header">
       <img :src="data.Headimgurl">
       <p class="usename">{{data.TrueName}}
-        <small v-if="$store.state.role=='家长'">-- {{$store.state.currentStudent.TrueName}}的家长</small>
-        <small v-if="$store.state.role=='老师'">{{$store.state.currentUser.ExtendInfo.Course.CourseName}}</small>
+        <small v-if="$store.getters.isParent">-- {{$store.state.currentStudent.TrueName}}的家长</small>
+        <small v-if="$store.getters.isTeacher">{{$store.state.currentUser.ExtendInfo.Course.CourseName}}</small>
       </p>
       <p>{{$store.state.currentStudent.SchoolName||'郑州航空港区育人国际学校'}}</p>
-      <p class="bottomnav" v-if="$store.state.role=='家长'">
+      <p class="bottomnav" v-if="$store.getters.isParent">
         <span>{{$store.state.currentStudent.ClassName}}</span>
         <span>学号：{{$store.state.currentStudent.StudentID}}</span>
       </p>
-      <p class="bottomnav" v-if="$store.state.role=='老师'">
+      <p class="bottomnav" v-if="$store.getters.isTeacher">
         <span @click="$router.push('/teacher/'+$store.state.currentUserId)">我的主页</span>
         <span @click="$router.push('/class')">我的班级</span>
       </p>
     </div>
-    <!-- <group v-show="$store.state.role !='老师'">
+    <!-- <group v-show="$store.getters.isTeacher">
       <cell title="我的动态" is-link @click.native="$router.push('/user/mypost')" >
         <i slot="icon" class="iconfont">&#xe66c;</i>
       </cell>
     </group> -->
-    <group v-show="$store.state.role =='学生' || $store.state.role =='家长'">
+    <group v-show="$store.getters.isStudent || $store.getters.isParent">
       <cell title="个人主页" is-link @click.native="$router.push('/student/' + $store.state.currentStudent.Meid)" >
         <i slot="icon" class="iconfont">&#xe612;</i>
       </cell>
     </group>
     <group>
-      <!-- <cell title="绑定学生" is-link @click.native="addStudentPopup=true" v-if="$store.state.role=='家长'">
+      <!-- <cell title="绑定学生" is-link @click.native="addStudentPopup=true" v-if="$store.getters.isParent">
           <i slot="icon" class="iconfont">&#xe719;</i>
         </cell> -->
-      <cell title="邀请家长" is-link @click.native="inviteParentPopup=true" v-if="$store.state.role=='家长'">
+      <cell title="邀请家长" is-link @click.native="inviteParentPopup=true" v-if="$store.getters.isParent">
         <i slot="icon" class="iconfont">&#xe932;</i>
       </cell>
-      <cell title="切换班级" :value="$store.state.currentClassInfo.name" is-link @click.native="classListPopup=true" v-if="$store.state.role=='老师'">
-        <i slot="icon" class="iconfont">&#xe719;</i>
-      </cell>
-      <cell title="切换学生" :value="$store.state.currentStudent.TrueName" is-link @click.native="myStudentPopup=true" v-if="$store.state.role=='家长'">
+      <cell title="切换班级" :value="$store.state.currentClassInfo.name" is-link @click.native="classListPopup=true" v-if="$store.getters.isTeacher||$store.getters.isParent">
         <i slot="icon" class="iconfont">&#xe719;</i>
       </cell>
       <!-- <cell title="我的账号" :value="data.Mobilephone">
@@ -60,19 +57,7 @@
     <popup v-model="classListPopup" is-transparent>
       <div class="popup">
         <group title="切换班级">
-          <cell :title="i.ClassName" is-link v-for="i in $store.state.currentUser.ExtendInfo.Classes" :key="i.ClassID" @click.native="changeCurrentClass(i)">
-            <i slot="icon" class="iconfont">&#xe719;</i>
-          </cell>
-        </group>
-      </div>
-    </popup>
-    <!-- 切换学生 -->
-    <popup v-model="myStudentPopup" is-transparent>
-      <div class="popup">
-        <group title="切换学生">
-          <cell :title="i.TrueName" is-link v-for="i in allStudentData" :key="i.StudentID" @click.native="changeCurrentStudent(i)">
-            <i slot="icon" class="iconfont">&#xe719;</i>
-          </cell>
+         <changeClass @success="classListPopup=false"></changeClass>
         </group>
       </div>
     </popup>
@@ -124,6 +109,7 @@
 <script>
 import { Group, Cell, XButton, Popup, Selector, XInput } from "vux";
 import hasNoStudent from "@/components/hasNoStudent";
+import changeClass from "@/components/changeClass";
 
 export default {
   name: "hello",
@@ -134,7 +120,8 @@ export default {
     Popup,
     Selector,
     XInput,
-    hasNoStudent
+    hasNoStudent,
+    changeClass
   },
   data() {
     return {
@@ -266,34 +253,6 @@ export default {
           text: "请完善数据"
         });
       }
-    },
-    changeCurrentClass(val) {
-      this.$store.commit("changeCurrentClass", val);
-      this.classListPopup = false;
-      let para = {
-        ClassID: val.ClassID
-      };
-      this.$API.changeCurrentClass(para).then(res => {
-        this.$vux.toast.show({
-          type: "text",
-          width: "20em",
-          text: "成功切换当前班级"
-        });
-      });
-    },
-    changeCurrentStudent(val) {
-      this.$store.commit("changeCurrentStudent", val);
-      this.myStudentPopup = false;
-      let para = {
-        Student_Meid: val.Meid
-      };
-      this.$API.changeCurrentStudent(para).then(res => {
-        this.$vux.toast.show({
-          type: "text",
-          width: "20em",
-          text: "成功切换当前学生"
-        });
-      });
     },
     inviteParent() {
       if (!this.Invitedata.MobilePhone) {
