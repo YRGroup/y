@@ -57,7 +57,6 @@ export default {
             element.showRead = false
           }
         })
-        console.log(this.data)
       })
     },
     replyMsg() {
@@ -69,6 +68,12 @@ export default {
           this.msg = ''
           this.getMsgInfo()
           window.scrollTo(0, 10000)
+        }).catch((err) => {
+          this.$vux.toast.show({
+          type: "text",
+          text: err.msg,
+          width: '20em'
+        })
         })
       } else {
         this.$vux.toast.show({

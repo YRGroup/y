@@ -29,7 +29,7 @@ const store = new Vuex.Store({
     currentVideoInfo:{},
 
     ApiUrl: '',
-    nationList:["汉族", , "回族", "藏族", "维吾尔族", "其他"],
+    nationList:["汉族", "回族", "藏族", "维吾尔族", "其他"],
     // politicalList:['普通居民','无党派人士','中共党员','中共预备党员','共青团员','民革党员','民盟盟员','民建会员','民进会员','农工党党员','致公党党员','九三学社社员','台盟盟员'],
     politicalList:['团员','党员','其他','无'],
     colors: {

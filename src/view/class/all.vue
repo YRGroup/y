@@ -199,7 +199,6 @@ export default {
         this.$nextTick(() => {
           this._lineScroll()
         })
-        console.log(this.list)
       }).catch(err => {
         this.$vux.toast.show({
           type: "warn",

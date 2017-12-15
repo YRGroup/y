@@ -32,7 +32,7 @@
           </span>
         </cell>
         <div class="slide" :class="showContent3?'animate':null">
-          <cell class="item" is-link v-for="(i,index) in teacher" :link="'/teacher/'+i.Meid" :title="i.TrueName + (i.Course?'（' + i.Course + '）':'')" :inline-desc="i.Mobilephone" :key="index">
+          <cell class="item" is-link v-for="(i,index) in teacher" :link="'/msg/'+i.Meid" :title="i.TrueName + (i.Course?'（' + i.Course + '）':'')" :inline-desc="i.Mobilephone" :key="index">
             <img class="cellicon" slot="icon" :src="i.Headimgurl">
           </cell>
         </div>

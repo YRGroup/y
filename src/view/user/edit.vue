@@ -11,6 +11,7 @@
           <checker-item value="女">女</checker-item>
         </div>
       </checker>
+      <selector title="关系" :options="parentTypeList" v-model="ParentType"></selector>
       <cell title="头像" class="greatPic">
         <img :src="data.Headimgurl">
       </cell>
@@ -79,9 +80,8 @@
 
     </div>
 
-    <div v-if="$store.getters.isParent && !$store.state.hasNoStudent">
+    <div v-if="$store.getters.isParent && !$store.state.hasNoStudent && studentEdit">
       <group title="学生资料：">
-        <selector title="家长身份" :options="parentTypeList" v-model="ParentType"></selector>
         <cell title="姓名" v-model="studentData.TrueName" text-align="right" placeholder="请输入姓名"></cell>
         <cell title="学号" v-model="studentData.StudentID" text-align="right" placeholder="请输入学号"></cell>
         <x-input title="学籍号" v-model="studentData.nationid" text-align="right" placeholder="请输入学籍号"></x-input>
@@ -120,7 +120,8 @@ export default {
         { key: 1, value: '爸爸' },
         { key: 2, value: '妈妈' },
         { key: 3, value: '爷爷' },
-        { key: 4, value: '奶奶' }
+        { key: 4, value: '奶奶' },
+        { key: 5, value: '家人' }
       ],
       addStudentData: {},
       studentData: {},
@@ -128,7 +129,7 @@ export default {
         '语文', '数学', '英语', '物理', '化学', '历史', '政治', '地理',
         '音乐', '美术', '体育'
       ],
-      ParentType: '1',
+      ParentType: '',
       data: {
         Course: '',
         Headimgurl: '',
@@ -140,11 +141,21 @@ export default {
       addrData: AddressData
     }
   },
+  computed: {
+    studentEdit() {
+      if(this.$store.getters.isParent){
+        if(this.$store.state.currentUser.ExtendInfo.Students){
+          return this.$store.state.currentUser.ExtendInfo.Students[0].ParentType != 1
+        }
+      }
+    }
+  },
   methods: {
     getData() {
       if (this.$store.getters.isTeacher) {
         this.$API.getTeacherInfo(this.$store.state.currentUserId).then(res => {
           this.data = res
+          console.log(res)
           if (this.data.PersonalHonor.length) {
             this.data.PersonalHonor.forEach(o => {
               o.IsVisible = 'true'
@@ -157,6 +168,7 @@ export default {
           }
         })
       } else {
+        console.log(55555)
         this.$API.getCurrentUser().then(res => {
           this.data = res
           console.log(res)
@@ -200,12 +212,14 @@ export default {
       })
     },
     submitChange() {
+      console.log(this.data)
       if (this.$store.getters.isParent) {
         let editData = {}
         editData.ParentType = this.ParentType
         editData.meid = this.$store.state.currentUserId
         editData.TrueName = this.data.TrueName
-        this.$API.editParentInfo(editData).then(res => {
+        editData.StudentMeid = this.$store.state.currentStudentId
+        if(this.$store.state.currentUser.ExtendInfo.Students[0].Status == 0){
           this.$API.editStudentInfo(this.studentData).then(res => {
             this.$vux.toast.show({
               type: "success",
@@ -220,6 +234,17 @@ export default {
               text: err.msg
             })
           })
+        }
+        this.$API.editParentInfo(editData).then(res => {
+          this.$API.getCurrentUser().then(user => {
+            this.$store.commit('login', user)
+          })
+          this.$vux.toast.show({
+            type: "success",
+            width: "20em",
+            text: "修改成功~"
+          })
+          this.$router.push('/user')
         }).catch((err) => {
           this.$vux.toast.show({
             type: "warn",

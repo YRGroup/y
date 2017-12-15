@@ -1,7 +1,7 @@
 <template>
 <div>
-    <cell :title="i.ClassName+':'+i.RoleName" is-link v-for="i in $store.state.currentUser.Classes" :key="i.ClassID" @click.native="changeClass(i.ID)">
-        <i slot="icon" class="iconfont">&#xe719;</i>
+    <cell :title="i.ClassName+'（'+i.RoleName + '）'" is-link v-for="i in $store.state.currentUser.Classes" :key="i.ClassID" @click.native="changeClass(i.ID)">
+        <!-- <i slot="icon" class="iconfont">&#xe719;</i> -->
     </cell>
 </div>
 </template>
@@ -16,9 +16,10 @@ export default {
     }
   },
   methods:{
-     changeClass(val) {
+    changeClass(val) {
       
-      let c=this.findClass(val)
+      let c = this.findClass(val)
+      console.log(c)
       if(!c)
         return
       this.$store.commit('changeCurrentClass', c.ClassID)
