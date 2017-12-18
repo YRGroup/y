@@ -9,6 +9,7 @@
       <div class="followbtn" @click="showWX=true">
         <i class="iconfont">&#xe61f;</i>关注</div>
     </div>
+    <!-- test -->
 
     <!--轮播图-->
     <swiper loop auto :list="swiperdate" class="bannerPic"></swiper>
