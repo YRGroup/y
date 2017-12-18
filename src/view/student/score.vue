@@ -10,10 +10,10 @@
 
       <div class="main card">
         <div class="total">
-          <div class="item" v-show="score.Ranking">
+          <!-- <div class="item" v-show="score.Ranking">
             <span>名次</span>
             <span class="num">{{score.Ranking}}</span>
-          </div>
+          </div> -->
           <div class="item">
             <span>总分</span>
             <span class="num">{{score.Score +'/'+score.FullScore}}</span>

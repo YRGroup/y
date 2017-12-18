@@ -18,7 +18,7 @@
         <i slot="icon" class="iconfont nav_icon">&#xe672;</i>
         <span slot="label" class="navtext">班级</span>
       </tabbar-item>
-      <tabbar-item :badge="($store.state.UnReadMsgCount==0)?null:$store.state.UnReadMsgCount" link="/contact">
+      <tabbar-item :badge="UnReadMsgCount" link="/contact">
         <i slot="icon" class="iconfont nav_icon">&#xe629;</i>
         <span slot="label" class="navtext">通讯录</span>
       </tabbar-item>
@@ -32,12 +32,12 @@
 </template>
 
 <script>
-import { Tabbar, TabbarItem, XHeader, Loading, XSwitch, XDialog, TransferDomDirective as TransferDom } from 'vux'
+import { Tabbar, TabbarItem, XHeader, Loading, XSwitch, XDialog , TransferDomDirective as TransferDom } from 'vux'
 import { mapState } from 'vuex'
 export default {
   name: 'app',
   components: {
-    Tabbar, TabbarItem, XHeader, Loading, XSwitch, XDialog
+    Tabbar, TabbarItem, XHeader, Loading, XSwitch, XDialog 
   },
   directives: {
     TransferDom
@@ -65,6 +65,13 @@ export default {
     web_title() {
       return this.$store.state.title
     },
+    UnReadMsgCount() {
+      if(this.$store.state.UnReadMsgCount == 0){
+        return null
+      }else{
+        return this.$store.state.UnReadMsgCount
+      }
+    }
 
   },
   created() {
