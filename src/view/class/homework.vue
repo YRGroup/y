@@ -96,7 +96,7 @@ export default {
       if (this.$route.name === "homework") {
         this.getHomeWork();
       }
-      if (this.$route.name === "anonymousPost") {
+      if (this.$route.name === "anonymousHomework") {
         this.anonymousHomework();
       }
     },

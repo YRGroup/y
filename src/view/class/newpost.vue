@@ -101,7 +101,6 @@ export default {
         { key: "3", value: "班级通知" },
         { key: "4", value: "班级作业" }
       ],
-      studentList: [],
       showupDataImg:true,
       showVideoBtn: true
     };
@@ -113,6 +112,25 @@ export default {
         arr.push(n.src);
       });
       return arr;
+    },
+    studentList() {
+      if(this.$store.state.studentList.length){
+        return this.$store.state.studentList.map( element => {
+          return {
+            key : element.Meid,
+            value : element.NickName
+          }
+        })
+      }else{
+        this.$store.dispatch("getStudentList").then(() => {
+          return this.$store.state.studentList.map( element => {
+            return {
+              key : element.Meid,
+              value : element.NickName
+            }
+          })
+        })
+      }
     }
   },
   methods: {
@@ -148,17 +166,6 @@ export default {
         this.data.at_meid = [];
         this.choiceStudent = false;
       }
-    },
-    getData() {
-      let classId = this.$store.state.currentClassId;
-      this.$API.getStudentList(classId).then(res => {
-        res.forEach(element => {
-          let list = {};
-          list.key = element.Meid;
-          list.value = element.NickName;
-          this.studentList.push(list);
-        });
-      });
     },
     createImage: function(file, e) {
       let vm = this;
@@ -326,7 +333,6 @@ export default {
   },
   created() {
     this.$store.commit("changeTitle", "发布动态");
-    this.getData();
   },
   mounted() {}
 };

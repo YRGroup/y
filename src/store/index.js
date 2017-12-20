@@ -34,18 +34,21 @@ const store = new Vuex.Store({
     politicalList:['团员','党员','其他','无'],
     colors: {
       '语文': '#fe6867',
-      '数学': '#ffce31',
+      '数学': '#30b0ff',
       '英语': '#8b8efb',
       '物理': '#ff80c0',
       '化学': '#50c7ee',
+      '生物': '#5cb85c',
       '历史': '#ff9f22',
       '政治': '#01c19e',
-      '地理': '#34495e',
-      '音乐': '#95a5a6',
-      '美术': '#1abc9c',
-      '体育': '#2ecc71',
+      '地理': '#5ad8eb',
+      '音乐': '#ff8e03',
+      '美术': '#67c23a',
+      '体育': '#d860f8',
       '计算机': '#ffc100'
     },
+    studentList: [],
+    teacherList: [],
   },
   getters: {
     isWeixin: function () {
@@ -224,6 +227,12 @@ const store = new Vuex.Store({
     },
     setCurrentVideoInfo(state,val){
       state.currentVideoInfo = val
+    },
+    setTeacherList(state, val) {
+      state.teacherList = val
+    },
+    setStudentList(state, val) {
+      state.studentList = val
     }
   },
   actions: {
@@ -293,6 +302,34 @@ const store = new Vuex.Store({
         commit('setCurrentClassInfo', res)
       })
     },
+    // 获取教师列表
+    getTeacherList({
+      commit,
+      state
+    }, payload) {
+      return new Promise((resolve, reject) => {
+        API.getTeacherList(state.currentClassId).then(res => {
+          commit('setTeacherList', res)
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    // 获取学生列表
+    getStudentList({
+      commit,
+      state
+    }, payload) {
+      return new Promise((resolve, reject) => {
+        API.getStudentList(state.currentClassId).then(res => {
+          commit('setStudentList', res)
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    }
   },
 })
 

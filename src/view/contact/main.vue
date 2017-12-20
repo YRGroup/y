@@ -6,7 +6,7 @@
 
     <div v-else>
       <group class="link" title="">
-        <cell class="itemlist" :title="'学生 （'+student.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'" @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null" v-show="$store.getters.isTeacher">
+        <cell class="itemlist" v-if="student" :title="'学生 （'+student.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent1 ? 'up' : 'down'" @click.native="showContent1 = !showContent1" :class="showContent1?'activenav':null" v-show="$store.getters.isTeacher">
           <span slot="icon" class="roleheader bgcolor1">
             <i class="iconfont">&#xe607;</i>
           </span>
@@ -16,7 +16,7 @@
             <img class="cellicon" slot="icon" :src="i.Headimgurl">
           </cell>
         </div>
-        <cell class="itemlist" :title="'家长 （'+parent.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent2 ? 'up' : 'down'" @click.native="showContent2 = !showContent2" :class="showContent2?'activenav':null" v-show="$store.getters.isTeacher">
+        <cell class="itemlist" v-if="parent" :title="'家长 （'+parent.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent2 ? 'up' : 'down'" @click.native="showContent2 = !showContent2" :class="showContent2?'activenav':null" v-show="$store.getters.isTeacher">
           <span slot="icon" class="roleheader bgcolor2">
             <i class="iconfont">&#xe609;</i>
           </span>
@@ -26,7 +26,7 @@
             <img class="cellicon" slot="icon" :src="i.ParentHeadimgurl">
           </cell>
         </div>
-        <cell class="itemlist" :title="'老师 （'+teacher.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent3 ? 'up' : 'down'" @click.native="showContent3 = !showContent3" :class="showContent3?'activenav':null">
+        <cell class="itemlist" v-if="teacher" :title="'老师 （'+teacher.length+ ' )'" is-link :border-intent="false" :arrow-direction="showContent3 ? 'up' : 'down'" @click.native="showContent3 = !showContent3" :class="showContent3?'activenav':null">
           <span slot="icon" class="roleheader bgcolor3">
             <i class="iconfont">&#xe605;</i>
           </span>
@@ -69,9 +69,27 @@ export default {
       showContent2: false,
       showContent3: false,
       msgdata: [],
-      student: [],
       parent: [],
-      teacher: [],
+    }
+  },
+  computed: {
+    teacher() {
+      if(this.$store.state.teacherList.length){
+        return this.$store.state.teacherList
+      }else{
+        this.$store.dispatch("getTeacherList").then(() => {
+          return this.$store.state.teacherList
+        })
+      }
+    },
+    student() {
+      if(this.$store.state.studentList.length){
+        return this.$store.state.studentList
+      }else{
+        this.$store.dispatch("getStudentList").then(() => {
+          return this.$store.state.studentList
+        })
+      }
     }
   },
   methods: {
@@ -85,16 +103,6 @@ export default {
     goAnchor(selector) {
       var anchor = this.$el.querySelector(selector)
       document.body.scrollTop = anchor.offsetTop
-    },
-    getStudentList() {
-      this.$API.getStudentList(this.$store.state.currentClassId).then(res => {
-        this.student = res
-      })
-    },
-    getTeacherList() {
-      this.$API.getTeacherList(this.$store.state.currentClassId).then(res => {
-        this.teacher = res
-      })
     },
     getParentList() {
       this.$API.getParentList(this.$store.state.currentClassId).then(res => {
@@ -128,8 +136,6 @@ export default {
   },
   created() {
     this.$store.commit('changeTitle', '班级通讯录')
-    this.getStudentList()
-    this.getTeacherList()
     this.getParentList()
     this.getMsgList()
   },

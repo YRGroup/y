@@ -165,7 +165,7 @@ export default new Router({
         // 班级作业
         {
           path: '/hw/:homeworkId',
-          name: 'anonymousPost',
+          name: 'anonymousHomework',
           component: homework,
           meta: {
             anonymous: true
@@ -173,8 +173,9 @@ export default new Router({
         },
         { //班级动态详情
           path: '/post/:postId',
-          name: 'post',
-          component: post
+          redirect: {
+            name: 'post'
+          }
         },
         {
           path: '/p/:postId',
