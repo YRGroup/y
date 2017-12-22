@@ -188,12 +188,10 @@ export default {
           width: "20em"
         })
       } else if (this.parent_unActived) {
-        if (this.parentName == '' || this.parentType == '') {
-          this.$vux.toast.show({
-            type: "warn",
-            text: '家长资料不完整',
-            width: "20em"
-          })
+        if (this.parentName == '' ) {
+          this.$vux.toast.show({type: "warn",text: '家长姓名不能为空',width: "20em"})
+        }else if (this.parentType == '') {
+          this.$vux.toast.show({type: "warn",text: '请选择与孩子的关系',width: "20em"})
         } else {
           loginData.parent_truename = this.parentName
           loginData.parent_type = this.parentType
