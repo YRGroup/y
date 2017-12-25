@@ -55,6 +55,8 @@ export default {
       showSearch: false,
       cateData: [],
       gradeData: [],
+      currentPage: 1,
+      pageSize: 12,
     }
   },
   filters: {
@@ -89,6 +91,9 @@ export default {
   methods: {
     getData() {
       let para = this.filter
+      para.currentPage = this.currentPage
+      para.pageSize=this.pageSize
+
       this.$API.getVideoList(para).then(res => {
         this.data = res
       })

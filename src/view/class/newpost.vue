@@ -102,7 +102,8 @@ export default {
         { key: "4", value: "班级作业" }
       ],
       showupDataImg:true,
-      showVideoBtn: true
+      showVideoBtn: true,
+      studentList: []
     };
   },
   computed: {
@@ -113,25 +114,6 @@ export default {
       });
       return arr;
     },
-    studentList() {
-      if(this.$store.state.studentList.length){
-        return this.$store.state.studentList.map( element => {
-          return {
-            key : element.Meid,
-            value : element.NickName
-          }
-        })
-      }else{
-        this.$store.dispatch("getStudentList").then(() => {
-          return this.$store.state.studentList.map( element => {
-            return {
-              key : element.Meid,
-              value : element.NickName
-            }
-          })
-        })
-      }
-    }
   },
   methods: {
     addImg(e) {
@@ -158,6 +140,19 @@ export default {
           this.imgUrls.splice(i, 1);
         }
       }
+    },
+    // 获取学生列表
+    getStudentList() {
+      this.$API.getStudentList(this.$store.state.currentClassId).then(res => {
+        this.studentList = res.map( element => {
+          return {
+            key : element.Meid,
+            value : element.NickName
+          }
+        })
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
     },
     selectStudent() {
       if (this.showStudent) {
@@ -329,10 +324,11 @@ export default {
           text: content + "%"
         });
       }
-    }
+    },
   },
   created() {
     this.$store.commit("changeTitle", "发布动态");
+    this.getStudentList()
   },
   mounted() {}
 };

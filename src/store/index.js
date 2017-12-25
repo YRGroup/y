@@ -47,8 +47,6 @@ const store = new Vuex.Store({
       '体育': '#d860f8',
       '计算机': '#ffc100'
     },
-    studentList: [],
-    teacherList: [],
   },
   getters: {
     isWeixin: function () {
@@ -228,12 +226,6 @@ const store = new Vuex.Store({
     setCurrentVideoInfo(state,val){
       state.currentVideoInfo = val
     },
-    setTeacherList(state, val) {
-      state.teacherList = val
-    },
-    setStudentList(state, val) {
-      state.studentList = val
-    }
   },
   actions: {
     setApiUrl({
@@ -302,34 +294,6 @@ const store = new Vuex.Store({
         commit('setCurrentClassInfo', res)
       })
     },
-    // 获取教师列表
-    getTeacherList({
-      commit,
-      state
-    }, payload) {
-      return new Promise((resolve, reject) => {
-        API.getTeacherList(state.currentClassId).then(res => {
-          commit('setTeacherList', res)
-          resolve(res)
-        }).catch(err => {
-          reject(err)
-        })
-      })
-    },
-    // 获取学生列表
-    getStudentList({
-      commit,
-      state
-    }, payload) {
-      return new Promise((resolve, reject) => {
-        API.getStudentList(state.currentClassId).then(res => {
-          commit('setStudentList', res)
-          resolve(res)
-        }).catch(err => {
-          reject(err)
-        })
-      })
-    }
   },
 })
 

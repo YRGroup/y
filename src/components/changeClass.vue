@@ -19,7 +19,6 @@ export default {
     changeClass(val) {
       
       let c = this.findClass(val)
-      console.log(c)
       if(!c)
         return
       this.$store.commit('changeCurrentClass', c.ClassID)

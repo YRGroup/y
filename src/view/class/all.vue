@@ -111,6 +111,7 @@ export default {
       pageSize: 10,
       currentPage: 0,
       noMoreData: false,
+      teachers:[]
     }
   },
   filters: {
@@ -126,15 +127,6 @@ export default {
     colors() {
       return this.$store.state.colors
     },
-    teachers() {
-      if(this.$store.state.teacherList.length){
-        return this.$store.state.teacherList
-      }else{
-        this.$store.dispatch("getTeacherList").then(() => {
-          return this.$store.state.teacherList
-        })
-      }
-    }
 
   },
   methods: {
@@ -221,21 +213,21 @@ export default {
       this.getAllClassDynamic(true)
     },
     // 获取教师列表
-    // getTeacherList() {
-    //   this.$API.getTeacherList(this.$store.state.currentClassId).then((res) => {
-    //     this.teachers = res
-    //     this.boxwid = res.length * 100 + 'px';
-    //     this.$nextTick(()=>{
-    //       this._lineScroll();
-    //     })
-    //   }).catch(err => {
-    //     this.$vux.toast.show({
-    //       type: "warn",
-    //       width: "20em",
-    //       text: err.msg
-    //     })
-    //   })
-    // },
+    getTeacherList() {
+      this.$API.getTeacherList(this.$store.state.currentClassId).then((res) => {
+        this.teachers = res
+        this.boxwid = res.length * 100 + 'px';
+        this.$nextTick(()=>{
+          this._lineScroll();
+        })
+      }).catch(err => {
+        this.$vux.toast.show({
+          type: "warn",
+          width: "20em",
+          text: err.msg
+        })
+      })
+    },
     // 获取作业列表
     getHomeWork() {
       let para = {}
@@ -303,7 +295,7 @@ export default {
     },
     refresh(){
       this.currentPage=1;
-      Promise.all([this.getAllClassDynamic(),this.getHomeWork()]).then((posts)=> {
+      Promise.all([this.getAllClassDynamic(),this.getTeacherList(),this.getHomeWork()]).then((posts)=> {
         this.$refs.loadmore.onTopLoaded('刷新成功');
       }).catch((reason)=>{
         this.$refs.loadmore.onTopLoaded('刷新失败');

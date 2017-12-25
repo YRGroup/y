@@ -70,27 +70,11 @@ export default {
       showContent3: false,
       msgdata: [],
       parent: [],
+      teacher: [],
+      student: []
     }
   },
   computed: {
-    teacher() {
-      if(this.$store.state.teacherList.length){
-        return this.$store.state.teacherList
-      }else{
-        this.$store.dispatch("getTeacherList").then(() => {
-          return this.$store.state.teacherList
-        })
-      }
-    },
-    student() {
-      if(this.$store.state.studentList.length){
-        return this.$store.state.studentList
-      }else{
-        this.$store.dispatch("getStudentList").then(() => {
-          return this.$store.state.studentList
-        })
-      }
-    }
   },
   methods: {
     fun(msg) {
@@ -132,12 +116,30 @@ export default {
         case 5:
           return '家长'
       }
-    }
+    },
+    // 获取老师列表
+    getTeacherList() {
+      this.$API.getTeacherList(this.$store.state.currentClassId).then(res => {
+        this.teacher = res
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+    },
+    // 获取学生列表
+    getStudentList() {
+      this.$API.getStudentList(this.$store.state.currentClassId).then(res => {
+        this.student = res
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+    },
   },
   created() {
     this.$store.commit('changeTitle', '班级通讯录')
     this.getParentList()
     this.getMsgList()
+    this.getStudentList()
+    this.getTeacherList()
   },
   mounted() {
 

@@ -61,6 +61,9 @@ import linkchild from '@/view/user/linkchild'
 import videoList from '@/view/video/list'
 import player from '@/view/video/player'
 
+// 视频直播
+import liveVideo from '@/view/livevideo/player'
+
 import errorPage from '@/view/sys/404'
 
 Vue.use(Router)
@@ -173,9 +176,8 @@ export default new Router({
         },
         { //班级动态详情
           path: '/post/:postId',
-          redirect: {
-            name: 'post'
-          }
+          name: 'post',
+          component: post,
         },
         {
           path: '/p/:postId',
@@ -270,6 +272,12 @@ export default new Router({
           path: '/user',
           name: 'user',
           component: user
+        },
+        // 直播
+        {
+          path: '/live',
+          name: 'liveVideo',
+          component: liveVideo
         },
         {
           path: '/edit',

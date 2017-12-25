@@ -11,8 +11,8 @@ import API from './server/API'
 import md5 from 'js-md5'
 import axios from 'axios'
 import VuePreview from 'wxpreview'
-import NProgress from 'nprogress' // Progress 进度条
-import 'nprogress/nprogress.css'// Progress 进度条 样式
+// import NProgress from 'nprogress' // Progress 进度条
+// import 'nprogress/nprogress.css'// Progress 进度条 样式
 
 
 import {
@@ -27,7 +27,7 @@ Vue.use(VuePreview)
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
-  NProgress.start() // 开启Progress
+  // NProgress.start() // 开启Progress
   if (to.matched.some(record => record.meta.anonymous)) {
     next()
   } else {
@@ -35,9 +35,9 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
-router.afterEach(() => {
-  NProgress.done(); // 结束Progress
-});
+// router.afterEach(() => {
+//   NProgress.done(); 
+// });
 
 // 日期格式化
 Date.prototype.Format = function (fmt) {
