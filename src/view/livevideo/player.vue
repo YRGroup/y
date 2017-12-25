@@ -34,7 +34,7 @@ export default {
       if (this.player) {
         this.player = null
       }
-      this.player = new prismplayer({
+      this.player = new Aliplayer({
         id: 'J_prismPlayer',
         autoplay: true,
          isLive:true,

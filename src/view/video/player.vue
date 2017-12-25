@@ -51,7 +51,7 @@ export default {
       if (this.player) {
         this.player = null
       }
-      this.player = new prismplayer({
+      this.player = new Aliplayer({
         id: 'J_prismPlayer',
         width: '100%',
         height: '300px',
