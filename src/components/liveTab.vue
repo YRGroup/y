@@ -153,9 +153,9 @@ export default {
     this.getCommentsList();
     this.getWXQRcode();
     this.getInterval();
-    // if(!this.getCookie('openid')){
-    //   window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/main'
-    // } 
+    if(!this.getCookie('openid')){
+      window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/main'
+    } 
   },
   mounted() {
     // this.$refs.comment.scrollTop='20px';
