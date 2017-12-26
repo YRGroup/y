@@ -11,6 +11,7 @@
 <script>
 
 import liveTab from "@//components/liveTab"
+import wx from "weixin-js-sdk";
 
 export default {
   name: 'hello',
@@ -20,14 +21,76 @@ export default {
       videoId: '',
       videoAuth: '',
       videoinfo:this.$store.state.currentVideoInfo,
-      videoCover: require("@//assets/liveCover.jpg")
+      videoCover: require("@//assets/liveCover.jpg"),
+      wxData: {
+        debug: false,
+        appId: "",
+        timestamp: null,
+        noncestr: "",
+        signature: "",
+        url: "",
+        jsApiList: [
+          "onMenuShareTimeline",
+          "onMenuShareAppMessage",
+          "onMenuShareQQ",
+          "onMenuShareWeibo",
+          "onMenuShareQZone"
+        ]
+      },
+      wxShareData: {
+        title: "",
+        desc: "",
+        link: "",
+        imgUrl:""
+      }
     }
   },
   components:{
     liveTab
   },
   methods: {
+    initWX() {
+      this.$API.getWxData().then(res => {
+        let _this = this
+        this.wxData.appId = res.AppId;
+        this.wxData.timestamp = res.Timestamp;
+        this.wxData.nonceStr = res.NonceStr;
+        this.wxData.signature = res.Signature;
+        wx.config(this.wxData);
+
+        this.wxShareData = {
+          title: "经开区小学元旦联欢会！",
+          desc: "经开区小学元旦联欢会！",
+          link: "http://jkyr.yearnedu.com/m/#/live",
+          imgUrl: "http://pic.yearnedu.com/2018livecover.jpg"
+        };
+
+        wx.ready(function(){
+          wx.onMenuShareTimeline(_this.wxShareData);
+          wx.onMenuShareAppMessage(_this.wxShareData);
+          wx.onMenuShareQQ(_this.wxShareData);
+          wx.onMenuShareWeibo(_this.wxShareData);
+          wx.onMenuShareQZone(_this.wxShareData);
+        });
+      });
+
+    },
     initPlayer() {
+      // this.$API.getWxData().then(res => {
+      //   this.wxData.appId = res.AppId;
+      //   this.wxData.timestamp = res.Timestamp;
+      //   this.wxData.nonceStr = res.NonceStr;
+      //   this.wxData.signature = res.Signature;
+      //   wx.config(this.wxData);
+
+      //   this.wxShareData = {
+      //     title: "经开区小学元旦联欢会！",
+      //     desc: "经开区小学元旦联欢会！",
+      //     link: "http://jkyr.yearnedu.com/m/#/live",
+      //     imgUrl: "http://pic.yearnedu.com/2018livecover.jpg"
+      //   };
+      //   this.getWxData();
+      // });
       if (this.player) {
         this.player = null
       }
@@ -45,9 +108,14 @@ export default {
         // source:"//player.alicdn.com/video/aliyunmedia.mp4",
         cover: this.videoCover,
       })
-    }
+
+    },
   },
 
+  created() {
+    this.$store.commit("changeTitle", "育人教育元旦汇演");
+    this.initWX()
+  },
   mounted() {
     this.initPlayer()
   }
