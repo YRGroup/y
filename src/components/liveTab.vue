@@ -8,8 +8,8 @@
       </tab>
     </div>
     <div>  
-      <swiper v-model="tabIndex"  class="swiper" height="100%" :show-dots="false">
-        <swiper-item >
+      <swiper v-model="tabIndex" class="swiper" height="100%"  :show-dots="false">
+        <swiper-item class="swiperComment">
           <div class="content">
             <div  class="tab-swiper vux-center  commentsBox" ref="comment">
               <div v-for="item in commentsList" class="commentItem clearfix">
@@ -25,13 +25,13 @@
             </div>
           </div>
         </swiper-item>
-        <swiper-item >
+        <swiper-item>
           <div class="tab-swiper vux-center content">
             <p v-html="yrInfo" class="yrInfo"></p>
           </div>
           
         </swiper-item>
-        <swiper-item >
+        <swiper-item>
           <div class="tab-swiper vux-center content">
             <p>
               此处应有二维码
@@ -107,6 +107,8 @@ export default {
         this.$API.sendComment(options).then(res=>{
           console.log(res)
           this.getCommentsList()
+        }).catch((error)=>{
+          console.log(error)
         })
       }else{
         this.$vux.toast.text('说点什么吧~','middle')
@@ -139,20 +141,23 @@ export default {
     }
   .swiper {
     position: relative;
-    height: calc(~"70vh - 94px");  //100vh  屏幕的100% 
+    height: calc(~"60vh - 44px");  //100vh  屏幕的100% 
     overflow: hidden;
+  }
+  .swiperComment{
+    padding-bottom: 49px;
+    box-sizing: border-box;
   }
   .content{
     height: 100%;
     overflow: auto;
     .commentsBox{
-      box-sizing: border-box;
-      padding-bottom: 49px;
+    box-sizing: border-box;
     };
     .yrInfo{
       width: 95vw;
-      margin: 2em auto;
-      padding: 1em;
+      margin: 1em auto;
+      padding: 0 1em;
       box-sizing: border-box;
       background: #fff;
       color: @grey;

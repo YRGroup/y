@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="video" style="height:40%">
+    <div class="video">
       <div class="prism-player" id="J_prismPlayer">
       </div>
     </div>
@@ -47,12 +47,13 @@ export default {
         isLive:true,
         playsinline:true,
         width:"100%",
-        height:"40%",
+        height:"100%",
         controlBarVisibility:"always",
         useH5Prism:true,
         useFlashPrism:false,
-        source:"http://live.yearnedu.com/1/1.m3u8",
-      // cover: this.videoCover,
+        // source:"http://live.yearnedu.com/1/1.m3u8",
+        source:"//player.alicdn.com/video/aliyunmedia.mp4",
+        cover: this.videoCover,
       })
     }
   },
@@ -64,7 +65,9 @@ export default {
 </script>
 
 <style lang="less" scoped> 
-
+.video{
+  height: 40vh;
+}
 .card {
   background: #fff;
   margin-bottom: 1em;
