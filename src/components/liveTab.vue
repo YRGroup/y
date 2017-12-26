@@ -114,7 +114,6 @@ export default {
     },
     getCommentsList() {
       this.$API.getCommentsList().then(res => {
-        console.log(res)
         this.$store.commit("setCommentsList", res); 
       });
     },
