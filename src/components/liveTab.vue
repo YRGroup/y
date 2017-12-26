@@ -15,11 +15,11 @@
               <div v-for="item in commentsList" class="commentItem clearfix">
                 <div class="commentUser">
                   <img class="headImg" :src="item.headimgurl" alt="">
-                  <p v-text="item.nickname"></p>
                 </div>
-                <div class="commentInfo">              
+                <div class="commentInfo">    
+                   <span v-text="item.nickname"></span>          
+                  <span class="time" v-text="formatTime(item.addtime)"></span>
                   <p class="commentContent" v-text="item.content"></p>
-                  <p class="time" v-text="formatTime(item.addtime)"></p>
                 </div>
               </div>
             </div>
@@ -113,7 +113,7 @@ export default {
       }
     },
     formatTime(val){
-      return val.slice(0,val.indexOf('.')).replace('T',' ');
+      return val.slice(5,val.indexOf('.')).replace('T',' ');
     }
   },
   created() {
@@ -173,13 +173,14 @@ export default {
         height: 3em;
       }
       p{
+        display: inline-block;
         max-width: 100%;
         overflow: hidden;
         color: @grey;
       }
     }
     .commentContent{
-      min-height: 3.6em;
+      // min-height: 3.6em;
     }
     .commentInfo{
       width: calc(~"100vw - 4em");
