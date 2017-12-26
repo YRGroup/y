@@ -233,6 +233,10 @@ export default {
     justify-content: flex-start;
     flex-wrap: nowrap;
     padding: 0.6em 1.2em;
+    .commentContent{
+      word-break: break-word;
+      
+    }
     .commentUser {
       width: 4em;
       text-align: center;
