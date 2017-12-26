@@ -10,6 +10,7 @@
     <div>  
       <swiper v-model="tabIndex" class="swiper" height="100%"  :show-dots="false">
         <swiper-item class="swiperComment">
+          <x-button class="refresh" mini @click.native="getCommentsList">刷新</x-button>
           <div class="content">
             <div  class="tab-swiper vux-center  commentsBox" ref="comment">
               <div v-for="item in commentsList" class="commentItem clearfix">
@@ -17,7 +18,7 @@
                   <img class="headImg" :src="item.headimgurl" alt="">
                 </div>
                 <div class="commentInfo">    
-                   <span v-text="item.nickname"></span>          
+                  <span v-text="item.nickname"></span>          
                   <span class="time" v-text="formatTime(item.addtime)"></span>
                   <p class="commentContent" v-text="item.content"></p>
                 </div>
@@ -53,7 +54,7 @@
     </div>
     <div class="sendComment" v-show="showSendComment">
       <group class="weui-cells_form">
-        <x-input title="" class="weui-vcode"  v-model="content" placeholder="说点什么">
+        <x-input title="" class="weui-vcode" :show-clear="false"  v-model="content" placeholder="说点什么">
           <x-button slot="right" type="primary" @click.native="sendComment" mini>发送</x-button>
         </x-input>
       </group>
@@ -111,13 +112,12 @@ export default {
       this.tabIndex = index;
     },
     getCommentsList() {
-      this.getInterval()
       this.$API.getCommentsList().then(res => {
         this.$store.commit("setCommentsList", res);
       });
     },
     getInterval() {
-      setTimeout(this.getCommentsList, 5000);
+      setInterval(this.getCommentsList, 5000);
     },
     getWXQRcode() {
       this.QRcodeIMG = this.$API.getWXQRcode()
@@ -130,8 +130,8 @@ export default {
         this.$API
           .sendComment(options)
           .then(res => {
-            console.log(res);
             this.getCommentsList();
+            this.content='';
           })
           .catch();
       } else {
@@ -152,6 +152,7 @@ export default {
   created() {
     this.getCommentsList();
     this.getWXQRcode();
+    this.getInterval();
     // if(!this.getCookie('openid')){
     //   window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/main'
     // } 
@@ -173,6 +174,17 @@ export default {
     position: fixed;
     width: 100%;
     bottom: 0;
+  }
+  .refresh{
+    position: absolute;
+    right: 2em;
+    top: 2em;
+    background: rgba(31, 156, 133, 0.2);
+    padding: 0em;
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    color: @main;
   }
   .swiper {
     position: relative;
