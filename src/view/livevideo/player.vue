@@ -20,7 +20,7 @@ export default {
       videoId: '',
       videoAuth: '',
       videoinfo:this.$store.state.currentVideoInfo,
-      videoCover: 'http://liveroom-img.oss-cn-qingdao.aliyuncs.com/logo.png'
+      videoCover: require("@//assets/liveCover.jpg")
     }
   },
   components:{

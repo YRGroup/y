@@ -346,6 +346,9 @@ export default new Router({
       path: '/live',
       name: 'liveVideo',
       component: liveVideo,
+      meta: {
+        anonymous: true
+      }
     },
   ],
   scrollBehavior(to, from, savedPosition) {

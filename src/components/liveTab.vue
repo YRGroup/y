@@ -20,7 +20,7 @@
                 <div class="commentInfo">    
                   <span v-text="item.nickname"></span>          
                   <span class="time" v-text="formatTime(item.addtime)"></span>
-                  <i class="iconfont" @click="delComment(item.ID)">&#xe630;</i>
+                  <span class="deleteBtn"><i class="iconfont" v-if="item.openid==admin" @click="delComment(item.ID)">&#xe630;</i></span>
                   <p class="commentContent" v-text="item.content"></p>
                 </div>
               </div>
@@ -84,6 +84,7 @@ export default {
       content: "",
       showWX: true,
       QRcodeIMG: "",
+      admin:'',
       yrInfo:
         " 郑州育人学校由刘付坤校长于2000年创办，至今已在郑州发展16年，于2014年成立教育集团，并在创始人家乡襄城县建设了一所学校。十多年来，学校遵循“以人为本，因材施教”的核心育人理念，争取帮助每一个孩子打开了解世界的一扇窗。</br>2016年5月和6月，郑州育人教育集团先后与美国名校普渡大学和美国德州大学圣安东尼奥分校签订了校长和师资培训合作协议；</br>2016年5月，引入台湾e-BABY国际教育集团理念的早教中心投入运营；</br>2016年7月，与德国欧洲职业教育和社会教育集团达成合作意向，筹建应用技术型大学，完善了集团的教育体系和架构；</br>2016年8月，郑州航空港区育人国际学校15年一贯制（K12）新校区开始启用。同时，美国阿尔伯特·爱因斯坦学院授权郑州育人教育集团在旗下郑州航空港育人国际学校（经开区分校）实施幼儿园和小学合作项目，成为美国阿尔伯特·爱因斯坦学院在中国的第一个校区和中国总部所在地。</br>教育的意义是在孩子成长过程中起到良好的引领作用。我们一直在努力，为教育添砖加瓦，把教育工作当成使命，把教育理念融入信仰，汲取中西方教育的精华，传承中华民族教育的根基，郑州育人教育集团矢志不渝的奔走在路上。</br>男生男校，培养中华好儿男。女生女校，为培养优秀母亲奠定基础。</br>每一个孩子都是一棵幼苗，家庭、社会和学校是他们成长的土壤，我们愿成为土壤里最有价值的养分。</br>迄今，郑州育人教育集团已有近万名学生和近千名教职工。"
     };
@@ -167,7 +168,7 @@ export default {
     this.getWXQRcode();
     this.getInterval();
     if(!this.getCookie('openid')){
-      // window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/main'
+      window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/main'
     } 
   },
   mounted() {
@@ -285,6 +286,9 @@ export default {
     font-size: 1.5rem;
     line-height: 2.4rem;
   }
+}
+.deleteBtn{
+  float: right;
 }
 </style>
 
