@@ -129,20 +129,28 @@ export default {
             console.log(res);
             this.getCommentsList();
           })
-          .catch(error => {
-            console.log(error);
-          });
+          .catch();
       } else {
         this.$vux.toast.text("说点什么吧~", "middle");
       }
     },
     formatTime(val) {
       return val.slice(5, val.indexOf(".")).replace("T", " ");
+    },
+    getCookie(name){
+      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+      if(arr=document.cookie.match(reg))
+      return unescape(arr[2]);
+      else
+      return null;
     }
   },
   created() {
     this.getCommentsList();
-    this.getWXQRcode()
+    this.getWXQRcode();
+    if(!this.getCookie('openid')){
+      window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/main'
+    } 
   },
   mounted() {
     // this.$refs.comment.scrollTop='20px';
