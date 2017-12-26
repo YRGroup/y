@@ -21,7 +21,6 @@ export default {
       videoId: '',
       videoAuth: '',
       videoinfo:this.$store.state.currentVideoInfo,
-      videoCover: require("@//assets/liveCover.jpg"),
       wxData: {
         debug: false,
         appId: "",
