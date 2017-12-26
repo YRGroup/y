@@ -26,5 +26,14 @@ API.sendComment = (para) => {
     })
   })
 }
-
+//删除评论
+API.delComment = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/LiveVideo/add',para).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
 export default API

@@ -10,16 +10,17 @@
     <div>  
       <swiper v-model="tabIndex" class="swiper" height="100%"  :show-dots="false">
         <swiper-item class="swiperComment">
-          <!-- <x-button class="refresh" mini @click.native="getCommentsList">刷新</x-button> -->
+          <i class="iconfont refresh" @click="getCommentsList">&#xe61c;</i>
           <div class="content">
             <div  class="tab-swiper vux-center  commentsBox" ref="comment">
-              <div v-for="item in commentsList" class="commentItem clearfix">
+              <div v-for="(item,index) in commentsList" :key="index" class="commentItem clearfix">
                 <div class="commentUser">
                   <img class="headImg" :src="item.headimgurl" alt="">
                 </div>
                 <div class="commentInfo">    
                   <span v-text="item.nickname"></span>          
                   <span class="time" v-text="formatTime(item.addtime)"></span>
+                  <i class="iconfont" @click="delComment(item.ID)">&#xe630;</i>
                   <p class="commentContent" v-text="item.content"></p>
                 </div>
               </div>
@@ -113,7 +114,7 @@ export default {
     },
     getCommentsList() {
       this.$API.getCommentsList().then(res => {
-        this.$store.commit("setCommentsList", res);
+        this.$store.commit("setCommentsList", res); 
       });
     },
     getInterval() {
@@ -127,16 +128,29 @@ export default {
         let options = {
           content: this.content
         };
-        this.$API
-          .sendComment(options)
-          .then(res => {
-            this.getCommentsList();
-            this.content='';
-          })
-          .catch();
+        this.$API.sendComment(options).then(res => {
+          this.getCommentsList();
+          this.content='';
+        }).catch();
       } else {
         this.$vux.toast.text("说点什么吧~", "middle");
       }
+    },
+    delComment(id){
+      let options={
+        id:id
+      }
+      this.$vux.confirm.show({
+        title: '提示',
+        content: '确定删除此条评论吗？',
+        onConfirm () {
+          // this.$API.delComment(options).then(res => {
+          // this.content='';
+          // this.getCommentsList();
+          // }).catch();
+        }
+      })
+      
     },
     formatTime(val) {
       return val.slice(5, val.indexOf(".")).replace("T", " ");
@@ -158,12 +172,13 @@ export default {
     } 
   },
   mounted() {
-    // this.$refs.comment.scrollTop='20px';
+    
   }
 };
 </script>
 <style lang="less" scoped>
 @import "../style/theme.less";
+@import '../style/iconfont.less';
 
 .container {
   color: @black;
@@ -177,12 +192,14 @@ export default {
   }
   .refresh{
     position: absolute;
-    right: 2em;
-    top: 2em;
+    right: 1em;
+    top: 1em;
     background: rgba(31, 156, 133, 0.2);
-    padding: 0em;
-    width: 3em;
-    height: 3em;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    line-height: 2em;
+    font-size: 1.5em;
     border-radius: 50%;
     color: @main;
   }
@@ -230,9 +247,6 @@ export default {
         overflow: hidden;
         color: @grey;
       }
-    }
-    .commentContent {
-      // min-height: 3.6em;
     }
     .commentInfo {
       width: calc(~"100vw - 4em");
