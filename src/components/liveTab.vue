@@ -166,9 +166,10 @@ export default {
     this.getCommentsList();
     this.getWXQRcode();
     this.getInterval();
-    if(!this.getCookie('openid')){
-      window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/live'
-    } 
+    window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/live'
+    // if(!this.getCookie('openid')){
+    //   window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/live'
+    // } 
   },
   mounted() {
     
@@ -289,6 +290,9 @@ export default {
 }
 .deleteBtn{
   float: right;
+}
+.commentContent{
+  word-wrap:break-word;
 }
 </style>
 

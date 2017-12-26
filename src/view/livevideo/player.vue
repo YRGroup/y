@@ -21,6 +21,7 @@ export default {
       videoId: '',
       videoAuth: '',
       videoinfo:this.$store.state.currentVideoInfo,
+      videoCover: require('@//assets/liveCover.jpg'),
       wxData: {
         debug: false,
         appId: "",
@@ -75,21 +76,6 @@ export default {
 
     },
     initPlayer() {
-      // this.$API.getWxData().then(res => {
-      //   this.wxData.appId = res.AppId;
-      //   this.wxData.timestamp = res.Timestamp;
-      //   this.wxData.nonceStr = res.NonceStr;
-      //   this.wxData.signature = res.Signature;
-      //   wx.config(this.wxData);
-
-      //   this.wxShareData = {
-      //     title: "经开区小学元旦联欢会！",
-      //     desc: "经开区小学元旦联欢会！",
-      //     link: "http://jkyr.yearnedu.com/m/#/live",
-      //     imgUrl: "http://pic.yearnedu.com/2018livecover.jpg"
-      //   };
-      //   this.getWxData();
-      // });
       if (this.player) {
         this.player = null
       }
