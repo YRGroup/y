@@ -273,12 +273,6 @@ export default new Router({
           name: 'user',
           component: user
         },
-        // 直播
-        {
-          path: '/live',
-          name: 'liveVideo',
-          component: liveVideo
-        },
         {
           path: '/edit',
           name: 'edit',
@@ -324,7 +318,7 @@ export default new Router({
         },
       ]
     },
-
+    
     // 注册 登陆
     {
       path: '/reg',
@@ -346,7 +340,13 @@ export default new Router({
       redirect: {
         path: '/404'
       }
-    }
+    },
+    // 直播
+    {
+      path: '/liveVideo',
+      name: 'liveVideo',
+      component: liveVideo,
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
     return {

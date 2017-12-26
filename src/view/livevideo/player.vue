@@ -1,13 +1,17 @@
 <template>
   <div>
-    <div class="video">
+    <div class="video" style="height:40%">
       <div class="prism-player" id="J_prismPlayer">
       </div>
     </div>
+    <live-tab id="comments"></live-tab>
   </div>
 </template>
 
 <script>
+
+import liveTab from "@//components/liveTab"
+
 export default {
   name: 'hello',
   data() {
@@ -16,8 +20,11 @@ export default {
       videoId: '',
       videoAuth: '',
       videoinfo:this.$store.state.currentVideoInfo,
-      videoCover: 'http://liveroom-img.oss-cn-qingdao.aliyuncs.com/logo.png',
+      videoCover: 'http://liveroom-img.oss-cn-qingdao.aliyuncs.com/logo.png'
     }
+  },
+  components:{
+    liveTab
   },
   methods: {
     getVideoInfo() {
@@ -37,27 +44,27 @@ export default {
       this.player = new Aliplayer({
         id: 'J_prismPlayer',
         autoplay: true,
-         isLive:true,
-         playsinline:true,
-         width:"100%",
-         height:"400px",
-         controlBarVisibility:"always",
-         useH5Prism:false,
-         useFlashPrism:true,
-         source:"http://live.yearnedu.com/1/1.m3u8",
-        // cover: this.videoCover,
+        isLive:true,
+        playsinline:true,
+        width:"100%",
+        height:"40%",
+        controlBarVisibility:"always",
+        useH5Prism:true,
+        useFlashPrism:false,
+        source:"http://live.yearnedu.com/1/1.m3u8",
+      // cover: this.videoCover,
       })
     }
   },
-  created() {
-    },
+
   mounted() {
     this.initPlayer()
   }
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less" scoped> 
+
 .card {
   background: #fff;
   margin-bottom: 1em;
@@ -130,4 +137,8 @@ export default {
 .videoTitle{
   line-height: 2em;
 }
+#comments{
+  height: 60%;
+}
+
 </style>

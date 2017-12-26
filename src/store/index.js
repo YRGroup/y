@@ -47,6 +47,7 @@ const store = new Vuex.Store({
       '体育': '#d860f8',
       '计算机': '#ffc100'
     },
+    commentsList:[]
   },
   getters: {
     isWeixin: function () {
@@ -226,6 +227,9 @@ const store = new Vuex.Store({
     setCurrentVideoInfo(state,val){
       state.currentVideoInfo = val
     },
+    setCommentsList(state,val){
+      state.commentsList=val
+    }
   },
   actions: {
     setApiUrl({
@@ -295,6 +299,16 @@ const store = new Vuex.Store({
       })
     },
   },
+  getCommentsList({
+    getters,
+    commit,
+    state
+  },payload){
+    ApI.getCommentsList().then(res=>{
+      console.log(res)
+      commit('setComnentList',res)
+    })
+  }
 })
 
 export default store
