@@ -30,8 +30,7 @@
         <swiper-item>
           <div class="tab-swiper vux-center content">
             <p v-html="yrInfo" class="yrInfo"></p>
-          </div>
-          
+          </div> 
         </swiper-item>
         <swiper-item>
           <div class="tab-swiper vux-center content">
@@ -188,6 +187,7 @@ export default {
   .sendComment {
     position: fixed;
     width: 100%;
+    max-width: 475px;
     bottom: 0;
   }
   .refresh{
