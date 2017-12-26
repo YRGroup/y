@@ -2,15 +2,15 @@
   <div class="container">
     <div>
       <tab>
-        <tab-item v-model="tabIndex" selected @on-item-click="onItemClick">互动</tab-item>
-        <tab-item v-model="tabIndex" @on-item-click="onItemClick">育人简介</tab-item>
-        <tab-item v-model="tabIndex" @on-item-click="onItemClick">关注我们</tab-item>
+        <tab-item v-model="tabIndex" :selected="tabIndex == 0 ? true :false" @on-item-click="onItemClick">互动</tab-item>
+        <tab-item v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">育人简介</tab-item>
+        <tab-item v-model="tabIndex" :selected="tabIndex == 2 ? true :false" @on-item-click="onItemClick">关注我们</tab-item>
       </tab>
     </div>
     <div>  
       <swiper v-model="tabIndex" class="swiper" height="100%"  :show-dots="false">
         <swiper-item class="swiperComment">
-          <x-button class="refresh" mini @click.native="getCommentsList">刷新</x-button>
+          <!-- <x-button class="refresh" mini @click.native="getCommentsList">刷新</x-button> -->
           <div class="content">
             <div  class="tab-swiper vux-center  commentsBox" ref="comment">
               <div v-for="item in commentsList" class="commentItem clearfix">
@@ -203,7 +203,7 @@ export default {
     }
     .yrInfo {
       width: 95vw;
-      margin: 1em auto;
+      margin: 0 auto 1em auto;
       padding: 1em;
       box-sizing: border-box;
       background: #fff;
@@ -240,7 +240,6 @@ export default {
   }
   .time {
     color: @grey;
-    font-size: 0.3em;
   }
 }
 

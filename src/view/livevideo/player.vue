@@ -33,7 +33,7 @@ export default {
       }
       this.player = new Aliplayer({
         id: 'J_prismPlayer',
-        autoplay: true,
+        autoplay: false,
         isLive:true,
         playsinline:true,
         width:"100%",
@@ -41,8 +41,8 @@ export default {
         controlBarVisibility:"always",
         useH5Prism:true,
         useFlashPrism:false,
-        // source:"http://live.yearnedu.com/1/1.m3u8",
-        source:"//player.alicdn.com/video/aliyunmedia.mp4",
+        source:"http://live.yearnedu.com/1/1.m3u8",
+        // source:"//player.alicdn.com/video/aliyunmedia.mp4",
         cover: this.videoCover,
       })
     }
