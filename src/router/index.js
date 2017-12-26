@@ -343,7 +343,7 @@ export default new Router({
     },
     // 直播
     {
-      path: '/liveVideo',
+      path: '/live',
       name: 'liveVideo',
       component: liveVideo,
     },
