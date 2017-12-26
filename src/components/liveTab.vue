@@ -111,9 +111,13 @@ export default {
       this.tabIndex = index;
     },
     getCommentsList() {
+      this.getInterval()
       this.$API.getCommentsList().then(res => {
         this.$store.commit("setCommentsList", res);
       });
+    },
+    getInterval() {
+      setTimeout(this.getCommentsList, 5000);
     },
     getWXQRcode() {
       this.QRcodeIMG = this.$API.getWXQRcode()
@@ -148,9 +152,9 @@ export default {
   created() {
     this.getCommentsList();
     this.getWXQRcode();
-    if(!this.getCookie('openid')){
-      window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/main'
-    } 
+    // if(!this.getCookie('openid')){
+    //   window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/main'
+    // } 
   },
   mounted() {
     // this.$refs.comment.scrollTop='20px';

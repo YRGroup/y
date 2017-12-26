@@ -27,16 +27,6 @@ export default {
     liveTab
   },
   methods: {
-    getVideoInfo() {
-      let para = {
-        videoId: this.$route.query.id
-      }
-      this.$API.getVideoAuth(para).then(res => {
-        this.videoAuth = res.toString()
-        this.initPlayer()
-        // this.player.play()
-      })
-    },
     initPlayer() {
       if (this.player) {
         this.player = null
