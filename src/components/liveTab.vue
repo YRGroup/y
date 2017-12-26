@@ -140,17 +140,16 @@ export default {
       let options={
         id:id
       }
+      let This=this
       this.$vux.confirm.show({
         title: '提示',
         content: '确定删除此条评论吗？',
         onConfirm () {
-          // this.$API.delComment(options).then(res => {
-          // this.content='';
-          // this.getCommentsList();
-          // }).catch();
+          This.$API.delComment(options).then(res => {
+            This.getCommentsList();
+          }).catch();
         }
       })
-      
     },
     formatTime(val) {
       return val.slice(5, val.indexOf(".")).replace("T", " ");
@@ -168,7 +167,7 @@ export default {
     this.getWXQRcode();
     this.getInterval();
     if(!this.getCookie('openid')){
-      window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/main'
+      // window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/main'
     } 
   },
   mounted() {
