@@ -20,7 +20,7 @@
                 <div class="commentInfo">    
                   <span v-text="item.nickname"></span>          
                   <span class="time" v-text="formatTime(item.addtime)"></span>
-                  <i class="iconfont" @click="delComment(item.ID)">&#xe630;</i>
+                  <span class="deleteBtn"><i class="iconfont" @click="delComment(item.ID)">&#xe630;</i></span>
                   <p class="commentContent" v-text="item.content"></p>
                 </div>
               </div>
@@ -167,9 +167,9 @@ export default {
     this.getCommentsList();
     this.getWXQRcode();
     this.getInterval();
-    if(!this.getCookie('openid')){
-      window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/main'
-    } 
+    // if(!this.getCookie('openid')){
+    //   window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/main'
+    // } 
   },
   mounted() {
     
@@ -286,6 +286,9 @@ export default {
     font-size: 1.5rem;
     line-height: 2.4rem;
   }
+}
+.deleteBtn{
+  float: right;
 }
 </style>
 
