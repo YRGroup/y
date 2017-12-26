@@ -21,7 +21,7 @@
                   <span v-text="item.nickname"></span>          
                   <span class="time" v-text="formatTime(item.addtime)"></span>
                   <span class="deleteBtn"><i class="iconfont" v-if="item.openid==admin" @click="delComment(item.ID)">&#xe630;</i></span>
-                  <p class="commentContent" >aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。</p>
+                  <p class="commentContent" v-text="item.content"></p>
                 </div>
               </div>
             </div>
@@ -234,6 +234,7 @@ export default {
     padding: 0.6em 1.2em;
     .commentContent{
       word-break: break-word;
+      
     }
     .commentUser {
       width: 4em;
