@@ -107,6 +107,14 @@ export default {
     showSendComment() {
       return this.tabIndex == 0 ? true : false;
     },
+    isWeiXin() {
+      var ua = window.navigator.userAgent.toLowerCase(); 
+      if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
+        return true; 
+      }else{ 
+        return false; 
+      } 
+    }
   },
   methods: {
     onItemClick(index) {
@@ -124,6 +132,11 @@ export default {
       this.QRcodeIMG = this.$API.getWXQRcode()
     },
     sendComment() {
+      if(!this.getCookie('openid')){
+        this.$vux.toast.text("只能在微信中评论！~");
+        return
+      }
+
       if (this.content) {
         let options = {
           content: this.content
@@ -166,10 +179,9 @@ export default {
     this.getCommentsList();
     this.getWXQRcode();
     this.getInterval();
-    window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/live'
-    // if(!this.getCookie('openid')){
-    //   window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/live'
-    // } 
+    if(this.isWeiXin && !this.getCookie('openid')){
+      window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/live'
+    } 
   },
   mounted() {
     
@@ -294,9 +306,6 @@ export default {
 }
 .deleteBtn{
   float: right;
-}
-.commentContent{
-  word-wrap:break-word;
 }
 </style>
 
