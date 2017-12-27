@@ -30,13 +30,13 @@
         <swiper-item>
           <div class="tab-swiper vux-center content">
             <!-- <p v-html="yrInfo" class="yrInfo"></p> -->
-            <p><img src="http://pic.yearnedu.com/LiveVideo/1.jpg"></p>
-            <p><img src="http://pic.yearnedu.com/LiveVideo/2.jpg"></p>
-            <p><img src="http://pic.yearnedu.com/LiveVideo/3.jpg"></p>
             <p><img src="http://pic.yearnedu.com/LiveVideo/4.jpg"></p>
+            <p><img src="http://pic.yearnedu.com/LiveVideo/7.jpg"></p>
+            <p><img src="http://pic.yearnedu.com/LiveVideo/2.jpg"></p>
+            <p><img src="http://pic.yearnedu.com/LiveVideo/1.jpg"></p>
             <p><img src="http://pic.yearnedu.com/LiveVideo/5.jpg"></p>
             <p><img src="http://pic.yearnedu.com/LiveVideo/6.jpg"></p>
-            <p><img src="http://pic.yearnedu.com/LiveVideo/7.jpg"></p>
+            <p><img src="http://pic.yearnedu.com/LiveVideo/3.jpg"></p>
             <p><img src="http://pic.yearnedu.com/LiveVideo/8.jpg"></p>
           </div> 
         </swiper-item>
