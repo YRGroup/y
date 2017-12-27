@@ -3,7 +3,7 @@
     <div>
       <tab>
         <tab-item v-model="tabIndex" :selected="tabIndex == 0 ? true :false" @on-item-click="onItemClick">互动</tab-item>
-        <tab-item v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">育人简介</tab-item>
+        <tab-item v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">活动花絮</tab-item>
         <tab-item v-model="tabIndex" :selected="tabIndex == 2 ? true :false" @on-item-click="onItemClick">关注我们</tab-item>
       </tab>
     </div>
@@ -29,7 +29,15 @@
         </swiper-item>
         <swiper-item>
           <div class="tab-swiper vux-center content">
-            <p v-html="yrInfo" class="yrInfo"></p>
+            <!-- <p v-html="yrInfo" class="yrInfo"></p> -->
+            <p><img src="http://pic.yearnedu.com/LiveVideo/1.jpg"></p>
+            <p><img src="http://pic.yearnedu.com/LiveVideo/2.jpg"></p>
+            <p><img src="http://pic.yearnedu.com/LiveVideo/3.jpg"></p>
+            <p><img src="http://pic.yearnedu.com/LiveVideo/4.jpg"></p>
+            <p><img src="http://pic.yearnedu.com/LiveVideo/5.jpg"></p>
+            <p><img src="http://pic.yearnedu.com/LiveVideo/6.jpg"></p>
+            <p><img src="http://pic.yearnedu.com/LiveVideo/7.jpg"></p>
+            <p><img src="http://pic.yearnedu.com/LiveVideo/8.jpg"></p>
           </div> 
         </swiper-item>
         <swiper-item>
@@ -228,6 +236,10 @@ export default {
   .content {
     height: 100%;
     overflow: auto;
+    padding: 10px;
+    img{
+      max-width: 100%;
+    }
     .commentsBox {
       box-sizing: border-box;
     }

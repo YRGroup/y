@@ -4,7 +4,7 @@
       <div class="prism-player" id="J_prismPlayer">
       </div>
     </div>
-    <live-tab id="comments"></live-tab>
+    <live-tab id="comments" v-show="showbottom"></live-tab>
   </div>
 </template>
 
@@ -21,7 +21,8 @@ export default {
       videoId: '',
       videoAuth: '',
       videoinfo:this.$store.state.currentVideoInfo,
-      videoCover: require('@//assets/liveCover.jpg'),
+      videoCover: "http://pic.yearnedu.com/2018livecover.jpg",
+      showbottom: true,
       wxData: {
         debug: false,
         appId: "",
@@ -59,10 +60,10 @@ export default {
         wx.config(this.wxData);
 
         this.wxShareData = {
-          title: "经开区小学元旦联欢会！",
-          desc: "经开区小学元旦联欢会！",
+          title: "春满育人 梦筑未来",
+          desc: "郑州市经开区育人学校2018元旦文艺汇演",
           link: "http://jkyr.yearnedu.com/m/#/live",
-          imgUrl: "http://pic.yearnedu.com/2018livecover.jpg"
+          imgUrl: "http://pic.yearnedu.com/2018livevideowxshare.jpg"
         };
 
         wx.ready(function(){
@@ -92,17 +93,23 @@ export default {
         source:"http://live.yearnedu.com/1/1.m3u8",
         // source:"//player.alicdn.com/video/aliyunmedia.mp4",
         cover: this.videoCover,
-      })
-
+        x5_video_position:'top',
+        x5_type:'h5', //声明启用同层H5播放器，支持的值：h5
+      });
     },
   },
 
   created() {
-    this.$store.commit("changeTitle", "育人教育元旦汇演");
+    this.$store.commit("changeTitle", "春满育人 梦筑未来");
     this.initWX()
   },
   mounted() {
+    let _this = this
     this.initPlayer()
+    // this.player.on('requestFullScreen',(e)=>{
+    //   _this.showbottom = false
+    // });
+
   }
 }
 </script>
@@ -185,6 +192,27 @@ export default {
 }
 #comments{
   height: 60%;
+}
+
+video::-webkit-media-controls {
+  display:none !important;
+}
+
+.live-video
+{ 
+  
+   position:relative;
+   left:0%;
+}
+
+.prism-progress-cursor 
+{
+  margin-left:0px !important;
+}
+
+video.center
+{
+    object-position:50% 50% !important;
 }
 
 </style>
