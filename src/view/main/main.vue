@@ -57,6 +57,11 @@
         </router-link>
       </flexbox-item>
     </flexbox>
+    <div class="toLive">
+      <router-link to="/live">
+        <img :src="liveImg" alt="2018元旦跨新年直播">
+      </router-link>
+    </div>
     <mt-loadmore :top-method="refresh" ref="loadmore" style="padding-bottom: 1.5rem;">
       <div class="newsCard">
         <tab :line-width="2" v-model="nowIndex">
@@ -177,6 +182,7 @@ export default {
       nowIndex1:false,
       nowIndex2:false,
       nowIndex:0,
+      liveImg:require('@/assets/liveImg.jpg')
     }
   },
   computed: {
@@ -353,7 +359,7 @@ export default {
 }
 
 .newsCard {
-  margin-top: 7.5px;
+  // margin-top: 7.5px;
   background: #fff;
     .vux-tab{
       .active{
@@ -447,6 +453,18 @@ export default {
     img {
       min-width: 50%;
     }
+  }
+}
+.toLive{
+  margin: .5em 0;
+  padding: 0 .5em;
+  a{
+    display: block;
+  }
+  img{
+    width: 100%;
+    border-radius: .5em;
+    display: block;
   }
 }
 </style>
