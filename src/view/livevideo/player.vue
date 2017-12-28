@@ -61,7 +61,7 @@ export default {
 
         this.wxShareData = {
           title: "春满育人 梦筑未来",
-          desc: "郑州市经开区育人学校2018元旦文艺汇演",
+          desc: "郑州市经开区育人学校2018年元旦文艺汇演现场直播，育人智慧校园经开校区系统入口",
           link: "http://jkyr.yearnedu.com/m/#/live",
           imgUrl: "http://pic.yearnedu.com/2018livevideowxshare.jpg"
         };
