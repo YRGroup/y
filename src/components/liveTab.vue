@@ -3,7 +3,7 @@
     <div>
       <tab>
         <tab-item v-model="tabIndex" :selected="tabIndex == 0 ? true :false" @on-item-click="onItemClick">互动</tab-item>
-        <tab-item v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">直播信息</tab-item>
+        <tab-item v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">节目单</tab-item>
         <tab-item v-model="tabIndex" :selected="tabIndex == 2 ? true :false" @on-item-click="onItemClick">关注我们</tab-item>
       </tab>
     </div>
@@ -262,7 +262,7 @@ export default {
     display: flex;
     justify-content: flex-start;
     flex-wrap: nowrap;
-    padding: 0.6em 1.2em;
+    padding: 0.6em;
     .commentContent{
       word-break: break-word;
       
@@ -270,7 +270,7 @@ export default {
     .commentUser {
       width: 4em;
       text-align: center;
-      margin-right: 1em;
+      margin-right: 0.6em;
       .headImg {
         border-radius: 50%;
         width: 3em;
