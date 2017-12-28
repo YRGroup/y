@@ -182,7 +182,7 @@ export default {
       nowIndex1:false,
       nowIndex2:false,
       nowIndex:0,
-      liveImg:require('@/assets/liveImg.jpg')
+      liveImg:require('@/assets/liveImg.png')
     }
   },
   computed: {

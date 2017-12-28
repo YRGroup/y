@@ -4,7 +4,7 @@
       <div class="prism-player" id="J_prismPlayer">
       </div>
     </div>
-    <live-tab id="comments" v-show="showbottom"></live-tab>
+    <live-tab id="comments"></live-tab>
   </div>
 </template>
 
@@ -22,7 +22,6 @@ export default {
       videoAuth: '',
       videoinfo:this.$store.state.currentVideoInfo,
       videoCover: "http://pic.yearnedu.com/2018livecover.jpg",
-      showbottom: true,
       wxData: {
         debug: false,
         appId: "",
@@ -62,7 +61,8 @@ export default {
         this.wxShareData = {
           title: "春满育人 梦筑未来",
           desc: "郑州市经开区育人学校2018年元旦文艺汇演现场直播，育人智慧校园经开校区系统入口",
-          link: "http://jkyr.yearnedu.com/m/#/live",
+          // link: "http://jkyr.yearnedu.com/m/#/live",
+          link: "http://jkyr.yearnedu.com/redirect.html?type=live",
           imgUrl: "http://pic.yearnedu.com/2018livevideowxshare.jpg"
         };
 
@@ -104,12 +104,7 @@ export default {
     this.initWX()
   },
   mounted() {
-    let _this = this
     this.initPlayer()
-    // this.player.on('requestFullScreen',(e)=>{
-    //   _this.showbottom = false
-    // });
-
   }
 }
 </script>
