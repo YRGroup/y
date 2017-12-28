@@ -3,7 +3,7 @@
     <div>
       <tab>
         <tab-item v-model="tabIndex" :selected="tabIndex == 0 ? true :false" @on-item-click="onItemClick">互动</tab-item>
-        <tab-item v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">活动花絮</tab-item>
+        <tab-item v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">直播信息</tab-item>
         <tab-item v-model="tabIndex" :selected="tabIndex == 2 ? true :false" @on-item-click="onItemClick">关注我们</tab-item>
       </tab>
     </div>
@@ -29,15 +29,10 @@
         </swiper-item>
         <swiper-item>
           <div class="tab-swiper vux-center content">
-            <!-- <p v-html="yrInfo" class="yrInfo"></p> -->
-            <p><img src="http://pic.yearnedu.com/LiveVideo/4.jpg"></p>
-            <p><img src="http://pic.yearnedu.com/LiveVideo/7.jpg"></p>
-            <p><img src="http://pic.yearnedu.com/LiveVideo/2.jpg"></p>
-            <p><img src="http://pic.yearnedu.com/LiveVideo/1.jpg"></p>
-            <p><img src="http://pic.yearnedu.com/LiveVideo/5.jpg"></p>
-            <p><img src="http://pic.yearnedu.com/LiveVideo/6.jpg"></p>
-            <p><img src="http://pic.yearnedu.com/LiveVideo/3.jpg"></p>
-            <p><img src="http://pic.yearnedu.com/LiveVideo/8.jpg"></p>
+            <divider>节目单</divider>
+            <img src="http://pic.yearnedu.com/LiveVideo/playbill.jpg">
+            <divider>精彩花絮</divider>
+            <img v-for="(item,index) in huaxuImg"  :src="item" :key="index">
           </div> 
         </swiper-item>
         <swiper-item>
@@ -81,7 +76,8 @@ import {
   XButton,
   Swiper,
   SwiperItem,
-  XDialog
+  XDialog,
+  XImg  
 } from "vux";
 
 export default {
@@ -92,8 +88,16 @@ export default {
       showWX: true,
       QRcodeIMG: "",
       admin:'',
-      yrInfo:
-        " 郑州育人学校由刘付坤校长于2000年创办，至今已在郑州发展16年，于2014年成立教育集团，并在创始人家乡襄城县建设了一所学校。十多年来，学校遵循“以人为本，因材施教”的核心育人理念，争取帮助每一个孩子打开了解世界的一扇窗。</br>2016年5月和6月，郑州育人教育集团先后与美国名校普渡大学和美国德州大学圣安东尼奥分校签订了校长和师资培训合作协议；</br>2016年5月，引入台湾e-BABY国际教育集团理念的早教中心投入运营；</br>2016年7月，与德国欧洲职业教育和社会教育集团达成合作意向，筹建应用技术型大学，完善了集团的教育体系和架构；</br>2016年8月，郑州航空港区育人国际学校15年一贯制（K12）新校区开始启用。同时，美国阿尔伯特·爱因斯坦学院授权郑州育人教育集团在旗下郑州航空港育人国际学校（经开区分校）实施幼儿园和小学合作项目，成为美国阿尔伯特·爱因斯坦学院在中国的第一个校区和中国总部所在地。</br>教育的意义是在孩子成长过程中起到良好的引领作用。我们一直在努力，为教育添砖加瓦，把教育工作当成使命，把教育理念融入信仰，汲取中西方教育的精华，传承中华民族教育的根基，郑州育人教育集团矢志不渝的奔走在路上。</br>男生男校，培养中华好儿男。女生女校，为培养优秀母亲奠定基础。</br>每一个孩子都是一棵幼苗，家庭、社会和学校是他们成长的土壤，我们愿成为土壤里最有价值的养分。</br>迄今，郑州育人教育集团已有近万名学生和近千名教职工。"
+      huaxuImg:[
+        'http://pic.yearnedu.com/LiveVideo/4.jpg',
+        'http://pic.yearnedu.com/LiveVideo/7.jpg',
+        'http://pic.yearnedu.com/LiveVideo/2.jpg',
+        'http://pic.yearnedu.com/LiveVideo/1.jpg',
+        'http://pic.yearnedu.com/LiveVideo/5.jpg',
+        'http://pic.yearnedu.com/LiveVideo/6.jpg',
+        'http://pic.yearnedu.com/LiveVideo/3.jpg',
+        'http://pic.yearnedu.com/LiveVideo/8.jpg',
+      ]
     };
   },
   components: {
@@ -106,7 +110,8 @@ export default {
     SwiperItem,
     XInput,
     Group,
-    XDialog
+    XDialog,
+    XImg
   },
   computed: {
     commentsList() {
@@ -239,6 +244,7 @@ export default {
     padding: 10px;
     img{
       max-width: 100%;
+      display: block;
     }
     .commentsBox {
       box-sizing: border-box;

@@ -95,6 +95,8 @@ export default {
         cover: this.videoCover,
         x5_video_position:'top',
         x5_type:'h5', //声明启用同层H5播放器，支持的值：h5
+        showBarTime:'2000',
+        controlBarVisibility:'click'
       });
     },
   },
