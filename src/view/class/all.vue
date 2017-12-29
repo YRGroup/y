@@ -74,7 +74,8 @@
       </div>
       <div slot="footer" class="footer">
         <div class="footer-btn">
-          <i class="iconfont lick" @click="doLike(item.ID),item.like++">&#xe646; {{ item.like }}</i>
+          <!-- <i class="iconfont lick" @click="doLike(item.ID),item.like++">&#xe646; {{ item.like }}</i> -->
+          <give-zan :isZan="item.IsZan" :num="item.like" :id="item.ID"></give-zan>
           <i class="iconfont combtn" @click="delPost(item.ID)" v-if="item.showDelete">&#xe630;</i>
         </div>
 
@@ -94,10 +95,12 @@
 import { Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell , Marquee , MarqueeItem , Confirm } from 'vux'
 import IScroll from 'better-scroll';
 import scrollNew from '@/components/scrollNew';
-import mtLoadmore from '@/components/loadMore'
+import mtLoadmore from '@/components/loadMore';
+import giveZan from '@/components/giveZan'
+
 export default {
   components: {
-    Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell,scrollNew, mtLoadmore, Marquee , MarqueeItem , Confirm
+    Flexbox, FlexboxItem, Card, Popup, Tab, TabItem, Divider, Cell,scrollNew, mtLoadmore, Marquee , MarqueeItem , Confirm , giveZan
   },
   data() {
     return {
@@ -140,6 +143,9 @@ export default {
     imgPopup(val) {
       this.popupImgUrl = val
       this.showImgPopup = true
+    },
+    showSelete(){
+      
     },
     getAllClassDynamic(flag) {
       let para = {}
@@ -245,21 +251,21 @@ export default {
       })
     },
     // 点赞
-    doLike(id) {
-      this.$API.doLikeThisPost(id).then(() => {
-        this.$vux.toast.show({
-          type: "success",
-          width: "20em",
-          text: '点赞成功'
-        })
-      }).catch(err => {
-        this.$vux.toast.show({
-          type: "text",
-          text: err.msg,
-          width: "20em"
-        })
-      })
-    },
+    // doLike(id) {
+    //   this.$API.doLikeThisPost(id).then(() => {
+    //     this.$vux.toast.show({
+    //       type: "success",
+    //       width: "20em",
+    //       text: '点赞成功'
+    //     })
+    //   }).catch(err => {
+    //     this.$vux.toast.show({
+    //       type: "text",
+    //       text: err.msg,
+    //       width: "20em"
+    //     })
+    //   })
+    // },
     // 删除动态
     delPost(id) {
       let _this = this
@@ -302,7 +308,7 @@ export default {
       });
     },
 
-     preloadimages(arr){
+    preloadimages(arr){
         var newimages=[], loadedimages=0
         var postaction=function(){}  //此处增加了一个postaction函数
         var arr=(typeof arr!="object")? [arr] : arr
