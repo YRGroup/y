@@ -98,6 +98,16 @@ API.postNewClassDynamic = (classDynamicData) => {
     })
   })
 }
+//上传班级动态图片
+API.postDynamicImg = (classDynamicData) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/upload/ImageB64Upload', classDynamicData).then((res) => {
+      resolve(res.data.Content)
+    })
+  }).catch((error)=>{
+    reject(error)
+  })
+}
 
 // 添加班级动态评论
 API.postNewComment = (replyData) => {
