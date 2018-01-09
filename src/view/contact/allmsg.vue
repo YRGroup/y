@@ -1,6 +1,6 @@
 <template>
   <div class="msg">
-    <div class="msgTitle">与 {{user.sendto_TrueName}} 的消息列表</div>
+    <!-- <div class="msgTitle">与 {{user.sendto_TrueName}} 的消息列表</div> -->
   
     <load-more :show-loading="false" tip="点击查看以前的消息" background-color="#f5f5f5" @click.native="getMsgInfo()" v-if="data.length!=0"></load-more>
   
@@ -43,6 +43,7 @@ export default {
       data: []
     }
   },
+
   methods: {
     getMsgInfo() {
       this.$API.getMsgInfo(this.$route.params.userId).then(res => {
@@ -85,11 +86,16 @@ export default {
     }
   },
   created() {
-    this.$store.commit('changeTitle', '消息中心')
+  
     this.getMsgInfo()
     window.scrollTo(0, 10000)
   },
   mounted() {
+  },
+  watch:{
+    user(){
+      this.$store.commit('changeTitle', this.user.sendto_TrueName)
+    }
   }
 }
 </script>
