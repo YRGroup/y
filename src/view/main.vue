@@ -1,11 +1,11 @@
 <template>
   <div id="app">
 
-    <x-header id="nav-top" :left-options="{backText: ''}" v-show="!$store.getters.isWeixin">
+    <x-header id="nav-top" :left-options="{backText: '',preventGoBack:true}" v-show="!$store.getters.isWeixin" @on-click-back="pageBack">
       {{web_title}}
     </x-header>
 
-    <transition name='slide-fade'>
+    <transition :name='pageTransition'>
       <router-view id="inview" :style="{marginTop:ptop,marginBottom:pdown}"></router-view>
     </transition>
 
@@ -44,10 +44,17 @@ export default {
   },
   data() {
     return {
+      pageTransition:'slide-right'
     }
   },
   methods: {
-
+    pageBack(){
+      this.pageTransition='slide-left'
+      this.$router.back()
+      setTimeout(()=>{
+        this.pageTransition='slide-right'
+      },600)
+    }
   },
   watch: {
 
@@ -89,10 +96,13 @@ export default {
 
 #app {
   padding: 0;
+  width: 100%;
+  position: relative;
 }
 
 #inview {
-  position: relative;
+  position: absolute;
+  width: 100%;
   top: 0;
 }
 

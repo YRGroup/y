@@ -9,7 +9,6 @@
       <div class="followbtn" @click="showWX=true">
         <i class="iconfont">&#xe61f;</i>关注</div>
     </div>
-    <!-- test -->
 
     <!--轮播图-->
     <swiper loop auto :list="swiperdate" class="bannerPic"></swiper>
@@ -57,11 +56,12 @@
         </router-link>
       </flexbox-item>
     </flexbox>
-    <div class="toLive">
+    <!-- 直播入口 -->
+    <!-- <div class="toLive">
       <router-link to="/live">
         <img :src="liveImg" alt="2018元旦跨新年直播">
       </router-link>
-    </div>
+    </div> -->
     <mt-loadmore :top-method="refresh" ref="loadmore" style="padding-bottom: 1.5rem;">
       <div class="newsCard">
         <tab :line-width="2" v-model="nowIndex">
