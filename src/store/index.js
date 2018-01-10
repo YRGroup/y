@@ -17,6 +17,7 @@ const store = new Vuex.Store({
     currentClassId: null,
     currentStudentId: null,
     currentStudent: {},
+    isLoading: false,
 
     currentClassInfo: {},
 
@@ -229,6 +230,9 @@ const store = new Vuex.Store({
     },
     setCommentsList(state,val){
       state.commentsList=val
+    },
+    updateLoadingStatus (state, payload) {
+      state.isLoading = payload.isLoading
     }
   },
   actions: {

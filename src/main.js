@@ -26,7 +26,11 @@ Vue.use(VuePreview)
 
 Vue.config.productionTip = false
 
+
+
 router.beforeEach((to, from, next) => {
+  store.commit('updateLoadingStatus', {isLoading: true})
+  next()
   // NProgress.start() // 开启Progress
   if (to.matched.some(record => record.meta.anonymous)) {
     next()
@@ -35,9 +39,11 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
-// router.afterEach(() => {
-//   NProgress.done(); 
-// });
+
+// 改变loading状态
+router.afterEach(function (to) {
+  store.commit('updateLoadingStatus', {isLoading: false})
+})
 
 // 日期格式化
 Date.prototype.Format = function (fmt) {

@@ -32,12 +32,12 @@
 </template>
 
 <script>
-import { Tabbar, TabbarItem, XHeader, Loading, XSwitch, XDialog , TransferDomDirective as TransferDom } from 'vux'
+import { Tabbar, TabbarItem, XHeader, XSwitch, XDialog , TransferDomDirective as TransferDom } from 'vux'
 import { mapState } from 'vuex'
 export default {
   name: 'app',
   components: {
-    Tabbar, TabbarItem, XHeader, Loading, XSwitch, XDialog 
+    Tabbar, TabbarItem, XHeader, XSwitch, XDialog 
   },
   directives: {
     TransferDom
