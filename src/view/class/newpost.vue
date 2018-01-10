@@ -21,17 +21,21 @@
             <previewer :list="upImgUrls" ref="previewer"></previewer>
           </div>
           <li class="updataImg a-upload">
-            <i class="iconfont">&#xe623;</i>
+            <i class="iconfont">&#xe613;</i>
             <input type="file" accept="image/*" multiple="multiple" ref="img" id="imgFiles" @change="addImg">
           </li>
-        </ul>
-        <a href="javascript:;" class="a-upload uploadVideo" v-if="showVideoBtn">
+          <li href="javascript:;" class="a-upload updataImg" v-if="showVideoBtn">
+            <i class="iconfont">&#xe705;</i>
            <!-- <input type="file" accept="video/*" capture="camcorder" multiple="multiple" id="videoFile" @change="addVideo"> 上传视频 -->
-           <input type="file" accept="video/*" multiple="multiple" id="videoFile" @change="addVideo"> 上传视频
-        </a>
+           <input type="file" accept="video/*" multiple="multiple"  ref="video" id="videoFile" @change="addVideo">
+        </li>
+        </ul>
       </div>
-      <div id="updataVideo" style="text-align:center;margin-bottom:10px"></div>
-
+      <div v-if="hasLoadVideo"  id="updataVideo">
+        <p>
+          <span class="videoName">{{hasLoadVideoName}}  <i class="iconfont" style="height:24px" @click="removeVideo">&#xe641;</i></span>
+        </p>
+      </div>
     </group>
     <group>
       <x-switch title="是否@某学生" v-model="showStudent"  @on-change="selectStudent"></x-switch>
@@ -110,7 +114,9 @@ export default {
       ],
       showupDataImg: true,
       showVideoBtn: true,
-      studentList: []
+      studentList: [],
+      hasLoadVideo:false,
+      hasLoadVideoName:''
     };
   },
   computed: {
@@ -120,47 +126,86 @@ export default {
     show (index) {
       this.$refs.previewer.show(index)
     },
+    removeVideo(){
+      this.showupDataImg=true;
+      this.showVideoBtn=true;
+      this.hasLoadVideo=false;
+      this.data.videoid='';
+      this.hasLoadVideoName='';
+    },
+    //图片加载前检测
+    beforePictureUpload(file) {
+      let isJPG = file.type === "image/jpeg" || file.type === "image/png";
+      // let isNumOk = filelist.file.length<10?true:false;
+      //const isLt5M = file.size / 1024 / 1024 < 5;
+      if (!isJPG) {
+        this.$vux.toast.text("上传图片只能是 JPG或PNG 格式");
+      }
+      //if (!isLt5M) {
+      // this.$vux.toast.text('上传图片大小不能超过 5MB!');
+      //}
+      return isJPG; //&& isLt5M;
+    },
+    //视频上传前检测
+    beforeVideoUpload(file){
+      //限制20m
+      let isSizeOk=file.size<20*1024*1024?true:false
+      if(!isSizeOk){
+        this.$vux.toast.text("视频不能超过20M!");
+      }
+
+      //限制视频格式
+      let isTypeOk=file.type.indexOf('video');
+      
+      if(isTypeOk==-1){
+        this.$vux.toast.text("视频格式错误!");
+        isTypeOk=false;
+      }else{
+        isTypeOk=true;
+      }
+      return  isSizeOk&&isTypeOk
+    },
+
     //自动获取图片base64,并上传阿里云
     addImg() {
       let file = this.$refs.img.files[0];
-      if(this.upImgUrls.length>=9){
-        this.$vux.toast.show({
-          type: "warn",
-          width: "20em",
-          text:'图片数量不能超过9张'
-        });
+      if(!this.beforePictureUpload(file)){
+        this.$refs.img.value = null;
         return
       }
+      this.showVideoBtn=false
+      if(this.upImgUrls.length>=9){
+        this.$vux.toast.text("图片数量不能超过9张!");
+        return
+      }
+    
       //读取base64编码
       lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
         .then(rst => {
           let para = {
-            b64str: [
-              {
-                Value: rst.base64,
-                ID: file.lastModified
-              }
-            ]
+            b64str: [{
+              Value: rst.base64,
+              ID: file.lastModified
+            }]
           };
+          this.upImgUrls.push({ src: require('@/assets/img/loading.gif') });
           this.$API.postDynamicImg(para).then(res => {
-              this.upImgUrls.push({ src: res[file.lastModified] });
+              
+              this.upImgUrls[this.upImgUrls.length-1].src=res[file.lastModified] 
+              this.$refs.img.value = null;    //清空上传控件
             }).catch((error)=>{
-              this.$vux.toast.show({
-                type: "warn",
-                width: "20em",
-                text:error
-              });
+              this.upImgUrls.pop()
+              this.$vux.toast.text('出现错误，上传失败');
             });
         })
-        .always(function() {
-          // 清空文件上传控件的值
-          //e.target.value = null;
-        });
     },
     deleteImg(val) {
       for (let i = 0; i < this.upImgUrls.length; i++) {
         if (i == val) {
           this.upImgUrls.splice(i, 1);
+        }
+        if(this.upImgUrls.length==0){
+          this.showVideoBtn=true;
         }
       }
     },
@@ -224,12 +269,16 @@ export default {
         });
       }
     },
+  
     addVideo(e) {
-      let imgFiles = document.getElementById("videoFile").files;
       let files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
       let vue_this = this;
       let file = files[0];
+      if(!this.beforeVideoUpload(file)){
+        this.$refs.video.value = null;    //清空上传控件
+        return
+      }
       let params = {
         FileName: file.name,
         Title: file.name,
@@ -274,10 +323,10 @@ export default {
               type: "success",
               text: "上传完成"
             });
-            let text = document.getElementById("updataVideo");
-            let name = "<div>" + uploadInfo.file.name + "</div>";
-            text.innerHTML = "视频上传成功！" + name;
+            vue_this.hasLoadVideoName=uploadInfo.file.name
+            vue_this.hasLoadVideo=true;
             vue_this.showVideoBtn = false;
+            vue_this.showupDataImg = false;
           },
           // 文件上传进度
           // 'onUploadProgress': function (uploadInfo, totalSize, uploadedSize) {
@@ -320,7 +369,6 @@ export default {
         uploader.startUpload();
       });
       this.$vux.loading.show({ text: "上传中..." });
-      this.showupDataImg = false;
     },
     log(content) {
       if (!isNaN(content)) {
@@ -343,11 +391,6 @@ export default {
   text-align: center;
   border-top: 1px solid @border;
   padding: 10px 0;
-  .uploadVideo {
-    margin-top: 20px;
-    padding: 5px 20px;
-    background: #ddd;
-  }
   .a-upload {
     // padding: 4px 10px;
     // height: 20px;
@@ -376,8 +419,22 @@ export default {
     border-color: #ccc;
     text-decoration: none;
   }
+  
 }
-
+#updataVideo{
+  text-align:left;
+  padding: 0 10px;
+  margin-bottom:10px;
+  .videoName{
+    color: @grey;
+    word-break: break-all;
+    text-align: left;
+  }
+  i{
+    display: inline-block;
+    color:red;
+  }
+}
 .imgPreviewContainer {
   width: 100%;
   /*display: flex;*/
