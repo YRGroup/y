@@ -74,7 +74,9 @@ export default {
           let time = new Date(data[i].CreateTime)
           data[i].CreateTime = time.Format('MM-dd hh:mm')
         }
-        this.getExamInfo(this.examList[0].ID)
+        if(this.examList.length){
+          this.getExamInfo(this.examList[0].ID)
+        }
       })
     },
     setChart1() {
