@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <x-header id="nav-top" :left-options="{backText: '',preventGoBack:true}" v-show="!$store.getters.isWeixin" @on-click-back="pageBack">
+    <x-header id="nav-top" :left-options="{showBack:isShowBack,backText: '',preventGoBack:true}" v-if="!this.$store.getters.isWeixin" @on-click-back="pageBack">
       {{web_title}}
     </x-header>
 
@@ -44,9 +44,11 @@ export default {
   },
   data() {
     return {
-      pageTransition:'slide-right'
+      pageTransition:'slide-right', 
+      hideBackPage:['/','/user','/class','/contact']    //隐藏返回按钮的页面
     }
   },
+
   methods: {
     pageBack(){
       this.pageTransition='slide-left'
@@ -60,6 +62,9 @@ export default {
 
   },
   computed: {
+    isShowBack(){
+      return !this.hideBackPage.includes(this.$route.path)
+    },
     ptop() {
       return this.$store.getters.isWeixin ? '0' : '46px'
     },
@@ -79,9 +84,9 @@ export default {
         return this.$store.state.UnReadMsgCount
       }
     }
-
   },
   created() {
+
   },
   mounted() {
 

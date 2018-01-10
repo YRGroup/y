@@ -94,7 +94,7 @@ export default {
   },
   watch:{
     user(){
-      this.$store.commit('changeTitle', this.user.sendto_TrueName)
+      this.$store.commit('changeTitle', '与'+this.user.sendto_TrueName+'的消息列表')
     }
   }
 }
