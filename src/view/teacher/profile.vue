@@ -5,7 +5,7 @@
       <cell title="姓名：" :value="data.TrueName" value-align="right"></cell>
       <cell title="职称：" :value="data.Title" value-align="right" v-show="$store.getters.isTeacher"></cell>
       <cell title="性别：" :value="data.Sex" value-align="right"></cell>
-      <cell title="教龄：" :value="data.SchoolAge + ' 年'" value-align="right" v-show="$store.getters.isTeacher"></cell>
+      <cell title="教龄：" :value="data.SchoolAge||0 + ' 年'" value-align="right" v-show="$store.getters.isTeacher"></cell>
       <!-- <cell title="身份证：" :value="data.IDCard" value-align="right"></cell> -->
       <cell title="学科：" :value="data.Course" value-align="right"></cell>
       <!-- <div class="more" @click="$router.push('/teacher/'+$route.params.teacherId+'/information')">更多基本资料</div> -->
