@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+  
     <group title="" labelWidth="6em">
       <!-- <selector title="类别：" placeholder="请选择类别" direction="right" v-model="data.type" :options="categoryList"></selector> -->
 
@@ -10,15 +11,18 @@
           <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg"> 上传图片
         </a> -->
         <ul class="imgPreviewContainer" v-if="showupDataImg">
-          <li class="imgPreview" v-for="(i,index) in imgUrls" :key="i.src">
+          <li class="imgPreview" v-for="(i,index) in upImgUrls" :key="i.src">
             <div class="deleteImg" @click="deleteImg(index)">
                 <span class="iconfont">&#xe630;</span>
             </div>
-            <img :src="i.src" class="preview-img" @click="$preview.open(null,index, imgUrls)">
+            <img :src="i.src" class="preview-img" @click="show(index)">
           </li>
+          <div>
+            <previewer :list="upImgUrls" ref="previewer"></previewer>
+          </div>
           <li class="updataImg a-upload">
             <i class="iconfont">&#xe623;</i>
-            <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg">
+            <input type="file" accept="image/*" multiple="multiple" ref="img" id="imgFiles" @change="addImg">
           </li>
         </ul>
         <a href="javascript:;" class="a-upload uploadVideo" v-if="showVideoBtn">
@@ -65,7 +69,9 @@ import {
   XTextarea,
   XSwitch,
   Popup,
-  Checklist
+  Checklist,
+  Previewer,
+  TransferDom 
 } from "vux";
 import lrz from "lrz";
 export default {
@@ -79,19 +85,20 @@ export default {
     XTextarea,
     XSwitch,
     Popup,
-    Checklist
+    Checklist,
+    Previewer,
+    TransferDom 
   },
   data() {
     return {
       data: {
         type: 1,
         content: "",
-        img_url_list: "",
-        img_base64_list: "",
         at_meid: [],
-        videoid: ""
+        videoid: "",
+        img_url_list:[]
       },
-      imgUrls: [],
+      upImgUrls: [],
       fileList: [],
       showStudent: false,
       choiceStudent: false,
@@ -101,58 +108,77 @@ export default {
         { key: "3", value: "班级通知" },
         { key: "4", value: "班级作业" }
       ],
-      showupDataImg:true,
+      showupDataImg: true,
       showVideoBtn: true,
       studentList: []
     };
   },
   computed: {
-    imgBaseList() {
-      let arr = [];
-      this.imgUrls.forEach((n, i) => {
-        arr.push(n.src);
-      });
-      return arr;
-    },
+
   },
   methods: {
-    addImg(e) {
-      if (this.fileList.length < 9) {
-        let imgFiles = document.getElementById("imgFiles").files;
-        let files = e.target.files || e.dataTransfer.files;
-        if (!files.length) return;
-        this.createImage(files, e);
-        this.$vux.loading.show({
-          width: "20em",
-          text: "发送中..."
-        });
-      } else {
+    show (index) {
+      this.$refs.previewer.show(index)
+    },
+    //自动获取图片base64,并上传阿里云
+    addImg() {
+      let file = this.$refs.img.files[0];
+      if(this.upImgUrls.length>=9){
         this.$vux.toast.show({
           type: "warn",
           width: "20em",
-          text: "最多上传9张图片"
+          text:'图片数量不能超过9张'
         });
+        return
       }
+      //读取base64编码
+      lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
+        .then(rst => {
+          let para = {
+            b64str: [
+              {
+                Value: rst.base64,
+                ID: file.lastModified
+              }
+            ]
+          };
+          this.$API.postDynamicImg(para).then(res => {
+              this.upImgUrls.push({ src: res[file.lastModified] });
+            }).catch((error)=>{
+              this.$vux.toast.show({
+                type: "warn",
+                width: "20em",
+                text:error
+              });
+            });
+        })
+        .always(function() {
+          // 清空文件上传控件的值
+          //e.target.value = null;
+        });
     },
     deleteImg(val) {
-      for (let i = 0; i < this.imgUrls.length; i++) {
+      for (let i = 0; i < this.upImgUrls.length; i++) {
         if (i == val) {
-          this.imgUrls.splice(i, 1);
+          this.upImgUrls.splice(i, 1);
         }
       }
     },
     // 获取学生列表
     getStudentList() {
-      this.$API.getStudentList(this.$store.state.currentClassId).then(res => {
-        this.studentList = res.map( element => {
-          return {
-            key : element.Meid,
-            value : element.NickName
-          }
+      this.$API
+        .getStudentList(this.$store.state.currentClassId)
+        .then(res => {
+          this.studentList = res.map(element => {
+            return {
+              key: element.Meid,
+              value: element.NickName
+            };
+          });
         })
-        }).catch(err => {
-          this.$message.error(err.msg)
-        })
+        .catch(err => {
+          this.$message.error(err.msg);
+        });
     },
     selectStudent() {
       if (this.showStudent) {
@@ -162,28 +188,6 @@ export default {
         this.choiceStudent = false;
       }
     },
-    createImage: function(file, e) {
-      let vm = this;
-      lrz(file[0], { quality: file[0].size > 1024 * 200 ? 0.7 : 1 })
-        .then(rst => {
-          vm.$vux.loading.hide();
-
-          let img = new Image();
-          img.src = rst.base64;
-          img.onload = () => {
-            vm.imgUrls.push({
-              src: rst.base64,
-              w: img.width,
-              h: img.height
-            });
-          };
-          return rst;
-        })
-        .always(function() {
-          // 清空文件上传控件的值
-          e.target.value = null;
-        });
-    },
     addNewPost() {
       if (
         this.$store.state.role == "家长" &&
@@ -192,18 +196,17 @@ export default {
         this.data.student_meid = this.$store.state.currentStudentId;
       }
       this.data.cid = this.$store.state.currentClassId;
-
-      this.data["img_base64_list"] = this.imgBaseList.join("|");
-
+      Array.forEach(this.upImgUrls,el => {
+        this.data.img_url_list.push(el.src)
+      });
       if (this.data.type != null && this.data.content != "") {
         this.$vux.loading.show({
           text: "上传中~",
           width: "20em"
         });
-        if(this.data.videoid) {
-          this.data.img_base64_list = ''
+        if (this.data.videoid) {
+          this.data.img_base64_list = "";
         }
-        console.log(this.data)
         this.$API.postNewClassDynamic(this.data).then(res => {
           this.$vux.loading.hide();
           this.$vux.toast.show({
@@ -271,10 +274,10 @@ export default {
               type: "success",
               text: "上传完成"
             });
-            let text = document.getElementById('updataVideo')
-            let name = '<div>'+ uploadInfo.file.name +'</div>'
-            text.innerHTML = "视频上传成功！" + name
-            vue_this.showVideoBtn = false
+            let text = document.getElementById("updataVideo");
+            let name = "<div>" + uploadInfo.file.name + "</div>";
+            text.innerHTML = "视频上传成功！" + name;
+            vue_this.showVideoBtn = false;
           },
           // 文件上传进度
           // 'onUploadProgress': function (uploadInfo, totalSize, uploadedSize) {
@@ -311,12 +314,13 @@ export default {
         });
         // 点播上传。每次上传都是独立的鉴权，所以初始化时，不需要设置鉴权
         uploader.init();
-        var userData = '{"Vod":{"UserData":"{"IsShowWaterMark":"false","Priority":"7"}"}}';
+        var userData =
+          '{"Vod":{"UserData":"{"IsShowWaterMark":"false","Priority":"7"}"}}';
         uploader.addFile(file, null, null, null, userData);
         uploader.startUpload();
       });
-      this.$vux.loading.show({text: "上传中..."});
-      this.showupDataImg = false
+      this.$vux.loading.show({ text: "上传中..." });
+      this.showupDataImg = false;
     },
     log(content) {
       if (!isNaN(content)) {
@@ -324,11 +328,11 @@ export default {
           text: content + "%"
         });
       }
-    },
+    }
   },
   created() {
     this.$store.commit("changeTitle", "发布动态");
-    this.getStudentList()
+    this.getStudentList();
   },
   mounted() {}
 };
@@ -339,7 +343,7 @@ export default {
   text-align: center;
   border-top: 1px solid @border;
   padding: 10px 0;
-  .uploadVideo{
+  .uploadVideo {
     margin-top: 20px;
     padding: 5px 20px;
     background: #ddd;
@@ -383,22 +387,22 @@ export default {
   padding: 0;
   overflow: hidden;
   display: flex;
-  flex-flow:wrap;
-  .updataImg{
-    border:1px dashed #c8c8c8;
-    flex-basis:23%;
+  flex-flow: wrap;
+  .updataImg {
+    border: 1px dashed #c8c8c8;
+    flex-basis: 23%;
     // height: 96px;
     min-height: 80px;
     // line-height: 96px;
-    margin:.4%;
+    margin: 0.4%;
     border-radius: 6px;
     position: relative;
-    .iconfont{
+    .iconfont {
       position: absolute;
       font-size: 28px;
-      opacity: .4;
+      opacity: 0.4;
       top: 50%;
-      left:50%;
+      left: 50%;
       margin-left: -14px;
       margin-top: -24px;
     }
@@ -406,9 +410,9 @@ export default {
   .imgPreview {
     position: relative;
     border: 1px solid @border;
-    flex-basis:23%;
+    flex-basis: 23%;
     max-height: 100px;
-    margin:.4%;
+    margin: 0.4%;
     float: left;
     border-radius: 6px;
     overflow: hidden;
@@ -419,14 +423,13 @@ export default {
       text-align: center;
       position: absolute;
       background: #000;
-      opacity: .4;
+      opacity: 0.4;
       border-radius: 0 0.35em;
       right: 0;
       top: 0;
       font-size: 16px;
       color: #fff;
       span {
-
       }
     }
     .imgName {
@@ -435,9 +438,8 @@ export default {
     img {
       height: 100%;
       width: 100%;
-      object-fit:cover;
+      object-fit: cover;
     }
-
   }
 }
 

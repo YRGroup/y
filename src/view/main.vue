@@ -1,11 +1,11 @@
 <template>
   <div id="app">
 
-    <x-header id="nav-top" :left-options="{backText: ''}" v-show="!$store.getters.isWeixin">
+    <x-header id="nav-top" :left-options="{showBack:isShowBack,backText: '',preventGoBack:true}" v-if="!this.$store.getters.isWeixin" @on-click-back="pageBack">
       {{web_title}}
     </x-header>
 
-    <transition name='slide-fade'>
+    <transition :name='pageTransition'>
       <router-view id="inview" :style="{marginTop:ptop,marginBottom:pdown}"></router-view>
     </transition>
 
@@ -44,15 +44,27 @@ export default {
   },
   data() {
     return {
+      pageTransition:'slide-right', 
+      hideBackPage:['/','/user','/class','/contact']    //隐藏返回按钮的页面
     }
   },
-  methods: {
 
+  methods: {
+    pageBack(){
+      this.pageTransition='slide-left'
+      this.$router.back()
+      setTimeout(()=>{
+        this.pageTransition='slide-right'
+      },600)
+    }
   },
   watch: {
 
   },
   computed: {
+    isShowBack(){
+      return !this.hideBackPage.includes(this.$route.path)
+    },
     ptop() {
       return this.$store.getters.isWeixin ? '0' : '46px'
     },
@@ -72,9 +84,9 @@ export default {
         return this.$store.state.UnReadMsgCount
       }
     }
-
   },
   created() {
+
   },
   mounted() {
 
@@ -89,10 +101,13 @@ export default {
 
 #app {
   padding: 0;
+  width: 100%;
+  position: relative;
 }
 
 #inview {
-  position: relative;
+  position: absolute;
+  width: 100%;
   top: 0;
 }
 

@@ -104,15 +104,40 @@ a {
   color: inherit;
 }
 
-// 切换动画
-.slide-fade-enter-active {
+// 切换动画  右侧切入
+.slide-right-enter-active {
   transition: all .3s ease;
 }
 
-.slide-fade-enter {
+.slide-right-enter {
   transform: translateX(100vw);
   opacity: 0;
 }
+
+.slide-right-leave-active {
+  transform: translateX(-100vw);
+  transition: all .3s ease;
+}
+
+//返回时 左侧切入
+.slide-left-enter-active {
+  transition: all .3s ease;
+}
+
+.slide-left-enter {
+  transform: translateX(-100vw);
+  opacity: 0;
+}
+
+.slide-left-leave-active {
+  transform: translateX(100vw);
+  transition: all .3s ease;
+}
+
+.slide-left-leave {
+ 
+}
+
 .scrollerX {
   position: absolute;
   z-index: 1;
