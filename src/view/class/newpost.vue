@@ -179,7 +179,7 @@ export default {
         return
       }
     
-      //读取base64编码
+      //读取base64编码   
       lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
         .then(rst => {
           let para = {

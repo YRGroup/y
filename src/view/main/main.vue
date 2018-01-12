@@ -214,7 +214,11 @@ export default {
         pagesize: 10,
       }
       this.$API.getNewsList(para).then(res => {
-        this.swiperdate = this.mockSwiperdate
+        let arr=[]
+        res.forEach(el => {
+          arr.push({img:el.ImgUrl,url:el.Link})
+        });
+        this.swiperdate=arr
       })
     },
     getData(tar) {
