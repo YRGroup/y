@@ -115,8 +115,7 @@ export default {
       showVideoBtn: true,
       studentList: [],
       hasLoadVideo:false,
-      hasLoadVideoName:'',
-      hasPostImgs:true
+      hasLoadVideoName:''
       
     };
   },
@@ -132,17 +131,6 @@ export default {
     }
   },
   methods: {
-    setHasPostImgs(){
-      let This=this;
-      this.upImgUrls.forEach((el)=>{
-        if(!el.state){
-          This.hasPostImgs=false;
-          return
-        }else{
-          This.hasPostImgs=true;
-        }
-      })
-    },
     show (index) {
       this.$refs.previewer.show(index)
     },
@@ -211,7 +199,7 @@ export default {
           this.upImgUrls.push({ src: require('@/assets/img/loading.gif'),state:0 });
           this.$API.postDynamicImg(para).then(res => {
               this.upImgUrls[this.upImgUrls.length-1].src=res[file.lastModified] 
-              this.upImgUrls[this.upImgUrls.length-1].state=1     //11表示此图片上传完成
+              this.upImgUrls[this.upImgUrls.length-1].state=1     //1表示此图片上传完成
               this.$refs.img.value = null;    //清空上传控件
             }).catch((error)=>{
               this.upImgUrls.pop()
@@ -255,8 +243,7 @@ export default {
     },
     
     addNewPost() {
-      this.setHasPostImgs()
-      if(!this.hasPostImgs){
+      if(this.upImgUrls.find((el)=>el.state===0)){
         this.$vux.toast.text("正在上传图片,请稍后");
         return
       }
