@@ -1,7 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import "babel-polyfill"
-
 import Vue from 'vue'
 import FastClick from 'fastclick'
 import App from './App'
@@ -14,7 +13,6 @@ import VuePreview from 'wxpreview'
 // import NProgress from 'nprogress' // Progress 进度条
 // import 'nprogress/nprogress.css'// Progress 进度条 样式
 
-
 import {
   LoadingPlugin,
   ToastPlugin,
@@ -22,7 +20,7 @@ import {
 } from 'vux'
 Vue.use(VuePreview)
 
-// FastClick.attach(document.body)
+FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 
