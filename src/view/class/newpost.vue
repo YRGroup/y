@@ -4,7 +4,7 @@
     <group title="" labelWidth="6em">
       <!-- <selector title="类别：" placeholder="请选择类别" direction="right" v-model="data.type" :options="categoryList"></selector> -->
 
-      <x-textarea v-model="data.content" placeholder="请输入班级动态" autosize></x-textarea>
+      <x-textarea v-model="data.content"  placeholder="有什么新鲜事？" autosize></x-textarea>
 
       <div class="file" style="text-align:center">
         <!-- <a href="javascript:;" class="a-upload">
@@ -55,7 +55,7 @@
     </div>
 
     <div style="padding:2rem;">
-      <x-button @click.native="addNewPost" type="primary">确认发布</x-button>
+      <x-button @click.native="addNewPost" :disabled="!canPost" type="primary">确认发布</x-button>
     </div>
 
   </div>
@@ -103,7 +103,6 @@ export default {
         img_url_list:[]
       },
       upImgUrls: [],
-      fileList: [],
       showStudent: false,
       choiceStudent: false,
       categoryList: [
@@ -117,10 +116,19 @@ export default {
       studentList: [],
       hasLoadVideo:false,
       hasLoadVideoName:''
+      
     };
   },
   computed: {
-
+    
+    //发布验证
+    canPost(){
+        if(this.data.content){
+        return true;
+      }else{
+        return false;
+      }
+    }
   },
   methods: {
     show (index) {
@@ -179,7 +187,7 @@ export default {
         return
       }
     
-      //读取base64编码
+      //读取base64编码   
       lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
         .then(rst => {
           let para = {
@@ -188,14 +196,14 @@ export default {
               ID: file.lastModified
             }]
           };
-          this.upImgUrls.push({ src: require('@/assets/img/loading.gif') });
+          this.upImgUrls.push({ src: require('@/assets/img/loading.gif'),state:0 });
           this.$API.postDynamicImg(para).then(res => {
-              
               this.upImgUrls[this.upImgUrls.length-1].src=res[file.lastModified] 
+              this.upImgUrls[this.upImgUrls.length-1].state=1     //1表示此图片上传完成
               this.$refs.img.value = null;    //清空上传控件
             }).catch((error)=>{
               this.upImgUrls.pop()
-              this.$vux.toast.text('出现错误，上传失败');
+              this.$vux.toast.text(error)
             });
         })
     },
@@ -233,7 +241,12 @@ export default {
         this.choiceStudent = false;
       }
     },
+    
     addNewPost() {
+      if(this.upImgUrls.find((el)=>el.state===0)){
+        this.$vux.toast.text("正在上传图片,请稍后");
+        return
+      }
       if (
         this.$store.state.role == "家长" &&
         this.$store.state.currentStudentId != null
@@ -269,7 +282,7 @@ export default {
         });
       }
     },
-  
+
     addVideo(e) {
       let files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
