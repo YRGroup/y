@@ -57,6 +57,7 @@ import teachercenter from '@/view/user/teacher'
 import editcode from '@/view/user/editcode'
 import mypost from '@/view/student/mypost'
 import linkchild from '@/view/user/linkchild'
+import systemNotice from '@/view/user/notice'
 
 import videoList from '@/view/video/list'
 import player from '@/view/video/player'
@@ -307,6 +308,11 @@ export default new Router({
           path: '/user/linkchild',
           name: 'linkchild',
           component: linkchild
+        },
+        {
+          path: '/user/notice',
+          name: 'linkchild',
+          component: systemNotice
         },
         {
           path: '/video',
