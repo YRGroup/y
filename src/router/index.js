@@ -58,6 +58,7 @@ import editcode from '@/view/user/editcode'
 import mypost from '@/view/student/mypost'
 import linkchild from '@/view/user/linkchild'
 import systemNotice from '@/view/user/notice'
+import systemNoticeInfo from '@/view/user/noticeInfo'
 
 import videoList from '@/view/video/list'
 import player from '@/view/video/player'
@@ -311,8 +312,13 @@ export default new Router({
         },
         {
           path: '/user/notice',
-          name: 'linkchild',
+          name: 'systemNotice',
           component: systemNotice
+        },
+        {
+          path: '/user/noticeInfo',
+          name: 'systemNoticeInfo',
+          component: systemNoticeInfo
         },
         {
           path: '/video',
