@@ -16,6 +16,7 @@
         <span @click="$router.push('/teacher/'+$store.state.currentUserId)">我的主页</span>
         <span @click="$router.push('/class')">我的班级</span>
       </p>
+      <i class="iconfont notice" @click="$router.push('/user/notice')">&#xe629;</i>
     </div>
     <!-- <group v-show="$store.getters.isTeacher">
       <cell title="我的动态" is-link @click.native="$router.push('/user/mypost')" >
@@ -352,6 +353,13 @@ export default {
     top: 0;
     left: 50%;
   }
+  .notice{
+    color: #fff;
+    font-size: 25px;
+    position: absolute;
+    right: 16px;
+    top:16px;
+  }
 }
 
 .exitbtn {
@@ -381,4 +389,5 @@ export default {
   padding: 10px 0;
   margin-bottom: 10px;
 }
+
 </style>
