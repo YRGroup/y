@@ -48,11 +48,11 @@
         </router-link>
       </flexbox-item>
       <flexbox-item :span="3">
-        <router-link to="/video">
+        <router-link to="/contact">
           <div style="background:#9dace4">
-            <i class="iconfont">&#xe63c;</i>
+            <i class="iconfont">&#xe629;</i>
           </div>
-          <span>视频课程</span>
+          <span>通讯录</span>
         </router-link>
       </flexbox-item>
     </flexbox>

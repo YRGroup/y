@@ -18,9 +18,9 @@
         <i slot="icon" class="iconfont nav_icon">&#xe672;</i>
         <span slot="label" class="navtext">班级</span>
       </tabbar-item>
-      <tabbar-item :badge="UnReadMsgCount" link="/contact">
-        <i slot="icon" class="iconfont nav_icon">&#xe629;</i>
-        <span slot="label" class="navtext">通讯录</span>
+      <tabbar-item link="/video">
+        <i slot="icon" class="iconfont nav_icon">&#xe63c;</i>
+        <span slot="label" class="navtext">视频</span>
       </tabbar-item>
       <tabbar-item :link="hasLogin?'/user':'/login'">
         <i slot="icon" class="iconfont nav_icon">&#xe719;</i>
@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       pageTransition:'slide-right', 
-      hideBackPage:['/','/user','/class','/contact']    //隐藏返回按钮的页面
+      hideBackPage:['/','/user','/class','/video']    //隐藏返回按钮的页面
     }
   },
 
