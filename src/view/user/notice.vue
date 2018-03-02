@@ -3,15 +3,9 @@
     <no-data v-if="showNoData"></no-data>
     <div class="item" v-for="item in noticeList">
       <p>{{item.Title}}</p>
-      <p>{{item.CreateTime.replace('T',' ')}}</p>
+      <p>{{item.CreateTime.slice(0,item.CreateTime.indexOf('.')).replace('T',' ')}}</p>
       <p>{{item.Content}}</p>
     </div>
-    <!-- <div class="item">
-      <p>
-        <span>titletitletitletitletitletitletitletitletitle</span><span>2017.222</span>
-      </p>
-      <p>contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent</p>
-    </div> -->
   </div>
 </template>
 <script>
@@ -48,6 +42,7 @@ export default {
       background: #fff;
       margin: 8px 0;
       padding: 10px 10px;
+      word-break: break-all;
       p{
         padding: 2px 0;
       }
