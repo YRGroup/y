@@ -131,6 +131,7 @@ export default {
   },
   created() {
     this.$store.commit('changeTitle', '视频课程')
+    console.log(1111)
     this.getData()
     this.getGradeList()
     this.getCategoryList()

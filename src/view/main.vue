@@ -6,9 +6,7 @@
     </x-header>
 
     <transition :name='animate'>
-      <keep-alive>
         <router-view id="inview" :style="{marginTop:ptop,marginBottom:pdown}"></router-view>
-      </keep-alive>
     </transition>
 
     <tabbar id="nav-bottom" v-show="$store.state.showBottomNav">
@@ -103,6 +101,7 @@ export default {
       return this.$store.state.hasLogin
     },
     web_title() {
+      console.log(this.$store.state.title)
       return this.$store.state.title
     },
     UnReadMsgCount() {

@@ -13,8 +13,8 @@
         <span>学号：{{$store.state.currentStudent.StudentID}}</span>
       </p>
       <p class="bottomnav" v-if="$store.getters.isTeacher">
-        <span @click="$router.push('/teacher/'+$store.state.currentUserId)">我的主页</span>
-        <span @click="$router.push('/class')">我的班级</span>
+        <span @click="skip('/teacher/'+$store.state.currentUserId)">我的主页</span>
+        <span @click="skip('/class')">我的班级</span>
       </p>
     </div>
     <!-- <group v-show="$store.getters.isTeacher">
@@ -23,12 +23,12 @@
       </cell>
     </group> -->
     <group v-show="$store.getters.isStudent || $store.getters.isParent">
-      <cell title="个人主页" is-link @click.native="$router.push('/student/' + $store.state.currentStudent.Meid)" >
+      <cell title="个人主页" is-link @click.native="skip('/student/' + $store.state.currentStudent.Meid)" >
         <i slot="icon" class="iconfont">&#xe612;</i>
       </cell>
     </group>
     <group>
-       <cell title="校园通知"  is-link @click.native="$router.push('/user/notice')" >
+       <cell title="校园通知"  is-link @click.native="skip('/user/notice')" >
         <i slot="icon" class="iconfont">&#xe629;</i>
       </cell>
       <!-- <cell title="绑定学生" is-link @click.native="addStudentPopup=true" v-if="$store.getters.isParent">
@@ -43,10 +43,10 @@
       <!-- <cell title="我的账号" :value="data.Mobilephone">
         <i slot="icon" class="iconfont">&#xe693;</i>
       </cell> -->
-      <cell title="完善资料" is-link @click.native="$router.push('/edit')">
+      <cell title="完善资料" is-link @click.native="skip('/edit')">
         <i slot="icon" class="iconfont">&#xe60b;</i>
       </cell>
-      <cell title="修改密码" is-link @click.native="$router.push('/user/editcode')">
+      <cell title="修改密码" is-link @click.native="skip('/user/editcode')">
         <i slot="icon" class="iconfont">&#xe692;</i>
       </cell>
     </group>
@@ -153,6 +153,12 @@ export default {
     };
   },
   methods: {
+    skip(link) {
+      if(link){
+        this.$router.push(link)
+      }
+      this.$router.animate = 1
+    },
     changePassword() {
       if (
         !this.changePasswordData.oldpwd |
