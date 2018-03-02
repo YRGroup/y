@@ -1,10 +1,9 @@
 <template>
   <div class="wraper">
+    <no-data v-if="showNoData"></no-data>
     <div class="item" v-for="item in noticeList">
-      <p>
-        <span>{{item.Title}}</span>
-        <span>{{item.CreateTime.replace('T',' ')}}</span>
-      </p>
+      <p>{{item.Title}}</p>
+      <p>{{item.CreateTime.replace('T',' ')}}</p>
       <p>{{item.Content}}</p>
     </div>
     <!-- <div class="item">
@@ -16,19 +15,27 @@
   </div>
 </template>
 <script>
+
+import noData from '@/components/noData'
 export default {
   data(){
     return {
       noticeList:[]
     }
   },
+  computed:{
+    showNoData(){
+      return this.noticeList.length?false:true
+    }
+  },
+  components:{noData},
   created(){
     this.getNoticeList()
+    this.$store.commit('changeTitle','校园通知')
   },
   methods:{
-    getNoticeList(){
+    getNoticeList(){  
       this.$API.getNoticeList().then(res=>{
-        console.log(res)
         this.noticeList=res
       })
     }
@@ -42,29 +49,17 @@ export default {
       margin: 8px 0;
       padding: 10px 10px;
       p{
-        padding: 5px 0;
+        padding: 2px 0;
       }
       p:nth-of-type(1){
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: nowrap;
-        line-height: 15px;
-        span:nth-of-type(1){
-          font-size: 15px;
-          max-width: 50%;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-        span:nth-of-type(2){
-          color: @grey;
-        }
+        font-size: 15px; 
+        color: @main;
       }
       p:nth-of-type(2){
         color: @grey;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+      }
+      p:nth-of-type(3){
+        font-size: 15px; 
       }
     }
   }

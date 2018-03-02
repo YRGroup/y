@@ -10,6 +10,7 @@ import API from './server/API'
 import md5 from 'js-md5'
 import axios from 'axios'
 import VuePreview from 'wxpreview'
+
 // import NProgress from 'nprogress' // Progress 进度条
 // import 'nprogress/nprogress.css'// Progress 进度条 样式
 
@@ -23,8 +24,6 @@ Vue.use(VuePreview)
 FastClick.attach(document.body)
 
 Vue.config.productionTip = false
-
-
 
 router.beforeEach((to, from, next) => {
   store.commit('updateLoadingStatus', {isLoading: true})
@@ -64,6 +63,7 @@ Vue.prototype.$API = API
 
 axios.defaults.withCredentials = true
 axios.interceptors.request.use(config => {
+  // store.commit('updateLoadingStatus', {isLoading: true})
   let now = new Date().getTime()
   let token = localStorage.token
   let sigh = md5(token + now)
@@ -71,12 +71,13 @@ axios.interceptors.request.use(config => {
   config.headers.sign = sigh
   return config
 }, err => {
-  console.log('error')
+  // store.commit('updateLoadingStatus', {isLoading: false})
   console.log(err)
   return Promise.reject(err)
 });
 axios.interceptors.response.use(
   response => {
+    // store.commit('updateLoadingStatus', {isLoading: false})
     if (process.env.NODE_ENV !== 'production') {
       // console.log('axios to:' + response.config.url)
       // console.log(response)
@@ -91,7 +92,7 @@ axios.interceptors.response.use(
     }
   },
   error => {
-    console.log('发生错误：')
+    // store.commit('updateLoadingStatus', {isLoading: false})
     console.log(error)
     let err = {}
     if (error.response) {

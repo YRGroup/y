@@ -16,7 +16,6 @@
         <span @click="$router.push('/teacher/'+$store.state.currentUserId)">我的主页</span>
         <span @click="$router.push('/class')">我的班级</span>
       </p>
-      <i class="iconfont notice" @click="$router.push('/user/notice')">&#xe629;</i>
     </div>
     <!-- <group v-show="$store.getters.isTeacher">
       <cell title="我的动态" is-link @click.native="$router.push('/user/mypost')" >
@@ -29,6 +28,9 @@
       </cell>
     </group>
     <group>
+       <cell title="校园通知"  is-link @click.native="$router.push('/user/notice')" >
+        <i slot="icon" class="iconfont">&#xe629;</i>
+      </cell>
       <!-- <cell title="绑定学生" is-link @click.native="addStudentPopup=true" v-if="$store.getters.isParent">
           <i slot="icon" class="iconfont">&#xe719;</i>
         </cell> -->
@@ -352,13 +354,6 @@ export default {
     background: rgba(255, 255, 255, 0.3);
     top: 0;
     left: 50%;
-  }
-  .notice{
-    color: #fff;
-    font-size: 25px;
-    position: absolute;
-    right: 16px;
-    top:16px;
   }
 }
 
