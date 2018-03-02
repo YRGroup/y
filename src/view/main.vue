@@ -5,8 +5,10 @@
       {{web_title}}
     </x-header>
 
-    <transition :name='pageTransition'>
-      <router-view id="inview" :style="{marginTop:ptop,marginBottom:pdown}"></router-view>
+    <transition :name='animate'>
+      <keep-alive>
+        <router-view id="inview" :style="{marginTop:ptop,marginBottom:pdown}"></router-view>
+      </keep-alive>
     </transition>
 
     <tabbar id="nav-bottom" v-show="$store.state.showBottomNav">
@@ -18,7 +20,7 @@
         <i slot="icon" class="iconfont nav_icon">&#xe672;</i>
         <span slot="label" class="navtext">班级</span>
       </tabbar-item>
-      <tabbar-item link="/video">
+      <tabbar-item :badge="UnReadMsgCount" link="/video">
         <i slot="icon" class="iconfont nav_icon">&#xe63c;</i>
         <span slot="label" class="navtext">视频</span>
       </tabbar-item>
@@ -45,21 +47,47 @@ export default {
   data() {
     return {
       pageTransition:'slide-right', 
+      animate:'',
       hideBackPage:['/','/user','/class','/video']    //隐藏返回按钮的页面
     }
   },
 
   methods: {
     pageBack(){
-      this.pageTransition='slide-left'
-      this.$router.back()
-      setTimeout(()=>{
-        this.pageTransition='slide-right'
-      },600)
+      this.$router.animate = 2
+      history.go(-1)
+      // this.pageTransition='slide-left'
+      // this.$router.back()
+      // setTimeout(()=>{
+      //   this.pageTransition='slide-right'
+      // },600)
     }
   },
   watch: {
-
+    $route(to, from) {
+      /*
+                0: 不做动画
+                1: 左切换
+                2: 右切换
+                3: 上切换
+                4: 下切换
+                 */
+      let animate = this.$router.animate || to.meta.slide;
+      if (!animate) {
+        this.animate = "";
+      } else {
+        this.animate =
+          animate === 1
+            ? "slide-left"
+            : animate === 2
+              ? "slide-right"
+              : animate === 3
+                  ? "slide-top"
+                  : animate === 4 
+                    ? "slide-bottom" : "";
+      }
+      this.$router.animate = 0;
+    }
   },
   computed: {
     isShowBack(){
@@ -78,11 +106,12 @@ export default {
       return this.$store.state.title
     },
     UnReadMsgCount() {
-      if(this.$store.state.UnReadMsgCount == 0){
-        return null
-      }else{
-        return this.$store.state.UnReadMsgCount
-      }
+      return null
+      // if(this.$store.state.UnReadMsgCount == 0){
+      //   return null
+      // }else{
+      //   return this.$store.state.UnReadMsgCount
+      // }
     }
   },
   created() {
@@ -109,6 +138,7 @@ export default {
   position: absolute;
   width: 100%;
   top: 0;
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
 }
 
 #nav-top {
@@ -134,5 +164,31 @@ export default {
 #app .weui-btn:after {
   border: none;
 }
+
+.slide-left-enter,
+    .slide-right-leave-active {
+        opacity: 0;
+        transform: translate(100%, 0);
+    }
+
+    .slide-left-leave-active,
+    .slide-right-enter {
+        opacity: 0;
+        transform: translate(-100%, 0);
+    }
+
+
+
+    .slide-top-enter,
+    .slide-bottom-leave-active {
+        opacity: 0;
+        transform: translate(0, 100%);
+    }
+
+    .slide-top-leave-active,
+    .slide-bottom-enter {
+        opacity: 0;
+        transform: translate(0, -100%);
+    }
 
 </style>

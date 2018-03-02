@@ -106,6 +106,7 @@ axios.interceptors.response.use(
 )
 Vue.prototype.$http = axios
 
+
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
 Vue.use(ConfirmPlugin)

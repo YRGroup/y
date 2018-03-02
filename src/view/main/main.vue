@@ -16,7 +16,7 @@
     <!--功能导航-->
     <flexbox wrap="wrap" :gutter="0" style="margin-bottom: 7.5px">
       <flexbox-item :span="3">
-        <router-link :to="'/class/work'">
+        <router-link :to="'/class/work'" @click.native="skip()">
           <div style="background:#62ccfd">
             <i class="iconfont">&#xe668;</i>
           </div>
@@ -24,7 +24,7 @@
         </router-link>
       </flexbox-item>
       <flexbox-item :span="3" v-show="!$store.getters.isTeacher">
-        <router-link :to="'/student/'+$store.state.currentStudentId+'/score/0'">
+        <router-link :to="'/student/'+$store.state.currentStudentId+'/score/0'" @click.native="skip">
           <div style="background:#fdb963">
             <i class="iconfont">&#xe601;</i>
           </div>
@@ -32,7 +32,7 @@
         </router-link>
       </flexbox-item>
       <flexbox-item :span="3" v-show="$store.getters.isTeacher">
-        <router-link :to="'/class/exam'">
+        <router-link :to="'/class/exam'" @click.native="skip()">
           <div style="background:#fdb963">
             <i class="iconfont">&#xe601;</i>
           </div>
@@ -40,7 +40,7 @@
         </router-link>
       </flexbox-item>
       <flexbox-item :span="3">
-        <router-link :to="'/schoolcard'">
+        <router-link :to="'/schoolcard'" @click.native="skip()">
           <div style="background:#47e4a1">
             <i class="iconfont">&#xe602;</i>
           </div>
@@ -48,7 +48,7 @@
         </router-link>
       </flexbox-item>
       <flexbox-item :span="3">
-        <router-link to="/contact">
+        <router-link to="/contact" @click.native="skip()">
           <div style="background:#9dace4">
             <i class="iconfont">&#xe629;</i>
           </div>
@@ -75,7 +75,7 @@
             <li>
               <div>
                 <no-data v-if="!classNewList.length"></no-data>
-                <div v-else class="card" v-for="(i,index) in classNewList" :key="index" @click="$router.push('/news?id='+i.ID)">
+                <div v-else class="card" v-for="(i,index) in classNewList" :key="index" @click="skip('/news?id='+i.ID)">
                   <div class="img" v-if="i.ImgUrl">
                     <img :src="i.ImgUrl">
                   </div>
@@ -106,7 +106,7 @@
                   </div>
                   <div class="cardCon">
                     <div class="cardtitle">
-                      <a @click="$router.push('/doc?id='+i.ID)">{{i.Title}}</a>
+                      <a @click="skip('/doc?id='+i.ID)">{{i.Title}}</a>
                     </div>
                     <div class="cardfooter">
                   <span class="time">
@@ -197,6 +197,12 @@ export default {
     },
   },
   methods: {
+    skip(link) {
+      if(link){
+        this.$router.push(link)
+      }
+      this.$router.animate = 1
+    },
     getNewsList() {
       let para = {
         category: 1,

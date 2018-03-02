@@ -3,7 +3,7 @@
     <mt-loadmore  :top-method="refresh" :bottom-method="loadMore" :bottom-all-loaded="noMoreData" ref="loadmore" style="padding-bottom: 1.5rem;">
     <div class="teacherListBox" v-show="this.teachers.length" ref="lineScroll" style="height:112px" v-if="this.teachers">
       <ul style="height: 71px" class="scrollerX">
-        <li class="box-item" v-for="(item,index) in teachers" :key="index" @click="$router.push('/teacher/'+item.Meid)">
+        <li class="box-item" v-for="(item,index) in teachers" :key="index" @click="skip('/teacher/'+item.Meid)">
           <div   >
             <!-- <img :src="item.Headimgurl"> -->
             <div class="category" :style="{background:colors[item.Course]}">{{ item.Course.substr(0,1) }}</div>
@@ -20,7 +20,7 @@
       </div>
       <div class="content" v-if="homework.length">
         <scrollNew :leg="homework.length" :showNum="2">
-          <li v-for="(i,index) in homework" :key="index" @click="$router.push('/class/work')">
+          <li v-for="(i,index) in homework" :key="index" @click="skip('/class/work')">
             <div class="msg">
               <span v-if="!i.IsRead">[未读]</span>【{{ i.CourseName }}】 {{ i.Title || '班级作业' }}
             </div>
@@ -42,16 +42,16 @@
 
     <card v-for="(item,index) in list" :key="index">
       <div slot="header" class="header">
-        <div v-if="item.auther_role == '4'||item.auther_role == '8'" @click="$router.push('/teacher/'+item.auther_meid)" class="category" :style="{background:colors[item.CourseName]}">{{ item.CourseName.substr(0,1) }}</div>
-        <img v-else :src="item.userImg" @click="$router.push('/student/'+item.auther_meid)">
+        <div v-if="item.auther_role == '4'||item.auther_role == '8'" @click="skip('/teacher/'+item.auther_meid)" class="category" :style="{background:colors[item.CourseName]}">{{ item.CourseName.substr(0,1) }}</div>
+        <img v-else :src="item.userImg" @click="skip('/student/'+item.auther_meid)">
         <span class="usename">{{ item.auther }}</span>
         <span class="time">{{ item.date }}</span>
         <span class="tips">{{ item.category }}</span>
       </div>
       <div slot="content" class="content">
 
-        <div @click="$router.push('/post/'+item.ID)">{{item.content}} <span class="atuser" v-for="list in item.AtUser">@{{list.TrueName}}</span></div>
-        <div class="videoCover" v-if="item.Video" @click="$router.push('/post/'+item.ID)">
+        <div @click="skip('/post/'+item.ID)">{{item.content}} <span class="atuser" v-for="list in item.AtUser">@{{list.TrueName}}</span></div>
+        <div class="videoCover" v-if="item.Video" @click="skip('/post/'+item.ID)">
           <span class="CoverImg">
             <span class="icon"><i class="iconfont">&#xe63c;</i></span>
             <span class="shade"></span>
@@ -79,7 +79,7 @@
           <i class="iconfont combtn" @click="delPost(item.ID)" v-if="item.showDelete">&#xe630;</i>
         </div>
 
-        <div class="comment" v-if="item.comment.length"  @click="$router.push('/post/'+item.ID)">
+        <div class="comment" v-if="item.comment.length"  @click="skip('/post/'+item.ID)">
           <li >
             <span>{{ item.comment[0].TrueName }}：</span>
             <span>{{ item.comment[0].content }}</span>
@@ -133,6 +133,10 @@ export default {
 
   },
   methods: {
+    skip(link) {
+      this.$router.push(link)
+      this.$router.animate = 1
+    },
     fun(msg) {
       this.$vux.toast.show({
         type: "text",
