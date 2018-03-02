@@ -1,7 +1,7 @@
 <template>
   <div :style="{'height':mainHeight+'px'}" style="overflow: scroll">
 
-    <loading v-model="isLoading"></loading>
+    <loading v-model="isLoading" :loading="false"></loading>
 
     <transition name='slide-fade'>
       <router-view></router-view>
@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-
+    
     }
   },
   methods: {

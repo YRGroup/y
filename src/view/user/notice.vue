@@ -1,6 +1,7 @@
 <template>
   <div class="wraper">
-    <div class="item" v-for="item in noticeList" @click="showInfo(item)">
+    <no-data v-if="showNoData"></no-data>
+    <div class="item" v-for="item in noticeList">
       <p>{{item.Title}}</p>
       <p>{{item.CreateTime.replace('T',' ')}}</p>
       <p>{{item.Content}}</p>
@@ -14,25 +15,29 @@
   </div>
 </template>
 <script>
+
+import noData from '@/components/noData'
 export default {
   data(){
     return {
       noticeList:[]
     }
   },
+  computed:{
+    showNoData(){
+      return this.noticeList.length?false:true
+    }
+  },
+  components:{noData},
   created(){
     this.getNoticeList()
     this.$store.commit('changeTitle','校园通知')
   },
   methods:{
-    getNoticeList(){
+    getNoticeList(){  
       this.$API.getNoticeList().then(res=>{
-        console.log(res)
         this.noticeList=res
       })
-    },
-    showInfo(item){
-      
     }
   }
 }
