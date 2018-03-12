@@ -74,15 +74,33 @@ export default {
       if (!animate) {
         this.animate = "";
       } else {
-        this.animate =
-          animate === 1
-            ? "slide-left"
-            : animate === 2
-              ? "slide-right"
-              : animate === 3
-                  ? "slide-top"
-                  : animate === 4 
-                    ? "slide-bottom" : "";
+
+        switch (animate) {
+          case 1:
+            this.animate="slide-left"
+            break;
+          case 2:
+            this.animate="slide-right"
+            break;
+          case 3:
+            this.animate="slide-top"
+            break;
+          case 4:
+            this.animate="slide-bottom"
+            break;
+          default:
+            this.animate=""
+            break;
+        }
+        // this.animate =
+        //   animate === 1
+        //     ? "slide-left"
+        //     : animate === 2
+        //       ? "slide-right"
+        //       : animate === 3
+        //           ? "slide-top"
+        //           : animate === 4 
+        //             ? "slide-bottom" : "";
       }
       this.$router.animate = 0;
     }
@@ -137,7 +155,6 @@ export default {
   position: absolute;
   width: 100%;
   top: 0;
-  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
 }
 
 #nav-top {

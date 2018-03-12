@@ -1,6 +1,6 @@
 <template>
 <div>
-    <cell :title="i.ClassName+'（'+i.RoleName + '）'" is-link v-for="i in $store.state.currentUser.Classes" :key="i.ClassID" @click.native="changeClass(i.ID)">
+    <cell :title="i.ClassName+'（'+i.RoleName + '）'" is-link v-for="i in $store.state.currentUser.Classes" :key="i.Role" @click.native="changeClass(i.ID)">
         <!-- <i slot="icon" class="iconfont">&#xe719;</i> -->
     </cell>
 </div>

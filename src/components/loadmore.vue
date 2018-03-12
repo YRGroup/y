@@ -178,6 +178,7 @@
       },
 
       onBottomLoaded(a) {
+        console.log('bottom')
         this.$nextTick(() => {
           if (this.scrollEventTarget === window) {
 //            document.body.scrollTop += 50;
