@@ -11,7 +11,7 @@
           <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg"> 上传图片
         </a> -->
         <ul class="imgPreviewContainer" v-if="showupDataImg">
-          <li class="imgPreview" v-for="(i,index) in upImgUrls" :key="i.src">
+          <li class="imgPreview" v-for="(i,index) in upImgUrls" :key="index">
             <div class="deleteImg" @click="deleteImg(index)">
                 <span class="iconfont">&#xe630;</span>
             </div>
