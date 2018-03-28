@@ -115,7 +115,8 @@ export default {
       showVideoBtn: true,
       studentList: [],
       hasLoadVideo:false,
-      hasLoadVideoName:''
+      hasLoadVideoName:'',
+      maxImgNum:9
       
     };
   },
@@ -143,7 +144,6 @@ export default {
     },
     //图片加载前检测
     beforePictureUpload(file) {
-      // console.log(file)
       let isJPG = file.type === "image/jpeg" || file.type === "image/png";
       // let isNumOk = filelist.file.length<10?true:false;
       //const isLt5M = file.size / 1024 / 1024 < 5;
@@ -175,43 +175,52 @@ export default {
     },
  //自动获取图片base64,并上传阿里云
     addImg() {
+      let n=this.upImgUrls.length
       let files=this.$refs.img.files
+      let para={
+        b64str:[] 
+      }
+      let lastNum=this.maxImgNum-this.upImgUrls.length||0    //剩余可添加图片数量
+      //读取图片
       for(let attr in files){
         if(!isNaN(attr)){
-          let file=files[attr]
-          if(!this.beforePictureUpload(file)){
+        let file=files[attr]
+        if(!this.beforePictureUpload(file)){
           this.$refs.img.value = null;
           return
         }
         this.showVideoBtn=false
-        
-        //读取base64编码   
+        if(this.upImgUrls.length>=this.maxImgNum){
+          this.$vux.toast.text('图片数量不能超过'+this.maxImgNum+'张!');
+          return
+        }
+        let id=new Date().getTime()+attr
+        this.upImgUrls.push({ src: require('@/assets/img/loading.gif'),state:0,id:id });
+        //读取base64编码
         lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
           .then(rst => {
-            let para = {
-              b64str: [{
-                Value: rst.base64,
-                ID: file.lastModified
-              }]
-            };
-            if(this.upImgUrls.length>=9){
-              this.$vux.toast.text("图片数量不能超过9张!");
-              return
-            }
-            this.upImgUrls.push({ src: require('@/assets/img/loading.gif'),state:0 });
-
-            let currentIndex= this.upImgUrls.length-1
-            this.$API.postDynamicImg(para).then(res => {
-                this.upImgUrls[currentIndex].src=res[file.lastModified] 
-                this.upImgUrls[currentIndex].state=1     //1表示此图片上传完成
+            para.b64str.push({
+              Value: rst.base64,
+              ID: id
+            })
+            if(para.b64str.length==files.length||para.b64str.length==lastNum){
+              this.$API.postDynamicImg(para).then(res => {
+                for(var attr in res){
+                  let i = this.upImgUrls.find(item=>{
+                    return item.id==attr
+                  })
+                  i.src=res[attr]
+                  i.state=1
+                };
                 this.$refs.img.value = null;    //清空上传控件
-              }).catch((error)=>{
-                this.upImgUrls.splice(currentIndex,1)
-                this.$vux.toast.text(error)
-              });
-          })
+              })
+            }
+          }).catch((error)=>{
+            this.upImgUrls.splice(n-1)
+            this.$vux.toast.text('图片上传错误，请稍后重试')
+          });      
+          
         }
-        
       } 
     },
     //自动获取图片base64,并上传阿里云
@@ -552,6 +561,10 @@ export default {
       object-fit: cover;
     }
   }
+}
+#imgFiles,#videoFile{
+  width: 100%;
+  height: 100%;
 }
 
 .popup {
