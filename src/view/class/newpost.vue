@@ -143,6 +143,7 @@ export default {
     },
     //图片加载前检测
     beforePictureUpload(file) {
+      // console.log(file)
       let isJPG = file.type === "image/jpeg" || file.type === "image/png";
       // let isNumOk = filelist.file.length<10?true:false;
       //const isLt5M = file.size / 1024 / 1024 < 5;
@@ -161,7 +162,6 @@ export default {
       if(!isSizeOk){
         this.$vux.toast.text("视频不能超过20M!");
       }
-
       //限制视频格式
       let isTypeOk=file.type.indexOf('video');
       
@@ -173,40 +173,81 @@ export default {
       }
       return  isSizeOk&&isTypeOk
     },
-
-    //自动获取图片base64,并上传阿里云
+ //自动获取图片base64,并上传阿里云
     addImg() {
-      let file = this.$refs.img.files[0];
-      if(!this.beforePictureUpload(file)){
-        this.$refs.img.value = null;
-        return
-      }
-      this.showVideoBtn=false
-      if(this.upImgUrls.length>=9){
-        this.$vux.toast.text("图片数量不能超过9张!");
-        return
-      }
-    
-      //读取base64编码   
-      lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
-        .then(rst => {
-          let para = {
-            b64str: [{
-              Value: rst.base64,
-              ID: file.lastModified
-            }]
-          };
-          this.upImgUrls.push({ src: require('@/assets/img/loading.gif'),state:0 });
-          this.$API.postDynamicImg(para).then(res => {
-              this.upImgUrls[this.upImgUrls.length-1].src=res[file.lastModified] 
-              this.upImgUrls[this.upImgUrls.length-1].state=1     //1表示此图片上传完成
-              this.$refs.img.value = null;    //清空上传控件
-            }).catch((error)=>{
-              this.upImgUrls.pop()
-              this.$vux.toast.text(error)
-            });
-        })
+      let files=this.$refs.img.files
+      for(let attr in files){
+        if(!isNaN(attr)){
+          let file=files[attr]
+          if(!this.beforePictureUpload(file)){
+          this.$refs.img.value = null;
+          return
+        }
+        this.showVideoBtn=false
+        
+        //读取base64编码   
+        lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
+          .then(rst => {
+            let para = {
+              b64str: [{
+                Value: rst.base64,
+                ID: file.lastModified
+              }]
+            };
+            if(this.upImgUrls.length>=9){
+              this.$vux.toast.text("图片数量不能超过9张!");
+              return
+            }
+            this.upImgUrls.push({ src: require('@/assets/img/loading.gif'),state:0 });
+
+            let currentIndex= this.upImgUrls.length-1
+            this.$API.postDynamicImg(para).then(res => {
+                this.upImgUrls[currentIndex].src=res[file.lastModified] 
+                this.upImgUrls[currentIndex].state=1     //1表示此图片上传完成
+                this.$refs.img.value = null;    //清空上传控件
+              }).catch((error)=>{
+                this.upImgUrls.splice(currentIndex,1)
+                this.$vux.toast.text(error)
+              });
+          })
+        }
+        
+      } 
     },
+    //自动获取图片base64,并上传阿里云
+    // addImg() {
+    //   console.log( this.$refs.img.files)
+    //   let file = this.$refs.img.files[0];
+    //   if(!this.beforePictureUpload(file)){
+    //     this.$refs.img.value = null;
+    //     return
+    //   }
+    //   this.showVideoBtn=false
+    //   if(this.upImgUrls.length>=9){
+    //     this.$vux.toast.text("图片数量不能超过9张!");
+    //     return
+    //   }
+    
+    //   //读取base64编码   
+    //   lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
+    //     .then(rst => {
+    //       let para = {
+    //         b64str: [{
+    //           Value: rst.base64,
+    //           ID: file.lastModified
+    //         }]
+    //       };
+    //       this.upImgUrls.push({ src: require('@/assets/img/loading.gif'),state:0 });
+    //       this.$API.postDynamicImg(para).then(res => {
+    //           this.upImgUrls[this.upImgUrls.length-1].src=res[file.lastModified] 
+    //           this.upImgUrls[this.upImgUrls.length-1].state=1     //1表示此图片上传完成
+    //           this.$refs.img.value = null;    //清空上传控件
+    //         }).catch((error)=>{
+    //           this.upImgUrls.pop()
+    //           this.$vux.toast.text(error)
+    //         });
+    //     })
+    // },
     deleteImg(val) {
       for (let i = 0; i < this.upImgUrls.length; i++) {
         if (i == val) {
