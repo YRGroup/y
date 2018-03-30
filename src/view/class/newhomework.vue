@@ -44,7 +44,11 @@ export default {
   },
   data() {
     return {
-      newHomeworkData: {},
+      newHomeworkData: {
+        content:'',
+        course_name:'',
+        title:''
+      },
       fileList: [],
       imgUrls: [],
       ClassInfo: {},
@@ -53,13 +57,12 @@ export default {
   },
   computed: {
     course: function() {
-      if (this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
-        return this.$store.state.currentUser.ExtendInfo.Course.CourseName
-      }
+      
+      return this.$store.state.currentUser.ExtendInfo.Course
+
     },
     imgBaseList(){
       let arr=[];
-      console.log(this.imgUrls)
       this.imgUrls.forEach((n,i)=>{
         arr.push(n.src)
       })
@@ -76,7 +79,7 @@ export default {
     // 获取班级信息
     getCourseList () {
         this.$API.getCourseList().then(res => {
-
+          
           this.courseList = res.map(o => {
             return {
               key: o.CourseName,
@@ -172,6 +175,7 @@ export default {
     }
   },
   created() {
+    this.newHomeworkData.course_name=this.course
     this.getClassInfo()
     this.getCourseList()
   },

@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-  
     <group title="" labelWidth="6em">
       <!-- <selector title="类别：" placeholder="请选择类别" direction="right" v-model="data.type" :options="categoryList"></selector> -->
 
@@ -20,7 +19,7 @@
           <div>
             <previewer :list="upImgUrls" ref="previewer"></previewer>
           </div>
-          <li class="updataImg a-upload">
+          <li class="updataImg a-upload" v-if="showupDataImgBtn">
             <i class="iconfont">&#xe613;</i>
             <input type="file" accept="image/*" multiple="multiple" ref="img" id="imgFiles" @change="addImg">
           </li>
@@ -29,7 +28,7 @@
            <!-- <input type="file" accept="video/*" capture="camcorder" multiple="multiple" id="videoFile" @change="addVideo"> 上传视频 -->
            <input type="file" accept="video/*" multiple="multiple"  ref="video" id="videoFile" @change="addVideo">
         </li>
-        </ul>
+        </ul> 
       </div>
       <div v-if="hasLoadVideo"  id="updataVideo">
         <p>
@@ -112,6 +111,7 @@ export default {
         { key: "4", value: "班级作业" }
       ],
       showupDataImg: true,
+      showupDataImgBtn:true,
       showVideoBtn: true,
       studentList: [],
       hasLoadVideo:false,
@@ -195,7 +195,7 @@ export default {
           return
         }
         let id=new Date().getTime()+attr
-        this.upImgUrls.push({ src: require('@/assets/img/loading.gif'),state:0,id:id });
+        this.upImgUrls.push({ src: '',state:0,id:id });
         //读取base64编码
         lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
           .then(rst => {
@@ -445,7 +445,16 @@ export default {
     this.$store.commit("changeTitle", "发布动态");
     this.getStudentList();
   },
-  mounted() {}
+  mounted() {},
+  watch:{
+    upImgUrls(newVal){
+      if(newVal.length>=this.maxImgNum){
+        this.showupDataImgBtn=false
+      }else{
+        this.showupDataImgBtn=true
+      }
+    }
+  }
 };
 </script>
 
