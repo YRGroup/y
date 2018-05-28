@@ -21,7 +21,7 @@ export default {
       videoId: '',
       videoAuth: '',
       videoinfo:this.$store.state.currentVideoInfo,
-      videoCover: "http://pic.yearnedu.com/2018livecover.jpg",
+      videoCover: require('@/assets/childrenlive.jpg'),
       wxData: {
         debug: false,
         appId: "",
@@ -59,8 +59,8 @@ export default {
         wx.config(this.wxData);
 
         this.wxShareData = {
-          title: "春满育人 梦筑未来",
-          desc: "郑州市经开区育人学校2018年元旦文艺汇演现场直播，育人智慧校园经开校区系统入口",
+          title: "六一文艺汇演",
+          desc: "郑州市经开区育人学校2018年六一文艺汇演现场直播，育人智慧校园经开校区系统入口",
           // link: "http://jkyr.yearnedu.com/m/#/live",
           link: "http://jkyr.yearnedu.com/redirect.html?type=live",
           imgUrl: "http://pic.yearnedu.com/2018livevideowxshare.jpg"
@@ -102,7 +102,7 @@ export default {
   },
 
   created() {
-    this.$store.commit("changeTitle", "春满育人 梦筑未来");
+    this.$store.commit("changeTitle", "六一文艺汇演");
     this.initWX()
   },
   mounted() {
