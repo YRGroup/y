@@ -28,7 +28,7 @@
       </cell>
     </group>
     <group>
-       <cell title="校园通知"  is-link @click.native="skip('/user/notice')" >
+      <cell title="校园通知"  is-link @click.native="skip('/user/notice')" >
         <i slot="icon" class="iconfont">&#xe629;</i>
       </cell>
       <!-- <cell title="绑定学生" is-link @click.native="addStudentPopup=true" v-if="$store.getters.isParent">
@@ -60,7 +60,7 @@
     <popup v-model="classListPopup" is-transparent>
       <div class="popup">
         <group title="切换班级">
-         <changeClass @success="classListPopup=false"></changeClass>
+          <changeClass @success="classListPopup=false"></changeClass>
         </group>
       </div>
     </popup>

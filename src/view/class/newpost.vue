@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-  
     <group title="" labelWidth="6em">
       <!-- <selector title="类别：" placeholder="请选择类别" direction="right" v-model="data.type" :options="categoryList"></selector> -->
 
@@ -11,7 +10,7 @@
           <input type="file" accept="image/*" multiple="multiple" id="imgFiles" @change="addImg"> 上传图片
         </a> -->
         <ul class="imgPreviewContainer" v-if="showupDataImg">
-          <li class="imgPreview" v-for="(i,index) in upImgUrls" :key="i.src">
+          <li class="imgPreview" v-for="(i,index) in upImgUrls" :key="index">
             <div class="deleteImg" @click="deleteImg(index)">
                 <span class="iconfont">&#xe630;</span>
             </div>
@@ -20,7 +19,7 @@
           <div>
             <previewer :list="upImgUrls" ref="previewer"></previewer>
           </div>
-          <li class="updataImg a-upload">
+          <li class="updataImg a-upload" v-if="showupDataImgBtn">
             <i class="iconfont">&#xe613;</i>
             <input type="file" accept="image/*" multiple="multiple" ref="img" id="imgFiles" @change="addImg">
           </li>
@@ -29,7 +28,7 @@
            <!-- <input type="file" accept="video/*" capture="camcorder" multiple="multiple" id="videoFile" @change="addVideo"> 上传视频 -->
            <input type="file" accept="video/*" multiple="multiple"  ref="video" id="videoFile" @change="addVideo">
         </li>
-        </ul>
+        </ul> 
       </div>
       <div v-if="hasLoadVideo"  id="updataVideo">
         <p>
@@ -112,10 +111,12 @@ export default {
         { key: "4", value: "班级作业" }
       ],
       showupDataImg: true,
+      showupDataImgBtn:true,
       showVideoBtn: true,
       studentList: [],
       hasLoadVideo:false,
-      hasLoadVideoName:''
+      hasLoadVideoName:'',
+      maxImgNum:9
       
     };
   },
@@ -161,7 +162,6 @@ export default {
       if(!isSizeOk){
         this.$vux.toast.text("视频不能超过20M!");
       }
-
       //限制视频格式
       let isTypeOk=file.type.indexOf('video');
       
@@ -173,40 +173,90 @@ export default {
       }
       return  isSizeOk&&isTypeOk
     },
-
-    //自动获取图片base64,并上传阿里云
+ //自动获取图片base64,并上传阿里云
     addImg() {
-      let file = this.$refs.img.files[0];
-      if(!this.beforePictureUpload(file)){
-        this.$refs.img.value = null;
-        return
+      let n=this.upImgUrls.length
+      let files=this.$refs.img.files
+      let para={
+        b64str:[] 
       }
-      this.showVideoBtn=false
-      if(this.upImgUrls.length>=9){
-        this.$vux.toast.text("图片数量不能超过9张!");
-        return
-      }
-    
-      //读取base64编码   
-      lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
-        .then(rst => {
-          let para = {
-            b64str: [{
+      let lastNum=this.maxImgNum-this.upImgUrls.length||0    //剩余可添加图片数量
+      //读取图片
+      for(let attr in files){
+        if(!isNaN(attr)){
+        let file=files[attr]
+        if(!this.beforePictureUpload(file)){
+          this.$refs.img.value = null;
+          return
+        }
+        this.showVideoBtn=false
+        if(this.upImgUrls.length>=this.maxImgNum){
+          this.$vux.toast.text('图片数量不能超过'+this.maxImgNum+'张!');
+          return
+        }
+        let id=new Date().getTime()+attr
+        this.upImgUrls.push({ src: '',state:0,id:id });
+        //读取base64编码
+        lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
+          .then(rst => {
+            para.b64str.push({
               Value: rst.base64,
-              ID: file.lastModified
-            }]
-          };
-          this.upImgUrls.push({ src: require('@/assets/img/loading.gif'),state:0 });
-          this.$API.postDynamicImg(para).then(res => {
-              this.upImgUrls[this.upImgUrls.length-1].src=res[file.lastModified] 
-              this.upImgUrls[this.upImgUrls.length-1].state=1     //1表示此图片上传完成
-              this.$refs.img.value = null;    //清空上传控件
-            }).catch((error)=>{
-              this.upImgUrls.pop()
-              this.$vux.toast.text(error)
-            });
-        })
+              ID: id
+            })
+            if(para.b64str.length==files.length||para.b64str.length==lastNum){
+              this.$API.postDynamicImg(para).then(res => {
+                for(var attr in res){
+                  let i = this.upImgUrls.find(item=>{
+                    return item.id==attr
+                  })
+                  i.src=res[attr]
+                  i.state=1
+                };
+                this.$refs.img.value = null;    //清空上传控件
+              })
+            }
+          }).catch((error)=>{
+            this.upImgUrls.splice(n-1)
+            this.$vux.toast.text('图片上传错误，请稍后重试')
+          });      
+          
+        }
+      } 
     },
+    //自动获取图片base64,并上传阿里云
+    // addImg() {
+    //   console.log( this.$refs.img.files)
+    //   let file = this.$refs.img.files[0];
+    //   if(!this.beforePictureUpload(file)){
+    //     this.$refs.img.value = null;
+    //     return
+    //   }
+    //   this.showVideoBtn=false
+    //   if(this.upImgUrls.length>=9){
+    //     this.$vux.toast.text("图片数量不能超过9张!");
+    //     return
+    //   }
+    
+    //   //读取base64编码   
+    //   lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
+    //     .then(rst => {
+    //       let para = {
+    //         b64str: [{
+    //           Value: rst.base64,
+    //           ID: file.lastModified
+    //         }]
+    //       };
+    //       this.upImgUrls.push({ src: require('@/assets/img/loading.gif'),state:0 });
+    //       this.$API.postDynamicImg(para).then(res => {
+    //           this.upImgUrls[this.upImgUrls.length-1].src=res[file.lastModified] 
+    //           this.upImgUrls[this.upImgUrls.length-1].state=1     //1表示此图片上传完成
+    //           this.$refs.img.value = null;    //清空上传控件
+    //         }).catch((error)=>{
+    //           this.upImgUrls.pop()
+    //           this.$vux.toast.text(error)
+    //         });
+    //     })
+    // },
     deleteImg(val) {
       for (let i = 0; i < this.upImgUrls.length; i++) {
         if (i == val) {
@@ -395,7 +445,16 @@ export default {
     this.$store.commit("changeTitle", "发布动态");
     this.getStudentList();
   },
-  mounted() {}
+  mounted() {},
+  watch:{
+    upImgUrls(newVal){
+      if(newVal.length>=this.maxImgNum){
+        this.showupDataImgBtn=false
+      }else{
+        this.showupDataImgBtn=true
+      }
+    }
+  }
 };
 </script>
 
@@ -511,6 +570,10 @@ export default {
       object-fit: cover;
     }
   }
+}
+#imgFiles,#videoFile{
+  width: 100%;
+  height: 100%;
 }
 
 .popup {
