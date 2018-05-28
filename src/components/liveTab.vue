@@ -3,7 +3,7 @@
     <div>
       <tab>
         <tab-item v-model="tabIndex" :selected="tabIndex == 0 ? true :false" @on-item-click="onItemClick">互动</tab-item>
-        <tab-item v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">节目单</tab-item>
+        <tab-item v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">精彩花絮</tab-item>
         <tab-item v-model="tabIndex" :selected="tabIndex == 2 ? true :false" @on-item-click="onItemClick">关注我们</tab-item>
       </tab>
     </div>
@@ -29,8 +29,8 @@
         </swiper-item>
         <swiper-item>
           <div class="tab-swiper vux-center content">
-            <divider>节目单</divider>
-            <img src="http://pic.yearnedu.com/LiveVideo/playbill.jpg">
+            <!-- <divider>节目单</divider>
+            <img src="http://pic.yearnedu.com/LiveVideo/playbill.jpg"> -->
             <divider>精彩花絮</divider>
             <img v-for="(item,index) in huaxuImg"  :src="item" :key="index">
           </div> 
