@@ -68,12 +68,13 @@ export default {
     beforPullDown: {
       type: Boolean,
       default: true
-    }
+    },
+    
   },
   data() {
     return {
       pulldownText: "下拉刷新",
-      showPullDownText: false
+      showPullDownText: false,
     };
   },
   mounted() {
@@ -152,6 +153,9 @@ export default {
     },
     finishPullUp() {
       this.scroll && this.scroll.finishPullUp();
+    },
+    maxY(){
+      return this.scroll.maxScrollY;
     }
   }
 };

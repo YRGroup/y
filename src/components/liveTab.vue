@@ -11,7 +11,7 @@
       <swiper v-model="tabIndex" class="swiper" height="100%"  :show-dots="false">
         <swiper-item class="swiperComment">
           <i class="iconfont refresh" @click="$router.push('/')">&#xe666;</i>
-          <scroll-view class="content">
+          <scroll-view class="content" ref="scroll">
           <div class="tab-swiper vux-center  commentsBox" ref="comment">
               <div v-for="(item,index) in commentsList" :key="index" class="commentItem clearfix">
                 <div class="commentUser">
@@ -79,6 +79,8 @@ import {
   XImg
 } from "vux";
 import scrollView from "@/components/scroll-view";
+
+const MAXLENGTH = 500;
 export default {
   data() {
     return {
@@ -132,6 +134,9 @@ export default {
     }
   },
   methods: {
+    scrollToBottom() {
+      this.$refs.scroll.scrollTo(0, this.$refs.scroll.maxY(), 0);
+    },
     onItemClick(index) {
       this.tabIndex = index;
     },
@@ -141,26 +146,31 @@ export default {
         curid: this.curid
       };
       this.$API.getCommentsList(para).then(res => {
-        let list = this.commentsList.concat(res);
-        if (list.length > 500) {
-          list = list.slice(0, 500);
+        if (res.length) {
+          let list = this.commentsList.concat(res);
+          if (list.length > MAXLENGTH) {
+            list = list.slice(list.length - MAXLENGTH, list.length);
+          }
+          this.$store.commit("setCommentsList", list);
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh();
+            this.scrollToBottom();
+          }, 20);
+          this.curid = res[res.length - 1].ID;
         }
-        this.$store.commit("setCommentsList", list);
-        this.curid = res[res.length - 1].id;
       });
     },
     setInterval() {
-      this.getCommentsList;
-      // setInterval(this.getCommentsList, 5000);
+      setInterval(this.getCommentsList, 5000);
     },
     getWXQRcode() {
       this.QRcodeIMG = this.$API.getWXQRcode();
     },
     sendComment() {
-      // if(!this.getCookie('openid')){
-      //   this.$vux.toast.text("只能在微信中评论！~");
-      //   return
-      // }
+      if (!this.getCookie("openid")) {
+        this.$vux.toast.text("只能在微信中评论！~");
+        return;
+      }
 
       if (this.content) {
         let options = {
@@ -248,6 +258,7 @@ export default {
     font-size: 1.5em;
     border-radius: 50%;
     color: @main;
+    z-index: 2;
   }
   .swiper {
     position: relative;
@@ -259,9 +270,14 @@ export default {
     box-sizing: border-box;
   }
   .content {
-    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 55px;
+    width: 100%;
     overflow: auto;
     padding: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
     img {
       max-width: 100%;
       display: block;
