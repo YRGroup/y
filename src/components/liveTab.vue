@@ -11,8 +11,8 @@
       <swiper v-model="tabIndex" class="swiper" height="100%"  :show-dots="false">
         <swiper-item class="swiperComment">
           <i class="iconfont refresh" @click="$router.push('/')">&#xe666;</i>
-          <div class="content">
-            <div  class="tab-swiper vux-center  commentsBox" ref="comment">
+          <scroll-view class="content">
+          <div class="tab-swiper vux-center  commentsBox" ref="comment">
               <div v-for="(item,index) in commentsList" :key="index" class="commentItem clearfix">
                 <div class="commentUser">
                   <img class="headImg" :src="item.headimgurl" alt="">
@@ -25,7 +25,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </scroll-view>
         </swiper-item>
         <swiper-item>
           <div class="tab-swiper vux-center content">
@@ -63,7 +63,6 @@
       </group>
   </div>
   </div>
-
 </template>
 <script>
 import {
@@ -77,9 +76,9 @@ import {
   Swiper,
   SwiperItem,
   XDialog,
-  XImg  
+  XImg
 } from "vux";
-
+import scrollView from "@/components/scroll-view";
 export default {
   data() {
     return {
@@ -87,17 +86,19 @@ export default {
       content: "",
       showWX: true,
       QRcodeIMG: "",
-      admin:'',
-      huaxuImg:[
-        'http://pic.yearnedu.com/LiveVideo/4.jpg',
-        'http://pic.yearnedu.com/LiveVideo/7.jpg',
-        'http://pic.yearnedu.com/LiveVideo/2.jpg',
-        'http://pic.yearnedu.com/LiveVideo/1.jpg',
-        'http://pic.yearnedu.com/LiveVideo/5.jpg',
-        'http://pic.yearnedu.com/LiveVideo/6.jpg',
-        'http://pic.yearnedu.com/LiveVideo/3.jpg',
-        'http://pic.yearnedu.com/LiveVideo/8.jpg',
-      ]
+      admin: "",
+      huaxuImg: [
+        "http://pic.yearnedu.com/LiveVideo/4.jpg",
+        "http://pic.yearnedu.com/LiveVideo/7.jpg",
+        "http://pic.yearnedu.com/LiveVideo/2.jpg",
+        "http://pic.yearnedu.com/LiveVideo/1.jpg",
+        "http://pic.yearnedu.com/LiveVideo/5.jpg",
+        "http://pic.yearnedu.com/LiveVideo/6.jpg",
+        "http://pic.yearnedu.com/LiveVideo/3.jpg",
+        "http://pic.yearnedu.com/LiveVideo/8.jpg"
+      ],
+      lid: 2,
+      curid: -1
     };
   },
   components: {
@@ -111,7 +112,8 @@ export default {
     XInput,
     Group,
     XDialog,
-    XImg
+    XImg,
+    scrollView
   },
   computed: {
     commentsList() {
@@ -121,12 +123,12 @@ export default {
       return this.tabIndex == 0 ? true : false;
     },
     isWeiXin() {
-      var ua = window.navigator.userAgent.toLowerCase(); 
-      if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
-        return true; 
-      }else{ 
-        return false; 
-      } 
+      var ua = window.navigator.userAgent.toLowerCase();
+      if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   methods: {
@@ -134,76 +136,94 @@ export default {
       this.tabIndex = index;
     },
     getCommentsList() {
-      this.$API.getCommentsList().then(res => {
-        this.$store.commit("setCommentsList", res); 
+      let para = {
+        lid: this.lid,
+        curid: this.curid
+      };
+      this.$API.getCommentsList(para).then(res => {
+        let list = this.commentsList.concat(res);
+        if (list.length > 500) {
+          list = list.slice(0, 500);
+        }
+        this.$store.commit("setCommentsList", list);
+        this.curid = res[res.length - 1].id;
       });
     },
-    getInterval() {
-      setInterval(this.getCommentsList, 5000);
+    setInterval() {
+      this.getCommentsList;
+      // setInterval(this.getCommentsList, 5000);
     },
     getWXQRcode() {
-      this.QRcodeIMG = this.$API.getWXQRcode()
+      this.QRcodeIMG = this.$API.getWXQRcode();
     },
     sendComment() {
-      if(!this.getCookie('openid')){
-        this.$vux.toast.text("只能在微信中评论！~");
-        return
-      }
+      // if(!this.getCookie('openid')){
+      //   this.$vux.toast.text("只能在微信中评论！~");
+      //   return
+      // }
 
       if (this.content) {
         let options = {
-          content: this.content
+          content: this.content,
+          lid: this.lid
         };
-        this.$API.sendComment(options).then(res => {
-          this.getCommentsList();
-          this.content='';
-        }).catch();
+        this.$API
+          .sendComment(options)
+          .then(res => {
+            this.getCommentsList();
+            this.content = "";
+          })
+          .catch();
       } else {
         this.$vux.toast.text("说点什么吧~", "middle");
       }
     },
-    delComment(id){
-      let options={
-        id:id
-      }
-      let This=this
+    delComment(id) {
+      let options = {
+        id: id
+      };
+      let This = this;
       this.$vux.confirm.show({
-        title: '提示',
-        content: '确定删除此条评论吗？',
-        onConfirm () {
-          This.$API.delComment(options).then(res => {
-            This.getCommentsList();
-          }).catch();
+        title: "提示",
+        content: "确定删除此条评论吗？",
+        onConfirm() {
+          This.$API
+            .delComment(options)
+            .then(res => {
+              This.getCommentsList();
+            })
+            .catch();
         }
-      })
+      });
     },
     formatTime(val) {
       return val.slice(5, val.indexOf(".")).replace("T", " ");
     },
-    getCookie(name){
-      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-      if(arr=document.cookie.match(reg))
-      return unescape(arr[2]);
-      else
-      return null;
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) return unescape(arr[2]);
+      else return null;
     }
   },
   created() {
     this.getCommentsList();
     this.getWXQRcode();
-    this.getInterval();
-    if(this.isWeiXin && !this.getCookie('openid')){
-      window.location.href = this.$store.state.ApiUrl + '/api/LiveVideoWeiXinOAuth/index?refUrl=' + window.location.host + '/%23/live'
-    } 
+    this.setInterval();
+    if (this.isWeiXin && !this.getCookie("openid")) {
+      window.location.href =
+        this.$store.state.ApiUrl +
+        "/api/LiveVideoWeiXinOAuth/index?refUrl=" +
+        window.location.host +
+        "/%23/live";
+    }
   },
-  mounted() {
-    
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>
 @import "../style/theme.less";
-@import '../style/iconfont.less';
+@import "../style/iconfont.less";
 
 .container {
   color: @black;
@@ -216,7 +236,7 @@ export default {
     max-width: 475px;
     bottom: 0;
   }
-  .refresh{
+  .refresh {
     position: absolute;
     right: 1em;
     top: 1em;
@@ -242,7 +262,7 @@ export default {
     height: 100%;
     overflow: auto;
     padding: 10px;
-    img{
+    img {
       max-width: 100%;
       display: block;
     }
@@ -263,9 +283,8 @@ export default {
     justify-content: flex-start;
     flex-wrap: nowrap;
     padding: 0.6em;
-    .commentContent{
+    .commentContent {
       word-break: break-word;
-      
     }
     .commentUser {
       width: 4em;
@@ -309,7 +328,7 @@ export default {
   .close {
     position: absolute;
     right: 1rem;
-    top: .5rem;
+    top: 0.5rem;
     font-size: 1.2rem;
     cursor: pointer;
     &:hover {
@@ -322,7 +341,7 @@ export default {
     line-height: 2.4rem;
   }
 }
-.deleteBtn{
+.deleteBtn {
   float: right;
 }
 </style>

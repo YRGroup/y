@@ -309,7 +309,6 @@ const store = new Vuex.Store({
     state
   },payload){
     ApI.getCommentsList().then(res=>{
-      console.log(res)
       commit('setComnentList',res)
     })
   }

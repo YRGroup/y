@@ -10,7 +10,7 @@
 
 <script>
 
-import liveTab from "@//components/liveTab"
+import liveTab from "@/components/liveTab"
 import wx from "weixin-js-sdk";
 
 export default {
