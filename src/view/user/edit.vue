@@ -155,7 +155,6 @@ export default {
       if (this.$store.getters.isTeacher) {
         this.$API.getTeacherInfo(this.$store.state.currentUserId).then(res => {
           this.data = res
-          console.log(res)
           if (this.data.PersonalHonor.length) {
             this.data.PersonalHonor.forEach(o => {
               o.IsVisible = 'true'
@@ -168,10 +167,9 @@ export default {
           }
         })
       } else {
-        console.log(55555)
+
         this.$API.getCurrentUser().then(res => {
           this.data = res
-          console.log(res)
           if (!this.data.ExtendInfo.Students) {
             this.noStudent = true
           } else {
@@ -212,7 +210,6 @@ export default {
       })
     },
     submitChange() {
-      console.log(this.data)
       if (this.$store.getters.isParent) {
         let editData = {}
         editData.ParentType = this.ParentType

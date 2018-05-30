@@ -7,47 +7,46 @@
 </template>
 
 <script>
-import {  Cell,} from "vux";
+import { Cell } from "vux";
 export default {
-    components: {Cell,},
-  data () {
+  components: { Cell },
+  data() {
     return {
       currentID: 0
-    }
+    };
   },
-  methods:{
+  methods: {
     changeClass(val) {
-      
-      let c = this.findClass(val)
-      if(!c)
-        return
-      this.$store.commit('changeCurrentClass', c.ClassID)
+      let c = this.findClass(val);
+      if (!c) return;
+      this.$store.commit("changeCurrentClass", c.ClassID);
       this.$API.changeCurrentClass(c).then(res => {
-        this.$store.dispatch('getCurrentUser')
-        this.$emit('success')
-        this.$vux.toast.show({type: "text",width: "20em",text: "成功切换当前班级"});
-      })
+        this.$store.dispatch("getCurrentUser");
+        this.$emit("success");
+        this.$vux.toast.show({
+          type: "text",
+          width: "20em",
+          text: "成功切换当前班级"
+        });
+      });
     },
-    findClass(id){
-      id=parseInt(id)
-      let tmp={}
+    findClass(id) {
+      id = parseInt(id);
+      let tmp = {};
       this.$store.state.currentUser.Classes.forEach(o => {
-        if(o.ID==id)
-          tmp= o
-      })
-      return tmp
+        if (o.ID == id) tmp = o;
+      });
+      return tmp;
     }
   },
-   created() {
-     this.$store.state.currentUser.Classes.forEach(o => {
-        if(o.ClassID==this.$store.state.currentClassId )
-          this.currentID= o.ID
-      })
-  },
-}
+  created() {
+    this.$store.state.currentUser.Classes.forEach(o => {
+      if (o.ClassID == this.$store.state.currentClassId) this.currentID = o.ID;
+    });
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

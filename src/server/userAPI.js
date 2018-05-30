@@ -49,8 +49,6 @@ API.studentLogin = (logData) => {
     axios.post(_APIurl + '/api/User/LoginByStudentID', logData).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -176,7 +174,6 @@ API.getCurrentUser = () => {
         reject(error)
       }
     }).catch((err) => {
-      console.log(err)
       reject(err)
     })
   })

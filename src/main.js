@@ -26,7 +26,9 @@ FastClick.attach(document.body)
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
-  store.commit('updateLoadingStatus', {isLoading: true})
+  store.commit('updateLoadingStatus', {
+    isLoading: true
+  })
   next()
   // NProgress.start() // 开启Progress
   if (to.matched.some(record => record.meta.anonymous)) {
@@ -39,7 +41,9 @@ router.beforeEach((to, from, next) => {
 
 // 改变loading状态
 router.afterEach(function (to) {
-  store.commit('updateLoadingStatus', {isLoading: false})
+  store.commit('updateLoadingStatus', {
+    isLoading: false
+  })
 })
 
 // 日期格式化
@@ -71,13 +75,10 @@ axios.interceptors.request.use(config => {
   config.headers.sign = sigh
   return config
 }, err => {
-  // store.commit('updateLoadingStatus', {isLoading: false})
-  console.log(err)
   return Promise.reject(err)
 });
 axios.interceptors.response.use(
   response => {
-    // store.commit('updateLoadingStatus', {isLoading: false})
     if (process.env.NODE_ENV !== 'production') {
       // console.log('axios to:' + response.config.url)
       // console.log(response)
@@ -87,19 +88,19 @@ axios.interceptors.response.use(
       err.code = response.data.Status
       err.msg = response.data.Msg
       return Promise.reject(err)
+    } else if (response.data.Status == 403) {
+      router.push('/')
     } else {
       return response
     }
   },
   error => {
-    // store.commit('updateLoadingStatus', {isLoading: false})
-    console.log(error)
     let err = {}
     if (error.response) {
       err.code = error.response.data.Status
       err.msg = error.response.data.Msg
     }
-    if (error.response.status == 401 || error.response.data.Msg === "操作令牌错误！" || error.response.data.Msg === "校验签名失败！") {
+    if (error.response.status == 403) {
       router.push('/login')
     }
     return Promise.reject(err)

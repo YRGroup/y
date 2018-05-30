@@ -19,7 +19,7 @@
     <div slot="content" class="look">
       <div class="lookNum">已读：{{homework.LookCount}}人</div>
       <div class="lookuser">
-        <div class="item" v-for="(i,index) in homework.LookUser">
+        <div class="item" v-for="(i,index) in homework.LookUser" :key="index">
           <img :src="i.Headimgurl">
           <span class="name">{{i.TrueName}}</span>
         </div>
@@ -114,7 +114,7 @@ export default {
       });
       this.$API.getHomework(this.$route.params.homeworkId).then(res => {
         this.homework = res;
-        console.log(res.EncryptID)
+  
         this.commentId = res.HID;
         this.wxShareData = {
           title: res.CourseName + " 老师布置的作业 " + res.CreateTime,

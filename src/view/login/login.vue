@@ -255,9 +255,9 @@ export default {
     this.$store.commit('changeTitle', '登录智慧校园')
   },
   mounted() {
-    this.$store.dispatch('getCurrentUser').then(() => {
-      this.$router.push('/')
-    })
+    // this.$store.dispatch('getCurrentUser').then(() => {
+    //   this.$router.push('/')
+    // })
   }
 }
 </script>

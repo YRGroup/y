@@ -122,13 +122,11 @@ export default {
       }
       if (this.pullUpLoad) {
         this.scroll.on("pullingUp", () => {
-          console.log("pullup");
           this.$emit("pullingUp");
         });
       }
       if (this.pullDownRefresh) {
         this.scroll.on("pullingDown", () => {
-          console.log("pulldown");
           this.$emit("pullingDown");
         });
       }

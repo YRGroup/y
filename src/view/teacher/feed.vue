@@ -11,7 +11,7 @@
             <span class="tips">{{ item.category }}</span>
           </div>
           <div slot="content" class="content">
-            <p>{{ item.content }}<span class="atuser" v-for="list in item.AtUser">@{{list.TrueName}}</span></p>
+            <p>{{ item.content }}<span class="atuser" v-for="(list,index) in item.AtUser" :key="index">@{{list.TrueName}}</span></p>
             <div class="videoCover" v-if="item.Video" @click="$router.push('/post/'+item.ID)">
               <span class="CoverImg">
                 <span class="icon"><i class="iconfont">&#xe63c;</i></span>
@@ -93,7 +93,6 @@ export default {
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
       this.$API.getAllUserDynamic(para).then(res=>{
-        console.log(res)
         if(res.length){
             res.forEach((element)=>{
               this.data.push(element)

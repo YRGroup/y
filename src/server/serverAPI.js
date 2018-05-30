@@ -56,8 +56,6 @@ API.getRegSms = (tel) => {
         reject(res.data.Msg)
       }
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -73,8 +71,6 @@ API.getSms = () => {
         reject(res.data.Msg)
       }
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -86,8 +82,7 @@ API.editPWBySms = (data) => {
     axios.post(_APIurl + '/api/user/ModifyPassword', data).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
+      
       reject(err)
     })
   })
@@ -99,8 +94,7 @@ API.getLoginSms = (tel) => {
     axios.get(_APIurl + '/api/user/SendLoginSMS?phone=' + tel).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
+    
       reject(err)
     })
   })
@@ -114,8 +108,7 @@ API.getNewsInfo = params => {
     }).then(res => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
+     
       reject(err)
     })
   })
@@ -127,8 +120,7 @@ API.addNewsComment = (params) => {
     axios.post(_APIurl + '/api/School/AddArticleComment', params).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
+     
       reject(err)
     })
   })
@@ -142,8 +134,7 @@ API.getNewsList = params => {
     }).then(res => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
+     
       reject(err)
     })
   })
@@ -157,8 +148,7 @@ API.getNewsInfo = params => {
     }).then(res => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
+      
       reject(err)
     })
   })
@@ -170,8 +160,7 @@ API.addNewsComment = (params) => {
     axios.post(_APIurl + '/api/School/AddArticleComment', params).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
+      
       reject(err)
     })
   })
@@ -193,8 +182,7 @@ API.getWxData = (id) => {
     axios.get('http://jkyr.yearnedu.com/api/School/GetWeiXinJsApiSignature').then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
+     
       reject(err)
     })
   })
@@ -203,8 +191,7 @@ API.getWxData = (id) => {
 // 空API模板
 API.test = () => {
   return new Promise((resolve, reject) => {
-    console.log('测试：')
-    console.log(this)
+    
   })
 }
 // testing

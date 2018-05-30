@@ -8,15 +8,15 @@
         <span class="tips">{{ item.category }}</span>
       </div>
       <div slot="content" class="content">
-        <div @click="$router.push('/post/'+item.ID)">{{item.content}} <span class="atuser" v-for="list in item.AtUser">@{{list.TrueName}}</span></div>
+        <div @click="$router.push('/post/'+item.ID)">{{item.content}} <span class="atuser" v-for="(list,index) in item.AtUser" :key="index">@{{list.TrueName}}</span></div>
         <div class="img"  v-if="item.Albums">
           <!--<div class="imgCon" :style="{backgroundImage: 'url\('+imgurl+'\)'}" v-for="(imgurl,index) in item.albums" :key="index" @click="imgPopup(imgurl)">-->
           <!--</div>-->
           <div class="imgCon preview-img"
-               :style="{backgroundImage: 'url\('+imgurl.src+'\)'}"
-               v-for="(imgurl,index) in item.imgList"
-               :key="imgurl.index"
-               @click="openImg($event,index, item.imgList)">
+              :style="{backgroundImage: 'url\('+imgurl.src+'\)'}"
+              v-for="(imgurl,index) in item.imgList"
+              :key="imgurl.index"
+              @click="openImg($event,index, item.imgList)">
           </div>
         </div>
       </div>
@@ -54,7 +54,6 @@ export default {
         .getAllUserDynamic(params)
         .then(res => {
           this.data = res;
-          console.log(this.data);
           this.imgList=[]
           //*******图片预览处理*******//
 

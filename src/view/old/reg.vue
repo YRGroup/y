@@ -101,7 +101,6 @@ export default {
       this.$http.get(this.$store.state.ApiUrl+'/api/auth/Captcha').then((res)=>{
         this.imgCheckUrl=this.$store.state.ApiUrl+'/api/auth/Captcha'
       }).catch(err=>{
-        console.log(err)
       })
     },
     sms() {
