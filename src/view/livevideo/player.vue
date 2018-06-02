@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="wrapper">
     <div class="video">
       <div class="prism-player" id="J_prismPlayer">
       </div>
     </div>
-    <live-tab id="comments"></live-tab>
+    <live-tab id="comments" v-show="showComments"></live-tab>
   </div>
 </template>
 
@@ -42,7 +42,8 @@ export default {
         desc: "",
         link: "",
         imgUrl:""
-      }
+      },
+      showComments:true
     }
   },
   components:{
@@ -98,6 +99,12 @@ export default {
         showBarTime:'2000',
         controlBarVisibility:'click'
       });
+      this.player.on('requestFullScreen',() => {
+        this.hiddeComments();
+      })
+      this.player.on('cancelFullScreen',() => {
+        this.showComments();
+      })
     },
   },
 
@@ -107,6 +114,12 @@ export default {
   },
   mounted() {
     this.initPlayer()
+  },
+  hiddeComments(){
+    this.showComments = false;
+  },
+  showComments(){
+    this.showComments = true;
   }
 }
 </script>

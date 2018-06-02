@@ -28,12 +28,12 @@
           </scroll-view>
         </swiper-item>
         <swiper-item>
-          <div class="tab-swiper vux-center content">
-            <!-- <divider>节目单</divider>
-            <img src="http://pic.yearnedu.com/LiveVideo/playbill.jpg"> -->
-            <divider>精彩花絮</divider>
-            <img v-for="(item,index) in huaxuImg"  :src="item" :key="index">
-          </div> 
+          <scroll-view class="content noBottom">
+            <div class="tab-swiper vux-center">
+              <divider>精彩花絮</divider>
+              <img v-for="(item,index) in huaxuImg"  :src="item" :key="index">
+            </div> 
+          </scroll-view>
         </swiper-item>
         <swiper-item>
           <div class="tab-swiper vux-center content">
@@ -79,6 +79,7 @@ import {
   XImg
 } from "vux";
 import scrollView from "@/components/scroll-view";
+import { clearInterval } from "timers";
 
 const MAXLENGTH = 500;
 export default {
@@ -90,17 +91,16 @@ export default {
       QRcodeIMG: "",
       admin: "",
       huaxuImg: [
-        "http://pic.yearnedu.com/LiveVideo/4.jpg",
-        "http://pic.yearnedu.com/LiveVideo/7.jpg",
-        "http://pic.yearnedu.com/LiveVideo/2.jpg",
-        "http://pic.yearnedu.com/LiveVideo/1.jpg",
-        "http://pic.yearnedu.com/LiveVideo/5.jpg",
-        "http://pic.yearnedu.com/LiveVideo/6.jpg",
-        "http://pic.yearnedu.com/LiveVideo/3.jpg",
-        "http://pic.yearnedu.com/LiveVideo/8.jpg"
+        " http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/104588424311540463.jpg",
+        "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/391872234988215624.jpg",
+        "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/466758364617692953.jpg",
+        "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/866427151543087814.jpg",
+        "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/99027685526621352.jpg"
       ],
       lid: 2,
-      curid: -1
+      curid: -1,
+      commentsList: [],
+      timer:''
     };
   },
   components: {
@@ -118,9 +118,9 @@ export default {
     scrollView
   },
   computed: {
-    commentsList() {
-      return this.$store.state.commentsList;
-    },
+    // commentsList() {
+    //   return this.$store.state.commentsList;
+    // },
     showSendComment() {
       return this.tabIndex == 0 ? true : false;
     },
@@ -151,7 +151,7 @@ export default {
           if (list.length > MAXLENGTH) {
             list = list.slice(list.length - MAXLENGTH, list.length);
           }
-          this.$store.commit("setCommentsList", list);
+          this.commentsList = list;
           this.$nextTick(() => {
             this.$refs.scroll.refresh();
             this.scrollToBottom();
@@ -161,7 +161,10 @@ export default {
       });
     },
     setInterval() {
-      setInterval(this.getCommentsList, 5000);
+      this.timer = setInterval(this.getCommentsList, 5000);
+    },
+    clearInterval(){
+      clearInterval(this.timer);
     },
     getWXQRcode() {
       this.QRcodeIMG = this.$API.getWXQRcode();
@@ -228,7 +231,10 @@ export default {
         "/%23/live";
     }
   },
-  mounted() {}
+  mounted() {},
+  beforeDestroy(){
+    this.clearInterval();
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -293,6 +299,9 @@ export default {
       background: #fff;
       color: @grey;
     }
+  }
+  .noBottom {
+    bottom: 0;
   }
   .commentItem {
     display: flex;

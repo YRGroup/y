@@ -89,7 +89,7 @@ axios.interceptors.response.use(
       err.msg = response.data.Msg
       return Promise.reject(err)
     } else if (response.data.Status == 403) {
-      router.push('/')
+      router.push('/login')
     } else {
       return response
     }
