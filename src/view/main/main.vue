@@ -57,11 +57,11 @@
       </flexbox-item>
     </flexbox>
     <!-- 直播入口 -->
-    <div class="toLive">
+    <!-- <div class="toLive">
       <router-link to="/live">
         <img :src="liveImg" alt="2018元旦跨新年直播">
       </router-link>
-    </div>
+    </div> -->
     <mt-loadmore :top-method="refresh" ref="loadmore" style="padding-bottom: 1.5rem;">
       <div class="newsCard">
         <tab :line-width="2" v-model="nowIndex">

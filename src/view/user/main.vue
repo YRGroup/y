@@ -2,8 +2,8 @@
   <div class="hello">
 
     <div class="user-header">
-      <img :src="data.Headimgurl">
-      <p class="usename">{{data.TrueName}}
+      <img :src="$store.state.currentUser.Headimgurl">
+      <p class="usename">{{$store.state.currentUser.TrueName}}
         <small v-if="$store.getters.isParent">-- {{$store.state.currentStudent.TrueName}}的家长</small>
         <small v-if="$store.getters.isTeacher">{{$store.state.currentUser.ExtendInfo.Course.CourseName}}</small>
       </p>
@@ -128,7 +128,6 @@ export default {
   },
   data() {
     return {
-      data: {},
       changePasswordData: {},
       myStudentPopup: false,
       addStudentPopup: false,
@@ -151,6 +150,11 @@ export default {
       Invitedata: {},
       userface: require("@/assets/face/bw.jpg")
     };
+  },
+  computed:{
+    data(){
+      return this.$store.state.currentUser
+    }
   },
   methods: {
     skip(link) {
@@ -198,43 +202,68 @@ export default {
       });
       this.$router.push("/");
     },
-    getData() {
-      this.$API
-        .getCurrentUser()
-        .then(res => {
-          this.data = res;
-          if (res.ExtendInfo.Students != null) {
-            if (res.ExtendInfo.Students.length == 0) {
-              let noStudentDate = {
-                TrueName: "null",
-                SchoolName: "null",
-                ClassName: "null",
-                StudentID: "null"
-              };
-              this.allStudentData.push(noStudentDate);
-            } else {
-              let num = res.ExtendInfo.Students.length;
-              this.allStudentData = [];
-              for (let i = 0; i < num; i++) {
-                this.allStudentData.push(res.ExtendInfo.Students[i]);
-              }
-              this.$store.commit(
-                "changeCurrentStudent",
-                this.allStudentData[0]
-              );
-            }
+    getData(){
+      // this.data = this.$store.state.currentUser;
+      if (this.data.ExtendInfo.Students != null) {
+        if (this.data.ExtendInfo.Students.length == 0) {
+          let noStudentDate = {
+            TrueName: "null",
+            SchoolName: "null",
+            ClassName: "null",
+            StudentID: "null"
+          };
+          this.allStudentData.push(noStudentDate);
+        } else {
+          let num = this.data.ExtendInfo.Students.length;
+          this.allStudentData = [];
+          for (let i = 0; i < num; i++) {
+            this.allStudentData.push(this.data.ExtendInfo.Students[i]);
           }
-          this.mobilePhone = res.Mobilephone;
-        })
-        .catch(err => {
-          this.$vux.toast.show({
-            type: "text",
-            text: "您还未登录",
-            width: "20em"
-          });
-          this.$router.push("/login");
-        });
+          this.$store.commit(
+            "changeCurrentStudent",
+            this.allStudentData[0]
+          );
+        }
+      }
+      this.mobilePhone = this.data.Mobilephone;
     },
+    // getData() {
+    //   this.$API
+    //     .getCurrentUser()
+    //     .then(res => {
+    //       this.data = this.$store.state.currentUser;
+    //       if (res.ExtendInfo.Students != null) {
+    //         if (res.ExtendInfo.Students.length == 0) {
+    //           let noStudentDate = {
+    //             TrueName: "null",
+    //             SchoolName: "null",
+    //             ClassName: "null",
+    //             StudentID: "null"
+    //           };
+    //           this.allStudentData.push(noStudentDate);
+    //         } else {
+    //           let num = res.ExtendInfo.Students.length;
+    //           this.allStudentData = [];
+    //           for (let i = 0; i < num; i++) {
+    //             this.allStudentData.push(res.ExtendInfo.Students[i]);
+    //           }
+    //           this.$store.commit(
+    //             "changeCurrentStudent",
+    //             this.allStudentData[0]
+    //           );
+    //         }
+    //       }
+    //       this.mobilePhone = res.Mobilephone;
+    //     })
+    //     .catch(err => {
+    //       this.$vux.toast.show({
+    //         type: "text",
+    //         text: "您还未登录",
+    //         width: "20em"
+    //       });
+    //       this.$router.push("/login");
+    //     });
+    // },
     addStudent() {
       if (this.addStudentData.truename && this.addStudentData["student_id"]) {
         this.$API

@@ -165,8 +165,8 @@ API.editTeacherInfo = (editData) => {
 API.getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl + '/api/User/GetInfo').then((res) => {
-      if (res.data.Status === 1) {
-        resolve(res.data.Content)
+      if (res) {
+        if(res.data.Status === 1)resolve(res.data.Content);
       } else {
         let error = {}
         error.status = res.data.Status

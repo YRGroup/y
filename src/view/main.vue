@@ -27,7 +27,6 @@
         <span slot="label" class="navtext">{{hasLogin?'我的':'未登录'}}</span>
       </tabbar-item>
     </tabbar>
-
   </div>
 </template>
 

@@ -182,7 +182,6 @@ API.getWxData = (id) => {
     axios.get('http://jkyr.yearnedu.com/api/School/GetWeiXinJsApiSignature').then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-     
       reject(err)
     })
   })

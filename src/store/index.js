@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+// import User from './user'
+
 Vue.use(Vuex)
 
 import API from '@/server/API'
@@ -7,26 +9,21 @@ import API from '@/server/API'
 const store = new Vuex.Store({
   state: {
     showBottomNav: true,
-
     title: '育人教育',
-
     hasLogin: false,
     role: null || 'guest',
-
     currentUserId: null,
     currentClassId: null,
     currentStudentId: null,
     currentStudent: {},
     isLoading: false,
-
     currentClassInfo: {},
-
     hasStudent: false,
     currentUser: null,
     hasNoStudent: false,
     hasNewPost: false,
     UnReadMsgCount: '0',
-    
+    user:{},
     currentVideoInfo:{},
 
     ApiUrl: '',
@@ -138,7 +135,11 @@ const store = new Vuex.Store({
 
   },
   mutations: {
+    setUser(state,val){
+      state.user = new User(val)
+    },
     login(state, val) {
+      
       state.hasLogin = true
       state.currentUser = val
       state.currentUserId = val.Meid

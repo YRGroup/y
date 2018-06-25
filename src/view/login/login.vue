@@ -17,7 +17,9 @@
       is-type="china-mobile" 
       placeholder="学号/手机号" 
       keyboard="number" 
-      v-model="data.uid" @on-change="preVerify" >
+      v-model="data.uid" 
+      @on-change="preVerify" 
+      >
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe618;</i>
         </span>
@@ -27,23 +29,23 @@
           <i class="iconfont">&#xe6ec;</i>
         </span>
       </x-input>
-      <x-input title="短信验证码：" placeholder="短信验证码" type="text" v-model="sms" @keyup.native.enter="login" v-show="step>=2">
+      <x-input title="短信验证码："  placeholder="短信验证码" type="text" v-model="sms" @keyup.native.enter="login" v-show="step>=2">
         <span slot="label" class="loginIcon">
           <i class="iconfont">&#xe6ec;</i>
         </span>
-        <x-button slot="right" type="primary" mini   v-show="step>=2" :disabled="getsmsCount!=0">
-          <span v-show="step==2" @click.native="getSms">获取验证码</span>
-          <span v-show="step==3" @click.native="getSms">{{getsmsCount!=0?(getsmsCount+'s后重新获取'):'重新获取'}}</span>
+        <x-button slot="right" type="primary" mini @click.native="getSms"  v-show="step>=2" :disabled="getsmsCount!=0">
+          <span v-show="step==2" >获取验证码</span>
+          <span v-show="step==3" >{{getsmsCount!=0?(getsmsCount+'s后重新获取'):'重新获取'}}</span>
         </x-button>
       </x-input>
       <div v-show="unActived" class="borderline">
-        <x-input title="密码：" placeholder="请设置初始密码" type="text" v-model="newPWd">
+        <x-input title="密码：" required :min="6"  placeholder="请设置初始密码" type="text" v-model="newPWd">
           <span slot="label" class="loginIcon">
             <i class="iconfont">&#xe6ec;</i>
           </span>
         </x-input>
         <div v-show="parent_unActived" class="borderline">
-          <x-input title="家长姓名：" placeholder="请输入家长姓名" type="text" v-model="parentName">
+          <x-input title="家长姓名：" required placeholder="请输入家长姓名" type="text" v-model="parentName">
             <span slot="label" class="loginIcon">
               <i class="iconfont">&#xe678;</i>
             </span>
@@ -60,13 +62,13 @@
     </group>
     </br>
     <div style="padding:0 20px" class="loginBtn">
-      <x-button type="primary" @click.native="preVerify" v-show="step==0">下一步</x-button>
-      <x-button type="primary" @click.native="login" v-show="step!=0" :disabled="disabled">登录</x-button>
+      <!-- <x-button type="primary" @click.native="preVerify" v-show="step==0">下一步</x-button> -->
+      <x-button type="primary" @click.native="login"  :disabled="disabled">登录</x-button>
       <div class="item" v-show="step==1">
-        <div @click="step=2;">忘记密码？使用短信验证码登陆</div>
+        <div @click="toLoginSms">忘记密码？使用短信验证码登陆</div>
       </div>
       <div class="item" v-show="step==2">
-        <div @click="step=1;">使用密码登陆</div>
+        <div @click="toLoginPwd">返回密码登陆</div>
       </div>
       <!-- <div class="regBtn" @click="$router.push('/reg')">我是家长，还没有帐号？点击注册</div> -->
     </div>
@@ -111,6 +113,16 @@ export default {
     }
   },
   methods: {
+    toLoginPwd(){
+      this.step = 1;
+      this.parent_unActived = false;
+      this.unActived = false;
+    },
+    toLoginSms(){
+      this.step = 2;
+      this.parent_unActived = false;
+      this.unActived = false;
+    },
     getCookie(name) {
       var arr,
         reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
@@ -160,14 +172,24 @@ export default {
           } else if (res.Msg == "unActived") {
             this.step = 2;
             this.unActived = true;
+            this.$vux.toast.show({
+              type: "text",
+              text: "账号首次登陆请完善信息",
+              width: "20em"
+            });
           } else if (res.Msg == "parent_unActived") {
             this.step = 2;
             this.unActived = true;
             this.parent_unActived = true;
+            this.$vux.toast.show({
+              type: "text",
+              text: "账号首次登陆请完善信息",
+              width: "20em"
+            });
           } else {
             this.$vux.toast.show({
               type: "text",
-              text: "手机号未注册",
+              text: "手机号未注册,请联系班主任添加账号",
               width: "20em"
             });
             // this.$router.push('/reg?tel=' + this.tel)
@@ -290,11 +312,6 @@ export default {
   },
   created() {
     this.$store.commit("changeTitle", "登录智慧校园");
-  },
-  mounted() {
-    // this.$store.dispatch('getCurrentUser').then(() => {
-    //   this.$router.push('/')
-    // })
   }
 };
 </script>
