@@ -10,6 +10,7 @@ import API from './server/API'
 import md5 from 'js-md5'
 import axios from 'axios'
 import VuePreview from 'wxpreview'
+import _ from 'lodash'
 
 // import NProgress from 'nprogress' // Progress 进度条
 // import 'nprogress/nprogress.css'// Progress 进度条 样式
@@ -29,11 +30,7 @@ router.beforeEach((to, from, next) => {
   store.commit('updateLoadingStatus', {
     isLoading: true
   })
-  next()
-  // NProgress.start() // 开启Progress
-  if (to.matched.some(record => record.meta.anonymous)) {
-    next()
-  } else {
+  if (!to.matched.some(record => record.meta.anonymous)&&store.state.hasLogin) {
     API.refreshLiveness()
   }
   next()
