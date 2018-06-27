@@ -106,6 +106,8 @@ axios.interceptors.response.use(
 
 Vue.prototype.$http = axios
 
+let name= 10;
+console.log(name)
 
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)

@@ -19,9 +19,11 @@ export default {
     changeClass(val) {
       let c = this.findClass(val);
       if (!c) return;
-      this.$store.commit("changeCurrentClass", c.ClassID);
+      
       this.$API.changeCurrentClass(c).then(res => {
+        this.$store.commit("changeCurrentClass", c.ClassID);
         this.$store.dispatch("getCurrentUser");
+        // this.$store.dispatch("getCurrentClassInfo");
         this.$emit("success");
         this.$vux.toast.show({
           type: "text",

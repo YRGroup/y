@@ -60,7 +60,7 @@
         </div>
       </div>
     </group>
-    </br>
+    <br>
     <div style="padding:0 20px" class="loginBtn">
       <!-- <x-button type="primary" @click.native="preVerify" v-show="step==0">下一步</x-button> -->
       <x-button type="primary" @click.native="login"  :disabled="disabled">登录</x-button>
@@ -100,7 +100,8 @@ export default {
       parent_unActived: false,
       newPWd: "",
       getsmsCount: 0,
-      step: 0
+      step: 0,
+      phoneCheck:/^1[3,4,5,7,8][0-9]{9}$/
     };
   },
   computed: {
@@ -138,7 +139,8 @@ export default {
       setInterval(this.count, 1000);
     },
     getSms() {
-      if (this.data.uid.slice(0, 1) == 1 && this.data.uid.length === 11) {
+      // if (this.data.uid.slice(0, 1) == 1 && this.data.uid.length === 11) {
+      if (this.phoneCheck.test(this.data.uid)) {
         this.$API
           .getLoginSms(this.data.uid)
           .then(() => {
@@ -156,7 +158,7 @@ export default {
       }
     },
     preVerify() {
-      if (this.data.uid.slice(0, 1) == 1 && this.data.uid.length === 11) {
+      if (this.phoneCheck.test(this.data.uid)) {
         this.verifyAccount();
         // this.step = 1
       }

@@ -23,13 +23,13 @@ const store = new Vuex.Store({
     hasNoStudent: false,
     hasNewPost: false,
     UnReadMsgCount: '0',
-    user:{},
-    currentVideoInfo:{},
+    user: {},
+    currentVideoInfo: {},
 
     ApiUrl: '',
-    nationList:["汉族", "回族", "藏族", "维吾尔族", "其他"],
+    nationList: ["汉族", "回族", "藏族", "维吾尔族", "其他"],
     // politicalList:['普通居民','无党派人士','中共党员','中共预备党员','共青团员','民革党员','民盟盟员','民建会员','民进会员','农工党党员','致公党党员','九三学社社员','台盟盟员'],
-    politicalList:['团员','党员','其他','无'],
+    politicalList: ['团员', '党员', '其他', '无'],
     colors: {
       '语文': '#fe6867',
       '数学': '#30b0ff',
@@ -45,7 +45,7 @@ const store = new Vuex.Store({
       '体育': '#d860f8',
       '计算机': '#ffc100'
     },
-    commentsList:[]
+    commentsList: []
   },
   getters: {
     isWeixin: function () {
@@ -75,44 +75,44 @@ const store = new Vuex.Store({
       }
       return '未知'
     },
-    isStudent:state=>{
-      if (!state.currentUser) 
-      return false
-      let role=state.currentUser.Role
-      return role=='学生'
+    isStudent: state => {
+      if (!state.currentUser)
+        return false
+      let role = state.currentUser.Role
+      return role == '学生'
     },
-    isParent:state=>{
-      if (!state.currentUser) 
-      return false
-      let role=state.currentUser.Role
-      return role=='家长'
+    isParent: state => {
+      if (!state.currentUser)
+        return false
+      let role = state.currentUser.Role
+      return role == '家长'
     },
-    isTeacher:state=>{
-      if (!state.currentUser) 
-      return false
-      let role=state.currentUser.Role
-      return role=='教师'||role=='任课教师'||role=='班主任'
+    isTeacher: state => {
+      if (!state.currentUser)
+        return false
+      let role = state.currentUser.Role
+      return role == '教师' || role == '任课教师' || role == '班主任'
     },
-    isAdviserTeacher:state=>{
-      if (!state.currentUser) 
-      return false
-      let role=state.currentUser.Role
-      return role=='班主任'
+    isAdviserTeacher: state => {
+      if (!state.currentUser)
+        return false
+      let role = state.currentUser.Role
+      return role == '班主任'
     },
     currentUserId: state => {
       if (state.currentUser) {
         return state.currentUser.Meid
       }
     },
-    hasNoSchoolCard: state => {
-      if (state.currentUser && !this.a.getters.isParent) {
+    hasNoSchoolCard: (state, getters) => {
+      if (state.currentUser && !getters.isParent) {
         if (!state.currentUser.ExtendInfo.CampusCard) {
           return true
         } else {
           return false
         }
       }
-      if (state.currentUser && this.a.getters.isParent) {
+      if (state.currentUser && getters.isParent) {
         let a = state.currentUser.ExtendInfo.Students.find(o => {
           return o.Meid == state.currentStudentId
         })
@@ -123,10 +123,10 @@ const store = new Vuex.Store({
         }
       }
     },
-    hasFullInfo: state => {
-      if (this.a.getters.isTeacher && state.currentUser.ExtendInfo.Status == 0) {
+    hasFullInfo: (state, getters) => {
+      if (getters.isTeacher && state.currentUser.ExtendInfo.Status == 0) {
         return 'teacher'
-      } else if (this.a.getters.isParent && state.currentUser.ExtendInfo.Students.length !== 0 && state.currentUser.ExtendInfo.Students[0].Status == 0) {
+      } else if (getters.isParent && state.currentUser.ExtendInfo.Students.length !== 0 && state.currentUser.ExtendInfo.Students[0].Status == 0) {
         return 'parent'
       } else {
         return 'ok'
@@ -135,16 +135,16 @@ const store = new Vuex.Store({
 
   },
   mutations: {
-    setUser(state,val){
+    setUser(state, val) {
       state.user = new User(val)
     },
     login(state, val) {
-      
+
       state.hasLogin = true
       state.currentUser = val
       state.currentUserId = val.Meid
       state.role = val.Role
-      state.UnReadMsgCount=val.UnReadMsgCount
+      state.UnReadMsgCount = val.UnReadMsgCount
       if (this.getters.isParent) {
         if (val.ExtendInfo.Students.length != 0) {
           state.hasNoStudent = false
@@ -226,13 +226,13 @@ const store = new Vuex.Store({
     unbind(state) {
       state.hasNoStudent = true
     },
-    setCurrentVideoInfo(state,val){
+    setCurrentVideoInfo(state, val) {
       state.currentVideoInfo = val
     },
-    setCommentsList(state,val){
-      state.commentsList=val
+    setCommentsList(state, val) {
+      state.commentsList = val
     },
-    updateLoadingStatus (state, payload) {
+    updateLoadingStatus(state, payload) {
       state.isLoading = payload.isLoading
     }
   },
@@ -308,9 +308,9 @@ const store = new Vuex.Store({
     getters,
     commit,
     state
-  },payload){
-    ApI.getCommentsList().then(res=>{
-      commit('setComnentList',res)
+  }, payload) {
+    ApI.getCommentsList().then(res => {
+      commit('setComnentList', res)
     })
   }
 })
