@@ -95,7 +95,7 @@ export default {
       para.pageSize=this.pageSize
 
       this.$API.getVideoList(para).then(res => {
-        this.data = res
+        this.data = res.ModelList
       })
     },
     getGradeList() {

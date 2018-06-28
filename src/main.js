@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
     router.push('/login')
     return
   }
-  if (!to.matched.some(record => record.meta.anonymous) && store.state.hasLogin) {
+  if (!to.matched.some(record => record.meta.anonymous)) {
     API.refreshLiveness()
   }
   next()
@@ -80,20 +80,16 @@ axios.interceptors.request.use(config => {
 });
 axios.interceptors.response.use(
   response => {
-    if (process.env.NODE_ENV !== 'production') {
-      // console.log('axios to:' + response.config.url)
-      // console.log(response)
-    }
+    // if(process.env.NODE_ENV !== 'production'){
+    // }
     if (response.data.Status == 0) {
       let err = {}
       err.code = response.data.Status
       err.msg = response.data.Msg
-      // err.code = '出错'
-      // err.msg ='服务器错误'
       return Promise.reject(err)
     } else if (response.data.Status == 403) {
       router.push('/login')
-    } else {
+    }else {
       return response
     }
   },
