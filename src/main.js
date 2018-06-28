@@ -31,7 +31,11 @@ router.beforeEach((to, from, next) => {
   store.commit('updateLoadingStatus', {
     isLoading: true
   })
-  if (!to.matched.some(record => record.meta.anonymous)&&store.state.hasLogin) {
+  if (!to.matched.some(record => record.meta.anonymous) && !store.state.hasLogin) {
+    router.push('/login')
+    return
+  }
+  if (!to.matched.some(record => record.meta.anonymous) && store.state.hasLogin) {
     API.refreshLiveness()
   }
   next()
@@ -84,6 +88,8 @@ axios.interceptors.response.use(
       let err = {}
       err.code = response.data.Status
       err.msg = response.data.Msg
+      // err.code = '出错'
+      // err.msg ='服务器错误'
       return Promise.reject(err)
     } else if (response.data.Status == 403) {
       router.push('/login')
@@ -105,9 +111,6 @@ axios.interceptors.response.use(
 )
 
 Vue.prototype.$http = axios
-
-let name= 10;
-console.log(name)
 
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
