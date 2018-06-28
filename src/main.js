@@ -27,11 +27,12 @@ FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 
+
 router.beforeEach((to, from, next) => {
   store.commit('updateLoadingStatus', {
     isLoading: true
   })
-  if (!to.matched.some(record => record.meta.anonymous) && !store.state.hasLogin) {
+  if (!to.matched.some(record => record.meta.anonymous) && !localStorage.getItem("hasLogin")) {
     router.push('/login')
     return
   }
@@ -89,7 +90,7 @@ axios.interceptors.response.use(
       return Promise.reject(err)
     } else if (response.data.Status == 403) {
       router.push('/login')
-    }else {
+    } else {
       return response
     }
   },
