@@ -366,7 +366,7 @@ export default new Router({
         anonymous: true
       }
     },
-    // 直播
+    // xisida直播
     {
       path: '/xisida',
       name: 'xisida',
