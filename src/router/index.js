@@ -65,10 +65,13 @@ import player from '@/view/video/player'
 
 // 视频直播
 import liveVideo from '@/view/livevideo/player'
-import xisida from '@/view/xisidalive/player'
+
 import errorPage from '@/view/sys/404'
 //西斯达
-
+import xisidaLive from '@/view/xisidalive/player'
+import xisidaSign from '@/view/xisidalive/signin'
+import xisidaUserSign from '@/view/xisidalive/usersignin'
+import xisidaLottery from '@/view/xisidalive/lottery'
 
 Vue.use(Router)
 
@@ -368,13 +371,37 @@ export default new Router({
     },
     // xisida直播
     {
-      path: '/xisida',
+      path: '/xisidaLive',
       name: 'xisida',
-      component: xisida,
+      component: xisidaLive,
       meta: {
         anonymous: true
       }
-    }
+    },
+    {
+      path: '/xisidaLottery',
+      name: 'xisidaLottery',
+      component: xisidaLottery,
+      meta: {
+        anonymous: true
+      }
+    },
+    {
+      path: '/xisidaUserSign',
+      name: 'xisidaUserSign',
+      component: xisidaUserSign,
+      meta: {
+        anonymous: true
+      }
+    },
+    {
+      path: '/xisidaSign',
+      name: 'xisidaSign',
+      component: xisidaSign,
+      meta: {
+        anonymous: true
+      }
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
     return {
