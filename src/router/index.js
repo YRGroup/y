@@ -65,8 +65,10 @@ import player from '@/view/video/player'
 
 // 视频直播
 import liveVideo from '@/view/livevideo/player'
-
+import xisida from '@/view/xisidalive/player'
 import errorPage from '@/view/sys/404'
+//西斯达
+
 
 Vue.use(Router)
 
@@ -108,8 +110,7 @@ export default new Router({
         { //班级
           path: '/class',
           component: classmain,
-          children: [
-            {
+          children: [{
               path: '',
               component: classMainPage
             },
@@ -330,7 +331,7 @@ export default new Router({
         },
       ]
     },
-    
+
     // 注册 登陆
     {
       path: '/reg',
@@ -365,6 +366,15 @@ export default new Router({
         anonymous: true
       }
     },
+    // 直播
+    {
+      path: '/xisida',
+      name: 'xisida',
+      component: xisida,
+      meta: {
+        anonymous: true
+      }
+    }
   ],
   scrollBehavior(to, from, savedPosition) {
     return {
