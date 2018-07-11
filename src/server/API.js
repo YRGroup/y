@@ -9,10 +9,10 @@ import videoAPI from'./videoAPI'
 import liveAPI from'./liveAPI'
 
 //西斯达api
-import xisidaAPI from './xisida'
+import xsdAPI from './xisida'
 
 // mock数据
 import  * as mockAPI from'./mock'
-let API = Object.assign({},serverAPI,userAPI,classAPI,contactAPI,studentAPI,teacherAPI,examAPI,videoAPI,liveAPI,xisidaAPI,mockAPI)
+let API = Object.assign({},serverAPI,userAPI,classAPI,contactAPI,studentAPI,teacherAPI,examAPI,videoAPI,liveAPI,xsdAPI,mockAPI)
 
 export default API

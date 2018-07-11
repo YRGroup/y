@@ -1,5 +1,5 @@
 <template>
-  <div :style="{'height':mainHeight+'px'}" style="overflow: scroll">
+  <div :style="{'height':mainHeight+'px'}">
 
     <loading v-model="isLoading" :loading="false"></loading>
 
@@ -61,7 +61,7 @@ export default {
 @import '~vux/src/styles/reset.less';
 @import './style/card.less';
 body {
-  max-width: @appwidth;
+  // max-width: @appwidth;
   margin: 0 auto;
   padding: 0;
   font-size: 12px;

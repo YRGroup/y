@@ -68,10 +68,10 @@ import liveVideo from '@/view/livevideo/player'
 
 import errorPage from '@/view/sys/404'
 //西斯达
-import xisidaLive from '@/view/xisidalive/player'
-import xisidaSign from '@/view/xisidalive/signin'
-import xisidaUserSign from '@/view/xisidalive/usersignin'
-import xisidaLottery from '@/view/xisidalive/lottery'
+import xsdLive from '@/view/xsdlive/player'
+import xsdSign from '@/view/xsdlive/signin'
+import xsdUserSign from '@/view/xsdlive/usersignin'
+import xsdLottery from '@/view/xsdlive/lottery'
 
 Vue.use(Router)
 
@@ -369,35 +369,35 @@ export default new Router({
         anonymous: true
       }
     },
-    // xisida直播
+    // xsd直播
     {
-      path: '/xisidaLive',
-      name: 'xisida',
-      component: xisidaLive,
+      path: '/xsdLive',
+      name: 'xsd',
+      component: xsdLive,
       meta: {
         anonymous: true
       }
     },
     {
-      path: '/xisidaLottery',
-      name: 'xisidaLottery',
-      component: xisidaLottery,
+      path: '/xsdLottery',
+      name: 'xsdLottery',
+      component: xsdLottery,
       meta: {
         anonymous: true
       }
     },
     {
-      path: '/xisidaUserSign',
-      name: 'xisidaUserSign',
-      component: xisidaUserSign,
+      path: '/xsdUserSign',
+      name: 'xsdUserSign',
+      component: xsdUserSign,
       meta: {
         anonymous: true
       }
     },
     {
-      path: '/xisidaSign',
-      name: 'xisidaSign',
-      component: xisidaSign,
+      path: '/xsdSign',
+      name: 'xsdSign',
+      component: xsdSign,
       meta: {
         anonymous: true
       }
