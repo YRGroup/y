@@ -46,7 +46,7 @@
                   <th>投票</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="votetable">
               <tr v-for="(i,index) in programList" :key="index">
                 <!-- <td>{{index+1}}</td> -->
                 <td>{{i.programName}}</td>
@@ -427,6 +427,12 @@ export default {
 }
 .deleteBtn {
   float: right;
+}
+.votetable tr td{
+  padding: 8px 0;
+}
+.votetable tr:nth-child(2n + 1){
+  background: #f6f6f6;
 }
 </style>
 
