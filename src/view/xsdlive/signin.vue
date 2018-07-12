@@ -18,49 +18,7 @@ export default {
       curid: 1,
       count: 1,
       SignInList: [],
-      showList:[],
-      userlist: [
-        {
-          img: require("@/assets/face/jay.jpg"),
-          name: "周杰伦1"
-        },
-        {
-          img: require("@/assets/face/jobs.jpg"),
-          name: "周杰伦2"
-        },
-        {
-          img: require("@/assets/face/lh.jpg"),
-          name: "周杰伦3"
-        },
-        {
-          img: require("@/assets/face/tc.png"),
-          name: "周杰伦4"
-        },
-        {
-          img: require("@/assets/face/jay.jpg"),
-          name: "周杰伦"
-        },
-        {
-          img: require("@/assets/face/jay.jpg"),
-          name: "周杰伦"
-        },
-        {
-          img: require("@/assets/face/jay.jpg"),
-          name: "周杰伦"
-        },
-        {
-          img: require("@/assets/face/jay.jpg"),
-          name: "周杰伦"
-        },
-        {
-          img: require("@/assets/face/jay.jpg"),
-          name: "周杰伦"
-        },
-        {
-          img: require("@/assets/face/jay.jpg"),
-          name: "周杰伦"
-        }
-      ]
+      showList:[]
     };
   },
 
