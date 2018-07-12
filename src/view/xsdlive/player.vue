@@ -92,7 +92,7 @@ export default {
         controlBarVisibility:"always",
         useH5Prism:true,
         useFlashPrism:false,
-        source:"http://live.yearnedu.com/1/1.m3u8",
+        source:"http://live.yearnedu.com/1/3.m3u8",
         // source:"//player.alicdn.com/video/aliyunmedia.mp4",
         cover: this.videoCover,
         x5_video_position:'top',

@@ -54,10 +54,10 @@ export default {
       this.lotteryInterval();
     },
     stop() {
+      clearInterval(this.timer);
       this.piao();
       this.control = !this.control;
       this.luckList.push(this.lotteryList.splice(this.activeIndex, 1)[0]);
-      clearInterval(this.timer);
     },
     getSignInList() {
       let para = {
@@ -65,8 +65,8 @@ export default {
         lottery: 0
       };
       this.$API.getSignInList(para).then(res => {
-        console.log(res)
-        this.signInList = res.Content;
+        console.log(res);
+        // this.signInList = res.Content;
         this.lotteryList = res.Content;
       });
     },
@@ -74,10 +74,10 @@ export default {
       this.activeIndex = this.getRandom(0, this.lotteryList.length - 1);
       this.luckyMan = this.lotteryList[this.activeIndex];
     },
-    lotteryInterval(){
-      this.time = setInterval(()=>{
-        this.getlottery()
-      },300)
+    lotteryInterval() {
+      this.timer = setInterval(() => {
+        this.getlottery();
+      }, 300);
     },
     piao() {
       let cvs = document.getElementById("cvs");
@@ -191,5 +191,11 @@ export default {
   margin-left: -960px;
   top: 0;
   z-index: -10;
+}
+.luckyList{
+  position: fixed;
+  left: 50px;
+  top:200px;
+  font-size: 30px;
 }
 </style>
