@@ -86,7 +86,6 @@ export default {
     },
     piao() {
       let cvs = document.getElementById("cvs");
-      console.log(cvs)
       dotsPiao(cvs, {
         width: 1920, //画布宽，默认父元素宽，非必需
         height: 1000, //画布高，默认父元素高，非必需
@@ -99,7 +98,7 @@ export default {
           "#d78a1a"
         ], //彩带颜色数组，非必需
         fps: 1, //产出速度（个/帧），非必需
-        end: 5000 //多少毫秒后停止，默认不停止，非必需
+        end: 2000 //多少毫秒后停止，默认不停止，非必需
       });
     },
     getRandom(Min, Max) {
@@ -138,8 +137,8 @@ export default {
   justify-content: space-around;
   flex-direction: column;
   .people {
-    width: 320px;
-    height: 320px;
+    width: 280px;
+    height: 280px;
     img {
       width: 100%;
       height: 100%;
