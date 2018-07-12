@@ -11,22 +11,21 @@
       <div v-if="control" class="btn" @click="lottery">开始</div>
       <div v-else class="btn" @click="stop">停！</div>
       <ul class="luckyList">
-      <li v-for="(item , index) in luckList" :key="index">
-        {{item.name}}
-        ({{item.classname}})
-      </li>
-    </ul>
+        <li class="text" v-if="luckList.length">中奖名单：</li>
+        <li v-for="(item , index) in luckList" :key="index">
+          {{item.name}}
+          <!-- ({{item.classname}}) -->
+        </li>
+      </ul>
     </div>
     <div class="session session-bg">
-      <canvas id="cvs"></canvas>
-      <i class="fw"></i>
+      <i class="fw" :class="{test: piao}"></i>
     </div>
     <div class="bg"></div>
   </div>
 </template>
 
 <script>
-require("@/js/canvas.js");
 export default {
   name: "lottery",
   data() {
@@ -39,12 +38,24 @@ export default {
       luckList: [], //已中奖用户
       activeIndex: null,
       timer: null,
-      luckyMan: {}
+      luckyMan: {},
+      piao: false
     };
   },
   created() {
     this.$store.commit("changeTitle", "2018年大树幼儿园英语汇演");
     this.getSignInList();
+    window.onkeyup = (event) => {
+      console.log(111)
+      console.log(event)
+      if(event.keyCode == 32) {
+        if(this.control){
+          this.lottery()
+        }else{
+          this.stop()
+        }
+      }
+    }
   },
   mounted() {
     clearInterval(this.timer);
@@ -57,10 +68,11 @@ export default {
       this.control = !this.control;
       this.getlottery();
       this.lotteryInterval();
+      this.piao = false;
     },
     stop() {
+      this.piao = true;
       clearInterval(this.timer);
-      this.piao();
       this.control = !this.control;
       this.luckList.push(this.lotteryList.splice(this.activeIndex, 1)[0]);
     },
@@ -83,23 +95,6 @@ export default {
       this.timer = setInterval(() => {
         this.getlottery();
       }, 300);
-    },
-    piao() {
-      let cvs = document.getElementById("cvs");
-      dotsPiao(cvs, {
-        width: 1920, //画布宽，默认父元素宽，非必需
-        height: 1000, //画布高，默认父元素高，非必需
-        colors: [
-          "#eed074",
-          "#ffffff",
-          "#ffc600",
-          "#fec501",
-          "#df1807",
-          "#d78a1a"
-        ], //彩带颜色数组，非必需
-        fps: 1, //产出速度（个/帧），非必需
-        end: 2000 //多少毫秒后停止，默认不停止，非必需
-      });
     },
     getRandom(Min, Max) {
       var Range = Max - Min;
@@ -128,17 +123,17 @@ export default {
   z-index: -100;
 }
 .wrapper {
-  padding: 240px 200px 0;
-  height: calc(~"100vh - 200px");
-  box-sizing: border-box;
+  padding: 240px 200px 50px;
+  height: calc(~"100vh - 290px");
+  // box-sizing: border-box;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-around;
   flex-direction: column;
   .people {
-    width: 280px;
-    height: 280px;
+    width: 240px;
+    height: 240px;
     img {
       width: 100%;
       height: 100%;
@@ -165,7 +160,6 @@ export default {
     line-height: 60px;
     font-size: 60px;
     text-align: center;
-    margin: 30px;
     .classname {
       font-size: 30px;
     }
@@ -189,8 +183,22 @@ export default {
   top: 0;
   width: 1830px;
   height: 2688px;
-  background: url(../../assets/fw.png);
   z-index: -10;
+}
+.test {
+  background: url(../../assets/fw.png);
+  transform-origin: center top;
+  animation: b 2.4s 0s linear both;
+}
+@-webkit-keyframes b {
+  0% {
+    transform: translate3d(0, -2600px, 0);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateZ(0);
+  }
 }
 
 .session-bg canvas {
@@ -201,10 +209,20 @@ export default {
   top: 0;
   z-index: -10;
 }
+
 .luckyList {
-  position: fixed;
-  left: 50px;
-  top: 200px;
-  font-size: 30px;
+  display: flex;
+  flex-direction: row;
+  // position: fixed;
+  // left: 50px;
+  // top: 200px;
+  font-size: 24px;
+  margin-top: 50px;
+  .text{
+    color:#ffcc1d;
+  }
+  li{
+    margin-right: 20px;
+  }
 }
 </style>

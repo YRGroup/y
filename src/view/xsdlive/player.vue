@@ -112,7 +112,7 @@ export default {
   created() {
     this.$store.commit("changeTitle", "2018年大树幼儿园英语汇演");
     this.liveId=this.$route.params.liveId
-    this.initWX()
+    // this.initWX()
   },
   mounted() {
     this.initPlayer()

@@ -100,11 +100,10 @@ export default {
       QRcodeIMG: "",
       admin: "",
       huaxuImg: [
-        " http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/104588424311540463.jpg",
-        "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/391872234988215624.jpg",
-        "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/466758364617692953.jpg",
-        "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/866427151543087814.jpg",
-        "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/99027685526621352.jpg"
+        "http://pic.yearnedu.com/YRImges/cstar/1.jpg",
+        "http://pic.yearnedu.com/YRImges/cstar/2.jpg",
+        "http://pic.yearnedu.com/YRImges/cstar/3.jpg",
+        "http://pic.yearnedu.com/YRImges/cstar/4.jpg",
       ],
       lid: 0,
       curid: -1,
@@ -429,6 +428,9 @@ export default {
 }
 .votetable tr:nth-child(2n + 1){
   background: #f6f6f6;
+}
+.vux-center  img{
+  max-width: 100%;
 }
 </style>
 
