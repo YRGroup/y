@@ -52,7 +52,7 @@
                 <td>{{i.ProgramName}}</td>
                 <td>{{i.Actor}}</td>
                 <td>
-                  <x-button type="primary" mini :disabled="i.IsVote" @click.native="vote(i.id)">
+                  <x-button type="primary" mini :disabled="i.IsVote" @click.native="programvote(i.id,i.ProgramName)">
                     投票{{i.VoteCount}}
                   </x-button>
                 </td>
@@ -106,7 +106,7 @@ export default {
         "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/866427151543087814.jpg",
         "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/99027685526621352.jpg"
       ],
-      lid: 3,
+      lid: null,
       curid: -1,
       commentsList: [],
       timer: "",
@@ -220,12 +220,20 @@ export default {
         }
       });
     },
-    vote(id) {
+    programvote(id, ProgramName) {
       let para = {
-        ID: id
+        id: id,
+        lid: this.lid
       };
-      this.$API.vote(para).then(res => {
-        console.log(res);
+      const This = this;
+      this.$vux.confirm.show({
+        title: "提示",
+        content: `要给 ${ProgramName} 投票吗？`,
+        onConfirm() {
+          This.$API.programvote(para).then(res => {
+            console.log(res);
+          });
+        }
       });
     },
     formatTime(val) {
@@ -238,11 +246,11 @@ export default {
       else return null;
     },
     getProgramList() {
-      let para ={
-        lid:this.lid
-      }
+      let para = {
+        lid: this.lid
+      };
       this.$API.getProgramList(para).then(res => {
-        console.log(para,res);
+        console.log(para, res);
         if (res.data) {
           this.programList = res.data.programList;
         }
@@ -253,9 +261,15 @@ export default {
     //  this.getCommentsList();
     // this.getWXQRcode();
     // this.setInterval();
-    let para = {
-      lid: 4
-    };
+    if (this.$route.params.liveId) {
+      this.lid = this.$route.params.liveId;
+    }
+    // else{
+    //   this.$vux.toast.text("直播间不存在", "middle");
+    //   this.$router.push('/');
+    //   return;
+    // }
+
     this.getProgramList();
 
     if (this.isWeiXin && !this.getCookie("openid")) {

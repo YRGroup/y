@@ -16,7 +16,7 @@ API.getProgramList = (para) => {
     })
   })
 }
-API.vote = (para) => {
+API.programvote = (para) => {
   return new Promise((resolve, reject) => {
     axios.post('api/LiveVideo/programvote',para).then(res => {
       resolve(res)
