@@ -12,7 +12,7 @@
 </template>
 <script>
 export default {
-  data(){
+  data() {
     return {
       liveId:0,
       curid:0,
@@ -60,11 +60,12 @@ export default {
       ]
     }
   },
-  components:{
+
+  components: {
 
   },
-  methods:{
-    getSignInList(){
+  methods: {
+    getSignInList() {
       let para = {
         name:this.liveId,
         curid:this.curid,
@@ -76,11 +77,12 @@ export default {
     })
     }
   },
-  created:{
-    
+  created() {
+    this.getSignInList();
   }
-}
+};
 </script>
+
 <style lang="less" scoped>
 
 .wrapper{
