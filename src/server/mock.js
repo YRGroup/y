@@ -28,7 +28,7 @@ mock.getSignInList = Mock.mock(/signInList/, {
     'id|+1': 0,
     'name|3-10': '',
     'desc':Random.paragraph(),
-    
+    'img': Random.image('120x120', '#FF6600')    
   }]
 })
 

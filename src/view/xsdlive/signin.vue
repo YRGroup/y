@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="item">
       <ul class="userlist">
-        <li v-for="item in userlist" class="user">
+        <li v-for="item in SignInList" class="user">
           <img :src="item.img" alt="">
           <p>{{item.name}}</p>
         </li>
@@ -17,6 +17,7 @@ export default {
       liveId:0,
       curid:0,
       count:2,
+      SignInList: [],
       userlist:[
         {
           img: require('@/assets/face/jay.jpg'),
@@ -73,7 +74,8 @@ export default {
         getlottery:0
       }
     this.$API.getSignInList().then(res=>{
-      
+      this.SignInList = res.signInList.slice(0 ,24)
+
     })
     }
   },
@@ -112,5 +114,12 @@ export default {
       box-shadow: 0 0 5px 5px rgba(0,0,0,.1);
     }
   }
+}
+.component-fade-enter-active, .component-fade-leave-active {
+  transition: opacity .3s ease;
+}
+.component-fade-enter, .component-fade-leave-to
+/* .component-fade-leave-active for below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
