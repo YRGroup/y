@@ -120,9 +120,15 @@ export default {
     }
   }
 }
+<<<<<<< HEAD
 .list-complete-item {
   transition: all 1s;
   display: inline-block;
+=======
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 0.3s ease;
+>>>>>>> eb042fd4176b167ba4598971e52f70f091264924
 }
 .list-complete-enter,
 .list-complete-leave-to {

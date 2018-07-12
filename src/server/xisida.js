@@ -19,7 +19,7 @@ API.getProgramList = (para) => {
 API.programvote = (para) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/LiveVideo/programvote',para).then(res => {
-      resolve(res)
+      resolve(res.data)
     }).catch(err => {
       reject(err)
     })
@@ -27,7 +27,7 @@ API.programvote = (para) => {
 }
 API.getSignInList = (para) => {
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/LiveVideo/signInList',para).then(res => {
+    axios.get(_APIurl+'/api/LiveVideo/GetSigninList',{params:para}).then(res => {
       resolve(res.data)
     }).catch(err => {
       reject(err)
