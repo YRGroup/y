@@ -22,7 +22,7 @@ export default {
       videoId: '',
       videoAuth: '',
       videoinfo:this.$store.state.currentVideoInfo,
-      videoCover: require('@/assets/childrenlive.jpg'),
+      videoCover: require('@/assets/sxdLive.jpg'),
       wxData: {
         debug: false,
         appId: "",
@@ -61,11 +61,11 @@ export default {
         wx.config(this.wxData);
 
         this.wxShareData = {
-          title: "六一文艺汇演",
-          desc: "郑州市经开区育人学校2018年六一文艺汇演现场直播，育人智慧校园经开校区系统入口",
+          title: "Happy Cstar happy baby tree",
+          desc: "“Happy Cstar happy baby tree”2018年大树幼儿园英语汇演",
           // link: "http://jkyr.yearnedu.com/m/#/live",
           link: "http://jkyr.yearnedu.com/redirect.html?type=live",
-          imgUrl: "http://pic.yearnedu.com/2018livevideowxshare.jpg"
+          imgUrl: "http://pic.yearnedu.com/xsdlogo.jpg"
         };
 
         wx.ready(function(){
@@ -110,7 +110,7 @@ export default {
   },
 
   created() {
-    this.$store.commit("changeTitle", "六一文艺汇演");
+    this.$store.commit("changeTitle", "2018年大树幼儿园英语汇演");
     this.liveId=this.$route.params.liveId
     this.initWX()
   },
