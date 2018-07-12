@@ -15,13 +15,21 @@ mock.getProgramList =  Mock.mock(/getProgramList/, {
   }]
 })
 
-// mock. = Mock.mock(/vote/, {
-//   'newsList|1-10': [{
-//     'id|+1': 0,
-//     'name|3-10': '',
-//     'desc':Random.paragraph(),
+mock.vote = Mock.mock(/vote/, {
+  'newsList|1-10': [{
+    'id|+1': 0,
+    'name|3-10': '',
+    'desc':Random.paragraph(),
     
-//   }]
-// })
+  }]
+})
+mock.getSignInList = Mock.mock(/signInList/, {
+  'signInList|1-10': [{
+    'id|+1': 0,
+    'name|3-10': '',
+    'desc':Random.paragraph(),
+    
+  }]
+})
 
 export default mock

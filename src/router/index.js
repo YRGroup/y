@@ -369,9 +369,11 @@ export default new Router({
         anonymous: true
       }
     },
+
+
     // xsd直播
     {
-      path: '/xsdLive',
+      path: '/xsdLive/:liveId',
       name: 'xsd',
       component: xsdLive,
       meta: {

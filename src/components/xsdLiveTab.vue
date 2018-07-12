@@ -52,7 +52,7 @@
                 <td>{{i.ProgramName}}</td>
                 <td>{{i.Actor}}</td>
                 <td>
-                  <x-button type="primary" mini :disabled="i.IsVote" @click="vote">
+                  <x-button type="primary" mini :disabled="i.IsVote" @click.native="vote(i.id)">
                     投票{{i.VoteCount}}
                   </x-button>
                 </td>
@@ -220,8 +220,13 @@ export default {
         }
       });
     },
-    vote() {
-      this.$API.vote().then(res => {});
+    vote(id) {
+      let para ={
+        ID:id
+      }
+      this.$API.vote(para).then(res => {
+        console.log(res)
+      });
     },
     formatTime(val) {
       return val.slice(5, val.indexOf(".")).replace("T", " ");
@@ -237,6 +242,7 @@ export default {
     //  this.getCommentsList();
     // this.getWXQRcode();
     // this.setInterval();
+    
     this.$API.getProgramList().then(res => {
       console.log(res);
       if (res.data) {

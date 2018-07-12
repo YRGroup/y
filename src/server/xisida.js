@@ -24,4 +24,13 @@ API.vote = () => {
     })
   })
 }
+API.getSignInList = () => {
+  return new Promise((resolve, reject) => {
+    axios.get('signInList').then(res => {
+      resolve(res.data)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
 export default API

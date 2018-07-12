@@ -17,6 +17,7 @@ export default {
   name: 'hello',
   data() {
     return {
+      liveId:null,
       player: null,
       videoId: '',
       videoAuth: '',
@@ -110,6 +111,7 @@ export default {
 
   created() {
     this.$store.commit("changeTitle", "六一文艺汇演");
+    this.liveId=this.$route.params.liveId
     this.initWX()
   },
   mounted() {
