@@ -2,8 +2,8 @@
   <div class="wrapper">
     <div class="people">
       <img :src="logo" alt="西斯达大树幼儿园">
-      <p>{{name}}</p> 
     </div>
+    <p class="name">{{name}}</p> 
     <div v-if="control" class="btn" @click="lottery">开始</div>
     <div v-else class="btn" @click="stop">停！</div>
   </div>
@@ -21,6 +21,7 @@ export default {
       activeIndex: null,
       timer: null,
       name: "",
+
       userlist: [
         {
           img: require("@/assets/face/jay.jpg"),
@@ -68,6 +69,7 @@ export default {
 
   created() {
     this.getSignInList();
+    
   },
   mounted() {
     clearInterval(this.timer);
@@ -101,12 +103,10 @@ export default {
       }, 100);
     },
     getlottery() {
-      // this.activeIndex = this.getRandom(0, this.SignInList.length - 1);
-
       this.activeIndex = this.getRandom(0, this.SignInList.length - 1);
-      this.logo = this.SignInList[this.activeIndex].imgUrl;
+      this.logo = this.SignInList[this.activeIndex].imageUrl;
       this.name = this.SignInList[this.activeIndex].name;
-      console.log(this.activeIndex);
+      console.log(this.logo);
     },
     getRandom(Min, Max) {
       var Range = Max - Min;
@@ -120,7 +120,7 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   height: 100vh;
-  padding: 240px 200px 0;
+  padding: 200px 200px 0;
   box-sizing: border-box;
   background: url(../../assets/xsdLiveBg.jpg) no-repeat center center;
   background-size: cover;
@@ -153,6 +153,11 @@ export default {
       background: #ffcc1d;
       box-shadow: 0 6px 0 #c87100;
     }
+  }
+  .name{
+    line-height: 60px;
+    font-size: 60px;
+    text-align: center;
   }
 }
 </style>
