@@ -53,7 +53,7 @@
                 <td>{{i.actor}}</td>
                 <td>
                   <x-button type="primary" mini :disabled="i.isVote" @click.native="programvote(i.ID,i.programName)">
-                    投票{{i.voteCount}}
+                    {{i.isVote?'已投票':'投票'}}{{i.voteCount}}
                   </x-button>
                 </td>
               </tr>
@@ -230,8 +230,14 @@ export default {
         title: "提示",
         content: `要给 ${programName} 投票吗？`,
         onConfirm() {
+          This.$vux.loading.show();
           This.$API.programvote(para).then(res => {
             console.log(res);
+            if (res.Status == 1) {
+              This.$vux.loading.hide();
+
+              //  This.programList = res.Content;
+            }
           });
         }
       });
@@ -251,7 +257,7 @@ export default {
       };
       this.$API.getProgramList(para).then(res => {
         console.log(para, res);
-        if (res.Status==1) {
+        if (res.Status == 1) {
           this.programList = res.Content;
         }
       });

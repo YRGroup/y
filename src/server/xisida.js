@@ -19,7 +19,7 @@ API.getProgramList = (para) => {
 API.programvote = (para) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/LiveVideo/programvote',para).then(res => {
-      resolve(res)
+      resolve(res.data)
     }).catch(err => {
       reject(err)
     })
