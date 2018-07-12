@@ -129,7 +129,7 @@ export default {
   z-index: -100;
 }
 .wrapper {
-  padding: 200px 200px 0;
+  padding: 240px 200px 0;
   height: calc(~"100vh - 200px");
   box-sizing: border-box;
   color: #fff;
@@ -166,6 +166,7 @@ export default {
     line-height: 60px;
     font-size: 60px;
     text-align: center;
+    margin: 30px;
     .classname {
       font-size: 30px;
     }
