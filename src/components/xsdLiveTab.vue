@@ -41,7 +41,7 @@
               <thead>
                 <tr>
                   <!-- <th>顺序</th> -->
-                  <th>名称</th>
+                  <th>节目名称</th>
                   <th>表演者</th>
                   <th>投票</th>
                 </tr>
@@ -106,7 +106,7 @@ export default {
         "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/866427151543087814.jpg",
         "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/99027685526621352.jpg"
       ],
-      lid: 2,
+      lid: 3,
       curid: -1,
       commentsList: [],
       timer: "",
@@ -221,11 +221,11 @@ export default {
       });
     },
     vote(id) {
-      let para ={
-        ID:id
-      }
+      let para = {
+        ID: id
+      };
       this.$API.vote(para).then(res => {
-        console.log(res)
+        console.log(res);
       });
     },
     formatTime(val) {
@@ -236,19 +236,28 @@ export default {
         reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
       if ((arr = document.cookie.match(reg))) return unescape(arr[2]);
       else return null;
+    },
+    getProgramList() {
+      let para ={
+        lid:this.lid
+      }
+      this.$API.getProgramList(para).then(res => {
+        console.log(para,res);
+        if (res.data) {
+          this.programList = res.data.programList;
+        }
+      });
     }
   },
   created() {
     //  this.getCommentsList();
     // this.getWXQRcode();
     // this.setInterval();
-    
-    this.$API.getProgramList().then(res => {
-      console.log(res);
-      if (res.data) {
-        this.programList = res.data.programList;
-      }
-    });
+    let para = {
+      lid: 4
+    };
+    this.getProgramList();
+
     if (this.isWeiXin && !this.getCookie("openid")) {
       window.location.href =
         this.$store.state.ApiUrl +

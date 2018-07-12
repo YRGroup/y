@@ -5,28 +5,29 @@ import axios from 'axios'
 // API根目录
 import _APIurl from './config'
 
-// 获取班级信息
-API.getProgramList = () => {
+// 获取节目列表
+API.getProgramList = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get('getProgramList').then(res => {
+
+    axios.post('api/LiveVideo/getProgramList',para).then(res => {
       resolve(res)
     }).catch(err => {
       reject(err)
     })
   })
 }
-API.vote = () => {
+API.vote = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get('vote').then(res => {
+    axios.post('api/LiveVideo/programvote',para).then(res => {
       resolve(res)
     }).catch(err => {
       reject(err)
     })
   })
 }
-API.getSignInList = () => {
+API.getSignInList = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get('signInList').then(res => {
+    axios.post('api/LiveVideo/signInList',para).then(res => {
       resolve(res.data)
     }).catch(err => {
       reject(err)
