@@ -179,7 +179,7 @@ API.refreshLiveness = () => {
 // 获取微信jssdk签名
 API.getWxData = (id) => {
   return new Promise((resolve, reject) => {
-    axios.get('http://cstar.yearn.com/api/School/GetWeiXinJsApiSignature').then((res) => {
+    axios.get('http://jkyr.yearnedu.com/api/School/GetWeiXinJsApiSignature').then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
       reject(err)

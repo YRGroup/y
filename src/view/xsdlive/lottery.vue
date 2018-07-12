@@ -17,8 +17,8 @@
       </li>
     </ul>
     </div>
-    <div class="session session-bg" id="canvasWrapper">
-      <!-- <canvas id="cvs"></canvas> -->
+    <div class="session session-bg">
+      <canvas id="cvs"></canvas>
       <i class="fw"></i>
     </div>
     <div class="bg"></div>
@@ -45,17 +45,6 @@ export default {
   created() {
     this.$store.commit("changeTitle", "2018年大树幼儿园英语汇演");
     this.getSignInList();
-
-    window.onkeyup = (ev)=> {
-
-      if (ev.keyCode == 32) {
-        if (this.control) {
-          this.lottery();
-        } else {
-          this.stop();
-        }
-      }
-    };
   },
   mounted() {
     clearInterval(this.timer);
@@ -93,24 +82,12 @@ export default {
     lotteryInterval() {
       this.timer = setInterval(() => {
         this.getlottery();
-      }, 100);
+      }, 300);
     },
     piao() {
-      let box = document.getElementById("canvasWrapper");
-      if (document.getElementById("cvs")) {
-        box.removeChild(document.getElementById("cvs"));
-      }
-      // let cvs = document.getElementById("cvs");
-
-      let cvs = document.createElement("canvas");
-      cvs.setAttribute("id", "cvs");
-      // console.log(cvs)
-      box.appendChild(cvs);
-      document
-        .getElementById("cvs")
-        .getContext("2d")
-        .clearRect(0, 0, 1920, 1000);
-      dotsPiao(document.getElementById("cvs"), {
+      let cvs = document.getElementById("cvs");
+      console.log(cvs)
+      dotsPiao(cvs, {
         width: 1920, //画布宽，默认父元素宽，非必需
         height: 1000, //画布高，默认父元素高，非必需
         colors: [

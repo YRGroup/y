@@ -63,8 +63,8 @@ export default {
         this.wxShareData = {
           title: "Happy Cstar happy baby tree",
           desc: "“Happy Cstar happy baby tree”2018年大树幼儿园英语汇演",
-          // link: "http://cstar.yearn.com/m/#/csdLive/3",
-          link: "http://cstar.yearn.com/redirect.html?type=xsdLive",
+          link: "http://cstar.yearn.com/m/#/csdLive/3",
+          // link: "http://jkyr.yearnedu.com/redirect.html?type=live",
           imgUrl: "http://pic.yearnedu.com/xsdlogo.jpg"
         };
 
@@ -92,7 +92,7 @@ export default {
         controlBarVisibility:"always",
         useH5Prism:true,
         useFlashPrism:false,
-        source:"http://live.yearnedu.com/1/3.m3u8",
+        source:"http://live.yearn.com/1/3.m3u8",
         // source:"//player.alicdn.com/video/aliyunmedia.mp4",
         cover: this.videoCover,
         x5_video_position:'top',

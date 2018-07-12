@@ -31,7 +31,7 @@
           <scroll-view class="content noBottom">
             <div class="tab-swiper vux-center">
               <divider>精彩花絮</divider>
-              <img class="huaxuImg" v-for="(item,index) in huaxuImg"  :src="item" :key="index">
+              <img v-for="(item,index) in huaxuImg"  :src="item" :key="index">
             </div> 
           </scroll-view>
         </swiper-item>
@@ -103,7 +103,7 @@ export default {
         require('@/assets/cstar/1.jpg'),
         require('@/assets/cstar/2.jpg'),
         require('@/assets/cstar/3.jpg'),
-        require('@/assets/cstar/4.jpg'),
+        require('@/assets/cstar/4.jpg')
       ],
       lid: 0,
       curid: -1,
@@ -232,6 +232,7 @@ export default {
         onConfirm() {
           This.$vux.loading.show();
           This.$API.programvote(para).then(res => {
+            console.log(res);
             if (res.Status == 1) {
               This.$vux.loading.hide();
               This.programList = JSON.parse(res.Content);
@@ -256,6 +257,7 @@ export default {
         lid: this.lid
       };
       this.$API.getProgramList(para).then(res => {
+        console.log(para, res);
         if (res.Status == 1) {
           this.programList = res.Content;
         }
@@ -426,9 +428,6 @@ export default {
 }
 .votetable tr:nth-child(2n + 1){
   background: #f6f6f6;
-}
-.huaxuImg{
-  width: 100%;
 }
 </style>
 
