@@ -3,7 +3,7 @@
     <div class="item">
       <transition-group tag="ul" class="userlist list-complete">
           <li v-for="(item,index) in SignInList" class="user list-complete-item" :key="index">
-            <img :src="item.img" alt="">
+            <img :src="item.imageUrl" alt="">
             <p>{{item.name}}</p>
           </li>
       </transition-group>
@@ -14,10 +14,11 @@
 export default {
   data() {
     return {
-      liveId: 0,
-      curid: 0,
-      count: 2,
+      liveId: 3,
+      curid: 1,
+      count: 1,
       SignInList: [],
+      showList:[],
       userlist: [
         {
           img: require("@/assets/face/jay.jpg"),
@@ -73,8 +74,13 @@ export default {
         getlottery: 0
       };
       this.$API.getSignInList(para).then(res => {
-        this.SignInList = res.signInList.slice(0, 24);
         console.log(res)
+        // this.SignInList = res.Content.slice(0, 24);
+        // this.showList.push(this.SignInList)
+        // this.curid = res.Content[0].ID;
+        // setTimeout(() => {
+        //   this.getSignInList()
+        // },2000)
       });
     }
   },
@@ -82,11 +88,7 @@ export default {
     this.getSignInList();
   },
   watch: {
-    getNewUser() {
-      setTimeout(() => {
-        this.getSignInList()
-      },2000)
-    }
+
   }
 };
 </script>
@@ -120,15 +122,9 @@ export default {
     }
   }
 }
-<<<<<<< HEAD
 .list-complete-item {
   transition: all 1s;
   display: inline-block;
-=======
-.component-fade-enter-active,
-.component-fade-leave-active {
-  transition: opacity 0.3s ease;
->>>>>>> eb042fd4176b167ba4598971e52f70f091264924
 }
 .list-complete-enter,
 .list-complete-leave-to {
