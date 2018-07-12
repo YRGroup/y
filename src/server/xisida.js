@@ -9,8 +9,8 @@ import _APIurl from './config'
 API.getProgramList = (para) => {
   return new Promise((resolve, reject) => {
 
-    axios.post('api/LiveVideo/getProgramList',para).then(res => {
-      resolve(res)
+    axios.get(_APIurl+'/api/LiveVideo/getProgramList',{params:para}).then(res => {
+      resolve(res.data)
     }).catch(err => {
       reject(err)
     })
@@ -18,7 +18,7 @@ API.getProgramList = (para) => {
 }
 API.programvote = (para) => {
   return new Promise((resolve, reject) => {
-    axios.post('api/LiveVideo/programvote',para).then(res => {
+    axios.post(_APIurl+'/api/LiveVideo/programvote',para).then(res => {
       resolve(res)
     }).catch(err => {
       reject(err)
@@ -27,7 +27,7 @@ API.programvote = (para) => {
 }
 API.getSignInList = (para) => {
   return new Promise((resolve, reject) => {
-    axios.post('api/LiveVideo/signInList',para).then(res => {
+    axios.post(_APIurl+'/api/LiveVideo/signInList',para).then(res => {
       resolve(res.data)
     }).catch(err => {
       reject(err)
