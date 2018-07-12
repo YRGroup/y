@@ -238,6 +238,9 @@ export default {
               This.programList = JSON.parse(res.Content);
               This.hasVoteList.push(id);
               localStorage.setItem("hasVoteList", This.hasVoteList);
+              This.$nextTick(() => {
+                This.$refs.scroll.refresh();
+              }, 20);
             }
           });
         }
@@ -260,6 +263,9 @@ export default {
         console.log(para, res);
         if (res.Status == 1) {
           this.programList = res.Content;
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh();
+          }, 20);
         }
       });
     },
