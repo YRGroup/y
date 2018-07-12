@@ -8,7 +8,7 @@
       </tab>
     </div>
     <div>  
-      <swiper v-model="tabIndex" class="swiper" height="100%"  :show-dots="false">
+      <swiper v-model="tabIndex" class="swiper" height="100%"  :show-dots="false" threshold="200" min-moving-distance="20">
         <swiper-item class="swiperComment">
           <i class="iconfont refresh" @click="$router.push('/')">&#xe666;</i>
           <scroll-view class="content" ref="scroll">
@@ -37,7 +37,7 @@
         </swiper-item>
         <swiper-item>
           <scroll-view class="content votelist" ref="scroll">
-            <x-table  :cell-bordered="false" :content-bordered="false" style="background-color:#fff;">
+            <x-table  :cell-bordered="false"  style="background-color:#fff;">
               <thead>
                 <tr>
                   <!-- <th>顺序</th> -->
@@ -49,11 +49,11 @@
               <tbody>
               <tr v-for="(i,index) in programList" :key="index">
                 <!-- <td>{{index+1}}</td> -->
-                <td>{{i.ProgramName}}</td>
-                <td>{{i.Actor}}</td>
+                <td>{{i.programName}}</td>
+                <td>{{i.actor}}</td>
                 <td>
-                  <x-button type="primary" mini :disabled="i.IsVote" @click.native="programvote(i.id,i.ProgramName)">
-                    投票{{i.VoteCount}}
+                  <x-button type="primary" mini :disabled="i.isVote" @click.native="programvote(i.ID,i.programName)">
+                    投票{{i.voteCount}}
                   </x-button>
                 </td>
               </tr>
@@ -106,7 +106,7 @@ export default {
         "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/866427151543087814.jpg",
         "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/99027685526621352.jpg"
       ],
-      lid: null,
+      lid: 0,
       curid: -1,
       commentsList: [],
       timer: "",
@@ -220,15 +220,15 @@ export default {
         }
       });
     },
-    programvote(id, ProgramName) {
+    programvote(id, programName) {
       let para = {
-        id: id,
+        pid: id,
         lid: this.lid
       };
       const This = this;
       this.$vux.confirm.show({
         title: "提示",
-        content: `要给 ${ProgramName} 投票吗？`,
+        content: `要给 ${programName} 投票吗？`,
         onConfirm() {
           This.$API.programvote(para).then(res => {
             console.log(res);
@@ -251,8 +251,8 @@ export default {
       };
       this.$API.getProgramList(para).then(res => {
         console.log(para, res);
-        if (res.data) {
-          this.programList = res.data.programList;
+        if (res.Status==1) {
+          this.programList = res.Content;
         }
       });
     }

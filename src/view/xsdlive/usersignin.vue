@@ -3,7 +3,7 @@
     <div class="content">
       <img :src="bg" alt="">
       <P class="title">恭喜您,签到成功</P>
-      <x-button :gradients="['#FF5E3A', '#FF9500']" class="btn" link="/xsdLive/2">
+      <x-button :gradients="['#FF5E3A', '#FF9500']" class="btn" link="/xsdLive/3">
         进入直播间
       </x-button>
       <p class="tips">不要忘了给喜欢的节目投票~</p>
