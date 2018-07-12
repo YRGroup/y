@@ -3,7 +3,8 @@
     <div class="people">
       <img :src="logo" alt="西斯达大树幼儿园">
     </div>
-    <div class="btn" @click="lottery">{{lottery}}</div>
+    <div v-if="control" class="btn" @click="lottery">开始</div>
+    <div v-else class="btn" @click="lottery">结束</div>
   </div>
 </template>
 
@@ -15,7 +16,7 @@ export default {
   data() {
     return {
       logo:require('@/assets/xsdlogo.jpg'),
-      lottery: true
+      control: true
     }
   },
 
@@ -26,7 +27,7 @@ export default {
   },
   methods: {
     lottery() {
-      this.lottery = !this.lottery
+      this.control = !this.control
     }
   }
 
