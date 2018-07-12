@@ -15,20 +15,12 @@ mock.getProgramList =  Mock.mock(/getProgramList/, {
   }]
 })
 
-mock.vote = Mock.mock(/vote/, {
-  'newsList|1-10': [{
-    'id|+1': 0,
+mock.getSignInList = Mock.mock(/GetSigninList/, {
+  'signInList|20': [{
+    'ID|+1': 0,
     'name|3-10': '',
-    'desc':Random.paragraph(),
-    
-  }]
-})
-mock.getSignInList = Mock.mock(/signInList/, {
-  'signInList|1-10': [{
-    'id|+1': 0,
-    'name|3-10': '',
-    'desc':Random.paragraph(),
-    'img': Random.image('120x120', '#FF6600')    
+    'imgUrl': Random.image('120x120', '#FF6600'),
+    'winLottery|1-2':false    
   }]
 })
 
