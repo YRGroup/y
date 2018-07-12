@@ -1,12 +1,12 @@
 <template>
   <div class="wrapper">
     <div class="item">
-      <ul class="userlist">
-        <li v-for="item in SignInList" class="user">
-          <img :src="item.img" alt="">
-          <p>{{item.name}}</p>
-        </li>
-      </ul>
+      <transition-group tag="ul" class="userlist">
+          <li v-for="(item,index) in SignInList" class="user" :key="index">
+            <img :src="item.img" alt="">
+            <p>{{item.name}}</p>
+          </li>
+      </transition-group>
     </div>
   </div>
 </template>
@@ -74,6 +74,7 @@ export default {
         getlottery:0
       }
     this.$API.getSignInList().then(res=>{
+      console.log(res)
       this.SignInList = res.signInList.slice(0 ,24)
 
     })
