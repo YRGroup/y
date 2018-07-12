@@ -4,12 +4,16 @@
       <div class="people">
         <img :src="logo" alt="西斯达大树幼儿园">
       </div>
-      <p class="name">{{luckyMan.name}}</p>
+      <p class="name" v-show="luckyMan.name">
+        <span> {{luckyMan.name}}</span>
+        <span class=classname>({{luckyMan.classname}})</span>
+      </p>
       <div v-if="control" class="btn" @click="lottery">开始</div>
       <div v-else class="btn" @click="stop">停！</div>
       <ul class="luckyList">
       <li v-for="(item , index) in luckList" :key="index">
         {{item.name}}
+        ({{item.classname}})
       </li>
     </ul>
     </div>
@@ -39,6 +43,7 @@ export default {
     };
   },
   created() {
+    this.$store.commit("changeTitle", "2018年大树幼儿园英语汇演");
     this.getSignInList();
   },
   mounted() {
@@ -81,6 +86,7 @@ export default {
     },
     piao() {
       let cvs = document.getElementById("cvs");
+      console.log(cvs)
       dotsPiao(cvs, {
         width: 1920, //画布宽，默认父元素宽，非必需
         height: 1000, //画布高，默认父元素高，非必需
@@ -160,6 +166,9 @@ export default {
     line-height: 60px;
     font-size: 60px;
     text-align: center;
+    .classname {
+      font-size: 30px;
+    }
   }
 }
 
@@ -192,10 +201,10 @@ export default {
   top: 0;
   z-index: -10;
 }
-.luckyList{
+.luckyList {
   position: fixed;
   left: 50px;
-  top:200px;
+  top: 200px;
   font-size: 30px;
 }
 </style>

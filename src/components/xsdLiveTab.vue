@@ -63,13 +63,13 @@
         </swiper-item>
       </swiper>
     </div>
-    <div class="sendComment" v-show="showSendComment">
+    <!-- <div class="sendComment" v-show="showSendComment">
       <group class="weui-cells_form">
         <x-input title="" class="weui-vcode" :show-clear="false"  v-model="content" placeholder="说点什么">
           <x-button slot="right" type="primary" @click.native="sendComment" mini>发送</x-button>
         </x-input>
       </group>
-  </div>
+  </div> -->
   </div>
 </template>
 <script>
@@ -266,20 +266,16 @@ export default {
     },
     isVoted(id) {
       if (this.hasVoteList.length) {
-        return this.hasVoteList.some(el => {
-          return Number(el) == id;
-        });
-      }else{
-        return false
+        return this.hasVoteList.some(el => Number(el) == id);
+      } else {
+        return false;
       }
     }
   },
   created() {
-
     let hasVoteList = localStorage.getItem("hasVoteList");
     if (hasVoteList) {
       this.hasVoteList = hasVoteList.split(",");
-      console.log(this.hasVoteList);
     } else {
       localStorage.setItem("hasVoteList", new Array());
     }

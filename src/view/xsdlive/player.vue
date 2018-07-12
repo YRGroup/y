@@ -63,8 +63,8 @@ export default {
         this.wxShareData = {
           title: "Happy Cstar happy baby tree",
           desc: "“Happy Cstar happy baby tree”2018年大树幼儿园英语汇演",
-          // link: "http://jkyr.yearnedu.com/m/#/live",
-          link: "http://jkyr.yearnedu.com/redirect.html?type=live",
+          link: "http://cstar.yearn.com/m/#/csdLive/3",
+          // link: "http://jkyr.yearnedu.com/redirect.html?type=live",
           imgUrl: "http://pic.yearnedu.com/xsdlogo.jpg"
         };
 
