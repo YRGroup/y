@@ -9,7 +9,7 @@ import API from '@/server/API'
 const store = new Vuex.Store({
   state: {
     showBottomNav: true,
-    title: '育人教育',
+    title: '西斯达教育集团',
     hasLogin: false,
     role: null || 'guest',
     currentUserId: null,
