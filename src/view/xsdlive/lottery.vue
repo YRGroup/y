@@ -26,13 +26,15 @@
 </template>
 
 <script>
+
 export default {
   name: "lottery",
+  
   data() {
     return {
       logo: require("@/assets/xsdlogo.jpg"),
       control: true,
-      liveId: 3,
+      lid: 0,
       signInList: [], //所有签到用户
       lotteryList: [], //待抽奖用户
       luckList: [], //已中奖用户
@@ -43,19 +45,18 @@ export default {
     };
   },
   created() {
+    this.lid = this.$route.params.liveId;
     this.$store.commit("changeTitle", "2018年大树幼儿园英语汇演");
     this.getSignInList();
-    window.onkeyup = (event) => {
-      console.log(111)
-      console.log(event)
-      if(event.keyCode == 32) {
-        if(this.control){
-          this.lottery()
-        }else{
-          this.stop()
+    window.onkeyup = event => {
+      if (event.keyCode == 32) {
+        if (this.control) {
+          this.lottery();
+        } else {
+          this.stop();
         }
       }
-    }
+    };
   },
   mounted() {
     clearInterval(this.timer);
@@ -65,10 +66,17 @@ export default {
   },
   methods: {
     lottery() {
-      this.control = !this.control;
-      this.getlottery();
-      this.lotteryInterval();
-      this.piao = false;
+      if (this.lotteryList.length) {
+        this.control = !this.control;
+        this.getlottery();
+        this.lotteryInterval();
+        this.piao = false;
+      } else {
+        this.$vux.alert.show({
+          title: "提示",
+          content: "还没有人参加抽奖！"
+        });
+      }
     },
     stop() {
       this.piao = true;
@@ -78,7 +86,7 @@ export default {
     },
     getSignInList() {
       let para = {
-        lid: this.liveId,
+        lid: this.lid,
         lottery: 0
       };
       this.$API.getSignInList(para).then(res => {
@@ -188,16 +196,16 @@ export default {
 .test {
   background: url(../../assets/fw.png);
   transform-origin: center top;
-  animation: b 2.4s 0s linear both;
+  animation: b 2.4s 0s ease both;
 }
 @-webkit-keyframes b {
-  0% {
+  from {
     transform: translate3d(0, -2600px, 0);
     opacity: 0;
   }
 
   to {
-    transform: translateZ(0);
+    transform: translateZ(1000px);
   }
 }
 
@@ -218,10 +226,10 @@ export default {
   // top: 200px;
   font-size: 24px;
   margin-top: 50px;
-  .text{
-    color:#ffcc1d;
+  .text {
+    color: #ffcc1d;
   }
-  li{
+  li {
     margin-right: 20px;
   }
 }

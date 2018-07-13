@@ -381,7 +381,7 @@ export default new Router({
       }
     },
     {
-      path: '/xsdLottery',
+      path: '/xsdLottery/:liveId',
       name: 'xsdLottery',
       component: xsdLottery,
       meta: {

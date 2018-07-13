@@ -28,7 +28,7 @@
           </scroll-view>
         </swiper-item> -->
         <swiper-item>
-          <scroll-view class="content noBottom">
+          <scroll-view class="content noBottom" ref="scroll2">
             <div class="tab-swiper vux-center">
               <divider>精彩花絮</divider>
               <img v-for="(item,index) in huaxuImg"  :src="item" :key="index">
@@ -103,7 +103,7 @@ export default {
         "http://pic.yearnedu.com/YRImges/cstar/1.jpg",
         "http://pic.yearnedu.com/YRImges/cstar/2.jpg",
         "http://pic.yearnedu.com/YRImges/cstar/3.jpg",
-        "http://pic.yearnedu.com/YRImges/cstar/4.jpg",
+        "http://pic.yearnedu.com/YRImges/cstar/4.jpg"
       ],
       lid: 0,
       curid: -1,
@@ -278,6 +278,9 @@ export default {
     }
   },
   created() {
+    this.$nextTick(() => {
+      this.$refs.scroll2.refresh();
+    }, 20);
     let hasVoteList = localStorage.getItem("hasVoteList");
     if (hasVoteList) {
       this.hasVoteList = hasVoteList.split(",");
@@ -429,13 +432,13 @@ export default {
 .deleteBtn {
   float: right;
 }
-.votetable tr td{
+.votetable tr td {
   padding: 8px 0;
 }
-.votetable tr:nth-child(2n + 1){
+.votetable tr:nth-child(2n + 1) {
   background: #f6f6f6;
 }
-.vux-center  img{
+.vux-center img {
   max-width: 100%;
 }
 </style>

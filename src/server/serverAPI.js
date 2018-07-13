@@ -179,14 +179,23 @@ API.refreshLiveness = () => {
 // 获取微信jssdk签名
 API.getWxData = (id) => {
   return new Promise((resolve, reject) => {
-    axios.get('http://jkyr.yearnedu.com/api/School/GetWeiXinJsApiSignature').then((res) => {
+    axios.get('/api/School/GetWeiXinJsApiSignature').then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
       reject(err)
     })
   })
 }
-
+// // 获取微信jssdk签名
+// API.getCsdWxData = (id) => {
+//   return new Promise((resolve, reject) => {
+//     axios.get('http://cstar.yearn.com/api/School/GetWeiXinJsApiSignature').then((res) => {
+//       resolve(res.data.Content)
+//     }).catch((err) => {
+//       reject(err)
+//     })
+//   })
+// }
 // 空API模板
 API.test = () => {
   return new Promise((resolve, reject) => {

@@ -9,20 +9,19 @@
 </template>
 
 <script>
-
-import liveTab from "@/components/xsdLiveTab"
+import liveTab from "@/components/xsdLiveTab";
 import wx from "weixin-js-sdk";
 
 export default {
-  name: 'hello',
+  name: "hello",
   data() {
     return {
-      liveId:null,
+      liveId: null,
       player: null,
-      videoId: '',
-      videoAuth: '',
-      videoinfo:this.$store.state.currentVideoInfo,
-      videoCover: require('@/assets/sxdLive.jpg'),
+      videoId: "",
+      videoAuth: "",
+      videoinfo: this.$store.state.currentVideoInfo,
+      videoCover: require("@/assets/sxdLive.jpg"),
       wxData: {
         debug: false,
         appId: "",
@@ -42,18 +41,19 @@ export default {
         title: "",
         desc: "",
         link: "",
-        imgUrl:""
+        imgUrl: ""
       },
-      showComments:true
-    }
+      showComments: true,
+      logo: require("@/assets/xsdlogo.jpg")
+    };
   },
-  components:{
+  components: {
     liveTab
   },
   methods: {
     initWX() {
       this.$API.getWxData().then(res => {
-        let _this = this
+        let _this = this;
         this.wxData.appId = res.AppId;
         this.wxData.timestamp = res.Timestamp;
         this.wxData.nonceStr = res.NonceStr;
@@ -63,12 +63,13 @@ export default {
         this.wxShareData = {
           title: "Happy Cstar happy baby tree",
           desc: "“Happy Cstar happy baby tree”2018年大树幼儿园英语汇演",
-          link: "http://cstar.yearn.com/m/#/csdLive/3",
-          // link: "http://jkyr.yearnedu.com/redirect.html?type=live",
-          imgUrl: "http://pic.yearnedu.com/xsdlogo.jpg"
+          // link: `http://cstar.yearn.com/m/#/xsdLive/${this.liveId}`,
+          link: window.location.href,
+          imgUrl: "http://pic.yearnedu.com/YRImges/cstar/xsdlogo.jpg"
+          // imgUrl: this.logo
         };
 
-        wx.ready(function(){
+        wx.ready(function() {
           wx.onMenuShareTimeline(_this.wxShareData);
           wx.onMenuShareAppMessage(_this.wxShareData);
           wx.onMenuShareQQ(_this.wxShareData);
@@ -76,58 +77,58 @@ export default {
           wx.onMenuShareQZone(_this.wxShareData);
         });
       });
-
     },
     initPlayer() {
       if (this.player) {
-        this.player = null
+        this.player = null;
       }
       this.player = new Aliplayer({
-        id: 'J_prismPlayer',
+        id: "J_prismPlayer",
         autoplay: false,
-        isLive:true,
-        playsinline:true,
-        width:"100%",
-        height:"100%",
-        controlBarVisibility:"always",
-        useH5Prism:true,
-        useFlashPrism:false,
-        source:"http://live.yearnedu.com/1/3.m3u8",
+        isLive: true,
+        playsinline: true,
+        width: "100%",
+        height: "100%",
+        controlBarVisibility: "always",
+        useH5Prism: true,
+        useFlashPrism: false,
+        source: `http://live.yearn.com/1/${this.liveId}.m3u8`,
         // source:"//player.alicdn.com/video/aliyunmedia.mp4",
         cover: this.videoCover,
-        x5_video_position:'top',
-        x5_type:'h5', //声明启用同层H5播放器，支持的值：h5
-        showBarTime:'2000',
-        controlBarVisibility:'click'
+        x5_video_position: "top",
+        x5_type: "h5", //声明启用同层H5播放器，支持的值：h5
+        showBarTime: "2000",
+        controlBarVisibility: "click"
       });
-      this.player.on('requestFullScreen',() => {
+      this.player.on("requestFullScreen", () => {
         this.hiddeComments();
-      })
-      this.player.on('cancelFullScreen',() => {
+      });
+      this.player.on("cancelFullScreen", () => {
         this.showComments();
-      })
-    },
+      });
+    }
   },
 
   created() {
+    console.log(window.location.href);
     this.$store.commit("changeTitle", "2018年大树幼儿园英语汇演");
-    this.liveId=this.$route.params.liveId
-    // this.initWX()
+    this.initWX();
   },
   mounted() {
-    this.initPlayer()
+    this.liveId = this.$route.params.liveId;
+    this.initPlayer();
   },
-  hiddeComments(){
+  hiddeComments() {
     this.showComments = false;
   },
-  showComments(){
+  showComments() {
     this.showComments = true;
   }
-}
+};
 </script>
 
-<style lang="less" scoped> 
-.video{
+<style lang="less" scoped>
+.video {
   height: 40vh;
 }
 .card {
@@ -144,7 +145,7 @@ export default {
   .content {
     padding: 1.2em;
     button {
-      margin: .5em;
+      margin: 0.5em;
     }
     .add {
       margin-bottom: 2em;
@@ -180,7 +181,7 @@ export default {
       display: inline-block;
       width: 60px;
       height: 60px;
-      img{
+      img {
         border-radius: 50%;
         max-width: 100%;
       }
@@ -199,32 +200,27 @@ export default {
     }
   }
 }
-.videoTitle{
+.videoTitle {
   line-height: 2em;
 }
-#comments{
+#comments {
   height: 60%;
 }
 
 video::-webkit-media-controls {
-  display:none !important;
+  display: none !important;
 }
 
-.live-video
-{ 
-  
-   position:relative;
-   left:0%;
+.live-video {
+  position: relative;
+  left: 0%;
 }
 
-.prism-progress-cursor 
-{
-  margin-left:0px !important;
+.prism-progress-cursor {
+  margin-left: 0px !important;
 }
 
-video.center
-{
-    object-position:50% 50% !important;
+video.center {
+  object-position: 50% 50% !important;
 }
-
 </style>

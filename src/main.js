@@ -19,7 +19,8 @@ import VuePreview from 'wxpreview'
 import {
   LoadingPlugin,
   ToastPlugin,
-  ConfirmPlugin
+  ConfirmPlugin,
+  AlertPlugin 
 } from 'vux'
 Vue.use(VuePreview)
 
@@ -112,6 +113,7 @@ Vue.prototype.$http = axios
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
 Vue.use(ConfirmPlugin)
+Vue.use(AlertPlugin )
 new Vue({
   router,
   store,
