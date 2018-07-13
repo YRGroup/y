@@ -31,7 +31,7 @@
           <scroll-view class="content noBottom" ref="scroll2">
             <div class="tab-swiper vux-center">
               <divider>精彩花絮</divider>
-              <img v-for="(item,index) in huaxuImg"  :src="item" :key="index">
+              <img class="huaxuImg" v-for="(item,index) in huaxuImg"  :src="item" :key="index">
             </div> 
           </scroll-view>
         </swiper-item>
@@ -99,11 +99,20 @@ export default {
       showWX: true,
       QRcodeIMG: "",
       admin: "",
-      huaxuImg: [
+      huaxuImg_3: [
         "http://pic.yearnedu.com/YRImges/cstar/1.jpg",
         "http://pic.yearnedu.com/YRImges/cstar/2.jpg",
         "http://pic.yearnedu.com/YRImges/cstar/3.jpg",
         "http://pic.yearnedu.com/YRImges/cstar/4.jpg"
+      ],
+      huaxuImg_4: [
+        "http://pic.yearnedu.com/YRImges/cstar/5.jpg",
+        "http://pic.yearnedu.com/YRImges/cstar/6.jpg",
+        "http://pic.yearnedu.com/YRImges/cstar/7.jpg",
+        "http://pic.yearnedu.com/YRImges/cstar/8.jpg",
+        "http://pic.yearnedu.com/YRImges/cstar/9.jpg",
+        "http://pic.yearnedu.com/YRImges/cstar/10.jpg",
+        "http://pic.yearnedu.com/YRImges/cstar/11.jpg"
       ],
       lid: 0,
       curid: -1,
@@ -113,6 +122,7 @@ export default {
       hasVoteList: []
     };
   },
+
   components: {
     Tab,
     TabItem,
@@ -129,6 +139,13 @@ export default {
     XTable
   },
   computed: {
+    huaxuImg() {
+      if (this.lid == 3) {
+        return this.huaxuImg_3;
+      } else if (this.lid == 4) {
+        return this.huaxuImg_4;
+      }
+    },
     // commentsList() {
     //   return this.$store.state.commentsList;
     // },
@@ -440,6 +457,9 @@ export default {
 }
 .vux-center img {
   max-width: 100%;
+}
+.huaxuImg{
+  width: 100%;
 }
 </style>
 

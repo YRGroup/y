@@ -21,7 +21,6 @@ export default {
       videoId: "",
       videoAuth: "",
       videoinfo: this.$store.state.currentVideoInfo,
-      videoCover: require("@/assets/sxdLive.jpg"),
       wxData: {
         debug: false,
         appId: "",
@@ -49,6 +48,15 @@ export default {
   },
   components: {
     liveTab
+  },
+  computed: {
+    videoCover() {
+      if (this.liveId == 3) {
+        return require("@/assets/sxdLive.jpg");
+      } else if (this.liveId == 4) {
+        return require("@/assets/cover2.jpg");
+      }
+    }
   },
   methods: {
     initWX() {
@@ -109,13 +117,17 @@ export default {
     }
   },
 
-  created() {
-    console.log(window.location.href);
-    this.$store.commit("changeTitle", "2018年大树幼儿园英语汇演");
-    this.initWX();
-  },
+  created() {},
   mounted() {
     this.liveId = this.$route.params.liveId;
+    let title = "";
+    if (this.liveId == 3) {
+      title = "2018年大树幼儿园英语汇演";
+    } else if (this.liveId == 4) {
+      title = "新郑市西斯达幼儿园启智 • 明德 • 梦想起航毕业典礼";
+    }
+    this.$store.commit("changeTitle", title);
+    this.initWX();
     this.initPlayer();
   },
   hiddeComments() {
