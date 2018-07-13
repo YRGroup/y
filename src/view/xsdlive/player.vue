@@ -50,11 +50,26 @@ export default {
     liveTab
   },
   computed: {
-    videoCover() {
+    // videoCover() {
+    //   if (this.liveId == 3) {
+    //     return require("@/assets/sxdLive.jpg");
+    //   } else if (this.liveId == 4) {
+    //     return require("@/assets/cover2.jpg");
+    //   }
+    // },
+    liveInfo() {
       if (this.liveId == 3) {
-        return require("@/assets/sxdLive.jpg");
+        return {
+          title: "Happy Cstar happy baby tree",
+          desc: "2018年大树幼儿园英语汇演",
+          videoCover: require("@/assets/sxdLive.jpg")
+        };
       } else if (this.liveId == 4) {
-        return require("@/assets/cover2.jpg");
+        return {
+          title: "新郑市西斯达幼儿园",
+          desc: "新郑市西斯达幼儿园启智 • 明德 • 梦想起航毕业典礼",
+          videoCover: require("@/assets/cover2.jpg")
+        };
       }
     }
   },
@@ -69,8 +84,8 @@ export default {
         wx.config(this.wxData);
 
         this.wxShareData = {
-          title: "Happy Cstar happy baby tree",
-          desc: "“Happy Cstar happy baby tree”2018年大树幼儿园英语汇演",
+          title: this.liveInfo.title,
+          desc: this.liveInfo.desc,
           // link: `http://cstar.yearn.com/m/#/xsdLive/${this.liveId}`,
           link: window.location.href,
           imgUrl: "http://pic.yearnedu.com/YRImges/cstar/xsdlogo.jpg"
@@ -102,7 +117,7 @@ export default {
         useFlashPrism: false,
         source: `http://live.yearn.com/1/${this.liveId}.m3u8`,
         // source:"//player.alicdn.com/video/aliyunmedia.mp4",
-        cover: this.videoCover,
+        cover: this.liveInfo.videoCover,
         x5_video_position: "top",
         x5_type: "h5", //声明启用同层H5播放器，支持的值：h5
         showBarTime: "2000",
@@ -117,16 +132,12 @@ export default {
     }
   },
 
-  created() {},
-  mounted() {
+  created() {
     this.liveId = this.$route.params.liveId;
-    let title = "";
-    if (this.liveId == 3) {
-      title = "2018年大树幼儿园英语汇演";
-    } else if (this.liveId == 4) {
-      title = "新郑市西斯达幼儿园启智 • 明德 • 梦想起航毕业典礼";
-    }
-    this.$store.commit("changeTitle", title);
+  },
+  mounted() {
+    
+    this.$store.commit("changeTitle", this.liveInfo.title);
     this.initWX();
     this.initPlayer();
   },

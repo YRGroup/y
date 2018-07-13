@@ -105,7 +105,7 @@ export default {
     lotteryInterval() {
       this.timer = setInterval(() => {
         this.getlottery();
-      }, 300);
+      }, 100);
     },
     getRandom(Min, Max) {
       var Range = Max - Min;
