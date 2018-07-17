@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import liveTab from "@/components/xsdLiveTab";
+import liveTab from "@/components/liveTab";
 import { Toast, XButton } from "vux";
 import wx from "weixin-js-sdk";
 const PLAYER_ERR_CODE = {
@@ -176,8 +176,8 @@ export default {
       let href = window.location.href;
       window.location.href =
         this.$store.state.ApiUrl +
-        "/api/LiveVideoWeiXinOAuth/index?refUrl=" +
-        'http://www.baidu.com';
+        "http://testwebsite.zzflgs.cn/api/LiveVideoWeiXinOAuth/index?refUrl=" +
+        href;
     }
   },
   mounted() {},

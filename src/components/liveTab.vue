@@ -2,13 +2,14 @@
   <div class="container">
     <div>
       <tab>
-        <tab-item v-model="tabIndex" :selected="tabIndex == 0 ? true :false" @on-item-click="onItemClick">互动</tab-item>
-        <tab-item v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">精彩花絮</tab-item>
-        <tab-item v-model="tabIndex" :selected="tabIndex == 2 ? true :false" @on-item-click="onItemClick">关注我们</tab-item>
+        <tab-item  v-model="tabIndex" :selected="tabIndex == 0 ? true :false" @on-item-click="onItemClick">互动</tab-item>
+        <tab-item  v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">活动介绍</tab-item>
+        <tab-item v-if="liveInfo.IsVote" v-model="tabIndex" :selected="tabIndex == 2 ? true :false" @on-item-click="onItemClick">节目投票</tab-item>
       </tab>
     </div>
     <div>  
-      <swiper v-model="tabIndex" class="swiper" height="100%"  :show-dots="false">
+      <swiper v-model="tabIndex" class="swiper" height="100%"  :show-dots="false" :threshold="200" :min-moving-distance="20">
+
         <swiper-item class="swiperComment">
           <i class="iconfont refresh" @click="$router.push('/')">&#xe666;</i>
           <scroll-view class="content" ref="scroll">
@@ -27,32 +28,40 @@
             </div>
           </scroll-view>
         </swiper-item>
+
         <swiper-item>
-          <scroll-view class="content noBottom">
-            <div class="tab-swiper vux-center">
-              <divider>精彩花絮</divider>
-              <img v-for="(item,index) in huaxuImg"  :src="item" :key="index">
-            </div> 
+          <scroll-view class="content noBottom" ref="scroll2">
+            <div class="tab-swiper vux-center liveInfo" v-html="liveInfo.Introduction"> </div>
           </scroll-view>
         </swiper-item>
+        
         <swiper-item>
-          <div class="tab-swiper vux-center content">
-            <x-dialog v-model="showWX" class="wxDialog" :dialog-style="{'max-width': '50%' }">
-              <!-- <div class="close" @click="showWX=false">
-                <span>
-                  <i class="iconfont">&#xe641;</i>
-                </span>
-              </div> -->
-              <div>
-                <p class="main">长按识别二维码</p>
-                <p>关注公众号，获取更多信息</p>
-              </div>
-              <div class="img-box">
-                <img :src="QRcodeIMG" style="max-width:100%">
-              </div>
-            </x-dialog>
-          </div>
+          <scroll-view class="content votelist" >
+            <x-table  :cell-bordered="false"  style="background-color:#fff;">
+              <thead>
+                <tr>
+                  <!-- <th>顺序</th> -->
+                  <th>节目名称</th>
+                  <th>表演者</th>
+                  <th>投票</th>
+                </tr>
+              </thead>
+              <tbody class="votetable">
+              <tr v-for="(i,index) in programList" :key="index">
+                <!-- <td>{{index+1}}</td> -->
+                <td>{{i.ProgramName}}</td>
+                <td>{{i.Actor}}</td>
+                <td>
+                  <x-button type="primary" mini :disabled="isVoted(i.ID)" @click.native="programvote(i.ID,i.ProgramName)">
+                    {{isVoted(i.ID)?'已投票':'投票'}}{{i.VoteCount}}
+                  </x-button>
+                </td>
+              </tr>
+            </tbody>
+            </x-table>
+          </scroll-view>
         </swiper-item>
+        
       </swiper>
     </div>
     <div class="sendComment" v-show="showSendComment">
@@ -76,7 +85,8 @@ import {
   Swiper,
   SwiperItem,
   XDialog,
-  XImg
+  XImg,
+  XTable
 } from "vux";
 import scrollView from "@/components/scroll-view";
 import { clearInterval } from "timers";
@@ -90,18 +100,19 @@ export default {
       showWX: true,
       QRcodeIMG: "",
       admin: "",
-      huaxuImg: [
-        " http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/104588424311540463.jpg",
-        "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/391872234988215624.jpg",
-        "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/466758364617692953.jpg",
-        "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/866427151543087814.jpg",
-        "http://pic.yearnedu.com/LiveVideo/20180601%E5%84%BF%E7%AB%A5%E8%8A%82%E6%B1%87%E6%BC%94/99027685526621352.jpg"
-      ],
-      lid: 2,
+      lid: 0,
       curid: -1,
       commentsList: [],
-      timer:''
+      timer: "",
+      programList: [],
+      hasVoteList: []
     };
+  },
+  props: {
+    liveInfo: {
+      type: Object,
+      default: {}
+    }
   },
   components: {
     Tab,
@@ -115,22 +126,12 @@ export default {
     Group,
     XDialog,
     XImg,
-    scrollView
+    scrollView,
+    XTable
   },
   computed: {
-    // commentsList() {
-    //   return this.$store.state.commentsList;
-    // },
     showSendComment() {
       return this.tabIndex == 0 ? true : false;
-    },
-    isWeiXin() {
-      var ua = window.navigator.userAgent.toLowerCase();
-      if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        return true;
-      } else {
-        return false;
-      }
     }
   },
   methods: {
@@ -163,7 +164,7 @@ export default {
     setInterval() {
       this.timer = setInterval(this.getCommentsList, 5000);
     },
-    clearInterval(){
+    clearInterval() {
       clearInterval(this.timer);
     },
     getWXQRcode() {
@@ -209,6 +210,31 @@ export default {
         }
       });
     },
+    programvote(id, programName) {
+      let para = {
+        pid: id,
+        lid: this.lid
+      };
+      const This = this;
+      this.$vux.confirm.show({
+        title: "提示",
+        content: `要给 ${programName} 投票吗？`,
+        onConfirm() {
+          This.$vux.loading.show();
+          This.$API.programvote(para).then(res => {
+            This.$vux.loading.hide();
+            This.programList = JSON.parse(res.Content);
+            This.hasVoteList.push(id);
+            This.$nextTick(() => {
+              This.$refs.scroll.refresh();
+            }, 20);
+          }).catch(err=>{
+            This.$vux.loading.hide();
+            This.$vux.toast.text(err.msg, "middle");
+          });
+        }
+      });
+    },
     formatTime(val) {
       return val.slice(5, val.indexOf(".")).replace("T", " ");
     },
@@ -217,23 +243,54 @@ export default {
         reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
       if ((arr = document.cookie.match(reg))) return unescape(arr[2]);
       else return null;
+    },
+    getProgramList() {
+      let para = {
+        lid: this.lid
+      };
+      this.$API.getProgramList(para).then(res => {
+        console.log(para, res);
+        if (res.Status == 1) {
+          this.programList = res.Content;
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh();
+          }, 20);
+        }
+      });
+    },
+    isVoted(id) {
+      if (this.hasVoteList.length) {
+        return this.hasVoteList.some(el => Number(el) == id);
+      } else {
+        return false;
+      }
     }
   },
   created() {
-    this.getCommentsList();
-    this.getWXQRcode();
-    this.setInterval();
-    if (this.isWeiXin && !this.getCookie("openid")) {
-      window.location.href =
-        this.$store.state.ApiUrl +
-        "/api/LiveVideoWeiXinOAuth/index?refUrl=" +
-        window.location.host +
-        "/%23/live";
+    this.$nextTick(() => {
+      this.$refs.scroll2.refresh();
+    }, 20);
+    // let hasVoteList = localStorage.getItem("hasVoteList");
+    // if (hasVoteList) {
+    //   this.hasVoteList = hasVoteList.split(",");
+    // } else {
+    //   localStorage.setItem("hasVoteList", new Array());
+    // }
+
+    if (this.$route.params.liveId) {
+      this.lid = this.$route.params.liveId;
+      this.getProgramList();
+      this.getCommentsList();
     }
   },
   mounted() {},
-  beforeDestroy(){
-    this.clearInterval();
+  beforeDestroy() {},
+  watch: {
+    liveInfo(newVal) {
+      if (newVal.IsVote) {
+        // this.getProgramList();
+      }
+    }
   }
 };
 </script>
@@ -249,7 +306,6 @@ export default {
   .sendComment {
     position: fixed;
     width: 100%;
-    max-width: 475px;
     bottom: 0;
   }
   .refresh {
@@ -278,7 +334,7 @@ export default {
   .content {
     position: absolute;
     top: 0;
-    bottom: 55px;
+    bottom: 10px;
     width: 100%;
     overflow: auto;
     padding: 10px;
@@ -290,6 +346,7 @@ export default {
     }
     .commentsBox {
       box-sizing: border-box;
+      padding-bottom: 50px;
     }
     .yrInfo {
       width: 95vw;
@@ -299,6 +356,9 @@ export default {
       background: #fff;
       color: @grey;
     }
+  }
+  .votelist {
+    padding: 0;
   }
   .noBottom {
     bottom: 0;
@@ -334,6 +394,12 @@ export default {
   .time {
     color: @grey;
   }
+  .liveInfo {
+    text-align: center;
+    img {
+      width: 100%;
+    }
+  }
 }
 
 .left {
@@ -368,6 +434,18 @@ export default {
 }
 .deleteBtn {
   float: right;
+}
+.votetable tr td {
+  padding: 8px 0;
+}
+.votetable tr:nth-child(2n + 1) {
+  background: #f6f6f6;
+}
+.vux-center img {
+  max-width: 100%;
+}
+.huaxuImg {
+  width: 100%;
 }
 </style>
 
