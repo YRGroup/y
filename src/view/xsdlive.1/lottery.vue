@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="wrapper">
+    <div class="wrapper ">
       <div class="people">
         <img :src="logo" alt="西斯达大树幼儿园">
       </div>
@@ -10,13 +10,17 @@
       </p>
       <div v-if="control" class="btn" @click="lottery">开始</div>
       <div v-else class="btn" @click="stop">停！</div>
-      <ul class="luckyList">
-        <li class="text" v-if="luckList.length">中奖名单：</li>
-        <li v-for="(item , index) in luckList" :key="index">
-          {{item.name}}
-          <!-- ({{item.classname}}) -->
-        </li>
-      </ul>
+      <div class="bottomList">
+        <p class="text" v-if="luckList.length">中奖名单：</p>
+        <ul class="luckyList">
+          
+          <li v-for="(item , index) in luckList" :key="index">
+            {{item.name}}
+            <!-- ({{item.classname}}) -->
+          </li>
+        </ul>
+      </div>
+     
     </div>
     <div class="session session-bg">
       <i class="fw" :class="{test: piao}"></i>
@@ -26,10 +30,9 @@
 </template>
 
 <script>
-
 export default {
   name: "lottery",
-  
+
   data() {
     return {
       logo: require("@/assets/xsdlogo.jpg"),
@@ -102,7 +105,7 @@ export default {
     lotteryInterval() {
       this.timer = setInterval(() => {
         this.getlottery();
-      }, 300);
+      }, 100);
     },
     getRandom(Min, Max) {
       var Range = Max - Min;
@@ -115,10 +118,12 @@ export default {
 
 <style lang="less" scoped>
 .box {
-  height: 100vh;
+  // height: 100vh;
   // background: url(../../assets/xsdLiveBg.jpg) no-repeat center center;
   // background-size: cover;
   position: relative;
+  width: 920px;
+  height: 550px;
   // z-index: -100;
 }
 .bg {
@@ -131,17 +136,22 @@ export default {
   z-index: -100;
 }
 .wrapper {
-  padding: 240px 200px 50px;
-  height: calc(~"100vh - 290px");
+  width: 100%;
+
   // box-sizing: border-box;
+  padding-top: 150px;
   color: #fff;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: column;
+  position: relative;
   .people {
-    width: 240px;
-    height: 240px;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 20px;
+    left: 20px;
     img {
       width: 100%;
       height: 100%;
@@ -159,6 +169,7 @@ export default {
     color: #940911;
     cursor: pointer;
     box-shadow: 0 6px 0 #eb8602;
+    margin-top: 50px;
     &:active {
       background: #ffcc1d;
       box-shadow: 0 6px 0 #c87100;
@@ -217,20 +228,29 @@ export default {
   top: 0;
   z-index: -10;
 }
-
-.luckyList {
-  display: flex;
-  flex-direction: row;
-  // position: fixed;
-  // left: 50px;
-  // top: 200px;
+.bottomList {
   font-size: 24px;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  width: 100%;
+  padding: 0 20px;
   margin-top: 50px;
+  margin-bottom: 20px;
   .text {
     color: #ffcc1d;
+    flex: 0 0 150px;
   }
-  li {
-    margin-right: 20px;
+  .luckyList {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    // position: fixed;
+    // left: 50px;
+    // top: 200px;
+    li {
+      margin-right: 20px;
+    }
   }
 }
 </style>

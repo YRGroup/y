@@ -2,14 +2,15 @@
   <div class="container">
     <div>
       <tab>
-        <!-- <tab-item v-model="tabIndex" :selected="tabIndex == 0 ? true :false" @on-item-click="onItemClick">互动</tab-item> -->
-        <tab-item v-model="tabIndex" :selected="tabIndex == 0 ? true :false" @on-item-click="onItemClick">活动介绍</tab-item>
-        <tab-item v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">节目投票</tab-item>
+        <tab-item  v-model="tabIndex" :selected="tabIndex == 0 ? true :false" @on-item-click="onItemClick">互动</tab-item>
+        <tab-item  v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">活动介绍</tab-item>
+        <tab-item v-if="liveInfo.IsVote" v-model="tabIndex" :selected="tabIndex == 2 ? true :false" @on-item-click="onItemClick">节目投票</tab-item>
       </tab>
     </div>
     <div>  
       <swiper v-model="tabIndex" class="swiper" height="100%"  :show-dots="false" :threshold="200" :min-moving-distance="20">
-        <!-- <swiper-item class="swiperComment">
+
+        <swiper-item class="swiperComment">
           <i class="iconfont refresh" @click="$router.push('/')">&#xe666;</i>
           <scroll-view class="content" ref="scroll">
           <div class="tab-swiper vux-center  commentsBox" ref="comment">
@@ -26,15 +27,14 @@
               </div>
             </div>
           </scroll-view>
-        </swiper-item> -->
+        </swiper-item>
+
         <swiper-item>
           <scroll-view class="content noBottom" ref="scroll2">
-            <div class="tab-swiper vux-center">
-              <divider>精彩花絮</divider>
-              <img class="huaxuImg" v-for="(item,index) in huaxuImg"  :src="item" :key="index">
-            </div> 
+            <div class="tab-swiper vux-center liveInfo" v-html="liveInfo.Introduction"> </div>
           </scroll-view>
         </swiper-item>
+        
         <swiper-item>
           <scroll-view class="content votelist" ref="scroll">
             <x-table  :cell-bordered="false"  style="background-color:#fff;">
@@ -49,11 +49,11 @@
               <tbody class="votetable">
               <tr v-for="(i,index) in programList" :key="index">
                 <!-- <td>{{index+1}}</td> -->
-                <td>{{i.programName}}</td>
-                <td>{{i.actor}}</td>
+                <td>{{i.ProgramName}}</td>
+                <td>{{i.Actor}}</td>
                 <td>
-                  <x-button type="primary" mini :disabled="isVoted(i.ID)" @click.native="programvote(i.ID,i.programName)">
-                    {{isVoted(i.ID)?'已投票':'投票'}}{{i.voteCount}}
+                  <x-button type="primary" mini :disabled="isVoted(i.ID)" @click.native="programvote(i.ID,i.ProgramName)">
+                    {{isVoted(i.ID)?'已投票':'投票'}}{{i.VoteCount}}
                   </x-button>
                 </td>
               </tr>
@@ -61,15 +61,16 @@
             </x-table>
           </scroll-view>
         </swiper-item>
+        
       </swiper>
     </div>
-    <!-- <div class="sendComment" v-show="showSendComment">
+    <div class="sendComment" v-show="showSendComment">
       <group class="weui-cells_form">
         <x-input title="" class="weui-vcode" :show-clear="false"  v-model="content" placeholder="说点什么">
           <x-button slot="right" type="primary" @click.native="sendComment" mini>发送</x-button>
         </x-input>
       </group>
-  </div> -->
+  </div>
   </div>
 </template>
 <script>
@@ -99,21 +100,6 @@ export default {
       showWX: true,
       QRcodeIMG: "",
       admin: "",
-      huaxuImg_3: [
-        "http://pic.yearnedu.com/YRImges/cstar/1.jpg",
-        "http://pic.yearnedu.com/YRImges/cstar/2.jpg",
-        "http://pic.yearnedu.com/YRImges/cstar/3.jpg",
-        "http://pic.yearnedu.com/YRImges/cstar/4.jpg"
-      ],
-      huaxuImg_4: [
-        "http://pic.yearnedu.com/YRImges/cstar/5.jpg",
-        "http://pic.yearnedu.com/YRImges/cstar/6.jpg",
-        "http://pic.yearnedu.com/YRImges/cstar/7.jpg",
-        "http://pic.yearnedu.com/YRImges/cstar/8.jpg",
-        "http://pic.yearnedu.com/YRImges/cstar/9.jpg",
-        "http://pic.yearnedu.com/YRImges/cstar/10.jpg",
-        "http://pic.yearnedu.com/YRImges/cstar/11.jpg"
-      ],
       lid: 0,
       curid: -1,
       commentsList: [],
@@ -122,7 +108,12 @@ export default {
       hasVoteList: []
     };
   },
-
+  props: {
+    liveInfo: {
+      type: Object,
+      default: {}
+    }
+  },
   components: {
     Tab,
     TabItem,
@@ -139,26 +130,8 @@ export default {
     XTable
   },
   computed: {
-    huaxuImg() {
-      if (this.lid == 3) {
-        return this.huaxuImg_3;
-      } else if (this.lid == 4) {
-        return this.huaxuImg_4;
-      }
-    },
-    // commentsList() {
-    //   return this.$store.state.commentsList;
-    // },
     showSendComment() {
       return this.tabIndex == 0 ? true : false;
-    },
-    isWeiXin() {
-      var ua = window.navigator.userAgent.toLowerCase();
-      if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        return true;
-      } else {
-        return false;
-      }
     }
   },
   methods: {
@@ -295,6 +268,7 @@ export default {
     }
   },
   created() {
+    
     this.$nextTick(() => {
       this.$refs.scroll2.refresh();
     }, 20);
@@ -307,11 +281,19 @@ export default {
 
     if (this.$route.params.liveId) {
       this.lid = this.$route.params.liveId;
+      this.getProgramList()
     }
-    this.getProgramList();
+
   },
   mounted() {},
-  beforeDestroy() {}
+  beforeDestroy() {},
+  watch: {
+    liveInfo(newVal) {
+      if (newVal.IsVote) {
+        // this.getProgramList();
+      }
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -326,7 +308,6 @@ export default {
   .sendComment {
     position: fixed;
     width: 100%;
-    max-width: 475px;
     bottom: 0;
   }
   .refresh {
@@ -414,6 +395,12 @@ export default {
   .time {
     color: @grey;
   }
+  .liveInfo{
+    text-align: center;
+    img{
+      width: 100%;
+    }
+  }
 }
 
 .left {
@@ -458,7 +445,7 @@ export default {
 .vux-center img {
   max-width: 100%;
 }
-.huaxuImg{
+.huaxuImg {
   width: 100%;
 }
 </style>

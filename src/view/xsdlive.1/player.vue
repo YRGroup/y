@@ -4,19 +4,17 @@
       <div v-show="!showError" class="prism-player" id="J_prismPlayer">
       </div>
       <div class="modal" v-show="showError">
-       
-          <p>{{playerErrMsg}}</p>
-          <x-button type="primary" class="retryBtn" @click.native="reLoad">刷新</x-button>
-       
+        {{playerErrMsg}}
+        <x-button type="primary" class="retryBtn" @click.native="reLoad">刷新</x-button>
       </div>
     </div>
-    <live-tab id="comments" v-show="showComments" :liveInfo="liveInfo"></live-tab>
+    <live-tab id="comments" v-show="showComments"></live-tab>
   </div>
 </template>
 
 <script>
 import liveTab from "@/components/xsdLiveTab";
-import { Toast, XButton } from "vux";
+import { Toast,XButton } from "vux";
 import wx from "weixin-js-sdk";
 const PLAYER_ERR_CODE = {
   4001: "参数不合理",
@@ -57,8 +55,7 @@ export default {
       showComments: true,
       logo: require("@/assets/xsdlogo.jpg"),
       showError: false,
-      playerErrMsg: "",
-      liveInfo: {}
+      playerErrMsg: ""
     };
   },
   components: {
@@ -66,9 +63,32 @@ export default {
     Toast,
     XButton
   },
-  computed: {},
+  computed: {
+    // videoCover() {
+    //   if (this.liveId == 3) {
+    //     return require("@/assets/sxdLive.jpg");
+    //   } else if (this.liveId == 4) {
+    //     return require("@/assets/cover2.jpg");
+    //   }
+    // },
+    liveInfo() {
+      if (this.liveId == 3) {
+        return {
+          title: "Happy Cstar happy baby tree",
+          desc: "2018年大树幼儿园英语汇演",
+          videoCover: require("@/assets/sxdLive.jpg")
+        };
+      } else if (this.liveId == 4) {
+        return {
+          title: "新郑市西斯达幼儿园",
+          desc: "新郑市西斯达幼儿园启智 • 明德 • 梦想起航毕业典礼",
+          videoCover: require("@/assets/cover2.jpg")
+        };
+      }
+    }
+  },
   methods: {
-    reLoad() {
+    reLoad(){
       window.location.reload();
     },
     initWX() {
@@ -80,10 +100,12 @@ export default {
         this.wxData.signature = res.Signature;
         wx.config(this.wxData);
         this.wxShareData = {
-          title: this.liveInfo.Title,
-          desc: this.liveInfo.WXShareContent,
+          title: this.liveInfo.title,
+          desc: this.liveInfo.desc,
+          // link: `http://cstar.yearn.com/m/#/xsdLive/${this.liveId}`,
           link: window.location.href,
-          imgUrl: this.liveInfo.WXSharePic
+          imgUrl: "http://pic.yearnedu.com/YRImges/cstar/xsdlogo.jpg"
+          // imgUrl: this.logo
         };
 
         wx.ready(function() {
@@ -101,7 +123,7 @@ export default {
       }
       this.player = new Aliplayer({
         id: "J_prismPlayer",
-        autoplay: true,
+        autoplay: false,
         isLive: true,
         playsinline: true,
         width: "100%",
@@ -110,18 +132,31 @@ export default {
         useH5Prism: true,
         useFlashPrism: false,
         source: `http://testlive.yearn.com/1/${this.liveId}.m3u8`,
-        cover: this.liveInfo.WXSharePic,
+        cover: this.liveInfo.videoCover,
         x5_video_position: "top",
         x5_type: "h5", //声明启用同层H5播放器，支持的值：h5
         showBarTime: "2000",
         controlBarVisibility: "click"
       });
-      this.player.on("ready", ev => {
-        console.log(111);
-        this.player.play();
-      });
+      // this.player.on("error", e => {
+      //   let errorCode = e.paramData.display_msg;
+      //   console.log(e.paramData.display_msg);
+      //   // this.$vux.toast.text(e.paramData.display_msg, "middle");
+      //   this.showError = true;
+      //   // this.playerErrMsg = e.paramData.display_msg;
+      //   this.playerErrMsg = "开始下载元数据数据错误";
+      //   // switch(e){
+      //   //   case 4006:
+
+      //   //   break;
+
+      //   //   default:
+
+      //   // }
+      // });
       this.player.on("onM3u8Retry", ev => {
-        this.showErrorMsg("直播还没开始...");
+        console.log(this);
+        this.showErrorMsg("直播还没开始，请稍后......");
       });
       this.player.on("requestFullScreen", ev => {
         console.log("全屏");
@@ -133,54 +168,17 @@ export default {
     showErrorMsg(errMsg) {
       this.showError = true;
       this.playerErrMsg = errMsg;
-    },
-    getOneLiveRoom() {
-      let para = {
-        id: this.liveId
-      };
-      this.$API.getOneLiveRoom(para).then(res => {
-        console.log(res);
-        if (res.Status == 1) {
-          this.liveInfo = res.Content;
-          this.liveInfoReady();
-        }
-      });
-    },
-    liveInfoReady() {
-      this.$store.commit("changeTitle", this.liveInfo.Title);
-      this.initPlayer();
-      this.initWX();
-    },
-    weiXin() {
-      var ua = window.navigator.userAgent.toLowerCase();
-      if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    getCookie(name) {
-      var arr,
-        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-      if ((arr = document.cookie.match(reg))) return unescape(arr[2]);
-      else return null;
     }
   },
 
   created() {
-    this.isWeiXin = this.weiXin();
     this.liveId = this.$route.params.liveId;
-    this.getOneLiveRoom();
-    console.log(this.isWeiXin);
-    if (this.isWeiXin && !this.getCookie("openid")) {
-      let href = window.location.href;
-      window.location.href =
-        this.$store.state.ApiUrl +
-        "/api/LiveVideoWeiXinOAuth/index?refUrl=" +
-        'http://www.baidu.com';
-    }
   },
-  mounted() {},
+  mounted() {
+    this.$store.commit("changeTitle", this.liveInfo.title);
+    // this.initWX();
+    this.initPlayer();
+  },
   hiddeComments() {
     this.showComments = false;
   },
@@ -196,19 +194,16 @@ export default {
   position: relative;
   .modal {
     position: absolute;
-    padding: 60px 0;
     top: 0;
     bottom: 0;
     width: 100%;
     background: #000;
     color: #fff;
+    text-align: center;
     font-size: 20px;
+    padding-top: 25%;
     z-index: 99;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    .retryBtn {
+    .retryBtn{
       width: 100px;
       margin: 20px auto;
     }

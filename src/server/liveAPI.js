@@ -36,4 +36,25 @@ API.delComment = (para) => {
     })
   })
 }
+// 获取节目列表
+API.getProgramList = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/LiveVideo/getProgramList',{params:para}).then(res => {
+      resolve(res.data)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
+// 获取单个直播间信息
+API.getOneLiveRoom = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl + '/api/LiveVideo/GetOneLiveRoom',{ params: para}).then((res) => {
+      resolve(res.data)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
 export default API

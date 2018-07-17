@@ -20,7 +20,6 @@
           </li>
         </ul>
       </div>
-     
     </div>
     <div class="session session-bg">
       <i class="fw" :class="{test: piao}"></i>
