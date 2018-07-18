@@ -154,7 +154,7 @@ export default {
     clearTimer() {
       clearTimeout(this.timer);
     },
-    getCommentsList(timer = false) {
+    getCommentsList(timer) {
       let para = {
         lid: this.livePlayer.id,
         curid: this.curid
@@ -268,22 +268,21 @@ export default {
     }
   },
   created() {
-    // if (this.timer) {
-    //   this.clearTimer();
-    // }
-    this.setTimer();
     this.$nextTick(() => {
       this.$refs.scroll2.refresh();
     }, 20);
   },
   mounted() {},
-  desctroyed() {
+  destroyed() {
     this.clearTimer();
   },
   watch: {
     livePlayer() {
       this.getProgramList();
-      this.getCommentsList();
+      if (this.timer) {
+        this.clearTimer();
+      }
+      this.setTimer();
     }
   }
 };

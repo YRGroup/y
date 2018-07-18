@@ -113,7 +113,8 @@ export default {
         controlBarVisibility: "always",
         useH5Prism: true,
         useFlashPrism: false,
-        source: `http://testlive.yearn.com/1/${this.liveId}.m3u8`,
+        source: this.livePlayer.playerUrl,
+        // source: `http://live.yearn.com/1/${this.liveId}.m3u8`,
         cover: this.livePlayer.wxSharePic,
         x5_video_position: "top",
         x5_type: "h5", //声明启用同层H5播放器，支持的值：h5
@@ -168,7 +169,7 @@ export default {
       let href = window.location.href;
       window.location.href =
         this.$store.state.ApiUrl +
-        "http://testwebsite.zzflgs.cn/api/LiveVideoWeiXinOAuth/index?refUrl=" +
+        "/api/LiveVideoWeiXinOAuth/index?refUrl=" +
         href;
     }
   },
