@@ -68,6 +68,7 @@ body {
   background: @bg;
   overflow-x: hidden;
   color: @black;
+  touch-action: none;
 }
 
 html {
