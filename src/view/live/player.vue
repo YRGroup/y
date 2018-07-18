@@ -10,7 +10,7 @@
        
       </div>
     </div>
-    <live-tab id="comments" v-show="showComments" :liveInfo="liveInfo"></live-tab>
+    <live-tab id="comments" v-show="showComments"  :livePlayer="livePlayer"></live-tab>
   </div>
 </template>
 
@@ -18,12 +18,16 @@
 import liveTab from "@/components/liveTab";
 import { Toast, XButton } from "vux";
 import wx from "weixin-js-sdk";
+import { getCookie, isWeiXin } from "@/assets/js/util";
+import { LivePlayer } from "@/assets/js/class";
+
 const PLAYER_ERR_CODE = {
   4001: "参数不合理",
   4006: "开始下载元数据数据错误",
   4008: "请求超时",
   4009: "请求错误"
 };
+
 export default {
   name: "hello",
   data() {
@@ -58,7 +62,7 @@ export default {
       logo: require("@/assets/xsdlogo.jpg"),
       showError: false,
       playerErrMsg: "",
-      liveInfo: {}
+      livePlayer: {}
     };
   },
   components: {
@@ -80,10 +84,10 @@ export default {
         this.wxData.signature = res.Signature;
         wx.config(this.wxData);
         this.wxShareData = {
-          title: this.liveInfo.Title,
-          desc: this.liveInfo.WXShareContent,
+          title: this.livePlayer.title,
+          desc: this.livePlayer.wxShareContent,
           link: window.location.href,
-          imgUrl: this.liveInfo.WXSharePic
+          imgUrl: this.livePlayer.wxSharePic
         };
 
         wx.ready(function() {
@@ -110,15 +114,11 @@ export default {
         useH5Prism: true,
         useFlashPrism: false,
         source: `http://testlive.yearn.com/1/${this.liveId}.m3u8`,
-        cover: this.liveInfo.WXSharePic,
+        cover: this.livePlayer.wxSharePic,
         x5_video_position: "top",
         x5_type: "h5", //声明启用同层H5播放器，支持的值：h5
         showBarTime: "2000",
         controlBarVisibility: "click"
-      });
-      this.player.on("ready", ev => {
-        console.log(111);
-        this.player.play();
       });
       this.player.on("onM3u8Retry", ev => {
         this.showErrorMsg("直播还没开始...");
@@ -139,40 +139,32 @@ export default {
         id: this.liveId
       };
       this.$API.getOneLiveRoom(para).then(res => {
-        console.log(res);
-        if (res.Status == 1) {
-          this.liveInfo = res.Content;
-          this.liveInfoReady();
-        }
+        let liveInfoData = {
+          id: res.Content.ID,
+          createTime: res.Content.CreateTime,
+          introduction: res.Content.Introduction,
+          isVote: res.Content.IsVote,
+          playerUrl: res.Content.PlayUrl,
+          pushUrl: res.Content.PushUrl,
+          title: res.Content.Title,
+          wxShareContent: res.Content.WXShareContent,
+          wxSharePic: res.Content.WXSharePic
+        };
+        this.livePlayer = new LivePlayer(liveInfoData);
+        console.log(this.livePlayer);
+        this.liveInfoReady();
       });
     },
     liveInfoReady() {
-      this.$store.commit("changeTitle", this.liveInfo.Title);
+      this.$store.commit("changeTitle", this.livePlayer.title);
       this.initPlayer();
       this.initWX();
-    },
-    weiXin() {
-      var ua = window.navigator.userAgent.toLowerCase();
-      if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    getCookie(name) {
-      var arr,
-        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-      if ((arr = document.cookie.match(reg))) return unescape(arr[2]);
-      else return null;
     }
   },
-
   created() {
-    this.isWeiXin = this.weiXin();
+    this.isWeiXin = isWeiXin();
     this.liveId = this.$route.params.liveId;
-    this.getOneLiveRoom();
-    console.log(this.isWeiXin);
-    if (this.isWeiXin && !this.getCookie("openid")) {
+    if (this.isWeiXin && !getCookie("openid")) {
       let href = window.location.href;
       window.location.href =
         this.$store.state.ApiUrl +
@@ -180,7 +172,9 @@ export default {
         href;
     }
   },
-  mounted() {},
+  mounted() {
+    this.getOneLiveRoom();
+  },
   hiddeComments() {
     this.showComments = false;
   },

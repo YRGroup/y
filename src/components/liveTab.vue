@@ -4,7 +4,7 @@
       <tab>
         <tab-item  v-model="tabIndex" :selected="tabIndex == 0 ? true :false" @on-item-click="onItemClick">互动</tab-item>
         <tab-item  v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">活动介绍</tab-item>
-        <tab-item v-if="liveInfo.IsVote" v-model="tabIndex" :selected="tabIndex == 2 ? true :false" @on-item-click="onItemClick">节目投票</tab-item>
+        <tab-item v-if="livePlayer.isVote" v-model="tabIndex" :selected="tabIndex == 2 ? true :false" @on-item-click="onItemClick">节目投票</tab-item>
       </tab>
     </div>
     <div>  
@@ -14,7 +14,7 @@
           <i class="iconfont refresh" @click="$router.push('/')">&#xe666;</i>
           <scroll-view class="content" ref="scroll">
           <div class="tab-swiper vux-center  commentsBox" ref="comment">
-              <div v-for="(item,index) in commentsList" :key="index" class="commentItem clearfix">
+              <div v-for="(item,index) in showCommentList" :key="index" class="commentItem clearfix">
                 <div class="commentUser">
                   <img class="headImg" :src="item.headimgurl" alt="">
                 </div>
@@ -31,23 +31,22 @@
 
         <swiper-item>
           <scroll-view class="content noBottom" ref="scroll2">
-            <div class="tab-swiper vux-center liveInfo" v-html="liveInfo.Introduction"> </div>
+            <div class="tab-swiper vux-center liveInfo" v-html="livePlayer.introduction"> </div>
           </scroll-view>
         </swiper-item>
         
         <swiper-item>
           <scroll-view class="content votelist" >
-            <x-table  :cell-bordered="false"  style="background-color:#fff;">
+            <x-table v-if="livePlayer.programList"  :cell-bordered="false"  style="background-color:#fff;">
               <thead>
                 <tr>
-                  <!-- <th>顺序</th> -->
                   <th>节目名称</th>
                   <th>表演者</th>
                   <th>投票</th>
                 </tr>
               </thead>
               <tbody class="votetable">
-              <tr v-for="(i,index) in programList" :key="index">
+              <tr v-for="(i,index) in livePlayer.programList" :key="index">
                 <!-- <td>{{index+1}}</td> -->
                 <td>{{i.ProgramName}}</td>
                 <td>{{i.Actor}}</td>
@@ -89,9 +88,8 @@ import {
   XTable
 } from "vux";
 import scrollView from "@/components/scroll-view";
-import { clearInterval } from "timers";
-
-const MAXLENGTH = 500;
+import { getCookie } from "@/assets/js/util";
+const MAXLENGTH = 20;
 export default {
   data() {
     return {
@@ -100,18 +98,17 @@ export default {
       showWX: true,
       QRcodeIMG: "",
       admin: "",
-      lid: 0,
       curid: -1,
-      commentsList: [],
-      timer: "",
-      programList: [],
+      timer: 0,
       hasVoteList: []
     };
   },
   props: {
-    liveInfo: {
+    livePlayer: {
       type: Object,
-      default: {}
+      default: () => {
+        return {};
+      }
     }
   },
   components: {
@@ -132,6 +129,16 @@ export default {
   computed: {
     showSendComment() {
       return this.tabIndex == 0 ? true : false;
+    },
+    showCommentList() {
+      let list = this.livePlayer.commentList;
+      if (list) {
+        return list.length > MAXLENGTH
+          ? list.slice(list.length - MAXLENGTH, list.length)
+          : list;
+      } else {
+        return new Array();
+      }
     }
   },
   methods: {
@@ -141,37 +148,37 @@ export default {
     onItemClick(index) {
       this.tabIndex = index;
     },
-    getCommentsList() {
+    setTimer() {
+      this.getCommentsList(true);
+    },
+    clearTimer() {
+      clearTimeout(this.timer);
+    },
+    getCommentsList(timer = false) {
       let para = {
-        lid: this.lid,
+        lid: this.livePlayer.id,
         curid: this.curid
       };
       this.$API.getCommentsList(para).then(res => {
         if (res.length) {
-          let list = this.commentsList.concat(res);
-          if (list.length > MAXLENGTH) {
-            list = list.slice(list.length - MAXLENGTH, list.length);
-          }
-          this.commentsList = list;
+          this.livePlayer.setCommentList(
+            this.livePlayer.commentList.concat(res)
+          );
           this.$nextTick(() => {
             this.$refs.scroll.refresh();
             this.scrollToBottom();
           }, 20);
           this.curid = res[res.length - 1].ID;
         }
+        if (timer) {
+          this.timer = setTimeout(() => {
+            this.getCommentsList(true);
+          }, 5000);
+        }
       });
     },
-    setInterval() {
-      this.timer = setInterval(this.getCommentsList, 5000);
-    },
-    clearInterval() {
-      clearInterval(this.timer);
-    },
-    getWXQRcode() {
-      this.QRcodeIMG = this.$API.getWXQRcode();
-    },
     sendComment() {
-      if (!this.getCookie("openid")) {
+      if (!getCookie("openid")) {
         this.$vux.toast.text("只能在微信中评论！~");
         return;
       }
@@ -179,7 +186,7 @@ export default {
       if (this.content) {
         let options = {
           content: this.content,
-          lid: this.lid
+          lid: this.livePlayer.id
         };
         this.$API
           .sendComment(options)
@@ -213,7 +220,7 @@ export default {
     programvote(id, programName) {
       let para = {
         pid: id,
-        lid: this.lid
+        lid: this.livePlayer.id
       };
       const This = this;
       this.$vux.confirm.show({
@@ -221,41 +228,35 @@ export default {
         content: `要给 ${programName} 投票吗？`,
         onConfirm() {
           This.$vux.loading.show();
-          This.$API.programvote(para).then(res => {
-            This.$vux.loading.hide();
-            This.programList = JSON.parse(res.Content);
-            This.hasVoteList.push(id);
-            This.$nextTick(() => {
-              This.$refs.scroll.refresh();
-            }, 20);
-          }).catch(err=>{
-            This.$vux.loading.hide();
-            This.$vux.toast.text(err.msg, "middle");
-          });
+          This.$API
+            .programvote(para)
+            .then(res => {
+              This.$vux.loading.hide();
+              This.livePlayer.setProgramList(JSON.parse(res.Content));
+              This.hasVoteList.push(id);
+              This.$nextTick(() => {
+                This.$refs.scroll.refresh();
+              }, 20);
+            })
+            .catch(err => {
+              This.$vux.loading.hide();
+              This.$vux.toast.text(err.msg, "middle");
+            });
         }
       });
     },
     formatTime(val) {
       return val.slice(5, val.indexOf(".")).replace("T", " ");
     },
-    getCookie(name) {
-      var arr,
-        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-      if ((arr = document.cookie.match(reg))) return unescape(arr[2]);
-      else return null;
-    },
     getProgramList() {
       let para = {
-        lid: this.lid
+        lid: this.livePlayer.id
       };
       this.$API.getProgramList(para).then(res => {
-        console.log(para, res);
-        if (res.Status == 1) {
-          this.programList = res.Content;
-          this.$nextTick(() => {
-            this.$refs.scroll.refresh();
-          }, 20);
-        }
+        this.livePlayer.setProgramList(res.Content);
+        this.$nextTick(() => {
+          this.$refs.scroll.refresh();
+        }, 20);
       });
     },
     isVoted(id) {
@@ -267,29 +268,22 @@ export default {
     }
   },
   created() {
+    // if (this.timer) {
+    //   this.clearTimer();
+    // }
+    this.setTimer();
     this.$nextTick(() => {
       this.$refs.scroll2.refresh();
     }, 20);
-    // let hasVoteList = localStorage.getItem("hasVoteList");
-    // if (hasVoteList) {
-    //   this.hasVoteList = hasVoteList.split(",");
-    // } else {
-    //   localStorage.setItem("hasVoteList", new Array());
-    // }
-
-    if (this.$route.params.liveId) {
-      this.lid = this.$route.params.liveId;
-      this.getProgramList();
-      this.getCommentsList();
-    }
   },
   mounted() {},
-  beforeDestroy() {},
+  desctroyed() {
+    this.clearTimer();
+  },
   watch: {
-    liveInfo(newVal) {
-      if (newVal.IsVote) {
-        // this.getProgramList();
-      }
+    livePlayer() {
+      this.getProgramList();
+      this.getCommentsList();
     }
   }
 };
