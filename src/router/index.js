@@ -68,10 +68,10 @@ import liveVideo from '@/view/livevideo/player'
 
 import errorPage from '@/view/sys/404'
 //西斯达
-import xsdLive from '@/view/xsdlive/player'
-import xsdSign from '@/view/xsdlive/signin'
-import xsdUserSign from '@/view/xsdlive/usersignin'
-import xsdLottery from '@/view/xsdlive/lottery'
+import live from '@/view/live/player'
+// import xsdSign from '@/view/xsdlive/signin'
+// import xsdUserSign from '@/view/xsdlive/usersignin'
+import lottery from '@/view/live/lottery'
 
 Vue.use(Router)
 
@@ -361,49 +361,49 @@ export default new Router({
       }
     },
     // 直播
-    {
-      path: '/live',
-      name: 'liveVideo',
-      component: liveVideo,
-      meta: {
-        anonymous: true
-      }
-    },
+    // {
+    //   path: '/live',
+    //   name: 'liveVideo',
+    //   component: liveVideo,
+    //   meta: {
+    //     anonymous: true
+    //   }
+    // },
 
 
     // xsd直播
     {
-      path: '/xsdLive/:liveId',
-      name: 'xsd',
-      component: xsdLive,
+      path: '/live/:liveId',
+      name: 'live',
+      component: live,
       meta: {
         anonymous: true
       }
     },
     {
-      path: '/xsdLottery/:liveId',
-      name: 'xsdLottery',
-      component: xsdLottery,
+      path: '/lottery/:liveId',
+      name: 'lottery',
+      component: lottery,
       meta: {
         anonymous: true
       }
     },
-    {
-      path: '/xsdUserSign',
-      name: 'xsdUserSign',
-      component: xsdUserSign,
-      meta: {
-        anonymous: true
-      }
-    },
-    {
-      path: '/xsdSign',
-      name: 'xsdSign',
-      component: xsdSign,
-      meta: {
-        anonymous: true
-      }
-    },
+    // {
+    //   path: '/xsdUserSign',
+    //   name: 'xsdUserSign',
+    //   component: xsdUserSign,
+    //   meta: {
+    //     anonymous: true
+    //   }
+    // },
+    // {
+    //   path: '/xsdSign',
+    //   name: 'xsdSign',
+    //   component: xsdSign,
+    //   meta: {
+    //     anonymous: true
+    //   }
+    // },
   ],
   scrollBehavior(to, from, savedPosition) {
     return {
