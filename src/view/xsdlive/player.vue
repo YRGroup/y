@@ -7,6 +7,9 @@
         {{playerErrMsg}}
         <x-button type="primary" class="retryBtn" @click.native="reLoad">刷新</x-button>
       </div>
+      <div class="modal" v-show="showError">
+        <img src="" alt="">
+      </div>
     </div>
     <live-tab id="comments" v-show="showComments"></live-tab>
   </div>
@@ -155,7 +158,6 @@ export default {
       //   // }
       // });
       this.player.on("onM3u8Retry", ev => {
-        console.log(this);
         this.showErrorMsg("直播还没开始，请稍后......");
       });
       this.player.on("requestFullScreen", ev => {

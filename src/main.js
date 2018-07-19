@@ -12,6 +12,9 @@ import md5 from 'js-md5'
 import axios from 'axios'
 import VuePreview from 'wxpreview'
 
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 // import NProgress from 'nprogress' // Progress 进度条
 // import 'nprogress/nprogress.css'// Progress 进度条 样式
@@ -20,7 +23,7 @@ import {
   LoadingPlugin,
   ToastPlugin,
   ConfirmPlugin,
-  AlertPlugin 
+  AlertPlugin
 } from 'vux'
 Vue.use(VuePreview)
 
@@ -113,7 +116,7 @@ Vue.prototype.$http = axios
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
 Vue.use(ConfirmPlugin)
-Vue.use(AlertPlugin )
+Vue.use(AlertPlugin)
 new Vue({
   router,
   store,

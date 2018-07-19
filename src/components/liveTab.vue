@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <div class="liveTabContainer">
     <div>
       <tab>
         <tab-item  v-model="tabIndex" :selected="tabIndex == 0 ? true :false" @on-item-click="onItemClick">互动</tab-item>
-        <tab-item  v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">活动介绍</tab-item>
+        <tab-item  v-model="tabIndex" :selected="tabIndex == 1 ? true :false" @on-item-click="onItemClick">精彩瞬间</tab-item>
         <tab-item v-if="livePlayer.isVote" v-model="tabIndex" :selected="tabIndex == 2 ? true :false" @on-item-click="onItemClick">节目投票</tab-item>
       </tab>
     </div>
@@ -13,7 +13,7 @@
         <swiper-item class="swiperComment">
           <i class="iconfont refresh" @click="$router.push('/')">&#xe666;</i>
           <scroll-view class="content" ref="scroll">
-          <div class="tab-swiper vux-center  commentsBox" ref="comment">
+          <div class="tab-swiper vux-center  commentsBox">
               <div v-for="(item,index) in showCommentList" :key="index" class="commentItem clearfix">
                 <div class="commentUser">
                   <img class="headImg" :src="item.headimgurl" alt="">
@@ -30,7 +30,7 @@
         </swiper-item>
 
         <swiper-item>
-          <scroll-view class="content noBottom" ref="scroll2">
+          <scroll-view class="content noBottom" ref="introScroll">
             <div class="tab-swiper vux-center liveInfo" v-html="livePlayer.introduction"> </div>
           </scroll-view>
         </swiper-item>
@@ -89,7 +89,13 @@ import {
 } from "vux";
 import scrollView from "@/components/scroll-view";
 import { getCookie } from "@/assets/js/util";
+
+import "@/style/quill/quill.core.css";
+import "@/style/quill/quill.snow.css";
+import "@/style/quill/quill.bubble.css";
+
 const MAXLENGTH = 20;
+
 export default {
   data() {
     return {
@@ -199,24 +205,7 @@ export default {
         this.$vux.toast.text("说点什么吧~", "middle");
       }
     },
-    delComment(id) {
-      let options = {
-        id: id
-      };
-      let This = this;
-      this.$vux.confirm.show({
-        title: "提示",
-        content: "确定删除此条评论吗？",
-        onConfirm() {
-          This.$API
-            .delComment(options)
-            .then(res => {
-              This.getCommentsList();
-            })
-            .catch();
-        }
-      });
-    },
+
     programvote(id, programName) {
       let para = {
         pid: id,
@@ -268,11 +257,15 @@ export default {
     }
   },
   created() {
-    this.$nextTick(() => {
-      this.$refs.scroll2.refresh();
+    // this.$nextTick(() => {
+    //   this.$refs.introScroll.refresh();
+    // }, 20);
+  },
+  mounted() {
+    setTimeout(() => {
+      this.$refs.introScroll.refresh();
     }, 20);
   },
-  mounted() {},
   destroyed() {
     this.clearTimer();
   },
@@ -287,11 +280,11 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
+<style lang="less" >
 @import "../style/theme.less";
 @import "../style/iconfont.less";
 
-.container {
+.liveTabContainer {
   color: @black;
   position: relative;
   font-size: 1.1em;
@@ -320,7 +313,7 @@ export default {
     height: calc(~"60vh - 44px"); //100vh  屏幕的100%
     overflow: hidden;
   }
-  .swiperComment {
+  .swiperComment {   
     padding-bottom: 49px;
     box-sizing: border-box;
   }
@@ -334,7 +327,7 @@ export default {
     overflow: hidden;
     box-sizing: border-box;
     img {
-      max-width: 100%;
+      width: 100%;
       display: block;
     }
     .commentsBox {
@@ -389,9 +382,7 @@ export default {
   }
   .liveInfo {
     text-align: center;
-    img {
-      width: 100%;
-    }
+    overflow: hidden;
   }
 }
 
@@ -436,9 +427,6 @@ export default {
 }
 .vux-center img {
   max-width: 100%;
-}
-.huaxuImg {
-  width: 100%;
 }
 </style>
 
