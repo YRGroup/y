@@ -8,9 +8,9 @@
         <x-button type="primary" class="retryBtn" @click.native="reLoad">刷新</x-button>
       </div>
       <div class="modal coverImg"
-        :style="{backgroundImage:`url(${livePlayer.wxSharePic})`}" 
+        :style="{backgroundImage:`url(${livePlayer.coverImg})`}" 
         v-show="showCover">
-        <i class="iconfont play" @click.native="playLive">&#xe63c;</i>
+        <i class="iconfont play" @click="playLive">&#xe63c;</i>
       </div>
     </div>
     <live-tab id="comments" v-show="showComments"  :livePlayer="livePlayer"></live-tab>
@@ -78,6 +78,7 @@ export default {
     },
     initWX() {
       this.$API.getWxData().then(res => {
+        console.log(res)
         let _this = this;
         this.wxData.appId = res.AppId;
         this.wxData.timestamp = res.Timestamp;
@@ -136,9 +137,7 @@ export default {
       });
     },
     playLive() {
-      console.log(111)
-      if (this.player) {
-        
+      if (this.player) {   
         this.player.play();
         this.showCover = false;
       }
@@ -161,7 +160,8 @@ export default {
           pushUrl: res.Content.PushUrl,
           title: res.Content.Title,
           wxShareContent: res.Content.WXShareContent,
-          wxSharePic: res.Content.WXSharePic
+          wxSharePic: res.Content.WXSharePic,
+          coverImg:res.Content.CoverImg
         };
         this.livePlayer = new LivePlayer(liveInfoData);
         this.liveInfoReady();
@@ -181,7 +181,9 @@ export default {
       window.location.href =
         this.$store.state.ApiUrl +
         "/api/LiveVideoWeiXinOAuth/index?refUrl=" +
-        href;
+        // href;
+        window.location.host +
+        "/%23/live/"+this.liveId;
     }
   },
   mounted() {

@@ -64,8 +64,8 @@
       </swiper>
     </div>
     <div class="sendComment" v-show="showSendComment">
-      <group class="weui-cells_form">
-        <x-input title="" class="weui-vcode" :show-clear="false"  v-model="content" placeholder="说点什么">
+      <group class="weui-cells_form" style="box-shadow:0 -1px 3px #ccc">
+        <x-input title="" :show-clear="false"  v-model="content" placeholder="说点什么">
           <x-button slot="right" type="primary" @click.native="sendComment" mini>发送</x-button>
         </x-input>
       </group>
@@ -412,7 +412,9 @@ export default {
     font-size: 1.5rem;
     line-height: 2.4rem;
   }
+ 
 }
+
 .deleteBtn {
   float: right;
 }
