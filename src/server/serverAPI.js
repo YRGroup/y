@@ -177,7 +177,7 @@ API.refreshLiveness = () => {
 }
 
 // 获取微信jssdk签名
-API.getWxData = (id) => {
+API.getWxData = () => {
   return new Promise((resolve, reject) => {
     axios.get('/api/School/GetWeiXinJsApiSignature').then((res) => {
       resolve(res.data.Content)
