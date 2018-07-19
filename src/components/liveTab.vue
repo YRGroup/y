@@ -29,7 +29,7 @@
           </scroll-view>
         </swiper-item>
 
-        <swiper-item>
+        <swiper-item style="background-color:#fff;">
           <scroll-view class="content noBottom" ref="introScroll">
             <div class="tab-swiper vux-center liveInfo" v-html="livePlayer.introduction"> </div>
           </scroll-view>
@@ -89,10 +89,6 @@ import {
 } from "vux";
 import scrollView from "@/components/scroll-view";
 import { getCookie } from "@/assets/js/util";
-
-import "@/style/quill/quill.core.css";
-import "@/style/quill/quill.snow.css";
-import "@/style/quill/quill.bubble.css";
 
 const MAXLENGTH = 20;
 
@@ -383,6 +379,7 @@ export default {
   .liveInfo {
     text-align: center;
     overflow: hidden;
+
   }
 }
 
