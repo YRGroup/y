@@ -1,13 +1,16 @@
 <template>
   <div class="wrapper">
-    <div  class="video">
+    <div class="video">
       <div v-show="!showError" class="prism-player" id="J_prismPlayer">
       </div>
       <div class="modal" v-show="showError">
-       
-          <p>{{playerErrMsg}}</p>
-          <x-button type="primary" class="retryBtn" @click.native="reLoad">刷新</x-button>
-       
+        <p>{{playerErrMsg}}</p>
+        <x-button type="primary" class="retryBtn" @click.native="reLoad">刷新</x-button>
+      </div>
+      <div class="modal coverImg"
+        :style="{backgroundImage:`url(${livePlayer.wxSharePic})`}" 
+        v-show="showCover">
+        <i class="iconfont play" @click.native="playLive">&#xe63c;</i>
       </div>
     </div>
     <live-tab id="comments" v-show="showComments"  :livePlayer="livePlayer"></live-tab>
@@ -34,9 +37,7 @@ export default {
     return {
       liveId: null,
       player: null,
-      videoId: "",
-      videoAuth: "",
-      videoinfo: this.$store.state.currentVideoInfo,
+      showCover: true,
       wxData: {
         debug: false,
         appId: "",
@@ -90,38 +91,41 @@ export default {
           imgUrl: this.livePlayer.wxSharePic
         };
 
-        wx.ready(function() {
+        wx.ready(() => {
           wx.onMenuShareTimeline(_this.wxShareData);
           wx.onMenuShareAppMessage(_this.wxShareData);
           wx.onMenuShareQQ(_this.wxShareData);
           wx.onMenuShareWeibo(_this.wxShareData);
           wx.onMenuShareQZone(_this.wxShareData);
+          _this.player.play();
         });
       });
     },
     initPlayer() {
-      if (this.player) {
-        this.player = null;
-      }
+      // if (this.player) {
+      //   this.player = null;
+      // }
       this.player = new Aliplayer({
         id: "J_prismPlayer",
-        autoplay: true,
+        autoplay: false,
         isLive: true,
         playsinline: true,
         width: "100%",
         height: "100%",
-        controlBarVisibility: "always",
         useH5Prism: true,
-        useFlashPrism: false,
         source: this.livePlayer.playerUrl,
         // source: `http://live.yearn.com/1/${this.liveId}.m3u8`,
         cover: this.livePlayer.wxSharePic,
         x5_video_position: "top",
         x5_type: "h5", //声明启用同层H5播放器，支持的值：h5
         showBarTime: "2000",
-        controlBarVisibility: "click"
+        controlBarVisibility: "hover",
+        preload: true
       });
       this.player.on("onM3u8Retry", ev => {
+        this.showErrorMsg("直播还没开始...");
+      });
+      this.player.on("liveStreamStop", ev => {
         this.showErrorMsg("直播还没开始...");
       });
       this.player.on("requestFullScreen", ev => {
@@ -130,6 +134,14 @@ export default {
       this.player.on("cancelFullScreen", ev => {
         console.log("取消全屏");
       });
+    },
+    playLive() {
+      console.log(111)
+      if (this.player) {
+        
+        this.player.play();
+        this.showCover = false;
+      }
     },
     showErrorMsg(errMsg) {
       this.showError = true;
@@ -152,7 +164,6 @@ export default {
           wxSharePic: res.Content.WXSharePic
         };
         this.livePlayer = new LivePlayer(liveInfoData);
-        console.log(this.livePlayer);
         this.liveInfoReady();
       });
     },
@@ -174,7 +185,9 @@ export default {
     }
   },
   mounted() {
-    this.getOneLiveRoom();
+    setTimeout(() => {
+      this.getOneLiveRoom();
+    }, 1000);
   },
   hiddeComments() {
     this.showComments = false;
@@ -206,6 +219,16 @@ export default {
     .retryBtn {
       width: 100px;
       margin: 20px auto;
+    }
+  }
+  .coverImg {
+    background-size: cover;
+    background-position-x: 50%;
+    .play {
+      color: #fff;
+      font-size: 80px;
+      opacity: 0.8;
+      cursor: pointer;
     }
   }
 }
