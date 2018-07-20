@@ -6,7 +6,7 @@
       </div> -->
       <p class="name" v-show="luckyMan.name">
         <span> {{luckyMan.name}}</span>
-        <span class=classname>({{luckyMan.classname}})</span>
+        <span class="classname">({{luckyMan.classname}})</span>
       </p>
       <div v-if="control" class="btn" @click="lottery">开始抽奖</div>
       <div v-else class="btn" @click="stop">停！</div>
@@ -186,6 +186,7 @@ export default {
     text-align: center;
     .classname {
       font-size: 30px;
+      text-transform: uppercase;
     }
   }
 }
@@ -238,10 +239,10 @@ export default {
   display: flex;
   justify-content: flex-start;
   flex-wrap: nowrap;
-  width: 100%;
-  padding: 0 20px;
+  padding: 0 50px;
   margin-top: 50px;
   margin-bottom: 20px;
+  box-sizing: border-box;
   .text {
     color: #ffcc1d;
     flex: 0 0 150px;
