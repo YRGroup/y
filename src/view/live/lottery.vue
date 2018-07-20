@@ -1,9 +1,9 @@
 <template>
   <div class="box">
     <div class="wrapper ">
-      <div class="people">
+      <!-- <div class="people">
         <img :src="logo" alt="西斯达大树幼儿园">
-      </div>
+      </div> -->
       <p class="name" v-show="luckyMan.name">
         <span> {{luckyMan.name}}</span>
         <span class=classname>({{luckyMan.classname}})</span>
@@ -117,16 +117,16 @@ export default {
 
 <style lang="less" scoped>
 .box {
-  // height: 100vh;
+  height: 100vh;
   // background: url(../../assets/xsdLiveBg.jpg) no-repeat center center;
   // background-size: cover;
   position: relative;
-  width: 920px;
-  height: 550px;
+  // width: 920px;
+  // height: 550px;
   // z-index: -100;
 }
 .bg {
-  background: url(../../assets/xsdLiveBg.jpg) no-repeat center center;
+  background: url(../../assets/2018cover.jpg) no-repeat center center;
   background-size: cover;
   height: 100%;
   width: 100%;
@@ -138,7 +138,7 @@ export default {
   width: 100%;
 
   // box-sizing: border-box;
-  padding-top: 150px;
+  padding-top: 500px;
   color: #fff;
   display: flex;
   align-items: center;
