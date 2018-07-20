@@ -243,6 +243,7 @@ export default {
   margin-top: 50px;
   margin-bottom: 20px;
   box-sizing: border-box;
+  width: 100%;
   .text {
     color: #ffcc1d;
     flex: 0 0 150px;
