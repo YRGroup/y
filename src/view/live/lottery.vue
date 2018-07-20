@@ -8,7 +8,7 @@
         <span> {{luckyMan.name}}</span>
         <span class=classname>({{luckyMan.classname}})</span>
       </p>
-      <div v-if="control" class="btn" @click="lottery">开始</div>
+      <div v-if="control" class="btn" @click="lottery">开始抽奖</div>
       <div v-else class="btn" @click="stop">停！</div>
       <div class="bottomList">
         <p class="text" v-if="luckList.length">中奖名单：</p>
@@ -44,7 +44,7 @@ export default {
       timer: null,
       luckyMan: {},
       piao: false,
-      bgImg: ""
+      bgImg: require("@/assets/2018cover.jpg"),
     };
   },
   created() {
@@ -52,9 +52,9 @@ export default {
     let para = {
       id: this.lid
     };
-    this.$API.getOneLiveRoom(para).then(res => {
-      this.bgImg = res.Content.CoverImg;
-    });
+    // this.$API.getOneLiveRoom(para).then(res => {
+    //   this.bgImg = res.Content.CoverImg;
+    // });
     this.getSignInList();
     window.onkeyup = event => {
       if (event.keyCode == 32) {
@@ -124,6 +124,7 @@ export default {
 <style lang="less" scoped>
 .box {
   position: relative;
+  height: 100vh;
   // width: 920px;
   // height: 550px;
   // z-index: -100;
