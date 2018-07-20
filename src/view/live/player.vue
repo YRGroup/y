@@ -78,7 +78,7 @@ export default {
     },
     initWX() {
       this.$API.getWxData().then(res => {
-        console.log(res)
+        console.log(res);
         let _this = this;
         this.wxData.appId = res.AppId;
         this.wxData.timestamp = res.Timestamp;
@@ -88,7 +88,8 @@ export default {
         this.wxShareData = {
           title: this.livePlayer.title,
           desc: this.livePlayer.wxShareContent,
-          link: window.location.href,
+
+          link: encodeURIComponent(location.href.split("#")[0]),
           imgUrl: this.livePlayer.wxSharePic
         };
 
@@ -98,7 +99,6 @@ export default {
           wx.onMenuShareQQ(_this.wxShareData);
           wx.onMenuShareWeibo(_this.wxShareData);
           wx.onMenuShareQZone(_this.wxShareData);
-          _this.player.play();
         });
       });
     },
@@ -115,8 +115,7 @@ export default {
         height: "100%",
         useH5Prism: true,
         source: this.livePlayer.playerUrl,
-        // source: `http://live.yearn.com/1/${this.liveId}.m3u8`,
-        cover: this.livePlayer.wxSharePic,
+        cover: this.livePlayer.coverImg,
         x5_video_position: "top",
         x5_type: "h5", //声明启用同层H5播放器，支持的值：h5
         showBarTime: "2000",
@@ -125,6 +124,14 @@ export default {
       });
       this.player.on("onM3u8Retry", ev => {
         this.showErrorMsg("直播还没开始...");
+      });
+      this.player.on("play", ev => {
+        console.log("开始播放");
+        this.showCover = false;
+      });
+      this.player.on("ready", ev => {
+        console.log("ready");
+        this.showCover = false;
       });
       this.player.on("liveStreamStop", ev => {
         this.showErrorMsg("直播还没开始...");
@@ -137,7 +144,7 @@ export default {
       });
     },
     playLive() {
-      if (this.player) {   
+      if (this.player) {
         this.player.play();
         this.showCover = false;
       }
@@ -161,7 +168,7 @@ export default {
           title: res.Content.Title,
           wxShareContent: res.Content.WXShareContent,
           wxSharePic: res.Content.WXSharePic,
-          coverImg:res.Content.CoverImg
+          coverImg: res.Content.CoverImg
         };
         this.livePlayer = new LivePlayer(liveInfoData);
         this.liveInfoReady();
@@ -169,21 +176,18 @@ export default {
     },
     liveInfoReady() {
       this.$store.commit("changeTitle", this.livePlayer.title);
-      this.initPlayer();
       this.initWX();
+      this.initPlayer();
     }
   },
   created() {
     this.isWeiXin = isWeiXin();
     this.liveId = this.$route.params.liveId;
+    let href = encodeURIComponent(
+      "http://" + window.location.host + "/m/#/live/" + this.liveId
+    );
     if (this.isWeiXin && !getCookie("openid")) {
-      let href = window.location.href;
-      window.location.href =
-        this.$store.state.ApiUrl +
-        "/api/LiveVideoWeiXinOAuth/index?refUrl=" +
-        // href;
-        window.location.host +
-        "/%23/live/"+this.liveId;
+      window.location.href = "/api/LiveVideoWeiXinOAuth/index?refUrl=" + href;
     }
   },
   mounted() {
@@ -213,7 +217,7 @@ export default {
     background: #000;
     color: #fff;
     font-size: 20px;
-    z-index: 99;
+    z-index: 999;
     display: flex;
     flex-direction: column;
     align-items: center;

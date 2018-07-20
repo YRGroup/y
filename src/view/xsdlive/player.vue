@@ -107,8 +107,8 @@ export default {
           desc: this.liveInfo.desc,
           // link: `http://cstar.yearn.com/m/#/xsdLive/${this.liveId}`,
           link: window.location.href,
-          imgUrl: "http://pic.yearnedu.com/YRImges/cstar/xsdlogo.jpg"
-          // imgUrl: this.logo
+          // imgUrl: "http://pic.yearnedu.com/YRImges/cstar/xsdlogo.jpg"
+          imgUrl: this.liveInfo.wxSharePic
         };
 
         wx.ready(function() {

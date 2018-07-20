@@ -65,13 +65,11 @@ export default {
     }
   },
   created() {
+    let href = encodeURIComponent("http://" + window.location.host + "/m/#/xsdUserSign");
 
+    console.log(href);
     if (this.isWeiXin && !this.getCookie("openid")) {
-      window.location.href =
-        this.$store.state.ApiUrl +
-        "/api/LiveVideoWeiXinOAuth/index?refUrl=" +
-        window.location.host +
-        "/m/xsdUserLive";
+      window.location.href = "/api/LiveVideoWeiXinOAuth/index?refUrl=" + href;
     }
   }
 };

@@ -11,7 +11,7 @@
       <swiper v-model="tabIndex" class="swiper" height="100%"  :show-dots="false" :threshold="200" :min-moving-distance="20">
 
         <swiper-item class="swiperComment">
-          <i class="iconfont refresh" @click="$router.push('/')">&#xe666;</i>
+          <!-- <i class="iconfont refresh" @click="$router.push('/')">&#xe666;</i> -->
           <scroll-view class="content" ref="scroll">
           <div class="tab-swiper vux-center  commentsBox">
               <div v-for="(item,index) in showCommentList" :key="index" class="commentItem clearfix">
@@ -260,7 +260,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.$refs.introScroll.refresh();
-    }, 20);
+    }, 2000);
   },
   destroyed() {
     this.clearTimer();
@@ -318,7 +318,6 @@ export default {
     top: 0;
     bottom: 10px;
     width: 100%;
-    overflow: auto;
     padding: 10px;
     overflow: hidden;
     box-sizing: border-box;

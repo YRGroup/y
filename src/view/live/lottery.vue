@@ -13,7 +13,6 @@
       <div class="bottomList">
         <p class="text" v-if="luckList.length">中奖名单：</p>
         <ul class="luckyList">
-          
           <li v-for="(item , index) in luckList" :key="index">
             {{item.name}}
             <!-- ({{item.classname}}) -->
@@ -24,7 +23,8 @@
     <div class="session session-bg">
       <i class="fw" :class="{test: piao}"></i>
     </div>
-    <div class="bg"></div>
+    <div class="bg" 
+    :style="{backgroundImage:`url(${bgImg})`}" ></div>
   </div>
 </template>
 
@@ -43,12 +43,18 @@ export default {
       activeIndex: null,
       timer: null,
       luckyMan: {},
-      piao: false
+      piao: false,
+      bgImg: ""
     };
   },
   created() {
     this.lid = this.$route.params.liveId;
-    this.$store.commit("changeTitle", "2018年大树幼儿园英语汇演");
+    let para = {
+      id: this.lid
+    };
+    this.$API.getOneLiveRoom(para).then(res => {
+      this.bgImg = res.Content.CoverImg;
+    });
     this.getSignInList();
     window.onkeyup = event => {
       if (event.keyCode == 32) {
@@ -117,17 +123,16 @@ export default {
 
 <style lang="less" scoped>
 .box {
-  height: 100vh;
-  // background: url(../../assets/xsdLiveBg.jpg) no-repeat center center;
-  // background-size: cover;
   position: relative;
   // width: 920px;
   // height: 550px;
   // z-index: -100;
 }
 .bg {
-  background: url(../../assets/2018cover.jpg) no-repeat center center;
+  // background: url(../../assets/xsdLiveBg.jpg) no-repeat center center;
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
   height: 100%;
   width: 100%;
   position: absolute;

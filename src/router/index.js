@@ -63,14 +63,12 @@ import systemNoticeInfo from '@/view/user/noticeInfo'
 import videoList from '@/view/video/list'
 import player from '@/view/video/player'
 
-// 视频直播
-import liveVideo from '@/view/livevideo/player'
 
 import errorPage from '@/view/sys/404'
-//西斯达
+// 视频直播
 import live from '@/view/live/player'
 // import xsdSign from '@/view/xsdlive/signin'
-// import xsdUserSign from '@/view/xsdlive/usersignin'
+import xsdUserSign from '@/view/xsdlive/usersignin'
 import lottery from '@/view/live/lottery'
 
 Vue.use(Router)
@@ -388,14 +386,14 @@ export default new Router({
         anonymous: true
       }
     },
-    // {
-    //   path: '/xsdUserSign',
-    //   name: 'xsdUserSign',
-    //   component: xsdUserSign,
-    //   meta: {
-    //     anonymous: true
-    //   }
-    // },
+    {
+      path: '/xsdUserSign',
+      name: 'xsdUserSign',
+      component: xsdUserSign,
+      meta: {
+        anonymous: true
+      }
+    },
     // {
     //   path: '/xsdSign',
     //   name: 'xsdSign',
