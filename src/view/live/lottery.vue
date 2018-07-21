@@ -124,7 +124,7 @@ export default {
 <style lang="less" scoped>
 .box {
   position: relative;
-  height: 100vh;
+  height: 100%;
   // width: 920px;
   // height: 550px;
   // z-index: -100;
@@ -142,9 +142,9 @@ export default {
 }
 .wrapper {
   width: 100%;
-
+  height: 100%;
   // box-sizing: border-box;
-  padding-top: 500px;
+  // padding-top: 500px;
   color: #fff;
   display: flex;
   align-items: center;
@@ -164,6 +164,8 @@ export default {
     }
   }
   .btn {
+    position: absolute;
+    bottom: 25%;  
     width: 420px;
     height: 68px;
     line-height: 68px;
@@ -181,6 +183,8 @@ export default {
     }
   }
   .name {
+    position: absolute;
+    bottom: 40%;
     line-height: 60px;
     font-size: 60px;
     text-align: center;
@@ -235,6 +239,8 @@ export default {
   z-index: -10;
 }
 .bottomList {
+  position: absolute;
+  bottom: 10%;
   font-size: 24px;
   display: flex;
   justify-content: flex-start;

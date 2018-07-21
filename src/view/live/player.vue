@@ -10,16 +10,17 @@
       <div class="modal coverImg"
         :style="{backgroundImage:`url(${livePlayer.coverImg})`}" 
         v-show="showCover">
-        <i class="iconfont play" @click="playLive">&#xe63c;</i>
+        <i class="iconfont play" v-show="isWeiXin" @click="playLive">&#xe63c;</i>
       </div>
     </div>
     <live-tab id="comments" v-show="showComments"  :livePlayer="livePlayer"></live-tab>
+   
   </div>
 </template>
 
 <script>
 import liveTab from "@/components/liveTab";
-import { Toast, XButton } from "vux";
+import { Toast, XButton, XDialog } from "vux";
 import wx from "weixin-js-sdk";
 import { getCookie, isWeiXin } from "@/assets/js/util";
 import { LivePlayer } from "@/assets/js/class";
@@ -60,16 +61,18 @@ export default {
         imgUrl: ""
       },
       showComments: true,
-      logo: require("@/assets/xsdlogo.jpg"),
+      logo: require("@/assets/img/yepCode.jpg"),
       showError: false,
       playerErrMsg: "",
-      livePlayer: {}
+      livePlayer: {},
+      showCodeImg:true
     };
   },
   components: {
     liveTab,
     Toast,
-    XButton
+    XButton,
+    XDialog
   },
   computed: {},
   methods: {
@@ -78,18 +81,28 @@ export default {
     },
     initWX() {
       this.$API.getWxData().then(res => {
-        console.log(res);
+        let link = location.href.split("#")[0] + "#/live/" + this.liveId;
+        console.log(res, link);
         let _this = this;
-        this.wxData.appId = res.AppId;
-        this.wxData.timestamp = res.Timestamp;
-        this.wxData.nonceStr = res.NonceStr;
-        this.wxData.signature = res.Signature;
-        wx.config(this.wxData);
+        wx.config({
+          appId: res.AppId,
+          timestamp: res.Timestamp,
+          nonceStr: res.NonceStr,
+          signature: res.Signature,
+          jsApiList: [
+            "onMenuShareTimeline",
+            "onMenuShareAppMessage",
+            "onMenuShareQQ",
+            "onMenuShareWeibo",
+            "onMenuShareQZone"
+          ]
+        });
         this.wxShareData = {
           title: this.livePlayer.title,
           desc: this.livePlayer.wxShareContent,
-
-          link: encodeURIComponent(location.href.split("#")[0]),
+          // link: encodeURIComponent(location.href.split("#")[0]),
+          link: link,
+          // link: "http://yep.yearn.com/redirect.html?type=d&pid=" + res.EncryptID,
           imgUrl: this.livePlayer.wxSharePic
         };
 
@@ -129,10 +142,10 @@ export default {
         console.log("开始播放");
         this.showCover = false;
       });
-      this.player.on("ready", ev => {
-        console.log("ready");
-        this.showCover = false;
-      });
+      // this.player.on("ready", ev => {
+      //   console.log("ready");
+      //   this.showCover = false;
+      // });
       this.player.on("liveStreamStop", ev => {
         this.showErrorMsg("直播还没开始...");
       });
@@ -145,8 +158,8 @@ export default {
     },
     playLive() {
       if (this.player) {
-        this.player.play();
         this.showCover = false;
+        this.player.play();
       }
     },
     showErrorMsg(errMsg) {
@@ -205,6 +218,21 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.wrapper{
+  position: relative;
+  .showCode{
+    position: absolute;
+    right: 30px;
+    bottom: 30%;
+    font-size: 30px;
+    color: @main;
+    width: 40px;
+    height: 40px;
+    border: 1px solid @main;
+    text-align: center;
+    line-height: 40px;
+  }
+}
 .video {
   height: 40vh;
   position: relative;
@@ -330,4 +358,5 @@ video::-webkit-media-controls {
 video.center {
   object-position: 50% 50% !important;
 }
+
 </style>

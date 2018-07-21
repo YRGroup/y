@@ -69,7 +69,17 @@
           <x-button slot="right" type="primary" @click.native="sendComment" mini>发送</x-button>
         </x-input>
       </group>
-  </div>
+    </div>
+    <x-dialog v-model="showCodeImg" >
+      <div class="code-dialog">
+        <div class="img-box">
+          <img :src="logo" style="max-width:100%">
+        </div>
+        <p class="title">长按关注公众号</p>
+        <i class="iconfont close" @click="showCodeImg = false">&#xe641;</i>
+      </div>
+    </x-dialog>
+    <i class="iconfont showCode"  v-show="showSendComment"  @click="showCodeImg = true">&#xe615;</i>
   </div>
 </template>
 <script>
@@ -90,7 +100,7 @@ import {
 import scrollView from "@/components/scroll-view";
 import { getCookie } from "@/assets/js/util";
 
-const MAXLENGTH = 20;
+const MAXLENGTH = 100;
 
 export default {
   data() {
@@ -102,7 +112,9 @@ export default {
       admin: "",
       curid: -1,
       timer: 0,
-      hasVoteList: []
+      hasVoteList: [],
+      showCodeImg: true,
+      logo: require("@/assets/img/yepCode.jpg"),
     };
   },
   props: {
@@ -196,7 +208,9 @@ export default {
             this.getCommentsList();
             this.content = "";
           })
-          .catch();
+          .catch(err => {
+            this.$vux.toast.text(err.msg, "middle");
+          });
       } else {
         this.$vux.toast.text("说点什么吧~", "middle");
       }
@@ -280,6 +294,36 @@ export default {
 @import "../style/theme.less";
 @import "../style/iconfont.less";
 
+.showCode {
+  position: absolute;
+  right: 30px;
+  bottom: 30%;
+  font-size:20px;
+  color: @main;
+  width: 30px;
+  height: 30px;
+  border: 1px solid @main;
+  text-align: center;
+  line-height: 30px;
+}
+.code-dialog {
+  position: relative;
+  .img-box {
+    padding: 30px 20px 0;
+  }
+  .title {
+    line-height: 40px;
+    font-size: 25px;
+  }
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    z-index: 99;
+    color: #333;
+  }
+}
 .liveTabContainer {
   color: @black;
   position: relative;
@@ -309,7 +353,7 @@ export default {
     height: calc(~"60vh - 44px"); //100vh  屏幕的100%
     overflow: hidden;
   }
-  .swiperComment {   
+  .swiperComment {
     padding-bottom: 49px;
     box-sizing: border-box;
   }
@@ -378,7 +422,6 @@ export default {
   .liveInfo {
     text-align: center;
     overflow: hidden;
-
   }
 }
 
@@ -411,7 +454,6 @@ export default {
     font-size: 1.5rem;
     line-height: 2.4rem;
   }
- 
 }
 
 .deleteBtn {
