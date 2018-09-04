@@ -1,5 +1,18 @@
+let data = {
+  id: 0,
+  createTime: 0,
+  introduction: '',
+  isVote: false,
+  playerUrl: '',
+  pushUrl: '',
+  title: '',
+  wxShareContent: '',
+  wxSharePic: '',
+  coverImg: ''
+};
+
 export class LivePlayer {
-  constructor(liveInfo) {
+  constructor(liveInfo = data) {
     for (var attr in liveInfo) {
       this[attr] = liveInfo[attr] || '';
     }

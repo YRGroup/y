@@ -2,7 +2,7 @@
   <div :style="{'height':mainHeight+'px'}">
 
     <loading v-model="isLoading" :loading="false"></loading>
-
+  
     <transition name='slide-fade'>
       <router-view></router-view>
     </transition>

@@ -40,7 +40,6 @@ export default {
       player: null,
       showCover: true,
       wxData: {
-        debug: false,
         appId: "",
         timestamp: null,
         noncestr: "",
@@ -65,7 +64,7 @@ export default {
       showError: false,
       playerErrMsg: "",
       livePlayer: {},
-      showCodeImg:true
+      showCodeImg: true
     };
   },
   components: {
@@ -80,10 +79,12 @@ export default {
       window.location.reload();
     },
     initWX() {
+      let link = "http://" + window.location.host + "/m/#/live/" + this.liveId;
+      console.log(link);
       this.$API.getWxData().then(res => {
-        let link = location.href.split("#")[0] + "#/live/" + this.liveId;
         console.log(res, link);
-        let _this = this;
+        let _this = this; 
+        
         wx.config({
           appId: res.AppId,
           timestamp: res.Timestamp,
@@ -100,9 +101,7 @@ export default {
         this.wxShareData = {
           title: this.livePlayer.title,
           desc: this.livePlayer.wxShareContent,
-          // link: encodeURIComponent(location.href.split("#")[0]),
           link: link,
-          // link: "http://yep.yearn.com/redirect.html?type=d&pid=" + res.EncryptID,
           imgUrl: this.livePlayer.wxSharePic
         };
 
@@ -218,9 +217,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.wrapper{
+.wrapper {
   position: relative;
-  .showCode{
+  .showCode {
     position: absolute;
     right: 30px;
     bottom: 30%;
@@ -358,5 +357,4 @@ video::-webkit-media-controls {
 video.center {
   object-position: 50% 50% !important;
 }
-
 </style>

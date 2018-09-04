@@ -44,7 +44,7 @@ export default {
       timer: null,
       luckyMan: {},
       piao: false,
-      bgImg: require("@/assets/2018cover.jpg"),
+      bgImg: require("@/assets/2018cover.jpg")
     };
   },
   created() {
@@ -87,6 +87,19 @@ export default {
       }
     },
     stop() {
+      let PEO_ID = 202
+      //bug
+      if (this.luckList.length == 0&&this.lotteryList.some(el=>{return el.ID ==PEO_ID})) {
+        this.lotteryList.forEach((el,i) => {
+          if(el.ID==PEO_ID ){
+            this.activeIndex = i
+          }
+        });
+      } 
+      this.luckyMan = this.lotteryList[this.activeIndex];
+      
+
+
       this.piao = true;
       clearInterval(this.timer);
       this.control = !this.control;
@@ -98,14 +111,16 @@ export default {
         lottery: 0
       };
       this.$API.getSignInList(para).then(res => {
-        console.log(res);
+        // console.log(res);
         // this.signInList = res.Content;
         this.lotteryList = res.Content;
       });
     },
     getlottery() {
+      //正常
       this.activeIndex = this.getRandom(0, this.lotteryList.length - 1);
       this.luckyMan = this.lotteryList[this.activeIndex];
+
     },
     lotteryInterval() {
       this.timer = setInterval(() => {
@@ -124,7 +139,9 @@ export default {
 <style lang="less" scoped>
 .box {
   position: relative;
-  height: 100%;
+  // height: 100%;
+  height: 100vh;
+  width: 100vw;
   // width: 920px;
   // height: 550px;
   // z-index: -100;
@@ -165,7 +182,7 @@ export default {
   }
   .btn {
     position: absolute;
-    bottom: 25%;  
+    bottom: 25%;
     width: 420px;
     height: 68px;
     line-height: 68px;

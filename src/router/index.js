@@ -82,6 +82,7 @@ export default new Router({
     {
       path: '/',
       component: home,
+
       children: [{
           path: '',
           name: 'main',

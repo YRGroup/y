@@ -4,11 +4,11 @@
     <x-header id="nav-top" :left-options="{showBack:isShowBack,backText: '',preventGoBack:true}" v-if="!this.$store.getters.isWeixin" @on-click-back="pageBack">
       {{web_title}}
     </x-header>
-
-    <transition :name='animate'>
+      <transition :name='animate'>
+        <keep-alive>
         <router-view id="inview" :style="{marginTop:ptop,marginBottom:pdown}"></router-view>
-    </transition>
-
+        </keep-alive>
+      </transition>
     <tabbar id="nav-bottom" v-show="$store.state.showBottomNav">
       <tabbar-item selected link="/">
         <i slot="icon" class="iconfont nav_icon">&#xe666;</i>
@@ -31,28 +31,39 @@
 </template>
 
 <script>
-import { Tabbar, TabbarItem, XHeader, XSwitch, XDialog , TransferDomDirective as TransferDom } from 'vux'
-import { mapState } from 'vuex'
+import {
+  Tabbar,
+  TabbarItem,
+  XHeader,
+  XSwitch,
+  XDialog,
+  TransferDomDirective as TransferDom
+} from "vux";
+import { mapState } from "vuex";
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    Tabbar, TabbarItem, XHeader, XSwitch, XDialog 
+    Tabbar,
+    TabbarItem,
+    XHeader,
+    XSwitch,
+    XDialog
   },
   directives: {
     TransferDom
   },
   data() {
     return {
-      pageTransition:'slide-right', 
-      animate:'',
-      hideBackPage:['/','/user','/class','/video']    //隐藏返回按钮的页面
-    }
+      pageTransition: "slide-right",
+      animate: "",
+      hideBackPage: ["/", "/user", "/class", "/video"] //隐藏返回按钮的页面
+    };
   },
 
   methods: {
-    pageBack(){
-      this.$router.animate = 2
-      history.go(-1)
+    pageBack() {
+      this.$router.animate = 2;
+      history.go(-1);
       // this.pageTransition='slide-left'
       // this.$router.back()
       // setTimeout(()=>{
@@ -73,56 +84,46 @@ export default {
       if (!animate) {
         this.animate = "";
       } else {
-
         switch (animate) {
           case 1:
-            this.animate="slide-left"
+            this.animate = "slide-left";
             break;
           case 2:
-            this.animate="slide-right"
+            this.animate = "slide-right";
             break;
           case 3:
-            this.animate="slide-top"
+            this.animate = "slide-top";
             break;
           case 4:
-            this.animate="slide-bottom"
+            this.animate = "slide-bottom";
             break;
           default:
-            this.animate=""
+            this.animate = "";
             break;
         }
-        // this.animate =
-        //   animate === 1
-        //     ? "slide-left"
-        //     : animate === 2
-        //       ? "slide-right"
-        //       : animate === 3
-        //           ? "slide-top"
-        //           : animate === 4 
-        //             ? "slide-bottom" : "";
       }
       this.$router.animate = 0;
     }
   },
   computed: {
-    isShowBack(){
-      return !this.hideBackPage.includes(this.$route.path)
+    isShowBack() {
+      return !this.hideBackPage.includes(this.$route.path);
     },
     ptop() {
-      return this.$store.getters.isWeixin ? '0' : '46px'
+      return this.$store.getters.isWeixin ? "0" : "46px";
     },
     pdown() {
-      return this.$store.state.showBottomNav ? '53px' : '0'
+      return this.$store.state.showBottomNav ? "53px" : "0";
     },
     hasLogin() {
-      return this.$store.state.hasLogin
+      return this.$store.state.hasLogin;
     },
     web_title() {
-      console.log(this.$store.state.title)
-      return this.$store.state.title
+      console.log(this.$store.state.title);
+      return this.$store.state.title;
     },
     UnReadMsgCount() {
-      return null
+      return null;
       // if(this.$store.state.UnReadMsgCount == 0){
       //   return null
       // }else{
@@ -130,26 +131,20 @@ export default {
       // }
     }
   },
-  created() {
-
-  },
-  mounted() {
-
-  },
-  beforeCreate() {
-
-  }
-}
+  created() {},
+  mounted() {},
+  beforeCreate() {}
+};
 </script>
 
 <style lang="less">
-
 #app {
   position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 }
 
 #inview {
@@ -160,7 +155,7 @@ export default {
 
 #nav-top {
   width: 100%;
-  max-width: @appwidth;
+  // max-width: @appwidth;
   position: fixed;
   background: @main;
   top: 0;
@@ -168,7 +163,7 @@ export default {
 }
 
 #nav-bottom {
-  max-width: @appwidth;
+  // max-width: @appwidth;
   position: fixed;
   bottom: 0;
 }
@@ -183,29 +178,26 @@ export default {
 }
 
 .slide-left-enter,
-    .slide-right-leave-active {
-        opacity: 0;
-        transform: translate(100%, 0);
-    }
+.slide-right-leave-active {
+  opacity: 0;
+  transform: translate(100%, 0);
+}
 
-    .slide-left-leave-active,
-    .slide-right-enter {
-        opacity: 0;
-        transform: translate(-100%, 0);
-    }
+.slide-left-leave-active,
+.slide-right-enter {
+  opacity: 0;
+  transform: translate(-100%, 0);
+}
 
+.slide-top-enter,
+.slide-bottom-leave-active {
+  opacity: 0;
+  transform: translate(0, 100%);
+}
 
-
-    .slide-top-enter,
-    .slide-bottom-leave-active {
-        opacity: 0;
-        transform: translate(0, 100%);
-    }
-
-    .slide-top-leave-active,
-    .slide-bottom-enter {
-        opacity: 0;
-        transform: translate(0, -100%);
-    }
-
+.slide-top-leave-active,
+.slide-bottom-enter {
+  opacity: 0;
+  transform: translate(0, -100%);
+}
 </style>
