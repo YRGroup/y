@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <audio :src="audioSrc" style="display:none;" ref="audioPlayer"></audio>
+    <audio  :src="audioSrc" style="display:none;" ref="audioPlayer"></audio>
     <div class="banner">
       <img src="http://yr-zhxy.oss-cn-beijing.aliyuncs.com/CStar/Image/3.png" alt="">
     </div>
@@ -9,22 +9,20 @@
     </div>
     <div class="card-wrapper" v-for="(item,index) in storyList" :key="item.id">
       <div class="story-card " >
-        <div class="bg"  :style="{backgroundImage:`url(${item.ImageUrl})`}">
-
-        </div>
+        <!-- <div class="bg"  :style="{backgroundImage:`url(${item.ImageUrl})`}">
+        </div> -->
         <div class="card-left"> 
           {{index+1}}
         </div>
         <div class="card-content">
-          <div class="card-img" :style="{backgroundImage:`url(${item.ImageUrl})`}">
+          <div class="card-img" :style="{backgroundImage:`url(${item.avatar})`}">
             <!-- <img :src="item.ImageUrl" alt=""> -->
-            <i v-if="index==currentIndex" class="iconfont" @click="pauseAudio(index)">
+            <!-- <i v-if="index==currentIndex" class="iconfont" @click="pauseAudio(index)">
               &#xe61d;
             </i>
             <i  v-else  class="iconfont" @click="playAudio(index)">
               &#xe60d;
-            </i>
-            
+            </i> -->
           </div>
           <div class="card-info">
             <p class="p1">{{item.ProgramName}}</p>
@@ -35,6 +33,21 @@
         <div class="card-right">
           <x-button mini   @click.native="vote(item.ID)">投票</x-button>
         </div>
+      </div>
+      <div class="info">
+        <p>
+          <img :src="item.avatar" alt="">
+        </p>
+        <p style="position:relative;">
+          <img :src="item.ImageUrl" alt="">
+          <i v-if="index==currentIndex" class="iconfont" @click="pauseAudio(index)">
+              &#xe61d;
+            </i>
+            <i  v-else  class="iconfont" @click="playAudio(index)">
+              &#xe60d;
+            </i>
+        </p>
+        
       </div>
     </div>
     
@@ -152,6 +165,7 @@ export default {
   background-size: cover;
 }
 .box {
+  // background: #f1f3f4;
   background: #fff;
   overflow: auto;
   .banner {
@@ -174,7 +188,28 @@ export default {
 }
 .card-wrapper {
   margin-bottom: 20px;
+  // background: #fff;
   background: #f1f3f4;
+}
+.info {
+  img {
+    width: 100%;
+    display: block;
+  }
+  @size:60px;
+  .iconfont {
+    text-align: center;
+    width: @size;
+    height: @size;
+    font-size: 40px;
+    line-height: @size;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    border: 3px solid  @color;
+    border-radius: 50%;
+    color: @color;
+  }
 }
 .story-card {
   width: 100%;
@@ -187,12 +222,8 @@ export default {
   position: relative;
   overflow: hidden;
   color: #fff;
+  // background: #fff;
   .background-cover ();
-  .iconfont {
-    color: #000;
-    z-index: 99;
-    font-size: 20px;
-  }
   .bg {
     position: absolute;
     top: -10px;
@@ -216,26 +247,18 @@ export default {
     justify-content: flex-start;
     z-index: 1;
     flex: 6;
+
     .card-img {
       .background-cover ();
-      width: 100px;
+      width: 80px;
+      height: 80px;
       overflow: hidden;
       position: relative;
       text-align: center;
+      border-radius: 100%;
       img {
         width: 100%;
         height: auto;
-      }
-      .iconfont {
-        font-size: 40px;
-        line-height: 80px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        margin: auto;
-        color: @color;
       }
     }
     .card-info {
@@ -251,9 +274,8 @@ export default {
         line-height: 20px;
       }
       .p3 {
-        color: #fdfdfd;
+        color: @color;
         .num {
-          color: @color;
           font-size: 16px;
           line-height: 35px;
         }
@@ -261,6 +283,8 @@ export default {
     }
   }
   .card-right {
+    display: flex;
+    justify-content: space-around;
     text-align: center;
     flex: 2;
   }
