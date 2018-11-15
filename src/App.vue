@@ -26,7 +26,7 @@ export default {
   },
   watch: {
     web_title: (val) => {
-      document.title = val + ' - 育人教育'
+      document.title = val
     },
   },
   computed: {

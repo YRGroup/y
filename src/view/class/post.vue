@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <card>
       <div slot="header" class="header cardcont">
         <img :src="data.userImg">

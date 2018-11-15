@@ -70,7 +70,8 @@ import live from '@/view/live/player'
 // import xsdSign from '@/view/xsdlive/signin'
 import xsdUserSign from '@/view/xsdlive/usersignin'
 import lottery from '@/view/live/lottery'
-
+import voteStory from '@/view/xsdlive/voteStory'
+import story from '@/view/xsdlive/story'
 Vue.use(Router)
 
 
@@ -395,6 +396,21 @@ export default new Router({
         anonymous: true
       }
     },
+    {
+      path: '/vote/:id',
+      name: 'vote',
+      component: voteStory,
+      meta: {
+        anonymous: true
+      }
+    },{
+      path: '/story',
+      name: 'story',
+      component: story,
+      meta: {
+        anonymous: true
+      }
+    }
     // {
     //   path: '/xsdSign',
     //   name: 'xsdSign',

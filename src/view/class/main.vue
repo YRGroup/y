@@ -1,9 +1,7 @@
 <template>
   <div class="hello hasClassShow">
-
     <has-no-student v-if="$store.state.hasNoStudent">
     </has-no-student>
-
     <div v-else>
       <div class="class-header">
         <div><img :src="classPic"></div>
@@ -14,12 +12,10 @@
         <div class="addbtn1" @click="$router.push('/new')"><i class="iconfont">&#xe606;</i>发动态</div>
         <!-- <div class="addbtn2" @click="$router.push('/class/manage')"><i class="iconfont">&#xe832;</i>管理</div> -->
       </div>
-
       <transition name="slide-fade">
         <router-view></router-view>
       </transition>
     </div>
-
   </div>
 </template>
 
