@@ -2,67 +2,50 @@
   <div class="box">
     <audio  :src="audioSrc" style="display:none;" ref="audioPlayer"></audio>
     <div class="banner">
-      <img src="http://yr-zhxy.oss-cn-beijing.aliyuncs.com/CStar/Image/3.png" alt="">
+      <img src="./banner.jpg" alt="">
     </div>
-    <div>
-      <p class="title">故事列表</p>
-    </div>
-    <div class="card-wrapper" v-for="(item,index) in storyList" :key="item.id">
-      <div class="story-card " >
-        <!-- <div class="bg"  :style="{backgroundImage:`url(${item.ImageUrl})`}">
-        </div> -->
-        <div class="card-left"> 
-          {{index+1}}
-        </div>
-        <div class="card-content">
-          <div class="card-img" :style="{backgroundImage:`url(${item.avatar})`}">
-            <!-- <img :src="item.ImageUrl" alt=""> -->
-            <!-- <i v-if="index==currentIndex" class="iconfont" @click="pauseAudio(index)">
-              &#xe61d;
-            </i>
-            <i  v-else  class="iconfont" @click="playAudio(index)">
-              &#xe60d;
-            </i> -->
+    <flexbox :gutter="0" wrap="wrap">
+      <flexbox-item :span="1/2"   class="card-wrapper" v-for="(item,index) in storyList" :key="item.id">
+        <div class="card">
+          <div class="index">{{index+1}}</div>
+          <div class="card-teacher"  :style="{backgroundImage:`url(${item.avatar})`}">
+            <p class="name">{{item.Actor}}</p>
+          </div> 
+          <div class="info">
+            <div class="storyImg" :style="{backgroundImage:`url(${item.ImageUrl})`}">
+              <i v-if="index==currentIndex" class="iconfont" @click="pauseAudio(index)">
+                  &#xe61d;
+                </i>
+                <i  v-else  class="iconfont" @click="playAudio(index)">
+                  &#xe60d;
+                </i>
+            </div>
           </div>
-          <div class="card-info">
-            <p class="p1">{{item.ProgramName}}</p>
-            <p class="p2">{{item.Actor}}</p>
-            <p class="p3">已获得票数：<span class="num">{{item.VoteCount}}</span></p>
+          <div class="text">
+            <span class="p1">{{item.ProgramName}}</span>
+            <span class="p2"><span class="num">{{item.VoteCount}}</span>票</span>
+          </div>
+          <div class="card-bottom">
+            <div class="voteBtn" @click="vote(item.ID)">
+              投票
+            </div>
           </div>
         </div>
-        <div class="card-right">
-          <x-button mini   @click.native="vote(item.ID)">投票</x-button>
-        </div>
-      </div>
-      <div class="info">
-        <p>
-          <img :src="item.avatar" alt="">
-        </p>
-        <p style="position:relative;">
-          <img :src="item.ImageUrl" alt="">
-          <i v-if="index==currentIndex" class="iconfont" @click="pauseAudio(index)">
-              &#xe61d;
-            </i>
-            <i  v-else  class="iconfont" @click="playAudio(index)">
-              &#xe60d;
-            </i>
-        </p>
-        
-      </div>
-    </div>
-    
+      </flexbox-item>
+    </flexbox>
   </div>
 </template>
 
 <script>
-import { Panel, XButton } from "vux";
+import { XButton, Flexbox, FlexboxItem } from "vux";
 import { getCookie, isWeiXin } from "@/assets/js/util";
 
 export default {
   name: "lottery",
   components: {
-    Panel,
-    XButton
+    XButton,
+    Flexbox,
+    FlexboxItem
   },
   data() {
     return {
@@ -79,6 +62,8 @@ export default {
     }
   },
   created() {
+    this.id = this.$route.params.id;
+    this.getProgramList();
     this.$store.commit("changeTitle", "故事会投票-西斯达教育集团");
     this.isWeiXin = isWeiXin();
     let href = encodeURIComponent(
@@ -87,13 +72,9 @@ export default {
     if (this.isWeiXin && !getCookie("openid")) {
       window.location.href = "/api/LiveVideoWeiXinOAuth/index?refUrl=" + href;
     }
-
-    this.id = this.$route.params.id;
-    this.getProgramList();
   },
   watch: {
     audioSrc() {
-      console.log(11);
       this.$refs.audioPlayer.oncanplay = () => {
         this.$refs.audioPlayer.play();
       };
@@ -156,7 +137,7 @@ export default {
 <style lang="less" scoped>
 @import "../../style/theme.less";
 @import "../../style/iconfont.less";
-@color: #da5e52;
+@color: #e84d5b;
 
 .background-cover {
   background-repeat: no-repeat;
@@ -168,12 +149,11 @@ export default {
   // background: #f1f3f4;
   background: #fff;
   overflow: auto;
+  background: @color;
   .banner {
-    height: 20vh;
     overflow: hidden;
     line-height: 0;
     font-size: 0;
-    // margin-bottom: 30px;
     img {
       width: 100%;
       display: block;
@@ -186,107 +166,105 @@ export default {
     line-height: 50px;
   }
 }
+.list-wrapper {
+  // box-sizing: border-box;
+}
 .card-wrapper {
   margin-bottom: 20px;
-  // background: #fff;
-  background: #f1f3f4;
-}
-.info {
-  img {
-    width: 100%;
-    display: block;
-  }
-  @size:60px;
-  .iconfont {
-    text-align: center;
-    width: @size;
-    height: @size;
-    font-size: 40px;
-    line-height: @size;
-    position: absolute;
-    bottom: 30px;
-    right: 30px;
-    border: 3px solid  @color;
-    border-radius: 50%;
-    color: @color;
-  }
-}
-.story-card {
-  width: 100%;
-  display: flex;
-  flex-wrap: none;
-  justify-content: space-around;
-  align-items: center;
-  padding: 15px 0;
-  height: 100px;
-  position: relative;
-  overflow: hidden;
-  color: #fff;
-  // background: #fff;
-  .background-cover ();
-  .bg {
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    filter: blur(30px);
-    z-index: 0;
-  }
-  .card-left {
-    flex: 1;
-    text-align: center;
-    z-index: 1;
-    color: @color;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  .card-content {
-    display: flex;
-    flex-wrap: none;
-    justify-content: flex-start;
-    z-index: 1;
-    flex: 6;
-
-    .card-img {
-      .background-cover ();
-      width: 80px;
-      height: 80px;
-      overflow: hidden;
+  // background: #f1f3f4;
+  padding: 0 5px;
+  box-sizing: border-box;
+  .card {
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    position: relative;
+    .index {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 40px;
+      height: 40px;
+      z-index: 2;
+      background: url("666.png") no-repeat center center;
+      color: #fff;
+      // text-align: center;
+      line-height: 20px;
+      text-indent: 0.5em;
+      // background-image: url("666.png") no-repeat;
+    }
+    .card-teacher {
+      .background-cover();
+      height: 100px;
       position: relative;
-      text-align: center;
-      border-radius: 100%;
-      img {
+      margin-bottom: 10px;
+      .name {
+        position: absolute;
+        bottom: 0;
         width: 100%;
-        height: auto;
+        color: #fff;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.5);
+        line-height: 25px;
       }
     }
-    .card-info {
-      padding-left: 15px;
+    .info {
+      .storyImg {
+        height: 100px;
+        position: relative;
+        .background-cover();
+        .iconfont {
+          text-align: center;
+          width: @size;
+          height: @size;
+          font-size: 25px;
+          line-height: @size;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          margin-left: -@size / 2;
+          margin-top: -@size / 2;
+          border: 3px solid @color;
+          border-radius: 50%;
+          color: @color;
+        }
+      }
+      img {
+        width: 100%;
+        display: block;
+      }
+      @size: 50px;
+    }
+    .text {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      padding: 10px 0;
       .p1 {
-        font-size: 16px;
-        color: @color;
-        font-weight: bold;
+        font-size: 15px;
       }
       .p2 {
-        font-size: 12px;
-        color: @color;
-        line-height: 20px;
-      }
-      .p3 {
-        color: @color;
+        color: #666;
         .num {
+          color: @color;
           font-size: 16px;
-          line-height: 35px;
         }
       }
     }
-  }
-  .card-right {
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-    flex: 2;
+    .card-bottom {
+      text-align: center;
+      .voteBtn {
+        width: 80%;
+        display: inline-block;
+        text-align: center;
+        color: #fff;
+        height: 30px;
+        line-height: 30px;
+        font-size: 15px;
+        background: @color;
+        border-radius: 5px;
+      }
+    }
   }
 }
 </style>
