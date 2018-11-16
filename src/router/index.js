@@ -71,9 +71,7 @@ import live from '@/view/live/player'
 import xsdUserSign from '@/view/xsdlive/usersignin'
 import lottery from '@/view/live/lottery'
 import voteStory from '@/view/xsdlive/voteStory'
-import story from '@/view/xsdlive/story'
 Vue.use(Router)
-
 
 export default new Router({
   // 历史记录模式，需要服务器配置支持
@@ -400,13 +398,6 @@ export default new Router({
       path: '/vote/:id',
       name: 'vote',
       component: voteStory,
-      meta: {
-        anonymous: true
-      }
-    },{
-      path: '/story',
-      name: 'story',
-      component: story,
       meta: {
         anonymous: true
       }

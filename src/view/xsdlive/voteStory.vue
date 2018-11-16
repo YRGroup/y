@@ -23,7 +23,7 @@
           </div>
           <div class="text">
             <span class="p1">{{item.ProgramName}}</span>
-            <span class="p2"><span class="num">{{item.VoteCount}}</span>票</span>
+            <span class="p2"><span class="num">{{item.VoteCount}}</span> 票</span>
           </div>
           <div class="card-bottom">
             <div class="voteBtn" @click="vote(item.ID)">
@@ -39,7 +39,7 @@
 <script>
 import { XButton, Flexbox, FlexboxItem } from "vux";
 import { getCookie, isWeiXin } from "@/assets/js/util";
-
+import wx from "weixin-js-sdk";
 export default {
   name: "lottery",
   components: {
@@ -51,7 +51,8 @@ export default {
     return {
       storyList: [],
       currentIndex: -1,
-      paused: false
+      paused: false,
+      wxSharePic: require("@/view/xsdlive/banner.jpg")
     };
   },
   computed: {
@@ -66,6 +67,7 @@ export default {
     this.getProgramList();
     this.$store.commit("changeTitle", "故事会投票-西斯达教育集团");
     this.isWeiXin = isWeiXin();
+
     let href = encodeURIComponent(
       "http://" + window.location.host + "/m/#/vote/" + this.id
     );
@@ -80,9 +82,45 @@ export default {
       };
     }
   },
-  mounted() {},
+  mounted() {
+    this.initWX();
+  },
   distroyed: function() {},
   methods: {
+    initWX() {
+      let link = window.location.href;
+      let _this = this;
+      this.$API.getWxData().then(res => {
+        wx.config({
+          // debug: true,
+          appId: res.AppId,
+          timestamp: res.Timestamp,
+          nonceStr: res.NonceStr,
+          signature: res.Signature,
+          jsApiList: [
+            "onMenuShareTimeline",
+            "onMenuShareAppMessage",
+            "onMenuShareQQ",
+            "onMenuShareWeibo",
+            "onMenuShareQZone"
+          ]
+        });
+        let wxShareData = {
+          title: "西斯达教育集团",
+          desc: "大树姐姐讲故事投票活动",
+          link: link,
+          imgUrl: _this.wxSharePic
+        };
+
+        wx.ready(() => {
+          wx.onMenuShareTimeline(wxShareData);
+          wx.onMenuShareAppMessage(wxShareData);
+          wx.onMenuShareQQ(wxShareData);
+          wx.onMenuShareWeibo(wxShareData);
+          wx.onMenuShareQZone(wxShareData);
+        });
+      });
+    },
     getProgramList() {
       let para = {
         lid: this.id
